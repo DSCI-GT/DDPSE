@@ -1,0 +1,897 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1.1 Formulating Optimization Problems &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '1-fundamentals/Topic1.1-Formulating_Optimization_Problems';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1.2 A Tour of Problem Classes" href="Topic1.2-A_Tour_of_Problem_Classes.html" />
+    <link rel="prev" title="Optimization Fundamentals" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Optimization Fundamentals</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/1-fundamentals/Topic1.1-Formulating_Optimization_Problems.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/1-fundamentals/Topic1.1-Formulating_Optimization_Problems.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>1.1 Formulating Optimization Problems</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-running-example-an-electrolyzer-plant">A running example: an electrolyzer plant</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anatomy-of-a-formulation">Anatomy of a formulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-types-and-formulation-types">Variable types and formulation types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feasible-regions-and-convexity">Feasible regions and convexity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimality-and-what-a-solver-certifies">Optimality and what a solver certifies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#formulating-optimization-problems" id="id1">1.1 Formulating Optimization Problems</a></p>
+<ul>
+<li><p><a class="reference internal" href="#a-running-example-an-electrolyzer-plant" id="id2">A running example: an electrolyzer plant</a></p></li>
+<li><p><a class="reference internal" href="#anatomy-of-a-formulation" id="id3">Anatomy of a formulation</a></p></li>
+<li><p><a class="reference internal" href="#variable-types-and-formulation-types" id="id4">Variable types and formulation types</a></p></li>
+<li><p><a class="reference internal" href="#feasible-regions-and-convexity" id="id5">Feasible regions and convexity</a></p></li>
+<li><p><a class="reference internal" href="#optimality-and-what-a-solver-certifies" id="id6">Optimality and what a solver certifies</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id7">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id8">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="formulating-optimization-problems">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">1.1 Formulating Optimization Problems</a><a class="headerlink" href="#formulating-optimization-problems" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 1, Lesson 1: <em>Optimization Formulations</em></p></li>
+<li><p>Module 1, Lesson 2: <em>Variable and Formulation Types</em></p></li>
+<li><p>Module 1, Lesson 3: <em>Optimization Solvers and Quality of Solutions</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Write an engineering decision as an optimization problem with decision variables, an objective, and constraints.</p></li>
+<li><p>Classify a formulation by its variable types, its function types, and its convexity.</p></li>
+<li><p>Explain what a solver’s report of “optimal” does and does not guarantee.</p></li>
+<li><p>Recognize that the class of a formulation decides which solvers you are allowed to trust.</p></li>
+</ul>
+</div>
+<p>If a question starts with “what is the best…”, it is probably an optimization problem, whether we are looking for the cheapest way to run a plant, the reactor temperature that gives the highest yield, or the units that should be switched on to meet tomorrow’s demand. Although the mathematics of answering these questions is mature and the software is excellent, the software only answers the question that you actually wrote down, so most of the skill in optimization comes from writing the problem down in a way that captures what can be decided, what is being measured, and what cannot be violated. In this topic we will focus on that step, since each of these choices affects how the problem can be solved.</p>
+<p>There are three steps in the general approach. To begin with, we need to understand the problem, which includes figuring out the decisions that are available, the goal that we are trying to reach, and the requirements that the answer has to satisfy. Once the problem is understood we can identify its form, i.e. whether the variables are continuous, discrete or both, and whether the equations are linear or nonlinear. The form then dictates the choice of method, which could be a local or a global solver for linear, nonlinear or mixed-integer problems. In practice these steps sit inside a loop: a model is built and optimized, and then we assess whether the optimal solution represents reality or whether it has exploited a gap in the model, in which case we revise the model and go around the loop again.</p>
+<p>We can look for the best choice in two different ways. The instinct of a programmer is to <strong>enumerate</strong>, which means looping over every option (or over a grid of values) and keeping the best one. This works for problems with one or two variables, but enumeration misses optima that fall between grid points and becomes impossible in high dimensions. An optimizer instead <strong>formulates</strong> the problem by translating the logic of the goal and the rules into equations, and then hands them to a numerical method that uses derivatives, bounds and proofs to find the optimum systematically (and, when the problem allows, with a guarantee). It turns out that almost any logical rule can be written as equations, and much of this course is about how to do it.</p>
+<p>Throughout the first three parts of this book we will work with one example and change it one piece at a time, so it is worth introducing it now.</p>
+<section id="a-running-example-an-electrolyzer-plant">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">A running example: an electrolyzer plant</a><a class="headerlink" href="#a-running-example-an-electrolyzer-plant" title="Link to this heading">#</a></h2>
+<p>Hydrogen can be made by splitting water with electricity, <span class="math notranslate nohighlight">\(2\,\mathrm{H_2O} \rightarrow 2\,\mathrm{H_2} + \mathrm{O_2}\)</span>, in a device called an electrolyzer. A plant typically has several electrolyzer stacks, each of which can be run at any load between off and full capacity. Suppose that a plant has three stacks, A, B, and C, which can each make 200 kg of hydrogen per hour at full load, with a customer demand of 240 kg/h. How should the plant split the work among the three stacks?</p>
+<p>The stacks are not identical, since some are older than others or run hotter than others, and each stack turns electricity into hydrogen with a different efficiency at different loads. We will describe a stack by its power curve <span class="math notranslate nohighlight">\(P_i(x_i)\)</span>, which is the electrical power drawn when the stack runs at a fraction <span class="math notranslate nohighlight">\(x_i\)</span> of its full load. The cheapest split is then the one that draws the least total power while still making 240 kg/h.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"one stack at full load makes </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">KG_H_PER_UNIT</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kg H2/h"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"the ideal (reversible) power for that is </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">MW_PER_UNIT</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>one stack at full load makes 200 kg H2/h
+the ideal (reversible) power for that is 6.54 MW
+</pre></div>
+</div>
+</div>
+</div>
+<p>The second number is worth a comment. Splitting one mole of liquid water at room temperature needs at least 237 kJ of work, so making 200 kg/h of hydrogen needs at least 6.5 MW. No real stack achieves this ideal, because the losses inside the stack add to the ideal power. In this book we will measure power in units of this ideal full-load power and load as a fraction of full load, so that a stack running at <span class="math notranslate nohighlight">\(x = 1\)</span> with no losses would draw <span class="math notranslate nohighlight">\(P = 1\)</span>. This per-unit convention is borrowed from power engineering, and keeps the numbers small and comparable. The helper functions <code class="docutils literal notranslate"><span class="pre">el.to_mw</span></code> and <code class="docutils literal notranslate"><span class="pre">el.to_kg_h</span></code> can be used to convert back whenever we want physical units.</p>
+<div class="exercise admonition" id="ex-t11-per-unit">
+
+<p class="admonition-title"><span class="caption-number">Exercise 1 </span></p>
+<section id="exercise-content">
+<p>A stack running at full load with ohmic losses draws <span class="math notranslate nohighlight">\(P = 1 + r\)</span> per-unit. Convert this to megawatts and to kWh per kilogram of hydrogen for stacks A, B and C, using <code class="docutils literal notranslate"><span class="pre">el.to_mw</span></code> and the 200 kg/h full-load output. How do these compare with the 50–55 kWh/kg typical of commercial electrolyzers?</p>
+</section>
+</div>
+</section>
+<section id="anatomy-of-a-formulation">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Anatomy of a formulation</a><a class="headerlink" href="#anatomy-of-a-formulation" title="Link to this heading">#</a></h2>
+<p>Every optimization problem contains three ingredients:</p>
+<ol class="arabic simple">
+<li><p><strong>Decision variables</strong> are the quantities you are free to choose. Here they are the three loads <span class="math notranslate nohighlight">\(x_A\)</span>, <span class="math notranslate nohighlight">\(x_B\)</span>, <span class="math notranslate nohighlight">\(x_C\)</span>.</p></li>
+<li><p><strong>An objective function</strong> measures how good a choice is. Here it is the total power, <span class="math notranslate nohighlight">\(P_A(x_A) + P_B(x_B) + P_C(x_C)\)</span>, which we want to minimize.</p></li>
+<li><p><strong>Constraints</strong> describe which choices are allowed. Here the loads must add up to the demand, and each load must lie between zero and full capacity.</p></li>
+</ol>
+<p>The picture is completed by two more elements. <strong>Parameters</strong> are the fixed numbers used to build the model, such as the demand <span class="math notranslate nohighlight">\(D\)</span> and the loss coefficients of each stack, and their values are given rather than decided. <strong>Bounds</strong> are the simplest type of constraint, consisting of just a lower and an upper limit on a single variable (here <span class="math notranslate nohighlight">\(0 \le x_i \le 1\)</span>), and solvers handle bounds separately from general constraints because the enforcement of bounds is cheap. Equality constraints are satisfied exactly (e.g. a mass balance or the demand balance), while inequality constraints keep a function of the variables within a limit (e.g. a product purity of at least 90 %, or a load of at most full capacity).</p>
+<p>The <strong>degrees of freedom</strong> of a problem are the number of variables minus the number of independent equality constraints. The dispatch problem, for example, has three variables and one equality, giving two degrees of freedom, which means that once two loads are chosen the demand fixes the third. A problem with zero degrees of freedom leaves no room for optimization.</p>
+<p>Real models have many similar variables and constraints, and writing them with <strong>indices</strong> is much more convenient than naming each one. For example, instead of naming each load we can write <span class="math notranslate nohighlight">\(x_i\)</span> for <span class="math notranslate nohighlight">\(i \in I = \{A, B, C\}\)</span>, where a constraint written “for all <span class="math notranslate nohighlight">\(i \in I\)</span>” stands for one constraint per element of the set. The vector <span class="math notranslate nohighlight">\(x = (x_A, x_B, x_C)\)</span> collects the loads. We will see in Topic 1.3 that optimization software is also organized around sets and indexed variables.</p>
+<p>The full dispatch problem is then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_{x_A,\, x_B,\, x_C} \quad &amp; P_A(x_A) + P_B(x_B) + P_C(x_C) \\
+\text{s.t.} \quad &amp; x_A + x_B + x_C = D \\
+&amp; 0 \le x_i \le 1, \quad i \in \{A, B, C\}
+\end{aligned}
+\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(D = 1.2\)</span> for a demand of 240 kg/h. This is an instance of the standard form that is used by almost every optimization text and solver:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_{x} \quad &amp; f(x) \\
+\text{s.t.} \quad &amp; g_j(x) \le 0, \quad j = 1, \ldots, m \\
+&amp; h_k(x) = 0, \quad k = 1, \ldots, p \\
+&amp; x \in X
+\end{aligned}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f\)</span> is the objective, the <span class="math notranslate nohighlight">\(g_j\)</span> are inequality constraints, the <span class="math notranslate nohighlight">\(h_k\)</span> are equality constraints, and <span class="math notranslate nohighlight">\(X\)</span> defines the allowed values of <span class="math notranslate nohighlight">\(x\)</span> (real numbers, integers, or a mix). Two conventions are worth fixing at this point. A maximization problem is a minimization of <span class="math notranslate nohighlight">\(-f\)</span>, so the problem can always be written with “min”, and an inequality in the other direction, <span class="math notranslate nohighlight">\(g(x) \ge 0\)</span>, is the same as <span class="math notranslate nohighlight">\(-g(x) \le 0\)</span>. Putting a problem into standard form is mostly bookkeeping, but writing the standard form forces you to say exactly which quantities are decided, measured, and required.</p>
+<p>A choice of <span class="math notranslate nohighlight">\(x\)</span> that satisfies every constraint is called <strong>feasible</strong>, and the set of all feasible points is the <strong>feasible region</strong>. The job of a solver is to find the feasible point with the smallest objective. In the dispatch problem, any split that adds up to 1.2 and keeps each load between 0 and 1 is feasible, so for example we could run all three stacks at 0.4:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loads</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">p_ohmic</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">loads</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"equal split: total power </span><span class="si">{</span><span class="n">cost</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> per-unit = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>equal split: total power 1.448 per-unit = 9.46 MW
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here we used the ohmic power curve <span class="math notranslate nohighlight">\(P_i(x) = x + r_i x^2\)</span>, where the losses grow with the square of the load as they do in resistive heating. Whether the equal split is the best one is exactly the question that the optimizer answers.</p>
+<div class="exercise admonition" id="ex-t11-standard-form">
+
+<p class="admonition-title"><span class="caption-number">Exercise 2 </span></p>
+<section id="exercise-content">
+<p>Write the dispatch problem in the standard form above. Identify each <span class="math notranslate nohighlight">\(f\)</span>, <span class="math notranslate nohighlight">\(g_j\)</span>, <span class="math notranslate nohighlight">\(h_k\)</span> and the set <span class="math notranslate nohighlight">\(X\)</span>, and count the inequality constraints. Then change the demand constraint to “make at least 240 kg/h” and say what changes in the standard form.</p>
+</section>
+</div>
+</section>
+<section id="variable-types-and-formulation-types">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Variable types and formulation types</a><a class="headerlink" href="#variable-types-and-formulation-types" title="Link to this heading">#</a></h2>
+<p>The same dispatch question can be written in several ways, and the way it is written decides which class of problem it is. The two properties that matter most are the type of the variables and the type of the functions.</p>
+<p>In terms of <strong>variable types</strong>, continuous variables can take any real value in a range (e.g. a load or a temperature), while integer variables take whole-number values (e.g. the number of stacks to build). Binary variables are integers restricted to 0 or 1, and they are how optimization models represent yes-or-no decisions such as “is stack B switched on?”. If a formulation has both continuous and integer variables, it is called mixed-integer.</p>
+<p>An integer variable can always be rewritten with binary variables. If an integer <span class="math notranslate nohighlight">\(n\)</span> may take one of the values <span class="math notranslate nohighlight">\(a_1, \ldots, a_k\)</span>, we can introduce one binary <span class="math notranslate nohighlight">\(z_j\)</span> per value, require exactly one of them to be 1, and recover <span class="math notranslate nohighlight">\(n\)</span> as a weighted sum:</p>
+<div class="math notranslate nohighlight">
+\[
+n = \sum_{j=1}^{k} a_j z_j, \qquad \sum_{j=1}^{k} z_j = 1, \qquad z_j \in \{0, 1\}.
+\]</div>
+<p>For a range <span class="math notranslate nohighlight">\(0, 1, \ldots, 2^K - 1\)</span>, a binary expansion <span class="math notranslate nohighlight">\(n = \sum_{j=0}^{K-1} 2^j z_j\)</span> needs only <span class="math notranslate nohighlight">\(K\)</span> binaries, so the number of stacks to build (between 0 and 3) is <span class="math notranslate nohighlight">\(n = z_0 + 2 z_1\)</span>. Since mixed-integer solvers are built around binary decisions (Topic 2.5), formulations are often written with only continuous and binary variables.</p>
+<p>In terms of <strong>function types</strong>, a problem is called linear when the objective and every constraint are linear functions of the variables, which means that each function is a sum of parameters times variables, <span class="math notranslate nohighlight">\(c_1 x_1 + c_2 x_2 + \cdots\)</span>. If even one term is nonlinear (e.g. <span class="math notranslate nohighlight">\(\sqrt{x}\)</span>, <span class="math notranslate nohighlight">\(x^2\)</span> or a product of two variables <span class="math notranslate nohighlight">\(x \cdot y\)</span>), then we call the whole problem nonlinear.</p>
+<p>Combining the type of variables with the type of functions gives the four classes used in this course:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Continuous variables only</p></th>
+<th class="head"><p>Some integer or binary variables</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>All functions linear</strong></p></td>
+<td><p>Linear program (LP)</p></td>
+<td><p>Mixed-integer linear program (MILP)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Some function nonlinear</strong></p></td>
+<td><p>Nonlinear program (NLP)</p></td>
+<td><p>Mixed-integer nonlinear program (MINLP)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Two rarer classes complete the picture. If <em>every</em> variable is integer, a linear problem is an integer program (IP, or ILP) and a nonlinear one is an integer nonlinear program (INLP). In a MILP every function must be linear in all variables together, so a product of a continuous and a binary variable, <span class="math notranslate nohighlight">\(x \cdot y\)</span>, makes the problem an MINLP (Topic 2.4 shows how such products are linearized).</p>
+<p>The electrolyzer plant can be written in every one of these classes. Each version below keeps the same decision and changes one modeling choice, which is how we describe the power a stack draws. We will treat these choices as dials, and we will turn them one at a time over the first two parts of the book.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Power curve <span class="math notranslate nohighlight">\(P_i(x)\)</span></p></th>
+<th class="head"><p>Physical idea</p></th>
+<th class="head"><p>Class</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(e_i x\)</span></p></td>
+<td><p>every unit of hydrogen costs the same</p></td>
+<td><p>LP (Topics 1.4, 1.5)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x + r_i x^2\)</span></p></td>
+<td><p>resistive losses grow with load</p></td>
+<td><p>NLP, convex (Topic 2.1)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(F_i + e_i x\)</span> when on, 0 when off</p></td>
+<td><p>a stack costs something just to keep running</p></td>
+<td><p>MILP (Topics 2.4, 2.5)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x + a_i \frac{x}{x+\epsilon} + r_i x^2\)</span></p></td>
+<td><p>efficiency is poor at low load</p></td>
+<td><p>NLP, non-convex (Topic 2.6)</p></td>
+</tr>
+<tr class="row-even"><td><p>the last curve, plus on/off decisions</p></td>
+<td><p>all of the above</p></td>
+<td><p>MINLP (Topic 2.6)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The last curve exaggerates a real effect. At low current, a noticeable fraction of the current in a real stack does not make hydrogen, so the power needed per kilogram rises sharply at low load. Real stacks are also not allowed to run below a minimum load, which hides most of this effect, but we will keep it visible on purpose since it is the simplest way to show what makes optimization hard.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">p_linear</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'linear: $e x$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">p_ohmic</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'ohmic: $x + r x^2$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">p_scurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'S-curve: $x + a x/(x+</span><span class="se">\\</span><span class="s1">epsilon) + r x^2$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s1">'k--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'ideal: $P = x$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'load $x$ (fraction of 200 kg/h)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'power $P$ (per-unit, 1 = 6.5 MW)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Stack A under three loss models'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<img alt="../_images/020450ded7b7477541d8abd22fd7a206feac54a18acba30da4f18e054b982bf1.png" src="../_images/020450ded7b7477541d8abd22fd7a206feac54a18acba30da4f18e054b982bf1.png" />
+</div>
+</div>
+<div class="exercise admonition" id="ex-t11-classify">
+
+<p class="admonition-title"><span class="caption-number">Exercise 3 </span></p>
+<section id="exercise-content">
+<p>For each of the following, name the problem class (LP, NLP, MILP, MINLP): (a) the dispatch problem with linear losses and a rule that each stack runs either at full load or not at all; (b) the dispatch problem with ohmic losses where stacks may be bought in any whole number; (c) the dispatch problem with the S-curve and no on/off decisions. Which of the three are convex?</p>
+</section>
+</div>
+</section>
+<section id="feasible-regions-and-convexity">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Feasible regions and convexity</a><a class="headerlink" href="#feasible-regions-and-convexity" title="Link to this heading">#</a></h2>
+<p>The variables and functions together decide the shape of the feasible region. With continuous variables it is a region with an interior and a boundary, with only discrete variables it is a collection of separate points, and with nonlinear constraints it can be curved, have holes, or fall apart into disconnected pieces. An inequality constraint is <strong>active</strong> (or binding) at a feasible point if it holds with equality, <span class="math notranslate nohighlight">\(g_j(x) = 0\)</span>, and it is inactive otherwise. Equality constraints are always active at a feasible point, and the set of constraints that are active at a point is called its <strong>active set</strong>. For example, at the equal split <span class="math notranslate nohighlight">\((0.4, 0.4, 0.4)\)</span> only the demand equality is active, while at the split <span class="math notranslate nohighlight">\((1, 0.2, 0)\)</span> the bounds <span class="math notranslate nohighlight">\(x_A \le 1\)</span> and <span class="math notranslate nohighlight">\(x_C \ge 0\)</span> are active too. Interior points have no active inequalities. Later on, the active set will tell us where the solutions of LPs sit (Topic 1.4) and which multipliers are nonzero (Topic 2.2).</p>
+<p>However, the property of a formulation that matters most is <strong>convexity</strong>, which is even more important than the type of variables or the type of functions.</p>
+<p>The definition of convexity is geometric. For a set, convexity means that the straight line between any pair of points in the set stays inside the set, and for a function, convexity means that the straight line between any pair of points on the graph lies on or above the graph. Formally, <span class="math notranslate nohighlight">\(f\)</span> is convex when</p>
+<div class="math notranslate nohighlight">
+\[
+f(\theta x + (1-\theta) y) \le \theta f(x) + (1-\theta) f(y) \quad \text{for all } x, y \text{ and } 0 \le \theta \le 1 .
+\]</div>
+<p>An optimization problem is convex when it minimizes a convex function over a convex feasible region. The key property that makes convex problems tractable is that <strong>any local minimum is a global minimum.</strong> In other words, if you are standing at a point where no small move improves the objective, you are at the best point anywhere, which means that a solver with only local information (i.e. most solvers) can be trusted.</p>
+<p>Every LP is convex, since linear functions are convex, as are regions defined by linear equalities and inequalities. The ohmic curve is also convex, while the S-curve is not convex because the first term bends the wrong way at low load. Integer variables also destroy convexity, since the set <span class="math notranslate nohighlight">\(\{0, 1\}\)</span> has a gap in the middle.</p>
+<p>In chemical engineering models, the most common source of non-convexity is the <strong>bilinear term</strong>, which is a product of two variables (e.g. a flowrate times a mole fraction in a component balance, or a flowrate times a temperature in an energy balance). The other common source is a discrete design choice, such as which unit to use for a separation (distillation or a membrane?). A process design model can easily contain both, resulting in a non-convex MINLP, the hardest class. In order of difficulty, LPs are convex and many methods solve them globally, followed by convex NLPs, which can also be solved globally. MILPs are not convex, but their structure lets solvers find and prove global optima routinely. Non-convex NLPs and MINLPs are where a local solver may return only a local solution.</p>
+<p>We can see what non-convexity does by looking at the smallest version of the dispatch problem, where two identical stacks of type A share a demand of <span class="math notranslate nohighlight">\(D = 0.9\)</span> (180 kg/h). In this case there is only one decision, the load <span class="math notranslate nohighlight">\(x_1\)</span> on the first stack, because the second stack must carry <span class="math notranslate nohighlight">\(0.9 - x_1\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">ohmic</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">p_ohmic</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">)</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">p_ohmic</span><span class="p">(</span><span class="n">D</span> <span class="o">-</span> <span class="n">x1</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">)</span>
+<span class="n">scurve</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">p_scurve</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">)</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">p_scurve</span><span class="p">(</span><span class="n">D</span> <span class="o">-</span> <span class="n">x1</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">ohmic</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'ohmic losses: convex'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">scurve</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'S-curve losses: non-convex'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'load on stack 1, $x_1$'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'total power (per-unit)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ohmic:   best split x1 = </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">ohmic</span><span class="p">)]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, power </span><span class="si">{</span><span class="n">ohmic</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"S-curve: best split x1 = </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">scurve</span><span class="p">)]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, power </span><span class="si">{</span><span class="n">scurve</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span>
+      <span class="sa">f</span><span class="s2">"  (equal split gives </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">([</span><span class="n">D</span><span class="o">/</span><span class="mi">2</span><span class="p">])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ohmic:   best split x1 = 0.449, power 1.1025
+S-curve: best split x1 = 0.000, power 1.5892  (equal split gives 1.6425)
+</pre></div>
+</div>
+<img alt="../_images/db3ad68fcc59907fa4134300f21545808bfe7930215d4e80eeae9bbceccee487.png" src="../_images/db3ad68fcc59907fa4134300f21545808bfe7930215d4e80eeae9bbceccee487.png" />
+</div>
+</div>
+<p>With ohmic losses the curve has a single bowl, and the optimal split is the equal one, so two identical stacks should share the load. With the S-curve the equal split is still a valley, but not the lowest one, since a lightly loaded second stack wastes power and the best option is to run one stack alone. As a result, the right-hand plot has two kinds of minimum, corresponding to the operation of one stack alone or to equal sharing between both stacks, and only the first gives the best answer.</p>
+<div class="exercise admonition" id="ex-t11-convexity">
+
+<p class="admonition-title"><span class="caption-number">Exercise 4 </span></p>
+<section id="exercise-content">
+<p>Use the definition of convexity to show that <span class="math notranslate nohighlight">\(P(x) = x + r x^2\)</span> is convex for <span class="math notranslate nohighlight">\(r \ge 0\)</span>. Then pick two loads <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> and a value of <span class="math notranslate nohighlight">\(\theta\)</span> for which the S-curve of stack A violates the convexity inequality, and check your choice numerically with <code class="docutils literal notranslate"><span class="pre">el.p_scurve</span></code>.</p>
+</section>
+</div>
+</section>
+<section id="optimality-and-what-a-solver-certifies">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Optimality and what a solver certifies</a><a class="headerlink" href="#optimality-and-what-a-solver-certifies" title="Link to this heading">#</a></h2>
+<p>A point <span class="math notranslate nohighlight">\(x^*\)</span> is called a <strong>global minimum</strong> if no feasible point has a lower objective, and a <strong>local minimum</strong> if no feasible point nearby has a lower objective. Every global minimum is a local minimum, but the reverse is not true, as illustrated by the equal split on the right-hand plot, which is a local minimum but not a global one.</p>
+<p>In symbols, with <span class="math notranslate nohighlight">\(S\)</span> denoting the feasible region, the definition of a global minimizer <span class="math notranslate nohighlight">\(x^*\)</span> is that <span class="math notranslate nohighlight">\(f(x^*) \le f(x)\)</span> for all <span class="math notranslate nohighlight">\(x \in S\)</span>, and the definition of a local minimizer <span class="math notranslate nohighlight">\(x^\dagger\)</span> is that there is some <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span> such that <span class="math notranslate nohighlight">\(f(x^\dagger) \le f(x)\)</span> for all <span class="math notranslate nohighlight">\(x \in S\)</span> with <span class="math notranslate nohighlight">\(\lVert x - x^\dagger \rVert \le \varepsilon\)</span>. For a problem without constraints, a point where all first derivatives of <span class="math notranslate nohighlight">\(f\)</span> vanish is a <strong>stationary point</strong>. Every local minimizer of a smooth unconstrained problem is stationary, but a stationary point can also be a maximum or a saddle point, so a zero gradient alone does not prove a minimum (Topic 2.1 adds the second-order test).</p>
+<p>How much the difference between local and global matters depends on the application. For example, a protein folds into its global minimum-energy structure, so for structure prediction a local minimum is the wrong answer. In refinery planning, the gap between a local and the global optimum can be worth millions of dollars a year, while in other settings a good local solution is all that is needed.</p>
+<p>Most solvers work by starting somewhere and moving downhill until no nearby move helps, at which point they stop at a local minimum and report success. On a convex problem that report is a guarantee, but on a non-convex problem it only tells us about the neighborhood the solver happened to explore. We can see this by starting the same local solver from two different splits:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">x0</span><span class="o">=</span><span class="p">[</span><span class="n">start</span><span class="p">],</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">D</span><span class="p">)],</span> <span class="n">method</span><span class="o">=</span><span class="s1">'L-BFGS-B'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"start x1 = </span><span class="si">{</span><span class="n">start</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> -&gt; x1 = </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, power </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"solver says: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>start x1 = 0.45 -&gt; x1 = 0.450, power 1.6425, solver says: CONVERGENCE: NORM OF PROJECTED GRADIENT &lt;= PGTOL
+start x1 = 0.05 -&gt; x1 = 0.000, power 1.5892, solver says: CONVERGENCE: NORM OF PROJECTED GRADIENT &lt;= PGTOL
+</pre></div>
+</div>
+</div>
+</div>
+<p>Both runs report convergence, but only one of them found the best answer, and nothing in the output of the first run tells you so. This is something to keep in mind for the rest of the course, since <strong>the class of the problem determines which solvers you are allowed to trust.</strong></p>
+<p>Every optimization method can be thought of as a systematic search that tries values of the variables in an order designed to improve the objective and keeps track of the best feasible point that has been found. Methods differ in the claims that can be made about that point. An <strong>exact</strong> optimal solution is one that is proven to be the best possible, at least within the guarantee the method offers, while a <strong>heuristic</strong> (or approximate) solution is a good feasible point from a method without any guarantees.</p>
+<p>Broadly speaking, solvers come in two families. <strong>Deterministic methods</strong> follow a fixed sequence of steps, so the same problem gives the same answer every time, and examples include the simplex method for LPs, gradient-based methods for NLPs, and branch-and-bound for mixed-integer problems. Local deterministic methods guarantee convergence to a local optimum, while global deterministic methods guarantee convergence to a global optimum and can prove that a solution is the best, at a higher computational cost. <strong>Stochastic methods</strong> such as genetic algorithms, simulated annealing, particle swarm optimization and scatter search use randomness to explore, which means two runs on the same problem can return different answers (Topic 3.3). Stochastic methods will often find good solutions on hard problems, although proofs of optimality are rare. A brute-force grid search like the 500-point scan above is the simplest global method of all and works well for one variable, but a grid search becomes hopeless very fast, since a grid of 100 points per variable needs <span class="math notranslate nohighlight">\(100^{10}\)</span> evaluations for ten variables.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Problem class</p></th>
+<th class="head"><p>Typical method</p></th>
+<th class="head"><p>Is “optimal” a guarantee?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>LP</p></td>
+<td><p>simplex, interior point</p></td>
+<td><p>yes (convex)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Convex NLP</p></td>
+<td><p>gradient-based local methods</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>Non-convex NLP</p></td>
+<td><p>local methods</p></td>
+<td><p>no, only local</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>global methods (spatial branch-and-bound)</p></td>
+<td><p>yes, at higher cost</p></td>
+</tr>
+<tr class="row-even"><td><p>MILP</p></td>
+<td><p>branch-and-bound</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>MINLP</p></td>
+<td><p>branch-and-bound with local relaxations</p></td>
+<td><p>no, only local</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>global MINLP solvers</p></td>
+<td><p>yes, at higher cost</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The rest of the optimization fundamentals topics build the tools for the convex, continuous classes. We will work through one example of each class in Topic 1.2, introduce the modeling software in Topic 1.3, and treat linear programming in Topics 1.4 and 1.5. After that, Topics 2.1–2.6 turn the dials toward nonlinearity, integers, and non-convexity, and the last of them, Topic 2.6, writes the electrolyzer problem as a full MINLP and solves it with a certificate of global optimality.</p>
+<div class="exercise admonition" id="ex-t11-multistart">
+
+<p class="admonition-title"><span class="caption-number">Exercise 5 </span></p>
+<section id="exercise-content">
+<p>Run the local solver from 20 evenly spaced starting loads between 0 and 0.9 on the two-stack S-curve problem. What fraction of the runs find the global minimum? Repeat with the ohmic curve. How would your answer change the advice you give someone who has only a local solver?</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>An optimization problem has decision variables, an objective, and constraints. Writing them down precisely, in standard form, is most of the work.</p></li>
+<li><p>Variable type (continuous, integer, mixed) and function type (linear, nonlinear) sort formulations into LP, NLP, MILP, and MINLP.</p></li>
+<li><p>Convexity is the property that matters most: on a convex problem every local minimum is global, so a local solver can be trusted.</p></li>
+<li><p>A solver’s “optimal” is a guarantee only when the problem class allows it. The same dispatch problem changes class, and difficulty, depending on how we model one physical effect.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>A. Ravindran, K. M. Ragsdell and G. V. Reklaitis, <em>Engineering Optimization: Methods and Applications</em>, 2nd ed., Wiley (2006). Chapters 1–2 cover formulation and classification.</p></li>
+<li><p>D. Bertsimas and J. N. Tsitsiklis, <em>Introduction to Linear Optimization</em>, Athena Scientific (1997). The companion MIT OpenCourseWare notes are <em>Optimization Methods</em> (15.093J, Fall 2009).</p></li>
+<li><p>L. T. Biegler, <em>Nonlinear Programming: Concepts, Algorithms, and Applications to Chemical Processes</em>, SIAM (2010). Chapter 1 introduces optimization in chemical engineering.</p></li>
+<li><p>S. Boyd and L. Vandenberghe, <em>Convex Optimization</em>, Cambridge University Press (2004). Chapters 2–3 on convex sets and functions; freely available from the authors.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./1-fundamentals"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Optimization Fundamentals</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic1.2-A_Tour_of_Problem_Classes.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">1.2 A Tour of Problem Classes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-running-example-an-electrolyzer-plant">A running example: an electrolyzer plant</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anatomy-of-a-formulation">Anatomy of a formulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-types-and-formulation-types">Variable types and formulation types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feasible-regions-and-convexity">Feasible regions and convexity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimality-and-what-a-solver-certifies">Optimality and what a solver certifies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

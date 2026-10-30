@@ -1,0 +1,1189 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1.3 Optimization Modeling with Pyomo &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1.4 Linear Programming" href="Topic1.4-Linear_Programming.html" />
+    <link rel="prev" title="1.2 A Tour of Problem Classes" href="Topic1.2-A_Tour_of_Problem_Classes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Optimization Fundamentals</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>1.3 Optimization Modeling with Pyomo</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-for-this-course">Python for this course</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-first-pyomo-model">A first Pyomo model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sets-parameters-and-variables">Sets, parameters and variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sets">Sets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables">Variables</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constraints-and-objectives">Constraints and objectives</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constraints">Constraints</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objectives">Objectives</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-models-and-interpreting-results">Solving models and interpreting results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-lp">An LP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-nlp">An NLP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-milp">A MILP</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solvers-status-and-termination">Solvers, status and termination</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#which-solver-for-which-problem">Which solver for which problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#status-and-termination-condition">Status and termination condition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#optimization-modeling-with-pyomo" id="id1">1.3 Optimization Modeling with Pyomo</a></p>
+<ul>
+<li><p><a class="reference internal" href="#python-for-this-course" id="id2">Python for this course</a></p></li>
+<li><p><a class="reference internal" href="#a-first-pyomo-model" id="id3">A first Pyomo model</a></p></li>
+<li><p><a class="reference internal" href="#sets-parameters-and-variables" id="id4">Sets, parameters and variables</a></p></li>
+<li><p><a class="reference internal" href="#constraints-and-objectives" id="id5">Constraints and objectives</a></p></li>
+<li><p><a class="reference internal" href="#solving-models-and-interpreting-results" id="id6">Solving models and interpreting results</a></p></li>
+<li><p><a class="reference internal" href="#solvers-status-and-termination" id="id7">Solvers, status and termination</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id8">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id9">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="optimization-modeling-with-pyomo">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">1.3 Optimization Modeling with Pyomo</a><a class="headerlink" href="#optimization-modeling-with-pyomo" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 2, Lesson 1: <em>Python Basics Review</em></p></li>
+<li><p>Module 2, Lesson 2: <em>Introduction to Pyomo</em></p></li>
+<li><p>Module 2, Lesson 3: <em>Pyomo Model Components: Variables, Parameters and Sets</em></p></li>
+<li><p>Module 2, Lesson 4: <em>Pyomo Model Components: Constraints and Objectives</em></p></li>
+<li><p>Module 2, Lesson 5: <em>Solving Pyomo Models and Interpreting Results</em></p></li>
+<li><p>Module 2, Lesson 6: <em>Solver Installation and Output Status</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Translate a written formulation (sets, parameters, variables, objective, constraints) into a Pyomo <code class="docutils literal notranslate"><span class="pre">ConcreteModel</span></code>.</p></li>
+<li><p>Use indexed components and rules so that one model works for any number of stacks or constraints.</p></li>
+<li><p>Solve LP, MILP and NLP models with an appropriate solver (HiGHS, CBC, Ipopt) and read back variable values, objective values, duals and reduced costs.</p></li>
+<li><p>Check a solver’s status and termination condition, and recognize an infeasible, unbounded or unfinished solve.</p></li>
+</ul>
+</div>
+<p>In Topics 1.1 and 1.2 we wrote each optimization problem twice, first in mathematics and then as arrays for <code class="docutils literal notranslate"><span class="pre">scipy.optimize</span></code>. Writing the problem as arrays works, although it hides the model, because a constraint like “the loads add up to the demand” turns into a row of ones in a matrix that someone has to decode to understand what each column means. This is fine when there are only three variables, but it is not practical for a plant that has hundreds of units, several time periods and a dozen kinds of constraints.</p>
+<p>An <strong>algebraic modeling language</strong> solves this problem by letting us write the model in terms that look like the mathematics, which means using sets of things, parameters that are indexed by those sets, and variables and equations that are defined over them. The language then builds the matrices and hands them to a solver. This separates two jobs that are easy to confuse, since <em>formulating</em> the problem is not the same as <em>solving</em> it, and once they are separated we can change solvers without touching the model or change the model without thinking about how the solver wants its input.</p>
+<p>In this course we will use <strong>Pyomo</strong>, which is an open-source modeling language written in Python. Pyomo was started at Sandia National Laboratories by a team of mostly chemical engineers, and it is now maintained by developers at national laboratories and universities. Since Pyomo is ordinary Python, everything we know about Python still applies, and the data can come from any Python source, whether that is a dictionary, a spreadsheet read with pandas, or the output of another calculation.</p>
+<p>Throughout this topic the running model will be the electrolyzer fleet of Topic 1.1, where three stacks A, B and C must together meet a hydrogen demand <span class="math notranslate nohighlight">\(D\)</span> at least total power.</p>
+<section id="python-for-this-course">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Python for this course</a><a class="headerlink" href="#python-for-this-course" title="Link to this heading">#</a></h2>
+<p>The lectures open with a short review of Python for students coming from MATLAB, which we do not repeat here. If you need a refresher on variables, lists, loops, functions and NumPy arrays, work through DA4CHE Topic 1.1, <em>Python Basics</em> (<a class="reference external" href="https://www.medford.chbe.gatech.edu/DA4CHE/">https://www.medford.chbe.gatech.edu/DA4CHE/</a>), since it covers the same ground and more.</p>
+<p>The packages used in this book are NumPy (arrays and linear algebra), SciPy (scientific algorithms, including <code class="docutils literal notranslate"><span class="pre">scipy.optimize</span></code>), Matplotlib (plots), Pyomo (optimization modeling), and later scikit-learn and PyTorch (machine learning). These should all be installed in one environment, and the book’s <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> lists the versions that we test against. Jupyter notebooks are the main way we work, because they keep code, results and explanation in one document, although for longer scripts a <code class="docutils literal notranslate"><span class="pre">.py</span></code> file edited in an IDE such as Spyder or VS Code and run from a console works equally well. Anaconda (or its lighter relative, Miniforge) manages packages and versions, and creating a separate environment for this course keeps its packages from interfering with others. Compared with MATLAB, which many engineers learn first, Python is free, open source and general purpose, with a large community sharing code, while the strengths of MATLAB are its integrated environment and its specialized toolboxes. The two differences that trip up MATLAB users most often are that Python indexes from 0, and that assigning a slice of a NumPy array creates a <em>view</em> of the same data rather than a copy (so use <code class="docutils literal notranslate"><span class="pre">.copy()</span></code> when you need a copy).</p>
+<p>Before we get to Pyomo, it is worth looking at one Python data type that Pyomo leans on heavily, the <strong>dictionary</strong>. A list is indexed by position, but a dictionary is indexed by a <em>key</em>, which can be a string, a number, or a tuple. Optimization models are written over named things (stacks, species, customers, time periods), which makes dictionaries the natural way to store their data.</p>
+<div class="note admonition">
+<p class="admonition-title">Adapted material</p>
+<p>The dictionary and Pyomo-basics material in this topic is adapted from the course notebooks <code class="docutils literal notranslate"><span class="pre">Module</span> <span class="pre">2/M2</span> <span class="pre">-</span> <span class="pre">Introduction</span> <span class="pre">to</span> <span class="pre">Pyomo.ipynb</span></code>, <code class="docutils literal notranslate"><span class="pre">Module</span> <span class="pre">2/M2-Examples.ipynb</span></code>, <code class="docutils literal notranslate"><span class="pre">pyomo</span> <span class="pre">solvers/Sets</span> <span class="pre">and</span> <span class="pre">Parameters.ipynb</span></code> and <code class="docutils literal notranslate"><span class="pre">pyomo</span> <span class="pre">solvers/Getting</span> <span class="pre">started</span> <span class="pre">with</span> <span class="pre">Pyomo</span> <span class="pre">and</span> <span class="pre">solvers.ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT), rewritten for Pyomo 6.10 and the HiGHS and Ipopt solvers and moved onto the electrolyzer example.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+
+<span class="n">e_list</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.20</span><span class="p">,</span> <span class="mf">1.45</span><span class="p">,</span> <span class="mf">1.70</span><span class="p">]</span>                 <span class="c1"># indexed by position: e_list[0] is stack A</span>
+<span class="n">e_dict</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">E_LINEAR</span>                        <span class="c1"># indexed by name</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e_dict</span><span class="p">[</span><span class="s1">'A'</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e_dict</span><span class="p">)</span>
+
+<span class="c1"># a two-index parameter is a dictionary keyed by tuples</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="p">{(</span><span class="n">stack</span><span class="p">,</span> <span class="n">kind</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">stack</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span>
+        <span class="k">for</span> <span class="n">kind</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">((</span><span class="s1">'ohmic r'</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="n">stack</span><span class="p">]),</span> <span class="p">(</span><span class="s1">'parasitic a'</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">A_PARASITIC</span><span class="p">[</span><span class="n">stack</span><span class="p">]))}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loss</span><span class="p">[(</span><span class="s1">'B'</span><span class="p">,</span> <span class="s1">'ohmic r'</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.2 1.2
+{'A': 1.2, 'B': 1.45, 'C': 1.7}
+0.35
+</pre></div>
+</div>
+</div>
+</div>
+<p>Asking for <code class="docutils literal notranslate"><span class="pre">e_dict[0]</span></code> would raise a <code class="docutils literal notranslate"><span class="pre">KeyError</span></code>, because the dictionary has no key <code class="docutils literal notranslate"><span class="pre">0</span></code>. This is actually helpful, since if the data are keyed by stack name there is no way for a model to silently confuse stack A with “the first column”.</p>
+<div class="exercise admonition" id="ex-t13-dictionaries">
+
+<p class="admonition-title"><span class="caption-number">Exercise 9 </span></p>
+<section id="exercise-content">
+<p>Build a dictionary <code class="docutils literal notranslate"><span class="pre">full_load_mw</span></code> that maps each stack name to its full-load power in MW under the linear model, using <code class="docutils literal notranslate"><span class="pre">el.E_LINEAR</span></code> and <code class="docutils literal notranslate"><span class="pre">el.to_mw</span></code>. Then build a two-index dictionary keyed by <code class="docutils literal notranslate"><span class="pre">(stack,</span> <span class="pre">load)</span></code> for loads 0.25, 0.5 and 1.0 that stores the ohmic power <span class="math notranslate nohighlight">\(x + r_i x^2\)</span> in per-unit.</p>
+</section>
+</div>
+</section>
+<section id="a-first-pyomo-model">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">A first Pyomo model</a><a class="headerlink" href="#a-first-pyomo-model" title="Link to this heading">#</a></h2>
+<p>Every Pyomo model is built from the same five kinds of components, which correspond to the ingredients of a written formulation:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Pyomo component</p></th>
+<th class="head"><p>Role in the formulation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Set</span></code></p></td>
+<td><p>the index sets: which stacks, which species, which time periods</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Param</span></code></p></td>
+<td><p>the data: efficiencies, capacities, demands</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Var</span></code></p></td>
+<td><p>the decision variables</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Objective</span></code></p></td>
+<td><p>the expression to minimize or maximize</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Constraint</span></code></p></td>
+<td><p>the equations and inequalities that must hold</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>To complete the model we also need the <strong>solver</strong> that will be called, which a written formulation does not name.</p>
+<p>Pyomo offers two ways to build a model. In an <code class="docutils literal notranslate"><span class="pre">AbstractModel</span></code> the structure is declared first and the data are supplied afterwards during the creation of an instance, whereas in a <code class="docutils literal notranslate"><span class="pre">ConcreteModel</span></code> each component is built at the moment of declaration, so the data have to exist beforehand. Concrete models are simpler, and this book uses concrete models throughout. When we want to use the same model for many data sets, we can put the concrete model inside a Python function that takes the data as arguments.</p>
+<p>The first example in the lecture is a two-variable LP:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{x_1, x_2 \ge 0} \; x_1 + 2x_2 \quad \text{s.t.} \quad 3x_1 + 4x_2 \ge 1, \quad 2x_1 + 5x_2 \ge 2 .
+\]</div>
+<p>Solving this LP requires a solver, and solvers are separate programs that Pyomo talks to. In the next cell we therefore define a small helper that can find a solver whether it was installed with conda or with <code class="docutils literal notranslate"><span class="pre">idaes</span> <span class="pre">get-extensions</span></code>, and that can also cope with the case where no solver is installed. If a solver is missing the helper returns <code class="docutils literal notranslate"><span class="pre">None</span></code> rather than crashing, so that the rest of the page can still run with a graceful fallback. (The same helper is saved in the book’s <code class="docutils literal notranslate"><span class="pre">_lib/solvers.py</span></code> for later topics.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyomo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.environ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyo</span>
+
+<span class="c1"># where `idaes get-extensions` puts ipopt, cbc, bonmin, couenne; set IDAES_EXT if yours are elsewhere</span>
+<span class="n">IDAES_DIRS</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'IDAES_EXT'</span><span class="p">,</span> <span class="s1">''</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">'~/.idaes/bin'</span><span class="p">),</span>
+              <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'CONDA_PREFIX'</span><span class="p">,</span> <span class="s1">''</span><span class="p">),</span> <span class="s1">'idaes-ext'</span><span class="p">)]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_solver</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Return a Pyomo solver object, or None if it cannot be found."""</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'appsi_'</span><span class="p">):</span>                       <span class="c1"># solvers with a Python interface, e.g. appsi_highs</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>                                               <span class="c1"># solvers that run as an executable</span>
+        <span class="n">exe</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">next</span><span class="p">((</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">IDAES_DIRS</span>
+                                          <span class="k">if</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">name</span><span class="p">))),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="n">exe</span><span class="p">)</span> <span class="k">if</span> <span class="n">exe</span> <span class="k">else</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">solver</span> <span class="k">if</span> <span class="n">solver</span><span class="o">.</span><span class="n">available</span><span class="p">(</span><span class="n">exception_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+<span class="n">highs</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="s1">'appsi_highs'</span><span class="p">)</span>    <span class="c1"># LP and MILP</span>
+<span class="n">ipopt</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="s1">'ipopt'</span><span class="p">)</span>          <span class="c1"># NLP</span>
+<span class="n">cbc</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="s1">'cbc'</span><span class="p">)</span>              <span class="c1"># LP and MILP (an alternative to HiGHS)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">((</span><span class="s1">'HiGHS'</span><span class="p">,</span> <span class="n">highs</span><span class="p">),</span> <span class="p">(</span><span class="s1">'Ipopt'</span><span class="p">,</span> <span class="n">ipopt</span><span class="p">),</span> <span class="p">(</span><span class="s1">'CBC'</span><span class="p">,</span> <span class="n">cbc</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">'found'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'NOT FOUND'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Pyomo'</span><span class="p">,</span> <span class="n">pyomo</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HiGHS : found
+Ipopt : found
+CBC   : found
+Pyomo 6.10.1
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can write the model itself. The import statement is <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pyomo.environ</span> <span class="pre">as</span> <span class="pre">pyo</span></code>, and every component then gets the prefix <code class="docutils literal notranslate"><span class="pre">pyo.</span></code>. In many online examples (including the lecture notebooks) the import is <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyomo.environ</span> <span class="pre">import</span> <span class="pre">*</span></code> instead, which makes <code class="docutils literal notranslate"><span class="pre">ConcreteModel</span></code>, <code class="docutils literal notranslate"><span class="pre">Var</span></code> and so on available without a prefix. Both of these work, but with the prefixed form it is clear which names come from Pyomo, and there is no risk of clashing with names such as <code class="docutils literal notranslate"><span class="pre">sum</span></code> or <code class="docutils literal notranslate"><span class="pre">value</span></code>. As you read the model, compare each line with the corresponding part of the formulation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">x1</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">x2</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">minimize</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">con1</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="mi">3</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">x2</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">con2</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">x2</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">highs</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"x1 = </span><span class="si">{</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, x2 = </span><span class="si">{</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, objective = </span><span class="si">{</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x1 = 0.000, x2 = 0.400, objective = 0.800
+</pre></div>
+</div>
+</div>
+</div>
+<p>The pieces of the model are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyo.ConcreteModel()</span></code> creates an empty model. We store it in a Python variable called <code class="docutils literal notranslate"><span class="pre">model</span></code>; the name is ours.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model.x1</span> <span class="pre">=</span> <span class="pre">pyo.Var(...)</span></code> attaches a variable to the model. The attribute name (<code class="docutils literal notranslate"><span class="pre">x1</span></code>) becomes the component’s name. <code class="docutils literal notranslate"><span class="pre">within=</span></code> gives its <strong>domain</strong>, the set of values it may take: <code class="docutils literal notranslate"><span class="pre">NonNegativeReals</span></code>, <code class="docutils literal notranslate"><span class="pre">Reals</span></code>, <code class="docutils literal notranslate"><span class="pre">Binary</span></code>, <code class="docutils literal notranslate"><span class="pre">NonNegativeIntegers</span></code>, and so on.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyo.Objective(expr=...,</span> <span class="pre">sense=...)</span></code> declares what to optimize. <code class="docutils literal notranslate"><span class="pre">sense</span></code> is <code class="docutils literal notranslate"><span class="pre">pyo.minimize</span></code> (the default) or <code class="docutils literal notranslate"><span class="pre">pyo.maximize</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyo.Constraint(expr=...)</span></code> declares a constraint. Pyomo accepts <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code> and <code class="docutils literal notranslate"><span class="pre">==</span></code>, but not strict <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>. A solver cannot represent a strict inequality, because there is no largest number below 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">highs.solve(model)</span></code> sends the model to the solver and, by default, loads the solution back into the variables. <code class="docutils literal notranslate"><span class="pre">pyo.value(...)</span></code> reads a number out of a variable or an expression.</p></li>
+</ul>
+<p>The optimum is <span class="math notranslate nohighlight">\((x_1, x_2) = (0, 0.4)\)</span> with objective 0.8. In the lecture the same model was solved with GLPK, an older open-source LP solver, while here we use HiGHS, which is a modern open-source LP and MILP solver that <code class="docutils literal notranslate"><span class="pre">scipy.optimize.linprog</span></code> and <code class="docutils literal notranslate"><span class="pre">milp</span></code> also use internally. The answer does not depend on which solver we choose, and this is exactly why we separate the model from the solver.</p>
+<div class="exercise admonition" id="ex-t13-first-model">
+
+<p class="admonition-title"><span class="caption-number">Exercise 10 </span></p>
+<section id="exercise-content">
+<p>Change the objective to <span class="math notranslate nohighlight">\(3x_1 + 2x_2\)</span> and re-solve. Which constraint is now tight (holds with equality) at the optimum? Then call <code class="docutils literal notranslate"><span class="pre">model.pprint()</span></code> and find, in its output, the bounds and current value of each variable.</p>
+</section>
+</div>
+</section>
+<section id="sets-parameters-and-variables">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Sets, parameters and variables</a><a class="headerlink" href="#sets-parameters-and-variables" title="Link to this heading">#</a></h2>
+<p>Writing <code class="docutils literal notranslate"><span class="pre">model.x1</span></code> and <code class="docutils literal notranslate"><span class="pre">model.x2</span></code> by hand does not scale, since a fleet of 30 stacks should not need 30 lines. <strong>Indexed components</strong> solve this problem by letting us declare a set once, and then declare parameters, variables and constraints <em>over</em> the set.</p>
+<section id="sets">
+<h3>Sets<a class="headerlink" href="#sets" title="Link to this heading">#</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">Set</span></code> is a collection of keys (numbers, strings or tuples) that is used to index other components. For example, <code class="docutils literal notranslate"><span class="pre">pyo.Set(initialize=['A',</span> <span class="pre">'B',</span> <span class="pre">'C'])</span></code> builds a set from a list, and <code class="docutils literal notranslate"><span class="pre">pyo.RangeSet(1,</span> <span class="pre">10)</span></code> builds the integers 1 to 10. Sets can also be built from Python logic (such as a generator that keeps only some elements), the product of two sets, <code class="docutils literal notranslate"><span class="pre">model.I</span> <span class="pre">*</span> <span class="pre">model.J</span></code>, is the set of all pairs, and <code class="docutils literal notranslate"><span class="pre">len(model.S)</span></code> gives the number of elements. Sets combine with the usual set operators, which are union <code class="docutils literal notranslate"><span class="pre">|</span></code>, intersection <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>, difference <code class="docutils literal notranslate"><span class="pre">-</span></code> and the product <code class="docutils literal notranslate"><span class="pre">*</span></code>. There are two common mistakes that are worth knowing about. The first is that <code class="docutils literal notranslate"><span class="pre">pyo.Set([1,</span> <span class="pre">2,</span> <span class="pre">3])</span></code> does not build a set with those elements, because the list is read as an <em>index</em> for a family of sets, so you should write <code class="docutils literal notranslate"><span class="pre">pyo.Set(initialize=[1,</span> <span class="pre">2,</span> <span class="pre">3])</span></code> instead. The second is that a plain Python list assigned to the model (<code class="docutils literal notranslate"><span class="pre">model.S</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code>) works for indexing but is not a Pyomo component, which means that Pyomo cannot check or print the list.</p>
+</section>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">Param</span></code> holds data. An unindexed parameter acts like a number, while an indexed parameter acts like a dictionary and can be initialized directly from one. By default parameters are <strong>immutable</strong>, so once the model is built their values are baked into the expressions. If we declare <code class="docutils literal notranslate"><span class="pre">mutable=True</span></code>, the parameter is kept as a symbol whose value can be changed and re-solved without rebuilding the model, and since we plan to vary the demand <span class="math notranslate nohighlight">\(D\)</span> this is the option we want for <span class="math notranslate nohighlight">\(D\)</span>. A <code class="docutils literal notranslate"><span class="pre">default=</span></code> value fills in any keys that are missing from the initializing dictionary.</p>
+</section>
+<section id="variables">
+<h3>Variables<a class="headerlink" href="#variables" title="Link to this heading">#</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">Var</span></code> represents a decision, and the most useful optional arguments are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bounds=(lb,</span> <span class="pre">ub)</span></code>: simple lower and upper bounds. In Pyomo’s bookkeeping, bounds are not constraints; the solver handles them separately and more efficiently.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">domain=</span></code> (or <code class="docutils literal notranslate"><span class="pre">within=</span></code>): the kind of values allowed, such as <code class="docutils literal notranslate"><span class="pre">NonNegativeReals</span></code> or <code class="docutils literal notranslate"><span class="pre">Binary</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initialize=</span></code>: a starting value. LP and MILP solvers ignore it. For nonlinear solvers it is the starting point, and it can decide which local minimum is found (Topic 1.1).</p></li>
+</ul>
+<p>The value of a variable can be set by hand (<code class="docutils literal notranslate"><span class="pre">model.x['A'].value</span> <span class="pre">=</span> <span class="pre">0.5</span></code>), the bounds of a variable can be read (<code class="docutils literal notranslate"><span class="pre">model.x['A'].ub</span></code>) and changed after construction (<code class="docutils literal notranslate"><span class="pre">model.x['A'].setub(0.8)</span></code>), and a variable can be <strong>fixed</strong> (<code class="docutils literal notranslate"><span class="pre">model.x['A'].fix(0)</span></code>) so that the solver treats it as a constant until it is unfixed. By fixing variables we can explore scenarios like a situation where stack A is offline, without having to rewrite the model.</p>
+<p>Below are the sets, parameters and variables of the fleet LP from Topic 1.2, with power curve <span class="math notranslate nohighlight">\(P_i(x) = e_i x\)</span>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">)</span>                     <span class="c1"># the stacks</span>
+<span class="n">m</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">E_LINEAR</span><span class="p">)</span>           <span class="c1"># specific energy, per-unit power per unit load</span>
+<span class="n">m</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>          <span class="c1"># demand, per-unit (1.2 = 240 kg/h)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>      <span class="c1"># load of each stack, fraction of 200 kg/h</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">({</span><span class="n">i</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">},</span> <span class="s1">'D ='</span><span class="p">,</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">D</span><span class="p">))</span>
+<span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="s1">'A'</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'A fixed?'</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="s1">'A'</span><span class="p">]</span><span class="o">.</span><span class="n">fixed</span><span class="p">,</span> <span class="s1">' value'</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="s1">'A'</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="s1">'A'</span><span class="p">]</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 ['A', 'B', 'C']
+{'A': 1.2, 'B': 1.45, 'C': 1.7} D = 1.2
+A fixed? True  value 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>In practice the model data usually live outside the model, in a spreadsheet, a database, or another Python module. The pandas package reads a spreadsheet into a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> (<code class="docutils literal notranslate"><span class="pre">pd.read_excel('stacks.xlsx',</span> <span class="pre">index_col=0)</span></code>), which is a table with named rows and columns, and each column converts to exactly the dictionary that a <code class="docutils literal notranslate"><span class="pre">Param</span></code> wants. Here we build the table in code so that the page has no file dependency, and then use the table to declare the sets, parameters and variable bounds:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">stacks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'e'</span><span class="p">:</span> <span class="n">el</span><span class="o">.</span><span class="n">E_LINEAR</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">:</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">,</span> <span class="s1">'cap'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'A'</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">'C'</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">}})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stacks</span><span class="p">)</span>
+
+<span class="n">md</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">md</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">stacks</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">md</span><span class="o">.</span><span class="n">Hot</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">'B'</span><span class="p">,</span> <span class="s1">'C'</span><span class="p">])</span>                       <span class="c1"># stacks that are already warm</span>
+<span class="n">md</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">stacks</span><span class="p">[</span><span class="s1">'e'</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+<span class="n">md</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">stacks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">'cap'</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'cold stacks:'</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">md</span><span class="o">.</span><span class="n">S</span> <span class="o">-</span> <span class="n">md</span><span class="o">.</span><span class="n">Hot</span><span class="p">),</span> <span class="s1">'  warm and cheap:'</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">md</span><span class="o">.</span><span class="n">Hot</span> <span class="k">if</span> <span class="n">md</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">1.6</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'upper bound of C:'</span><span class="p">,</span> <span class="n">md</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="s1">'C'</span><span class="p">]</span><span class="o">.</span><span class="n">ub</span><span class="p">)</span>
+<span class="n">md</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="s1">'C'</span><span class="p">]</span><span class="o">.</span><span class="n">setub</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'after setub:     '</span><span class="p">,</span> <span class="n">md</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="s1">'C'</span><span class="p">]</span><span class="o">.</span><span class="n">ub</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      e     r  cap
+A  1.20  0.50  1.0
+B  1.45  0.35  1.0
+C  1.70  0.70  0.8
+cold stacks: ['A']   warm and cheap: ['B']
+upper bound of C: 0.8
+after setub:      0.5
+</pre></div>
+</div>
+</div>
+</div>
+<div class="exercise admonition" id="ex-t13-sets-params">
+
+<p class="admonition-title"><span class="caption-number">Exercise 11 </span></p>
+<section id="exercise-content">
+<p>Add a parameter <code class="docutils literal notranslate"><span class="pre">m.cap</span></code> indexed by <code class="docutils literal notranslate"><span class="pre">m.S</span></code> with capacities 1.0, 1.0 and 0.8, and redeclare <code class="docutils literal notranslate"><span class="pre">m.x</span></code> so that its upper bound comes from <code class="docutils literal notranslate"><span class="pre">m.cap</span></code>. (Hint: <code class="docutils literal notranslate"><span class="pre">bounds</span></code> can be a function <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">m,</span> <span class="pre">i:</span> <span class="pre">(0,</span> <span class="pre">m.cap[i])</span></code>.) Then try to change <code class="docutils literal notranslate"><span class="pre">m.e['A']</span></code> after the model is built. What happens, and what would you change to allow it?</p>
+</section>
+</div>
+</section>
+</section>
+<section id="constraints-and-objectives">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Constraints and objectives</a><a class="headerlink" href="#constraints-and-objectives" title="Link to this heading">#</a></h2>
+<section id="constraints">
+<h3>Constraints<a class="headerlink" href="#constraints" title="Link to this heading">#</a></h3>
+<p>A single constraint is declared with <code class="docutils literal notranslate"><span class="pre">expr=</span></code>, as in the first example, whereas an indexed constraint is declared over a set with a <strong>rule</strong>, which is a Python function that receives the model and an index and returns the expression for that index. Pyomo calls the rule once per element of the set, and if there should be no constraint at all for some index, the rule returns <code class="docutils literal notranslate"><span class="pre">pyo.Constraint.Skip</span></code>.</p>
+<p>Pyomo also accepts <strong>range constraints</strong>, <span class="math notranslate nohighlight">\(\ell \le g(x) \le u\)</span>, which are written as <code class="docutils literal notranslate"><span class="pre">pyo.inequality(l,</span> <span class="pre">g,</span> <span class="pre">u)</span></code> or as a tuple <code class="docutils literal notranslate"><span class="pre">(l,</span> <span class="pre">g,</span> <span class="pre">u)</span></code>, while equality constraints use <code class="docutils literal notranslate"><span class="pre">==</span></code>.</p>
+</section>
+<section id="objectives">
+<h3>Objectives<a class="headerlink" href="#objectives" title="Link to this heading">#</a></h3>
+<p>An objective is declared in the same way, with <code class="docutils literal notranslate"><span class="pre">expr=</span></code> or <code class="docutils literal notranslate"><span class="pre">rule=</span></code>, plus <code class="docutils literal notranslate"><span class="pre">sense=</span></code>. Objectives are rarely indexed, and although a model may declare several objectives, only one of them may be active when the model is solved. For long expressions <code class="docutils literal notranslate"><span class="pre">pyo.quicksum</span></code> is a faster version of <code class="docutils literal notranslate"><span class="pre">sum</span></code>, and <code class="docutils literal notranslate"><span class="pre">pyo.sum_product(m.e,</span> <span class="pre">m.x)</span></code> builds <span class="math notranslate nohighlight">\(\sum_i e_i x_i\)</span> in one call.</p>
+<p>We can now finish the fleet model, which we wrap in a function because we will solve it several times with different data. The two <strong>suffixes</strong> at the end ask the solver to send back two extra pieces of information, namely the dual value of every constraint and the reduced cost of every variable. The meaning of these numbers is explained below, and we will rely on them throughout Topics 1.3–1.5.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fleet_lp</span><span class="p">(</span><span class="n">D</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">E_LINEAR</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Linear-loss dispatch: min sum_i e_i x_i  s.t.  sum_i x_i = D,  0 &lt;= x_i &lt;= 1."""</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">demand_rule</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">)</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">D</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">demand</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">demand_rule</span><span class="p">)</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">power</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">),</span> <span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">minimize</span><span class="p">)</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>   <span class="c1"># constraint duals</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">rc</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>     <span class="c1"># variable reduced costs</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">fleet_lp</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">demand</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>demand : Size=1, Index=None, Active=True
+    Key  : Lower : Body               : Upper : Active
+    None :     D : x[A] + x[B] + x[C] :     D :   True
+power : Size=1, Index=None, Active=True
+    Key  : Active : Sense    : Expression
+    None :   True : minimize : 1.2*x[A] + 1.45*x[B] + 1.7*x[C]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The printed expressions are the formulation that Pyomo generated from our rule, where the demand row says <span class="math notranslate nohighlight">\(x_A + x_B + x_C = D\)</span> and the objective is <span class="math notranslate nohighlight">\(1.2x_A + 1.45x_B + 1.7x_C\)</span>.</p>
+<div class="exercise admonition" id="ex-t13-indexed-constraint">
+
+<p class="admonition-title"><span class="caption-number">Exercise 12 </span></p>
+<section id="exercise-content">
+<p>Add an indexed constraint <code class="docutils literal notranslate"><span class="pre">m.ramp</span></code> over <code class="docutils literal notranslate"><span class="pre">m.S</span></code> that limits each stack’s load to at most 0.3 above a given current load <code class="docutils literal notranslate"><span class="pre">x_now</span> <span class="pre">=</span> <span class="pre">{'A':</span> <span class="pre">0.7,</span> <span class="pre">'B':</span> <span class="pre">0.0,</span> <span class="pre">'C':</span> <span class="pre">0.5}</span></code>, and use <code class="docutils literal notranslate"><span class="pre">pyo.Constraint.Skip</span></code> so that stack B, which is cold, gets no ramp constraint. Print the constraint with <code class="docutils literal notranslate"><span class="pre">pprint()</span></code> to check that only two rows were built.</p>
+</section>
+</div>
+</section>
+</section>
+<section id="solving-models-and-interpreting-results">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Solving models and interpreting results</a><a class="headerlink" href="#solving-models-and-interpreting-results" title="Link to this heading">#</a></h2>
+<p>There are two ways to solve a Pyomo model. Inside a script or notebook (which is how we work throughout), calling <code class="docutils literal notranslate"><span class="pre">solver.solve(model)</span></code> will build the input for the solver, run the solver, and load the results back into the model. If we pass <code class="docutils literal notranslate"><span class="pre">tee=True</span></code> the solver will also stream its own log to the screen, and this log is the first thing to look at when a solve misbehaves. From a terminal, the command <code class="docutils literal notranslate"><span class="pre">pyomo</span> <span class="pre">solve</span> <span class="pre">--solver=ipopt</span> <span class="pre">my_model.py</span></code> does the same for a file that defines a model, since it creates the model, applies the solver, loads the results and displays them. With the options <code class="docutils literal notranslate"><span class="pre">--stream-solver</span></code>, <code class="docutils literal notranslate"><span class="pre">--summary</span></code> and <code class="docutils literal notranslate"><span class="pre">--show-results</span></code> it will print the solver log, a summary of the model, and the full results, and within a script we can get similar information from <code class="docutils literal notranslate"><span class="pre">model.pprint()</span></code> and <code class="docutils literal notranslate"><span class="pre">model.display()</span></code>.</p>
+<section id="an-lp">
+<h3>An LP<a class="headerlink" href="#an-lp" title="Link to this heading">#</a></h3>
+<p>Next we solve the fleet LP and read back three kinds of numbers, which are the loads, the total power, and the two suffixes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">fleet_lp</span><span class="p">(</span><span class="n">D</span><span class="o">=</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">highs</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'termination:'</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  stack </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: x = </span><span class="si">{</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="si">:</span><span class="s2">5.0f</span><span class="si">}</span><span class="s2"> kg/h), "</span>
+          <span class="sa">f</span><span class="s2">"reduced cost </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">rc</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">power</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"total power </span><span class="si">{</span><span class="n">P</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> per-unit = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">P</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"dual of the demand constraint: </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">demand</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># what does the dual mean? re-solve with slightly more demand</span>
+<span class="n">m</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="mf">1.2</span> <span class="o">+</span> <span class="mf">1e-3</span>
+<span class="n">highs</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"finite difference dP*/dD = </span><span class="si">{</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">power</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">P</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e-3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>termination: optimal
+  stack A: x = 1.000 (  200 kg/h), reduced cost -0.250
+  stack B: x = 0.200 (   40 kg/h), reduced cost +0.000
+  stack C: x = 0.000 (    0 kg/h), reduced cost +0.250
+total power 1.490 per-unit = 9.74 MW
+dual of the demand constraint: 1.450
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>finite difference dP*/dD = 1.450
+</pre></div>
+</div>
+</div>
+</div>
+<p>The cheapest stack, A, runs at full load, while B covers the remaining 0.2 and C stays off, which gives a total power of 1.49 per-unit, or 9.74 MW.</p>
+<p>The <strong>dual</strong> of a constraint is the rate at which the optimal objective changes when the right-hand side of the constraint changes. In this case the dual is 1.45, so one more unit of demand costs 1.45 more units of power, as the finite difference confirms. The <strong>reduced cost</strong> of a variable is the rate at which the objective would change if that variable were pushed away from its bound. The reduced cost of <span class="math notranslate nohighlight">\(+0.25\)</span> for stack C says that forcing C to carry load would cost 0.25 more per unit than the current plan, and the value of <span class="math notranslate nohighlight">\(-0.25\)</span> for stack A says that if A could go above full load, each extra unit would save 0.25.</p>
+<p>These numbers carry the thermodynamics and the economics of the model, and we will read them carefully in Topic 1.4. For now the practical point is how to get them, which is to declare <code class="docutils literal notranslate"><span class="pre">Suffix(direction=IMPORT)</span></code> components named <code class="docutils literal notranslate"><span class="pre">dual</span></code> and <code class="docutils literal notranslate"><span class="pre">rc</span></code> before solving, and index them by the constraint or the variable. Not every solver interface returns every suffix, although HiGHS and Ipopt both return duals, and HiGHS also returns reduced costs.</p>
+<p>Another way in which solvers and interfaces differ is the <strong>sign</strong> of the dual. For a minimization, Pyomo reports the derivative of the objective with respect to the right-hand side, so a demand that costs more to meet has a positive dual, whereas <code class="docutils literal notranslate"><span class="pre">scipy.optimize.linprog</span></code> follows a different convention for inequality rows (Topic 1.4). Since the finite difference is the reliable check, it is a good idea to perturb a right-hand side once and compare whenever you start using a new solver.</p>
+</section>
+<section id="an-nlp">
+<h3>An NLP<a class="headerlink" href="#an-nlp" title="Link to this heading">#</a></h3>
+<p>Next, we change one modeling choice, the loss model, to the ohmic curve <span class="math notranslate nohighlight">\(P_i(x) = x + r_i x^2\)</span>. This turns the model into a nonlinear program, so we switch to Ipopt (an interior-point solver for NLPs), and only the objective line and the solver need to change.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fleet_ohmic</span><span class="p">(</span><span class="n">D</span><span class="o">=</span><span class="mf">1.2</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="n">D</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>     <span class="c1"># a starting point matters for NLPs</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">demand</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">)</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">D</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">power</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+<span class="n">m2</span> <span class="o">=</span> <span class="n">fleet_ohmic</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">ipopt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span>
+    <span class="n">x_nlp</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m2</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m2</span><span class="o">.</span><span class="n">S</span><span class="p">}</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">m2</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">m2</span><span class="o">.</span><span class="n">demand</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'termination:'</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>                                                      <span class="c1"># fallback: the same model with scipy</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">])</span>
+    <span class="n">sol</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">'SLSQP'</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+                   <span class="n">constraints</span><span class="o">=</span><span class="p">[{</span><span class="s1">'type'</span><span class="p">:</span> <span class="s1">'eq'</span><span class="p">,</span> <span class="s1">'fun'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="mf">1.2</span><span class="p">}])</span>
+    <span class="n">x_nlp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">,</span> <span class="n">sol</span><span class="o">.</span><span class="n">x</span><span class="p">));</span> <span class="n">lam</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">sol</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Ipopt not found; solved with scipy SLSQP instead'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">({</span><span class="n">i</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x_nlp</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">v</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x_nlp</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"total power </span><span class="si">{</span><span class="n">cost</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> per-unit = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW;  demand dual </span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'marginal power 1 + 2 r_i x_i:'</span><span class="p">,</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">v</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x_nlp</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>termination: optimal
+{'A': 0.3818, 'B': 0.5455, 'C': 0.2727}
+total power 1.42909 per-unit = 9.34 MW;  demand dual 1.38182
+marginal power 1 + 2 r_i x_i: {'A': 1.38182, 'B': 1.38182, 'C': 1.38182}
+</pre></div>
+</div>
+</div>
+</div>
+<p>With losses that grow with load, every stack now runs, at loads <span class="math notranslate nohighlight">\((0.3818, 0.5455, 0.2727)\)</span>, and the total is 1.42909 per-unit (9.34 MW). This number should not be compared with the 1.49 from the LP, because the two loss models describe different stacks. Instead, what changed is the shape of the answer, since the optimum moved from a vertex (one stack full, one off) to an interior split. The demand dual is 1.38182, and the last line shows why this is the case, because at the optimum every running stack has the same marginal power <span class="math notranslate nohighlight">\(dP_i/dx_i = 1 + 2r_i x_i\)</span>, and that common value is the dual. This equal-marginal-cost rule is explained in Topic 2.1 and derived in Topic 2.2. The NLP example in the lectures is the Rosenbrock function, <span class="math notranslate nohighlight">\((1 - x)^2 + 100(y - x^2)^2\)</span>, which is solved with Ipopt in the same few lines, and any smooth objective is written in the same way.</p>
+</section>
+<section id="a-milp">
+<h3>A MILP<a class="headerlink" href="#a-milp" title="Link to this heading">#</a></h3>
+<p>The integer example in the lecture is a knapsack problem with four tools that have values and weights, a weight limit of 14, and the goal of carrying the most value. This problem needs only binary variables and the <code class="docutils literal notranslate"><span class="pre">maximize</span></code> sense.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">value</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'hammer'</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">'wrench'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">'screwdriver'</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">'towel'</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>
+<span class="n">weight</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'hammer'</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">'wrench'</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">'screwdriver'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">'towel'</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+
+<span class="n">k</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">k</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+<span class="n">k</span><span class="o">.</span><span class="n">take</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Binary</span><span class="p">)</span>
+<span class="n">k</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">weight</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">k</span><span class="o">.</span><span class="n">take</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">k</span><span class="o">.</span><span class="n">I</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">k</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">k</span><span class="o">.</span><span class="n">take</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">k</span><span class="o">.</span><span class="n">I</span><span class="p">),</span> <span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">maximize</span><span class="p">)</span>
+<span class="n">highs</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'take:'</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">k</span><span class="o">.</span><span class="n">I</span> <span class="k">if</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">take</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">],</span> <span class="s1">' value'</span><span class="p">,</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>take: ['hammer', 'screwdriver', 'towel']  value 25.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the optimal solution the wrench is left behind. HiGHS handled the binaries without being told anything new, because it is the model (and not the solver call) that says which variables are integers. The MILP for the electrolyzer itself, with an on/off decision per stack, will have to wait until Topic 2.4.</p>
+<div class="exercise admonition" id="ex-t13-solve-loop">
+
+<p class="admonition-title"><span class="caption-number">Exercise 13 </span></p>
+<section id="exercise-content">
+<p>Using <code class="docutils literal notranslate"><span class="pre">fleet_lp</span></code>, build the model once and loop over demands <span class="math notranslate nohighlight">\(D = 0.2, 0.4, \ldots, 3.0\)</span>, changing only the mutable parameter <code class="docutils literal notranslate"><span class="pre">m.D</span></code> and re-solving. Plot the total power (MW) and the demand dual against the demand (kg/h). Where does the dual jump, and which stack is partly loaded on each flat stretch?</p>
+</section>
+</div>
+</section>
+</section>
+<section id="solvers-status-and-termination">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Solvers, status and termination</a><a class="headerlink" href="#solvers-status-and-termination" title="Link to this heading">#</a></h2>
+<section id="which-solver-for-which-problem">
+<h3>Which solver for which problem<a class="headerlink" href="#which-solver-for-which-problem" title="Link to this heading">#</a></h3>
+<p>Any given solver handles some problem classes and not others, and the table in Topic 1.1 tells us which answers we can trust. The open-source solvers used in this book, along with a few commercial ones that are common in practice, are:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Solver</p></th>
+<th class="head"><p>Classes</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>HiGHS</p></td>
+<td><p>LP, MILP (and convex QP)</p></td>
+<td><p>open source; used through <code class="docutils literal notranslate"><span class="pre">appsi_highs</span></code>; also inside <code class="docutils literal notranslate"><span class="pre">scipy.optimize</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>CBC, GLPK</p></td>
+<td><p>LP, MILP</p></td>
+<td><p>open source; older; CBC appears in Topic 2.5</p></td>
+</tr>
+<tr class="row-even"><td><p>Ipopt</p></td>
+<td><p>NLP (local)</p></td>
+<td><p>open-source interior-point method; local optimum only, unless the problem is convex</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bonmin</p></td>
+<td><p>MINLP (local)</p></td>
+<td><p>open source; exact for convex MINLPs only</p></td>
+</tr>
+<tr class="row-even"><td><p>Couenne</p></td>
+<td><p>MINLP (global)</p></td>
+<td><p>open source; spatial branch-and-bound (Topic 2.6)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gurobi, CPLEX</p></td>
+<td><p>LP, MILP, some nonlinear</p></td>
+<td><p>commercial; free academic licenses</p></td>
+</tr>
+<tr class="row-even"><td><p>BARON</p></td>
+<td><p>MINLP (global)</p></td>
+<td><p>commercial; the demo version is limited in size</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Installation.</strong> HiGHS comes with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">highspy</span></code> (or <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">conda-forge</span> <span class="pre">highspy</span></code>), and Pyomo finds it automatically. Ipopt and CBC are executables, which can be installed with <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">conda-forge</span> <span class="pre">ipopt</span> <span class="pre">coincbc</span></code>, or with <code class="docutils literal notranslate"><span class="pre">idaes</span> <span class="pre">get-extensions</span></code> (from the IDAES process-modeling package), which downloads Ipopt, CBC, Bonmin and Couenne together. Our <code class="docutils literal notranslate"><span class="pre">get_solver</span></code> helper checks both places. If a solver is missing, Pyomo will not raise an error when the model is built but only at solve time, so it is best to check whether the solver is available before solving, as the helper does.</p>
+</section>
+<section id="status-and-termination-condition">
+<h3>Status and termination condition<a class="headerlink" href="#status-and-termination-condition" title="Link to this heading">#</a></h3>
+<p>Every solve returns a results object, and before you read any variable you should read two of its fields:</p>
+<ul class="simple">
+<li><p><strong>Solver status</strong> says whether the solver ran normally: <code class="docutils literal notranslate"><span class="pre">ok</span></code> (normal termination), <code class="docutils literal notranslate"><span class="pre">warning</span></code> (it finished, but something unusual happened), <code class="docutils literal notranslate"><span class="pre">error</span></code> (it stopped with an error), <code class="docutils literal notranslate"><span class="pre">aborted</span></code> (it was stopped from outside, by a time limit or an interrupt), or <code class="docutils literal notranslate"><span class="pre">unknown</span></code>.</p></li>
+<li><p><strong>Termination condition</strong> says why it stopped. When things go well this is <code class="docutils literal notranslate"><span class="pre">optimal</span></code> (or <code class="docutils literal notranslate"><span class="pre">globallyOptimal</span></code> or <code class="docutils literal notranslate"><span class="pre">locallyOptimal</span></code>, for solvers that distinguish them). Other common values are <code class="docutils literal notranslate"><span class="pre">infeasible</span></code> (no point satisfies the constraints), <code class="docutils literal notranslate"><span class="pre">unbounded</span></code> (the objective can improve forever), <code class="docutils literal notranslate"><span class="pre">maxIterations</span></code> and <code class="docutils literal notranslate"><span class="pre">maxTimeLimit</span></code> (the solver ran out of its allowance before finishing), and <code class="docutils literal notranslate"><span class="pre">infeasibleOrUnbounded</span></code> (the solver knows one of the two holds but not which).</p></li>
+</ul>
+<p>Pyomo defines a longer list of termination conditions, which can be grouped by their meaning:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Group</p></th>
+<th class="head"><p>Termination conditions</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>finished with a solution</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">optimal</span></code>, <code class="docutils literal notranslate"><span class="pre">globallyOptimal</span></code>, <code class="docutils literal notranslate"><span class="pre">locallyOptimal</span></code>, <code class="docutils literal notranslate"><span class="pre">feasible</span></code> (a feasible point, optimality not proven), <code class="docutils literal notranslate"><span class="pre">intermediateNonInteger</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>stopped by a limit</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">maxIterations</span></code>, <code class="docutils literal notranslate"><span class="pre">maxTimeLimit</span></code>, <code class="docutils literal notranslate"><span class="pre">maxEvaluations</span></code> (e.g. branch-and-bound nodes), <code class="docutils literal notranslate"><span class="pre">minFunctionValue</span></code> (found a value below a target), <code class="docutils literal notranslate"><span class="pre">minStepLength</span></code> (steps became too small to continue)</p></td>
+</tr>
+<tr class="row-even"><td><p>proved something about the model</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">infeasible</span></code>, <code class="docutils literal notranslate"><span class="pre">unbounded</span></code>, <code class="docutils literal notranslate"><span class="pre">infeasibleOrUnbounded</span></code>, <code class="docutils literal notranslate"><span class="pre">invalidProblem</span></code> (the model is the wrong type for the solver)</p></td>
+</tr>
+<tr class="row-odd"><td><p>failed or inconclusive</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">solverFailure</span></code>, <code class="docutils literal notranslate"><span class="pre">internalSolverError</span></code>, <code class="docutils literal notranslate"><span class="pre">error</span></code>, <code class="docutils literal notranslate"><span class="pre">licensingProblems</span></code>, <code class="docutils literal notranslate"><span class="pre">noSolution</span></code>, <code class="docutils literal notranslate"><span class="pre">other</span></code>, <code class="docutils literal notranslate"><span class="pre">unknown</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>interrupted</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">userInterrupt</span></code>, <code class="docutils literal notranslate"><span class="pre">resourceInterrupt</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In code, you should compare against the enumerations rather than strings, by importing <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyomo.opt</span> <span class="pre">import</span> <span class="pre">SolverStatus,</span> <span class="pre">TerminationCondition</span></code> and then testing <code class="docutils literal notranslate"><span class="pre">results.solver.termination_condition</span> <span class="pre">==</span> <span class="pre">TerminationCondition.optimal</span></code>. If you get a status of <code class="docutils literal notranslate"><span class="pre">error</span></code> or <code class="docutils literal notranslate"><span class="pre">unknown</span></code>, or a condition such as <code class="docutils literal notranslate"><span class="pre">internalSolverError</span></code>, that cannot be explained from the model, you may have found a solver bug, and the Pyomo and solver developers ask users to report these bugs.</p>
+<p>When a solver stops for any reason other than optimality it may still leave numbers in the variables, but those numbers are meaningless. Pyomo provides <code class="docutils literal notranslate"><span class="pre">pyo.check_optimal_termination(results)</span></code> as a one-line test. To see the other cases, we will break the fleet model on purpose in three ways, passing <code class="docutils literal notranslate"><span class="pre">load_solutions=False</span></code> so that Pyomo does not try to load a solution that does not exist.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">report</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+    <span class="n">ok</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">check_optimal_termination</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">:</span><span class="s2">36s</span><span class="si">}</span><span class="s2"> status = </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">status</span><span class="p">)</span><span class="si">:</span><span class="s2">8s</span><span class="si">}</span><span class="s2"> termination = </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span><span class="p">)</span><span class="si">:</span><span class="s2">14s</span><span class="si">}</span><span class="s2">"</span>
+          <span class="sa">f</span><span class="s2">" usable: </span><span class="si">{</span><span class="n">ok</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># 1. Infeasible: 700 kg/h of demand from three stacks of 200 kg/h each</span>
+<span class="n">report</span><span class="p">(</span><span class="s1">'demand D = 3.5 (above capacity)'</span><span class="p">,</span> <span class="n">highs</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">fleet_lp</span><span class="p">(</span><span class="n">D</span><span class="o">=</span><span class="mf">3.5</span><span class="p">),</span> <span class="n">load_solutions</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+<span class="c1"># 2. Unbounded: sell hydrogen at 2.0 per unit with no capacity limit, and maximize profit</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">u</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">)</span>
+<span class="n">u</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>                     <span class="c1"># the upper bound is forgotten</span>
+<span class="n">u</span><span class="o">.</span><span class="n">profit</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">((</span><span class="mf">2.0</span> <span class="o">-</span> <span class="n">el</span><span class="o">.</span><span class="n">E_LINEAR</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">S</span><span class="p">),</span> <span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">maximize</span><span class="p">)</span>
+<span class="n">report</span><span class="p">(</span><span class="s1">'profit, no capacity bound'</span><span class="p">,</span> <span class="n">highs</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">load_solutions</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+<span class="c1"># 3. Out of iterations: the ohmic NLP with Ipopt allowed a single iteration</span>
+<span class="k">if</span> <span class="n">ipopt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">report</span><span class="p">(</span><span class="s1">'ohmic NLP, max_iter = 1'</span><span class="p">,</span> <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">fleet_ohmic</span><span class="p">(),</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'max_iter'</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">load_solutions</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">report</span><span class="p">(</span><span class="s1">'ohmic NLP, default settings'</span><span class="p">,</span> <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">fleet_ohmic</span><span class="p">()))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Ipopt not found; skipping the iteration-limit example'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>demand D = 3.5 (above capacity)      status = error    termination = infeasible     usable: False
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>profit, no capacity bound            status = error    termination = unbounded      usable: False
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ohmic NLP, max_iter = 1              status = warning  termination = maxIterations  usable: False
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ohmic NLP, default settings          status = ok       termination = optimal        usable: True
+</pre></div>
+</div>
+</div>
+</div>
+<p>Each type of failure tells us something different about the model. <em>Infeasible</em> means that the constraints contradict each other, and in this case the demand exceeds the capacity of the fleet, so the fix is in the data or the plant rather than in the solver. <em>Unbounded</em> almost always means that a constraint is missing, since every unit of hydrogen sold at 2.0 earns a margin, and without a capacity limit there is no ceiling on the profit. <em>Out of iterations</em> means that the solver stopped before finishing, and the honest response is to raise the limit, give a better starting point, or rescale the model, and then solve again. Only this last case is a solver problem, while the first two are modeling errors that have been diagnosed by the solver.</p>
+<div class="exercise admonition" id="ex-t13-status">
+
+<p class="admonition-title"><span class="caption-number">Exercise 14 </span></p>
+<section id="exercise-content">
+<p>Write a function <code class="docutils literal notranslate"><span class="pre">solve_or_explain(model,</span> <span class="pre">solver)</span></code> that solves a model and either returns a dictionary of variable values, when the termination is optimal, or prints a one-sentence diagnosis when it is not (infeasible: check the demand and capacities; unbounded: look for a missing bound; iteration or time limit: raise the limit or improve the start). Test it on the three broken models above. Then make the fleet LP infeasible in a different way, by fixing two stacks to zero with <code class="docutils literal notranslate"><span class="pre">fix(0)</span></code> at <span class="math notranslate nohighlight">\(D = 1.2\)</span>, and check that your function catches it.</p>
+</section>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Pyomo writes an optimization model in the language of its formulation: sets, parameters, variables, an objective and constraints. The solver is a separate choice made at solve time.</p></li>
+<li><p>Indexed components and rules let one model serve any number of stacks. Mutable parameters and fixed variables let us ask “what if” without rebuilding.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Suffix(direction=IMPORT)</span></code> components named <code class="docutils literal notranslate"><span class="pre">dual</span></code> and <code class="docutils literal notranslate"><span class="pre">rc</span></code> bring back constraint duals and reduced costs. On the fleet LP the demand dual is 1.45 per-unit and stack C’s reduced cost is 0.25; on the ohmic NLP the dual is 1.38182, the common marginal power of the running stacks. Check signs against a finite difference.</p></li>
+<li><p>Match the solver to the class: HiGHS for LP and MILP, Ipopt for NLP, Couenne for global MINLP.</p></li>
+<li><p>Read the status and termination condition before reading any variable. Infeasible and unbounded results are usually modeling errors; iteration limits are solver problems.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>M. L. Bynum, G. A. Hackebeil, W. E. Hart, C. D. Laird, B. L. Nicholson, J. D. Siirola, J.-P. Watson and D. L. Woodruff, <em>Pyomo — Optimization Modeling in Python</em>, 3rd ed., Springer (2021). The lectures cite the 2nd edition (Hart et al., 2017).</p></li>
+<li><p>The Pyomo documentation, <a class="reference external" href="https://pyomo.readthedocs.io">https://pyomo.readthedocs.io</a>, especially the sections on modeling components and on working with solver results.</p></li>
+<li><p>J. C. Kantor, <em>ND Pyomo Cookbook</em>, <a class="reference external" href="https://jckantor.github.io/ND-Pyomo-Cookbook/">https://jckantor.github.io/ND-Pyomo-Cookbook/</a>. Short worked Pyomo models from chemical engineering, including the production example used in the Module 3 lectures.</p></li>
+<li><p>Q. Huangfu and J. A. J. Hall, “Parallelizing the dual revised simplex method”, <em>Mathematical Programming Computation</em> 10, 119–142 (2018). The simplex engine inside HiGHS; the HiGHS documentation is at <a class="reference external" href="https://highs.dev">https://highs.dev</a>.</p></li>
+<li><p>A. Wächter and L. T. Biegler, “On the implementation of an interior-point filter line-search algorithm for large-scale nonlinear programming”, <em>Mathematical Programming</em> 106, 25–57 (2006). The algorithm behind Ipopt.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./1-fundamentals"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic1.2-A_Tour_of_Problem_Classes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">1.2 A Tour of Problem Classes</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic1.4-Linear_Programming.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">1.4 Linear Programming</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-for-this-course">Python for this course</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-first-pyomo-model">A first Pyomo model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sets-parameters-and-variables">Sets, parameters and variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sets">Sets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables">Variables</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constraints-and-objectives">Constraints and objectives</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constraints">Constraints</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objectives">Objectives</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-models-and-interpreting-results">Solving models and interpreting results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-lp">An LP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-nlp">An NLP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-milp">A MILP</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solvers-status-and-termination">Solvers, status and termination</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#which-solver-for-which-problem">Which solver for which problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#status-and-termination-condition">Status and termination condition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

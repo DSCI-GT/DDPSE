@@ -1,0 +1,1070 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.4 Mixed-Integer Formulations &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.5 Branch-and-Bound" href="Topic2.5-Branch_and_Bound.html" />
+    <link rel="prev" title="2.3 Duality" href="Topic2.3-Duality.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Nonlinear and Mixed-Integer Optimization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>2.4 Mixed-Integer Formulations</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-conditions-as-linear-constraints">Logical conditions as linear constraints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-fixed-charge-model">The fixed-charge model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#big-m-is-the-capacity">Big-M is the capacity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-load-and-semicontinuous-variables">Minimum load and semicontinuous variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-integer-variables">General integer variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-milp-to-minlp-why-mixed-integer-problems-are-hard">From MILP to MINLP: why mixed-integer problems are hard</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-preview-the-s-shaped-power-curve">A preview: the S-shaped power curve</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#mixed-integer-formulations" id="id1">2.4 Mixed-Integer Formulations</a></p>
+<ul>
+<li><p><a class="reference internal" href="#logical-conditions-as-linear-constraints" id="id2">Logical conditions as linear constraints</a></p></li>
+<li><p><a class="reference internal" href="#the-fixed-charge-model" id="id3">The fixed-charge model</a></p></li>
+<li><p><a class="reference internal" href="#big-m-is-the-capacity" id="id4">Big-M is the capacity</a></p></li>
+<li><p><a class="reference internal" href="#minimum-load-and-semicontinuous-variables" id="id5">Minimum load and semicontinuous variables</a></p></li>
+<li><p><a class="reference internal" href="#general-integer-variables" id="id6">General integer variables</a></p></li>
+<li><p><a class="reference internal" href="#from-milp-to-minlp-why-mixed-integer-problems-are-hard" id="id7">From MILP to MINLP: why mixed-integer problems are hard</a></p></li>
+<li><p><a class="reference internal" href="#a-preview-the-s-shaped-power-curve" id="id8">A preview: the S-shaped power curve</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id9">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id10">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="mixed-integer-formulations">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">2.4 Mixed-Integer Formulations</a><a class="headerlink" href="#mixed-integer-formulations" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 3, Lesson 1: <em>Linear and Mixed-Integer Linear Formulations</em> (its lecture comes earlier; read here)</p></li>
+<li><p>Module 5, Lesson 1: <em>MINLP Introduction and Challenges</em></p></li>
+<li><p>Module 5, Lesson 2: <em>Mixed-Integer Formulations</em></p></li>
+</ul>
+<p>The order here differs on purpose from the videos: the logical operators of Lesson 2 come first, because the fixed-charge model is built from them, and Lesson 1’s overview of MINLP and its challenges closes the topic, where it leads into Topics 2.5 and 2.6.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Translate logical statements (and, or, not, implies, exclusive or) about yes-or-no decisions into linear constraints on binary variables.</p></li>
+<li><p>Write the fixed-charge model for equipment that costs something just to be switched on, and explain why it needs a binary variable.</p></li>
+<li><p>Choose the big-M constant in an on/off constraint, and explain what goes wrong when it is too large.</p></li>
+<li><p>Model a minimum operating load as a semicontinuous variable.</p></li>
+<li><p>Explain what makes a mixed-integer nonlinear program (MINLP) hard, and name the main solvers for each problem class.</p></li>
+</ul>
+</div>
+<p>Up to now every decision in the electrolyzer plant has been a load, which is a number between 0 and 1 that the operator can turn up or down smoothly. However, real plants also make decisions that cannot be made by halves, since a stack either runs or it does not, and a reactor is either built or it is not. We model decisions like these with <strong>binary variables</strong>, which are restricted to the values 0 and 1, and a formulation that mixes them with continuous variables is called <strong>mixed-integer</strong>.</p>
+<p>We already met one such problem in Topic 1.2, when the plant had to choose which stacks to switch on. In this topic we will look at how these formulations are written. We will start with the general tool, which translates logic into linear constraints, and then we will use it to build the fixed-charge model of the electrolyzer, leaving the algorithm that solves these problems (branch-and-bound) to Topic 2.5.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.environ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyo</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">part2b_tools</span> <span class="k">as</span> <span class="n">bt</span>
+
+<span class="n">F</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">el</span><span class="o">.</span><span class="n">F_FIXED</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">}</span>      <span class="c1"># fixed charge when on (per-unit power)</span>
+<span class="n">e</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">el</span><span class="o">.</span><span class="n">E_LINEAR</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">}</span>     <span class="c1"># energy per unit of load (per-unit power)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"fixed charge F:"</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"energy per unit load e:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"1 per-unit of power = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">MW_PER_UNIT</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> MW; 1 unit of load = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">KG_H_PER_UNIT</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kg H2/h"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fixed charge F: {'A': 0.3, 'B': 0.4, 'C': 0.2}
+energy per unit load e: {'A': 1.2, 'B': 1.45, 'C': 1.7}
+1 per-unit of power = 6.535 MW; 1 unit of load = 200 kg H2/h
+</pre></div>
+</div>
+</div>
+</div>
+<section id="logical-conditions-as-linear-constraints">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Logical conditions as linear constraints</a><a class="headerlink" href="#logical-conditions-as-linear-constraints" title="Link to this heading">#</a></h2>
+<p>A binary variable <span class="math notranslate nohighlight">\(y\)</span> can stand for a statement that is either true (<span class="math notranslate nohighlight">\(y = 1\)</span>) or false (<span class="math notranslate nohighlight">\(y = 0\)</span>), such as “stack A is running” or “reactor R1 is built”. Once the statements are numbers, we can write the logical relations between them as linear inequalities, and since the resulting constraints are linear, the solver never needs to know that they came from logic.</p>
+<p>The table below lists the basic operators, and in each row the linear constraint on the right is satisfied by exactly those 0/1 values that make the logical statement on the left true.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Logical statement</p></th>
+<th class="head"><p>Linear constraint on binaries</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(P_1\)</span> is true</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_1 = 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>NOT <span class="math notranslate nohighlight">\(P_1\)</span></p></td>
+<td><p>replace <span class="math notranslate nohighlight">\(y_1\)</span> by <span class="math notranslate nohighlight">\(1 - y_1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(P_1\)</span> OR <span class="math notranslate nohighlight">\(P_2\)</span> (at least one)</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_1 + y_2 \ge 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(P_1\)</span> AND <span class="math notranslate nohighlight">\(P_2\)</span> (both)</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_1 = 1\)</span> and <span class="math notranslate nohighlight">\(y_2 = 1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(P_1\)</span> XOR <span class="math notranslate nohighlight">\(P_2\)</span> (exactly one)</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_1 + y_2 = 1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>at least <span class="math notranslate nohighlight">\(m\)</span> / at most <span class="math notranslate nohighlight">\(m\)</span> / exactly <span class="math notranslate nohighlight">\(m\)</span> of a set <span class="math notranslate nohighlight">\(S\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\sum_{i \in S} y_i \ge m\)</span>, <span class="math notranslate nohighlight">\(\le m\)</span>, <span class="math notranslate nohighlight">\(= m\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(P_1 \Rightarrow P_2\)</span> (<span class="math notranslate nohighlight">\(P_1\)</span> implies <span class="math notranslate nohighlight">\(P_2\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_1 \le y_2\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We will use the implication more than any other operator, so let’s check that the translation is correct. The statement “if <span class="math notranslate nohighlight">\(P_1\)</span> then <span class="math notranslate nohighlight">\(P_2\)</span>” is only false when <span class="math notranslate nohighlight">\(P_1\)</span> is true and <span class="math notranslate nohighlight">\(P_2\)</span> is false, and the constraint <span class="math notranslate nohighlight">\(y_1 \le y_2\)</span> rules out exactly that case (<span class="math notranslate nohighlight">\(y_1 = 1\)</span> with <span class="math notranslate nohighlight">\(y_2 = 0\)</span>) while allowing the other three. We can build compound statements by rewriting them with these operators. For example, “if stack A runs, then stack B or stack C must also run” is <span class="math notranslate nohighlight">\(y_A \Rightarrow (y_B \text{ OR } y_C)\)</span>, which becomes <span class="math notranslate nohighlight">\(y_A \le y_B + y_C\)</span>, and a plant might impose a rule like this so that a backup stack is always warm when the main one is on.</p>
+<p>There are two more compound forms that come up often. The statement “<span class="math notranslate nohighlight">\(P_1\)</span> or <span class="math notranslate nohighlight">\(P_2\)</span> implies <span class="math notranslate nohighlight">\(P_3\)</span>” is true unless either premise holds without <span class="math notranslate nohighlight">\(P_3\)</span>, which means that it becomes two implications, <span class="math notranslate nohighlight">\(y_1 \le y_3\)</span> and <span class="math notranslate nohighlight">\(y_2 \le y_3\)</span>. The statement “(<span class="math notranslate nohighlight">\(P_1\)</span> or <span class="math notranslate nohighlight">\(P_2\)</span>) and (<span class="math notranslate nohighlight">\(P_3\)</span> or <span class="math notranslate nohighlight">\(P_4\)</span>)” is just both OR constraints, <span class="math notranslate nohighlight">\(y_1 + y_2 \ge 1\)</span> and <span class="math notranslate nohighlight">\(y_3 + y_4 \ge 1\)</span>, because an AND of statements is just a list of constraints. Choices between groups work in the same way, so “exactly one unit from group <span class="math notranslate nohighlight">\(G_1\)</span> or exactly one from group <span class="math notranslate nohighlight">\(G_2\)</span>, but not units from both” is <span class="math notranslate nohighlight">\(\sum_{i \in G_1} y_i = 1 - \sum_{j \in G_2} y_j\)</span> with both sums limited to at most one. For longer statements the systematic route is to rewrite the statement as an AND of ORs (i.e. its conjunctive normal form) and then turn each OR into one inequality.</p>
+<p>With three binaries there are only eight cases, so we can check the translation for every case:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">logic</span><span class="p">(</span><span class="n">yA</span><span class="p">,</span> <span class="n">yB</span><span class="p">,</span> <span class="n">yC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""If A runs, then B or C must also run."""</span>
+    <span class="k">return</span> <span class="p">(</span><span class="ow">not</span> <span class="n">yA</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">bool</span><span class="p">(</span><span class="n">yB</span> <span class="ow">or</span> <span class="n">yC</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">linear</span><span class="p">(</span><span class="n">yA</span><span class="p">,</span> <span class="n">yB</span><span class="p">,</span> <span class="n">yC</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">yA</span> <span class="o">&lt;=</span> <span class="n">yB</span> <span class="o">+</span> <span class="n">yC</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">" yA yB yC | logic  linear"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">yA</span><span class="p">,</span> <span class="n">yB</span><span class="p">,</span> <span class="n">yC</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">yA</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yB</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yC</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">logic</span><span class="p">(</span><span class="n">yA</span><span class="p">,</span><span class="w"> </span><span class="n">yB</span><span class="p">,</span><span class="w"> </span><span class="n">yC</span><span class="p">))</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">linear</span><span class="p">(</span><span class="n">yA</span><span class="p">,</span><span class="w"> </span><span class="n">yB</span><span class="p">,</span><span class="w"> </span><span class="n">yC</span><span class="p">))</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">logic</span><span class="p">(</span><span class="o">*</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="n">linear</span><span class="p">(</span><span class="o">*</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> yA yB yC | logic  linear
+  0  0  0 | True   True  
+  0  0  1 | True   True  
+  0  1  0 | True   True  
+  0  1  1 | True   True  
+  1  0  0 | False  False 
+  1  0  1 | True   True  
+  1  1  0 | True   True  
+  1  1  1 | True   True  
+</pre></div>
+</div>
+</div>
+</div>
+<p>The two columns agree on all eight cases, so the constraint is an exact translation. Logical constraints of this kind show up whenever we choose a design from a <strong>superstructure</strong>, which is a flowsheet that contains every candidate unit and connection with one binary per candidate. The lecture works through examples like this, such as choosing a reactor and then exactly one of two separators if the reactor is chosen. Even though the constraints are linear, the problem is no longer a linear program, because the binaries can only take two values. Formulation is partly an art here, since a cost that jumps (or a choice among alternatives) may look nonlinear, but with the right choice of variables we can make the problem linear.</p>
+<p>The same trick also handles non-differentiable terms, often without any binaries. If we want to minimize <span class="math notranslate nohighlight">\(|x|\)</span>, we can introduce an auxiliary variable <span class="math notranslate nohighlight">\(t\)</span> and write <span class="math notranslate nohighlight">\(\min t\)</span> subject to <span class="math notranslate nohighlight">\(-t \le x \le t\)</span>, so that <span class="math notranslate nohighlight">\(t = |x|\)</span> at the optimum. A maximum works in the same way. Here <span class="math notranslate nohighlight">\(\min \max(f_1, f_2)\)</span> becomes <span class="math notranslate nohighlight">\(\min t\)</span> with <span class="math notranslate nohighlight">\(t \ge f_1\)</span> and <span class="math notranslate nohighlight">\(t \ge f_2\)</span>, which is linear whenever the <span class="math notranslate nohighlight">\(f_k\)</span> are. This works because these terms are convex and are being minimized, so the solver pushes <span class="math notranslate nohighlight">\(t\)</span> down onto the original terms. If we go in the other direction, such as a constraint <span class="math notranslate nohighlight">\(|x| \ge 1\)</span>, we get a non-convex set (<span class="math notranslate nohighlight">\(x \le -1\)</span> or <span class="math notranslate nohighlight">\(x \ge 1\)</span>) and need a binary to choose the side, which gives <span class="math notranslate nohighlight">\(x \ge 1 - M y\)</span> and <span class="math notranslate nohighlight">\(x \le -1 + M(1 - y)\)</span>.</p>
+<p>Logic also links binaries to continuous variables, and this is how the electrolyzer enters the picture. A stack that carries load must be switched on, <span class="math notranslate nohighlight">\(x_i &gt; 0 \Rightarrow y_i = 1\)</span>, and the fixed-charge model in the next section is built on this one implication.</p>
+<div class="exercise admonition" id="ex-t24-logic">
+
+<p class="admonition-title"><span class="caption-number">Exercise 39 </span></p>
+<section id="exercise-content">
+<p>Write linear constraints on <span class="math notranslate nohighlight">\(y_A, y_B, y_C\)</span> for each statement, and check each one with a truth-table cell like the one above: (a) “at least two of the three stacks run”; (b) “stack B runs if and only if stack C runs”; (c) “if stack A runs, then neither B nor C runs”. Which of the three rules out the plant’s optimal configuration found in the next section?</p>
+</section>
+</div>
+</section>
+<section id="the-fixed-charge-model">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">The fixed-charge model</a><a class="headerlink" href="#the-fixed-charge-model" title="Link to this heading">#</a></h2>
+<p>Suppose that a stack costs something just to be on, whatever its load. Real stacks draw <strong>standby power</strong> to stay hot and pressurized (for pumps, heaters and power electronics that run whether or not much hydrogen is made), and each <strong>start-up</strong> also has a cost, through wear and the time spent heating a cold stack. If we allow only two states (on or off), then we can fold both effects into one number <span class="math notranslate nohighlight">\(F_i\)</span> per stack, which is its standby power plus its start-up cost amortized over its typical hours of operation. Studies of real electrolyzer dispatch find that a simple description of this kind is usually adequate (Baumhof et al., 2023), and a model with three states (on, standby, off) is a unit-commitment problem, so we will not consider it here.</p>
+<p>The cost of running stack <span class="math notranslate nohighlight">\(i\)</span> at load <span class="math notranslate nohighlight">\(x_i\)</span> is then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+C_i(x_i) = \begin{cases} 0 &amp; x_i = 0 \\ F_i + e_i x_i &amp; 0 &lt; x_i \le 1 \end{cases}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(e_i\)</span> is the energy per unit of load, as in the dispatch LP of Topic 1.4. This function jumps at zero, so no smooth formula can describe it and no LP can represent it, but a binary variable can. We let <span class="math notranslate nohighlight">\(y_i = 1\)</span> mean “stack <span class="math notranslate nohighlight">\(i\)</span> is on”, so that the cost becomes <span class="math notranslate nohighlight">\(F_i y_i + e_i x_i\)</span>, and the implication <span class="math notranslate nohighlight">\(x_i &gt; 0 \Rightarrow y_i = 1\)</span> is enforced by</p>
+<div class="math notranslate nohighlight">
+\[
+x_i \le y_i .
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(y_i = 0\)</span> the load of the stack is pinned to zero, and if <span class="math notranslate nohighlight">\(y_i = 1\)</span> the load can be anything up to 1 (the capacity of the stack). The minimizer will never set <span class="math notranslate nohighlight">\(y_i = 1\)</span> for an idle stack, since that would only add <span class="math notranslate nohighlight">\(F_i\)</span>, so the full <strong>fixed-charge dispatch model</strong> is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_{x,\,y} \quad &amp; \sum_{i \in \{A,B,C\}} \left( F_i y_i + e_i x_i \right) \\
+\text{s.t.} \quad &amp; x_A + x_B + x_C = D \\
+&amp; 0 \le x_i \le y_i, \quad y_i \in \{0, 1\} .
+\end{aligned}
+\end{split}\]</div>
+<p>We will use <span class="math notranslate nohighlight">\(F = (0.3, 0.4, 0.2)\)</span> and <span class="math notranslate nohighlight">\(e = (1.2, 1.45, 1.7)\)</span> for stacks A, B and C (in per-unit power) and a demand of <span class="math notranslate nohighlight">\(D = 1.2\)</span> (240 kg/h). Stack A is the most efficient and B is the next, while C is the least efficient but the cheapest to keep on. The model only takes a few lines in Pyomo, and we will give the builder two extra options now (a big-M constant and a minimum load), since we will need them in the next two sections.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fixed_charge_model</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">capacity_bound</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">capacity_bound</span> <span class="k">else</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>   <span class="c1"># load</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Binary</span><span class="p">)</span>                                <span class="c1"># on/off</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">demand</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">)</span> <span class="o">==</span> <span class="n">D</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">on_off</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">min_load</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">xmin</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">'appsi_highs'</span><span class="p">)</span>
+<span class="n">HAVE_HIGHS</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">available</span><span class="p">(</span><span class="n">exception_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">HAVE_HIGHS</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"HiGHS is not available through Pyomo; using the book's own branch-and-bound instead."</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">solve_fc</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">capacity_bound</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Solve the fixed-charge model; returns (cost, stacks on, loads)."""</span>
+    <span class="k">if</span> <span class="n">HAVE_HIGHS</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">fixed_charge_model</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">capacity_bound</span><span class="p">,</span> <span class="n">xmin</span><span class="p">)</span>
+        <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">}</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="s2">"+"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span> <span class="k">if</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">cost</span><span class="p">),</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">x</span>
+    <span class="k">if</span> <span class="n">xmin</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"the fallback solver does not model a minimum load"</span><span class="p">)</span>
+    <span class="n">cap</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">capacity_bound</span> <span class="k">else</span> <span class="n">M</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">bt</span><span class="o">.</span><span class="n">fc_bb</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="nb">list</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">D</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="p">[</span><span class="n">M</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">cap</span><span class="o">=</span><span class="p">[</span><span class="n">cap</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s1">'best'</span><span class="p">],</span> <span class="n">bt</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'z'</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="s1">'z'</span><span class="p">][:</span><span class="mi">3</span><span class="p">]))</span>
+
+<span class="n">cost</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">solve_fc</span><span class="p">(</span><span class="n">D</span><span class="o">=</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"optimum: </span><span class="si">{</span><span class="n">cfg</span><span class="si">}</span><span class="s2"> on, loads </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">x</span><span class="o">.</span><span class="n">items</span><span class="p">())</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"cost </span><span class="si">{</span><span class="n">cost</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> per-unit = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">all configurations (cost, stacks on, loads):"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">xs</span> <span class="ow">in</span> <span class="n">bt</span><span class="o">.</span><span class="n">fc_enumerate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="nb">list</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="mf">1.2</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">c</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2"> "</span> <span class="o">+</span> <span class="p">(</span><span class="s2">"infeasible"</span> <span class="k">if</span> <span class="n">xs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">xs</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>optimum: A+C on, loads A 1.00, B 0.00, C 0.20
+cost 2.04 per-unit = 13.33 MW
+
+all configurations (cost, stacks on, loads):
+  A+C    2.04  [1.  0.  0.2]
+  A+B    2.19  [1.  0.2 0. ]
+  B+C    2.39  [0.  1.  0.2]
+  A+B+C  2.39  [1.  0.2 0. ]
+  none   infeasible
+  C      infeasible
+  B      infeasible
+  A      infeasible
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that the optimum runs A at full load and C at 0.2, for 2.04 per-unit (or 13.33 MW), which is the answer that we found in Topic 1.2. The enumeration confirms that it is unique, since the next best plan (A with B) costs 2.19. C wins over B for the last 0.2 because C is cheap to keep on, and with so little load left the standby cost matters more than the energy cost. In the A+B+C line C is switched on but carries no load, which only adds its fixed charge, and the single-stack configurations are infeasible because one stack cannot make 240 kg/h.</p>
+<p>There are two readings of the fixed charge that are worth keeping apart. In thermodynamic terms, <span class="math notranslate nohighlight">\(F_i\)</span> is an auxiliary load, which is energy that the stack spends to be ready to split water and which makes no hydrogen.</p>
+<p>In economic terms, <span class="math notranslate nohighlight">\(F_i\)</span> is a standby cost, which is the price of having the option to produce that is paid whether or not the option is used much, and the binary decides whether that price is worth paying.</p>
+<div class="exercise admonition" id="ex-t24-fixed-charge">
+
+<p class="admonition-title"><span class="caption-number">Exercise 40 </span></p>
+<section id="exercise-content">
+<p>Use <code class="docutils literal notranslate"><span class="pre">solve_fc</span></code> to find the optimal configuration for demands <span class="math notranslate nohighlight">\(D = 0.6, 0.9, 1.5, 1.8, 2.4\)</span>. For which demands does the plant switch configuration, and why? Then lower C’s fixed charge to <span class="math notranslate nohighlight">\(F_C = 0.1\)</span> (edit the dictionary <code class="docutils literal notranslate"><span class="pre">F</span></code>) and find the smallest demand at which B enters the optimal plan.</p>
+</section>
+</div>
+</section>
+<section id="big-m-is-the-capacity">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Big-M is the capacity</a><a class="headerlink" href="#big-m-is-the-capacity" title="Link to this heading">#</a></h2>
+<p>The on/off constraint is often written in a more general form,</p>
+<div class="math notranslate nohighlight">
+\[
+x_i \le M y_i ,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(M\)</span> is a constant that is called <strong>big-M</strong>. When <span class="math notranslate nohighlight">\(y_i = 0\)</span> the constraint pins <span class="math notranslate nohighlight">\(x_i\)</span> to zero, as before, and when <span class="math notranslate nohighlight">\(y_i = 1\)</span> it caps <span class="math notranslate nohighlight">\(x_i\)</span> at <span class="math notranslate nohighlight">\(M\)</span>. For this to model the logic correctly, <span class="math notranslate nohighlight">\(M\)</span> must be a valid upper bound on <span class="math notranslate nohighlight">\(x_i\)</span>, a value that the load can never exceed. In the electrolyzer this bound is not a free choice, since <strong>the big-M constant is the capacity of the stack</strong>, <span class="math notranslate nohighlight">\(M = 1\)</span>, which is why we wrote <span class="math notranslate nohighlight">\(x_i \le y_i\)</span> above.</p>
+<p>Code often picks <span class="math notranslate nohighlight">\(M\)</span> as a large round number “to be safe”, but this is a poor habit. To see why, remember that a solver works with the <strong>relaxation</strong> of the problem, where each <span class="math notranslate nohighlight">\(y_i\)</span> can take any value between 0 and 1 (Topic 2.5 shows how). In the relaxation the cheapest <span class="math notranslate nohighlight">\(y_i\)</span> that is consistent with a load <span class="math notranslate nohighlight">\(x_i\)</span> is <span class="math notranslate nohighlight">\(y_i = x_i / M\)</span>, so the cost of the stack becomes</p>
+<div class="math notranslate nohighlight">
+\[
+F_i \frac{x_i}{M} + e_i x_i = \left( e_i + \frac{F_i}{M} \right) x_i .
+\]</div>
+<p>The relaxed model therefore buys a fraction <span class="math notranslate nohighlight">\(x_i/M\)</span> of the standby cost of the stack. The larger <span class="math notranslate nohighlight">\(M\)</span> is, the smaller that fraction becomes and the more the relaxation underestimates the true cost, which we can see for stack A in the figure below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">F</span><span class="p">[</span><span class="s1">'A'</span><span class="p">]</span> <span class="o">+</span> <span class="n">e</span><span class="p">[</span><span class="s1">'A'</span><span class="p">]</span> <span class="o">*</span> <span class="n">xs</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">true</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'true cost $F + e x$ (on)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">'ko'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">((</span><span class="n">e</span><span class="p">[</span><span class="s1">'A'</span><span class="p">]</span> <span class="o">+</span> <span class="n">F</span><span class="p">[</span><span class="s1">'A'</span><span class="p">]</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="n">xs</span><span class="p">),</span> <span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'relaxed cost, $M = </span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s1">$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'load $x_A$ (fraction of 200 kg/h)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'power drawn by stack A (MW)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'A loose big-M lets the relaxation buy standby cheaply'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<img alt="../_images/2a01f4a3b7aea18d70be32ff54ecc53c2c4ef04c2dc16fbe2f309c0993f80e68.png" src="../_images/2a01f4a3b7aea18d70be32ff54ecc53c2c4ef04c2dc16fbe2f309c0993f80e68.png" />
+</div>
+</div>
+<p>With <span class="math notranslate nohighlight">\(M = 1\)</span> we get the tightest possible relaxed cost, which is the line from the origin to the true cost at full load (Topic 2.6 calls this the convex envelope). With <span class="math notranslate nohighlight">\(M = 10\)</span>, on the other hand, the relaxed cost lies close to the bare energy cost <span class="math notranslate nohighlight">\(e_A x_A\)</span>, and almost none of the standby charge is left in the relaxed cost.</p>
+<div class="warning admonition">
+<p class="admonition-title">Warning: a loose big-M weakens the bound, and can change the answer</p>
+<p>The table below the box solves the plant with <span class="math notranslate nohighlight">\(M = k\)</span> for <span class="math notranslate nohighlight">\(k = 1, 2, 5, 10\)</span>, in two ways. In the first, the capacity <span class="math notranslate nohighlight">\(x_i \le 1\)</span> is kept as a separate bound. In the second, it is dropped, so that <span class="math notranslate nohighlight">\(M\)</span> alone limits each load.</p>
+<ul class="simple">
+<li><p><strong>Mechanism.</strong> With a fractional <span class="math notranslate nohighlight">\(y\)</span> in the relaxation, a large <span class="math notranslate nohighlight">\(M\)</span> lets the model buy load for a small fraction of the standby cost. The relaxation cheats, and its value, the bound, gets weaker.</p></li>
+<li><p><strong>If the capacity is enforced elsewhere, the answer is the same but the bound is weaker.</strong> The root bound falls from 1.87 at <span class="math notranslate nohighlight">\(M = 1\)</span> to 1.68, 1.566 and 1.528. The optimum stays 2.04. Branch-and-bound (Topic 2.5) needs 9 nodes instead of 7 to prove it, so the weaker bound costs work.</p></li>
+<li><p><strong>If it is not, the answer is wrong.</strong> Without the separate capacity bound, every <span class="math notranslate nohighlight">\(k \ge 2\)</span> returns 1.74 with stack A alone carrying 1.2, more than it can make. Here <span class="math notranslate nohighlight">\(M\)</span> <em>is</em> the capacity in the model, and we have told the model that the stack is bigger than it is.</p></li>
+<li><p><strong>Discipline.</strong> Use the tightest valid bound. In a physical model it is a real engineering quantity, here a capacity, not a round number like <span class="math notranslate nohighlight">\(10^6\)</span>.</p></li>
+</ul>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Fl</span><span class="p">,</span> <span class="n">El</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="nb">list</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">" k | capacity kept: root bound  optimum  nodes | no capacity bound: root bound  optimum  loads"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">keep</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">Mk</span><span class="p">,</span> <span class="n">cap</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span> <span class="k">if</span> <span class="n">keep</span> <span class="k">else</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">root</span> <span class="o">=</span> <span class="n">bt</span><span class="o">.</span><span class="n">fc_lp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Fl</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">El</span><span class="p">),</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">Mk</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cap</span><span class="p">]</span> <span class="o">+</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">bt</span><span class="o">.</span><span class="n">fc_bb</span><span class="p">(</span><span class="n">Fl</span><span class="p">,</span> <span class="n">El</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">Mk</span><span class="p">,</span> <span class="n">cap</span><span class="o">=</span><span class="n">cap</span><span class="p">)</span>
+        <span class="n">loads</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">'z'</span><span class="p">][:</span><span class="mi">3</span><span class="p">])</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mf">1e-9</span><span class="p">)</span>
+        <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">root</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">'best'</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s1">'nodes'</span><span class="p">],</span> <span class="n">loads</span><span class="p">))</span>
+    <span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">r2</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">l2</span><span class="p">)</span> <span class="o">=</span> <span class="n">row</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> |      </span><span class="si">{</span><span class="n">r1</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">          </span><span class="si">{</span><span class="n">b1</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">     </span><span class="si">{</span><span class="n">n1</span><span class="si">}</span><span class="s2">   |      </span><span class="si">{</span><span class="n">r2</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">          </span><span class="si">{</span><span class="n">b2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">    </span><span class="si">{</span><span class="n">l2</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> k | capacity kept: root bound  optimum  nodes | no capacity bound: root bound  optimum  loads
+ 1 |      1.870          2.04     7   |      1.870          2.04    A 1.0, C 0.2
+ 2 |      1.680          2.04     9   |      1.620          1.74    A 1.2
+ 5 |      1.566          2.04     9   |      1.512          1.74    A 1.2
+10 |      1.528          2.04     9   |      1.476          1.74    A 1.2
+</pre></div>
+</div>
+</div>
+</div>
+<p>The root bound is the value of the relaxation with no binary fixed, and it is the bound that branch-and-bound starts from. The right half of the table is the dangerous one, because there is nothing in the output to warn the user. In each of those cases the solver still reports an optimal solution to the model as written, but the model itself is wrong.</p>
+<div class="exercise admonition" id="ex-t24-bigm">
+
+<p class="admonition-title"><span class="caption-number">Exercise 41 </span></p>
+<section id="exercise-content">
+<p>Give each stack its own big-M, <span class="math notranslate nohighlight">\(M = (1, 1, 5)\)</span> for A, B and C, with no separate capacity bound. Before running anything, predict the optimal plan at <span class="math notranslate nohighlight">\(D = 1.2\)</span>; then check your prediction with <code class="docutils literal notranslate"><span class="pre">bt.fc_bb</span></code>. Which stack is “enlarged” by the error, and does the error change the plan at <span class="math notranslate nohighlight">\(D = 1.2\)</span>? At <span class="math notranslate nohighlight">\(D = 2.4\)</span>?</p>
+</section>
+</div>
+</section>
+<section id="minimum-load-and-semicontinuous-variables">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Minimum load and semicontinuous variables</a><a class="headerlink" href="#minimum-load-and-semicontinuous-variables" title="Link to this heading">#</a></h2>
+<p>A real stack cannot run at every load from 0 to 1. Below a minimum load the gas purity becomes unsafe and the stack must be shut down. For the alkaline stacks modeled by Baumhof et al. (2023) this minimum is about 15% of rated load (7.84 MW for their 52.25 MW stack). This means that the load must either be zero or lie in the range from <span class="math notranslate nohighlight">\(x_{\min}\)</span> to 1, with no load allowed between zero and <span class="math notranslate nohighlight">\(x_{\min}\)</span>, and a variable of this kind is called <strong>semicontinuous</strong>. We can write this condition with the same binary:</p>
+<div class="math notranslate nohighlight">
+\[
+x_{\min} y_i \le x_i \le y_i .
+\]</div>
+<p>When <span class="math notranslate nohighlight">\(y_i = 0\)</span> both sides are zero, and when <span class="math notranslate nohighlight">\(y_i = 1\)</span> the load lies in <span class="math notranslate nohighlight">\([x_{\min}, 1]\)</span>. In this book we use the stylized value <span class="math notranslate nohighlight">\(x_{\min} = 0.1\)</span> (20 kg/h per stack), which does not bind at <span class="math notranslate nohighlight">\(D = 1.2\)</span> (where C already runs at 0.2) but does bind at a demand of <span class="math notranslate nohighlight">\(D = 1.05\)</span> (210 kg/h).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">D</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">xmin</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">X_MIN</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">xmin</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">HAVE_HIGHS</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"skipping the minimum-load case: it needs HiGHS"</span><span class="p">);</span> <span class="k">continue</span>
+        <span class="n">cost</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">solve_fc</span><span class="p">(</span><span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">)</span>
+        <span class="n">loads</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mf">1e-9</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"D = </span><span class="si">{</span><span class="n">D</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kg/h), x_min = </span><span class="si">{</span><span class="n">xmin</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">cfg</span><span class="si">:</span><span class="s2">4s</span><span class="si">}</span><span class="s2"> loads </span><span class="si">{</span><span class="n">loads</span><span class="si">:</span><span class="s2">16s</span><span class="si">}</span><span class="s2"> "</span>
+              <span class="sa">f</span><span class="s2">"cost </span><span class="si">{</span><span class="n">cost</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 1.20 (240 kg/h), x_min = 0.0: A+C  loads A 1.00, C 0.20   cost 2.040 = 13.33 MW
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 1.20 (240 kg/h), x_min = 0.1: A+C  loads A 1.00, C 0.20   cost 2.040 = 13.33 MW
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 1.05 (210 kg/h), x_min = 0.0: A+C  loads A 1.00, C 0.05   cost 1.785 = 11.67 MW
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 1.05 (210 kg/h), x_min = 0.1: A+C  loads A 0.95, C 0.10   cost 1.810 = 11.83 MW
+</pre></div>
+</div>
+</div>
+</div>
+<p>Without a minimum load the optimal plan at <span class="math notranslate nohighlight">\(D = 1.05\)</span> runs A at full load and C at 0.05, for 1.785. With <span class="math notranslate nohighlight">\(x_{\min} = 0.1\)</span> C is not allowed to run that low, so the plan keeps the same stacks but moves load from A to C (with A at 0.95 and C at 0.10), for 1.810. The configuration is the same and only the loads have moved, because the cheapest way to meet the minimum on C is to back A off.</p>
+<p>Minimum loads can also make some configurations infeasible, because <span class="math notranslate nohighlight">\(k\)</span> running stacks cannot meet a demand that is below <span class="math notranslate nohighlight">\(k\,x_{\min}\)</span>.</p>
+<div class="exercise admonition" id="ex-t24-xmin">
+
+<p class="admonition-title"><span class="caption-number">Exercise 42 </span></p>
+<section id="exercise-content">
+<p>Sweep the demand from <span class="math notranslate nohighlight">\(D = 1.0\)</span> to <span class="math notranslate nohighlight">\(1.2\)</span> in steps of <span class="math notranslate nohighlight">\(0.01\)</span> with <span class="math notranslate nohighlight">\(x_{\min} = 0.1\)</span>, and plot the optimal cost (in MW) and the load on C against demand in kg/h. Over what range of demand does the minimum load bind? Then raise <span class="math notranslate nohighlight">\(x_{\min}\)</span> to <span class="math notranslate nohighlight">\(0.3\)</span>. Does the optimal configuration change anywhere in that range?</p>
+</section>
+</div>
+</section>
+<section id="general-integer-variables">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">General integer variables</a><a class="headerlink" href="#general-integer-variables" title="Link to this heading">#</a></h2>
+<p>Binaries are a special case of <strong>integer variables</strong>, which can take any whole-number value in a range. We can use these to model counts and discrete sizes, such as the number of identical units to run, the number of trucks to send, or the number of fixed-size batches that a unit produces. The blending example in the lecture is of this kind, since production is made in whole batches of a fixed size, so the amount produced is the batch size times an integer (that example also has a nonlinear revenue, which makes it an MINLP).</p>
+<p>For the electrolyzer, let’s suppose that the plant has up to three identical stacks of type A and up to three of type C. Since it only matters how many of each type run (and not which ones), we can replace the per-stack binaries by integer counts <span class="math notranslate nohighlight">\(n_A, n_C \in \{0, 1, 2, 3\}\)</span> and the per-stack loads by the total load <span class="math notranslate nohighlight">\(X_t\)</span> that is carried by each type:</p>
+<div class="math notranslate nohighlight">
+\[
+\min \ \sum_{t \in \{A, C\}} \left( F_t n_t + e_t X_t \right) \quad \text{s.t.} \quad X_A + X_C = D, \quad 0 \le X_t \le n_t, \quad n_t \in \{0, 1, 2, 3\} .
+\]</div>
+<p>The coupling <span class="math notranslate nohighlight">\(X_t \le n_t\)</span> is just the big-M constraint again, with <span class="math notranslate nohighlight">\(M = 1\)</span> per running stack. Using one integer instead of three binaries per type also removes <strong>symmetry</strong>, because with binaries the plans “stacks 1 and 2 on” and “stacks 2 and 3 on” are different solutions with the same cost, and a solver would waste effort telling them apart.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">count_model</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">relax</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s1">'A'</span><span class="p">,</span> <span class="s1">'C'</span><span class="p">])</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span> <span class="k">if</span> <span class="n">relax</span> <span class="k">else</span> <span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeIntegers</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">demand</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">==</span> <span class="n">D</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">cap</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">e</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+<span class="k">if</span> <span class="n">HAVE_HIGHS</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">D</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">2.4</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">relax</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">count_model</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">relax</span><span class="p">)</span>
+            <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">plan</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"n_</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">t</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (load </span><span class="si">{</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">t</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"D = </span><span class="si">{</span><span class="n">D</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kg/h), </span><span class="si">{</span><span class="s1">'relaxed'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">relax</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'integer'</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">plan</span><span class="si">}</span><span class="s2">; cost </span><span class="si">{</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"HiGHS is not available; this cell needs an MILP solver."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 2.4 (480 kg/h), relaxed: n_A = 2.40 (load 2.40), n_C = 0.00 (load 0.00); cost 3.60
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 2.4 (480 kg/h), integer: n_A = 3.00 (load 2.40), n_C = 0.00 (load 0.00); cost 3.78
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 3.3 (660 kg/h), relaxed: n_A = 3.00 (load 3.00), n_C = 0.30 (load 0.30); cost 5.07
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 3.3 (660 kg/h), integer: n_A = 3.00 (load 3.00), n_C = 1.00 (load 0.30); cost 5.21
+</pre></div>
+</div>
+</div>
+</div>
+<p>At 480 kg/h (<span class="math notranslate nohighlight">\(D = 2.4\)</span>) the relaxation runs 2.4 stacks of type A (which no plant can do) for 3.60. If we round down to two A stacks we cannot meet the demand, and the integer optimum runs three A stacks, partly loaded, for 3.78. At 660 kg/h (<span class="math notranslate nohighlight">\(D = 3.3\)</span>) all three A stacks run at full load and one C stack takes the last 0.3, for 5.21. As with binaries, the value of the relaxation is a lower bound but its fractional counts are not a plan.</p>
+<p>A bounded integer can also be written with binaries by <strong>binary expansion</strong>, so that <span class="math notranslate nohighlight">\(n = y_1 + 2 y_2\)</span> covers <span class="math notranslate nohighlight">\(n = 0, \ldots, 3\)</span>. One thing that a MILP may <em>not</em> contain is a product of variables, such as a load times an on/off binary written as <span class="math notranslate nohighlight">\(x y\)</span>, because that product is nonlinear, and we will see how bilinear terms like this are handled in Topic 2.6.</p>
+<div class="exercise admonition" id="ex-t24-integers">
+
+<p class="admonition-title"><span class="caption-number">Exercise 43 </span></p>
+<section id="exercise-content">
+<p>Add stack type B to <code class="docutils literal notranslate"><span class="pre">count_model</span></code> (up to three B stacks) and find the optimal counts for demands from 0.6 to 6.0 in steps of 0.6. At which demands does the relaxation’s value equal the integer optimum? Then rewrite <span class="math notranslate nohighlight">\(n_A\)</span> by binary expansion with two binaries and confirm that the optimum does not change.</p>
+</section>
+</div>
+</section>
+<section id="from-milp-to-minlp-why-mixed-integer-problems-are-hard">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">From MILP to MINLP: why mixed-integer problems are hard</a><a class="headerlink" href="#from-milp-to-minlp-why-mixed-integer-problems-are-hard" title="Link to this heading">#</a></h2>
+<p>Everything so far has been linear in the variables, so the fixed-charge model is a <strong>mixed-integer linear program</strong> (MILP). MILPs are everywhere in engineering and operations, including production planning and scheduling, supply chains, network flows, unit commitment in power grids, the selection of units in a flowsheet, and combinatorial problems such as knapsack packing, assignment of people to tasks, and protein design. Many practical MILPs can now be solved routinely at large scale as a result of decades of algorithmic progress on top of the simplex method (Topic 1.5) and of faster computers, and commercial solvers such as Gurobi and CPLEX (and open-source ones such as HiGHS and CBC) solve problems with thousands of binary variables in seconds. HiGHS is the solver behind <code class="docutils literal notranslate"><span class="pre">scipy.optimize.milp</span></code> and the <code class="docutils literal notranslate"><span class="pre">appsi_highs</span></code> interface that we used above. The COIN-OR project hosts many open-source solvers, and independent benchmarks (such as those maintained by Hans Mittelmann at Arizona State University) compare LP and MILP solvers on problems with millions of variables.</p>
+<p>If any function in the model is nonlinear, then the problem is a <strong>mixed-integer nonlinear program</strong> (MINLP). Most of the problems that MILPs approximate become MINLPs once the unit models are made more detailed, so a flowsheet synthesis problem with real reactor and separator models is an MINLP, and so is a production plan with nonlinear yields. The same is true for the design of water distribution networks, multiproduct batch scheduling, and an optimization problem with a trained machine-learning model embedded in it (such as a ReLU neural network or a regression tree), and models of this last kind appear later in the book.</p>
+<p>MINLPs are the hardest class of problems in this book, and there are three reasons for this that compound each other:</p>
+<ol class="arabic simple">
+<li><p><strong>Combinatorics.</strong> Each assignment of the binaries defines its own continuous subproblem. With <span class="math notranslate nohighlight">\(n\)</span> binaries there are <span class="math notranslate nohighlight">\(2^n\)</span> of them. Three stacks give 8; thirty stacks give more than a billion.</p></li>
+<li><p><strong>Nonlinearity.</strong> Each subproblem is an NLP, not an LP. If the NLP is non-convex, a local solver may stop at a point that is not its best (Topic 1.1).</p></li>
+<li><p><strong>Fewer and weaker tools.</strong> Solvers that handle both difficulties exist, but there are fewer of them, they are slower, and the best are commercial.</p></li>
+</ol>
+<p>The useful distinction is between convex and non-convex MINLPs. An MINLP is <strong>convex</strong> if its continuous relaxation (i.e. the problem with each binary allowed anywhere in <span class="math notranslate nohighlight">\([0, 1]\)</span>) is a convex NLP. There are exact methods for convex MINLPs that need no spatial branching, whereas non-convex ones need the spatial branch-and-bound of Topic 2.6 for a proof. The solvers that are named in the lecture, along with two more, sort out as follows:</p>
+<ul class="simple">
+<li><p><strong>DICOPT</strong> (commercial, GAMS): outer approximation, alternating MILP master problems and NLP subproblems; exact on convex MINLPs, a heuristic on non-convex ones.</p></li>
+<li><p><strong>Bonmin</strong> (open source): NLP-based branch-and-bound or outer approximation with Ipopt; the same verdict as DICOPT.</p></li>
+<li><p><strong>BARON</strong> (commercial): global; spatial branch-and-bound with convex relaxations, range reduction and heuristics.</p></li>
+<li><p><strong>ANTIGONE</strong> (commercial, GAMS): global; reformulation, convex relaxations and spatial branch-and-bound.</p></li>
+<li><p><strong>Couenne</strong> (open source): global; spatial branch-and-bound on linear relaxations of the non-convex terms.</p></li>
+<li><p><strong>SCIP</strong> (open source): global for MINLP; spatial branch-and-bound for non-convex terms, built on a MILP branch-and-cut (constraint integer programming) framework.</p></li>
+</ul>
+<p>MILPs are served by HiGHS and CBC (which are open source) and by Gurobi and CPLEX (which are commercial). If we run a local MINLP method on a non-convex problem it will still report its answer as optimal, which is the trap that Topic 2.6 sets out to show.</p>
+<p>There are two structural ideas that run through all MINLP algorithms. The first is <strong>decomposition</strong>, which uses the fact that once the integer variables are fixed, what remains is a continuous problem that is often linear, quadratic or convex and therefore easy, so many methods alternate between choosing integers (a MILP “master” problem) and solving the continuous subproblem (outer approximation and generalized Benders decomposition work this way). The second is <strong>convexification</strong>, where non-convex terms are bounded above and below by simpler convex functions, which gives easy problems whose solutions bound the original. Branch-and-bound (Topics 2.5 and 2.6) is built on the second idea.</p>
+<div class="exercise admonition" id="ex-t24-count">
+
+<p class="admonition-title"><span class="caption-number">Exercise 44 </span></p>
+<section id="exercise-content">
+<p>Compute <span class="math notranslate nohighlight">\(2^{30}\)</span> and <span class="math notranslate nohighlight">\(2^{40}\)</span>. If each continuous subproblem took one millisecond to solve, how long would complete enumeration take for a plant with 30 stacks, and for 40? What does this tell you about the need for an algorithm that avoids solving most subproblems?</p>
+</section>
+</div>
+</section>
+<section id="a-preview-the-s-shaped-power-curve">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">A preview: the S-shaped power curve</a><a class="headerlink" href="#a-preview-the-s-shaped-power-curve" title="Link to this heading">#</a></h2>
+<p>The fixed charge treats the standby cost of a stack as a jump at zero load, whereas physically the loss comes on over a short range of low loads rather than all at once. At low current a noticeable fraction of the current in an alkaline stack does not make hydrogen, because some current leaks around the cells and some gas crosses the separator and recombines. This is a drop in the <strong>Faraday efficiency</strong>, the fraction of the current that ends up as hydrogen, and it makes the power needed per kilogram rise sharply at low load (Ulleberg, 2003; Sánchez et al., 2018).</p>
+<p>The book’s model of this effect is the S-shaped curve of Topic 1.1,</p>
+<div class="math notranslate nohighlight">
+\[
+P_i(x) = x + a_i \frac{x}{x + \epsilon} + r_i x^2 ,
+\]</div>
+<p>where the first term is the ideal energy, the last is the convex ohmic loss of Topic 2.1, and the middle term is a <strong>smoothed fixed charge</strong>, an auxiliary load of size <span class="math notranslate nohighlight">\(a_i\)</span> that ramps in over a short start-up range of width about <span class="math notranslate nohighlight">\(\epsilon\)</span>. This middle term is concave, and with <span class="math notranslate nohighlight">\(\epsilon = 0.05\)</span> the whole curve bends the wrong way below about a quarter of full load. Its sizes <span class="math notranslate nohighlight">\(a = (0.3, 0.4, 0.2)\)</span> equal the fixed charges <span class="math notranslate nohighlight">\(F\)</span> above, on purpose.</p>
+<p>Our curve exaggerates the effect. In real alkaline stacks the concave region lies below the minimum load, so <strong>real stacks are convex over the range they are allowed to run</strong> (Baumhof et al., 2023). We keep the concave region inside the operating range because it is the simplest way to show what non-convexity does to optimization. The figure compares the three stacks’ S-curves, and shows stack A’s curve approaching the fixed-charge step as <span class="math notranslate nohighlight">\(\epsilon\)</span> shrinks.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2001</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">:</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">p_scurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'stack </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s1">'k--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'ideal'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'S-curves of the three stacks'</span><span class="p">)</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">A_PARASITIC</span><span class="p">[</span><span class="s1">'A'</span><span class="p">],</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="s1">'A'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">eps</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'$</span><span class="se">\\</span><span class="s1">epsilon$ = </span><span class="si">{</span><span class="n">eps</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">a</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="s1">'k:'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'step: fixed charge $a$'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Stack A as $</span><span class="se">\\</span><span class="s1">epsilon </span><span class="se">\\</span><span class="s1">to 0$'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'load $x$ (fraction of 200 kg/h)'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'power (MW)'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<img alt="../_images/297ac0cb50f505ed3ad831f6e4d08c71d89988914acc22fc104d994b1f49ee9a.png" src="../_images/297ac0cb50f505ed3ad831f6e4d08c71d89988914acc22fc104d994b1f49ee9a.png" />
+</div>
+</div>
+<p>As <span class="math notranslate nohighlight">\(\epsilon \to 0\)</span> the smoothed charge becomes a step of height <span class="math notranslate nohighlight">\(a\)</span> at zero load, which is a fixed charge. Topic 2.6 shows that the fixed-charge model of this topic is exactly this limit with the remaining losses linearized. A binary variable therefore represents an infinitely sharp concave cost exactly, and the curve with <span class="math notranslate nohighlight">\(\epsilon = 0.05\)</span> is a smoothed version of the same difficulty.</p>
+<p>If we put the S-curve together with on/off binaries, a fixed on-cost <span class="math notranslate nohighlight">\(F_{\text{on}}\)</span> and a minimum load, then the plant becomes a non-convex MINLP:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_{x,\,y} \quad &amp; \sum_i \left[ F_{\text{on}}\, y_i + P_i(x_i) \right] \\
+\text{s.t.} \quad &amp; \sum_i x_i = D, \qquad x_{\min} y_i \le x_i \le y_i, \qquad y_i \in \{0, 1\} .
+\end{aligned}
+\end{split}\]</div>
+<p>This problem has every difficulty from the list in the previous section. In Topic 2.5 we will develop branch-and-bound on the linear version, where every bound can be trusted, and in Topic 2.6 we will solve this one with a certificate of global optimality.</p>
+<div class="exercise admonition" id="ex-t24-scurve">
+
+<p class="admonition-title"><span class="caption-number">Exercise 45 </span></p>
+<section id="exercise-content">
+<p>For stack A, compute the specific energy <span class="math notranslate nohighlight">\(P_A(x)/x\)</span> on a grid of loads, and convert it to kWh per kg of hydrogen using <code class="docutils literal notranslate"><span class="pre">el.MW_PER_UNIT</span></code> and <code class="docutils literal notranslate"><span class="pre">el.KG_H_PER_UNIT</span></code>. At what load is the specific energy smallest? Repeat with <span class="math notranslate nohighlight">\(\epsilon = 0.001\)</span>. How does the most efficient load move as the start-up range narrows?</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Binary variables turn yes-or-no decisions into numbers. Logical relations (and, or, not, implies, exclusive or) become linear constraints on them; an implication <span class="math notranslate nohighlight">\(P_1 \Rightarrow P_2\)</span> is <span class="math notranslate nohighlight">\(y_1 \le y_2\)</span>.</p></li>
+<li><p>The fixed-charge model represents a cost that jumps at zero, such as a stack’s standby power plus amortized start-up. Its on/off constraint <span class="math notranslate nohighlight">\(x_i \le M y_i\)</span> is the implication <span class="math notranslate nohighlight">\(x_i &gt; 0 \Rightarrow y_i = 1\)</span>.</p></li>
+<li><p>Big-M must be a valid upper bound, and in a physical model it is the capacity. A loose M weakens the relaxation’s bound (1.87 down to 1.528 here) and costs branch-and-bound nodes; without a separate capacity bound it gives a wrong answer (1.74, with one stack over capacity).</p></li>
+<li><p>A minimum load makes a variable semicontinuous, <span class="math notranslate nohighlight">\(x_{\min} y_i \le x_i \le y_i\)</span>.</p></li>
+<li><p>MINLPs combine combinatorial and nonlinear difficulty. Convex MINLPs have exact methods; non-convex MINLPs need global (spatial) branch-and-bound. The electrolyzer’s S-shaped curve, a stated exaggeration of a real Faraday-efficiency effect, makes the plant a non-convex MINLP.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Hart, W. E., Laird, C. D., Watson, J.-P., Woodruff, D. L., Hackebeil, G. A., Nicholson, B. L., and Siirola, J. D. <em>Pyomo — Optimization Modeling in Python</em>, 3rd ed. Springer, 2021.</p></li>
+<li><p>Williams, H. P. <em>Model Building in Mathematical Programming</em>, 5th ed. Wiley, 2013. The standard reference for logical conditions, fixed charges and big-M formulations.</p></li>
+<li><p>Floudas, C. A. <em>Nonlinear and Mixed-Integer Optimization: Fundamentals and Applications</em>. Oxford University Press, 1995.</p></li>
+<li><p>Grossmann, I. E. <em>Advanced Optimization for Process Systems Engineering</em>. Cambridge University Press, 2021.</p></li>
+<li><p>Ulleberg, Ø. Modeling of advanced alkaline electrolyzers: a system simulation approach. <em>International Journal of Hydrogen Energy</em> 28, 21–33 (2003).</p></li>
+<li><p>Sánchez, M., Amores, E., Rodríguez, L., and Clemente-Jul, C. Semi-empirical model and experimental validation for the performance evaluation of a 15 kW alkaline water electrolyzer. <em>International Journal of Hydrogen Energy</em> 43, 20332–20345 (2018).</p></li>
+<li><p>Baumhof, M. T., Raheli, E., Johnsen, A. G., and Kazempour, J. Optimization of hybrid power plants: when is a detailed electrolyzer model necessary? arXiv:2301.05310 (2023). With the two papers above, the electrolyzer models that inspired the book’s S-curve and on/off description.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./2-nonlinear_mixed_integer"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic2.3-Duality.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2.3 Duality</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic2.5-Branch_and_Bound.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2.5 Branch-and-Bound</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-conditions-as-linear-constraints">Logical conditions as linear constraints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-fixed-charge-model">The fixed-charge model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#big-m-is-the-capacity">Big-M is the capacity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-load-and-semicontinuous-variables">Minimum load and semicontinuous variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-integer-variables">General integer variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-milp-to-minlp-why-mixed-integer-problems-are-hard">From MILP to MINLP: why mixed-integer problems are hard</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-preview-the-s-shaped-power-curve">A preview: the S-shaped power curve</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

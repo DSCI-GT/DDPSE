@@ -1,0 +1,1051 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.1 Working with Real Data &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '4-data_driven_modeling/Topic4.1-Working_with_Real_Data';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.2 Optimization in Reduced Spaces" href="Topic4.2-Optimization_in_Reduced_Spaces.html" />
+    <link rel="prev" title="Data-Driven Modeling" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Data-Driven Modeling</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/4-data_driven_modeling/Topic4.1-Working_with_Real_Data.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/4-data_driven_modeling/Topic4.1-Working_with_Real_Data.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>4.1 Working with Real Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#designed-data-and-historian-data">Designed data and historian data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-data-goes-missing">How data goes missing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-missing-data">Handling missing data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-and-the-optimizer">Noise and the optimizer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outliers">Outliers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#working-with-real-data" id="id1">4.1 Working with Real Data</a></p>
+<ul>
+<li><p><a class="reference internal" href="#designed-data-and-historian-data" id="id2">Designed data and historian data</a></p></li>
+<li><p><a class="reference internal" href="#how-data-goes-missing" id="id3">How data goes missing</a></p></li>
+<li><p><a class="reference internal" href="#handling-missing-data" id="id4">Handling missing data</a></p></li>
+<li><p><a class="reference internal" href="#noise-and-the-optimizer" id="id5">Noise and the optimizer</a></p></li>
+<li><p><a class="reference internal" href="#outliers" id="id6">Outliers</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id7">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id8">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="working-with-real-data">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">4.1 Working with Real Data</a><a class="headerlink" href="#working-with-real-data" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 9, Lesson 1: <em>Unstructured Data Challenges</em></p></li>
+<li><p>Module 9, Lesson 2: <em>Missing Data Structures</em></p></li>
+<li><p>Module 9, Lesson 3: <em>Missing Data Handling Methods</em></p></li>
+<li><p>Module 9, Lesson 4: <em>Noise Handling</em></p></li>
+<li><p>Module 9, Lesson 5: <em>Outliers</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Explain the difference between designed data and historical (unstructured) data, and what each allows an optimizer to conclude.</p></li>
+<li><p>Classify a missing-data pattern as missing completely at random, missing at random, or missing not at random, and explain why the mechanism matters more than the amount.</p></li>
+<li><p>Choose between deletion and imputation, and predict how each choice moves the optimum of a model fitted to the data.</p></li>
+<li><p>Explain why noise misleads local optimizers and interpolating surrogates, and use regression, replication and the bootstrap to state an optimum with its uncertainty.</p></li>
+<li><p>Detect outliers in the output and in the input space, and judge whether to remove them, down-weight them, or model them.</p></li>
+</ul>
+</div>
+<p>In Topics 3.1–3.6 we treated the electrolyzer as a black box, but it was a very well-behaved black box: we could choose where to sample it, and it would return the exact power at that load. Unfortunately, real plants are not so well-behaved. In practice, most of the data an engineer has access to comes from a “data historian”, which is the database that logs every sensor of a running plant, and it simply records whatever the operators happened to do. This means that some readings will be missing, every reading will have some noise, and a few readings will be just plain wrong.</p>
+<p>The mechanics of handling this type of data (e.g. finding missing values in pandas, computing z-scores, or imputing with scikit-learn) are covered in DA4CHE Topic 4.1, <em>Data Organization</em> (<a class="reference external" href="https://www.medford.chbe.gatech.edu/DA4CHE/">https://www.medford.chbe.gatech.edu/DA4CHE/</a>), so we will only briefly recap them here. In this course we are interested in a narrower question: if we fit a model to imperfect data and then optimize it, how far does the optimum move, and in which direction?</p>
+<section id="designed-data-and-historian-data">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Designed data and historian data</a><a class="headerlink" href="#designed-data-and-historian-data" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">Adapted material</p>
+<p>The framing of this section (designed versus unstructured data, the four V’s, and the comparison of the number of samples with the number of dimensions) follows the course notebook <code class="docutils literal notranslate"><span class="pre">Dealing</span> <span class="pre">with</span> <span class="pre">bigger</span> <span class="pre">and</span> <span class="pre">unstructured</span> <span class="pre">data.ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT).</p>
+</div>
+<p>So far, all of the data we have worked with has been <strong>designed</strong>. A design of experiments (e.g. the Latin hypercube from Topic 3.5) chooses where to sample so that the samples cover the region we care about. Simulations are the most common example, since we can run them anywhere we want. <strong>Unstructured</strong> (or undesigned) data is everything else, such as historical sensor logs from a running unit, literature results merged from several sources, web data, or even video from a process camera. The key difference is that with unstructured data we cannot go back and put a sample where we would like one.</p>
+<p>Data sets like this are often described as “big data”, although the term means different things in different fields. For a computer scientist it typically means terabytes of data and millions of dimensions, but for a chemical engineer it often just means a spreadsheet with a few thousand rows and a few dozen columns that is too complex to handle with standard techniques. The character of these data sets is usually summarized by the “four V’s”:</p>
+<ul class="simple">
+<li><p><strong>Volume</strong>: many samples or many dimensions. For data-driven optimization, about 20 variables is already high-dimensional (for machine learning, about 100).</p></li>
+<li><p><strong>Variety</strong>: continuous, integer and categorical variables, or arrays (time series, spectra, images) alongside scalars. Variety needs specialized preprocessing, often leads to high dimensionality, and makes the optimization mixed-integer.</p></li>
+<li><p><strong>Velocity</strong>: data arriving fast enough to need online decisions, such as a reactor controller re-solving an optimization every second when a composition drifts out of bounds. If no online decision is needed, velocity becomes a volume problem.</p></li>
+<li><p><strong>Veracity</strong>: noise, outliers and missing values, the subject of this topic. Little noise with enough data can be handled by regression and regularization; heavy noise, scarce data or many outliers call for preprocessing before any regression or optimization.</p></li>
+</ul>
+<p>There are two numbers that frame every data set: the number of samples, <span class="math notranslate nohighlight">\(N\)</span>, and the number of dimensions, <span class="math notranslate nohighlight">\(d\)</span>. If <span class="math notranslate nohighlight">\(N \gg d\)</span> then there is usually enough information to learn an input-output map, although interpolating surrogates such as Gaussian processes will become slow to train and large to optimize. If <span class="math notranslate nohighlight">\(N \ll d\)</span> then we cannot safely learn the map, and no model may have more parameters than there are data points. However, we can still screen for correlations and look for the true dimensionality of the data, which is the subject of <a class="reference internal" href="Topic4.2-Optimization_in_Reduced_Spaces.html"><span class="doc">4.2 Optimization in Reduced Spaces</span></a>.</p>
+<p>In this topic we will work with a synthetic historian log from stack A, which was run for 400 hours at loads that the operators chose. The log records the load setpoint, three flow meters (hydrogen, feed water and oxygen), the stack temperature, and the stack power. We know that the true power curve is the S-curve introduced in Topic 1.1, so we can measure how far each data-driven answer is from the truth. The quantity we want to optimize is the <strong>specific energy</strong>, which is the power drawn per unit of hydrogen made, <span class="math notranslate nohighlight">\(P(x)/x\)</span>. The minimum of the specific energy is the stack’s <strong>best-efficiency load</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">qmc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">part4a_tools</span> <span class="k">as</span> <span class="n">t4</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">t4</span><span class="o">.</span><span class="n">stack_log</span><span class="p">()</span>                 <span class="c1"># 400 hourly records of stack A, seed 0</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"historian log: N = </span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s2"> records, d = </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2"> columns"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+<span class="n">k</span> <span class="o">=</span> <span class="n">t4</span><span class="o">.</span><span class="n">KWH_PER_KG_PER_UNIT</span>           <span class="c1"># per-unit specific energy -&gt; kWh/kg</span>
+<span class="n">xg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20001</span><span class="p">)</span>
+<span class="n">X_STAR</span> <span class="o">=</span> <span class="n">xg</span><span class="p">[</span><span class="n">t4</span><span class="o">.</span><span class="n">specific_energy</span><span class="p">(</span><span class="n">xg</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()]</span>
+<span class="n">SE_STAR</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">t4</span><span class="o">.</span><span class="n">specific_energy</span><span class="p">(</span><span class="n">X_STAR</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"true best-efficiency load x* = </span><span class="si">{</span><span class="n">X_STAR</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">X_STAR</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kg/h), "</span>
+      <span class="sa">f</span><span class="s2">"specific energy </span><span class="si">{</span><span class="n">SE_STAR</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> per-unit = </span><span class="si">{</span><span class="n">SE_STAR</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">k</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> kWh/kg"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"fraction of logged hours above 85% load: </span><span class="si">{</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">load</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.85</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">lhs</span> <span class="o">=</span> <span class="mf">0.15</span> <span class="o">+</span> <span class="mf">0.85</span> <span class="o">*</span> <span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">load</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'historian (400 h)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="s1">'|'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">mew</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Latin hypercube design (20 runs)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">X_STAR</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'true best-efficiency load'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'load $x$ (fraction of 200 kg/h)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'hours logged'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>historian log: N = 400 records, d = 6 columns
+   load  h2_kg_h  water_kg_h  o2_kg_h  temp_C  power_MW
+0  0.50    98.66      898.74   789.58   62.79      5.89
+1  0.33    66.20      585.92   518.78   59.08      4.21
+2  0.56   111.43     1001.38   885.35   64.05      6.52
+true best-efficiency load x* = 0.725 (145 kg/h), specific energy 1.7496 per-unit = 57.2 kWh/kg
+fraction of logged hours above 85% load: 0.075
+</pre></div>
+</div>
+<img alt="../_images/4db3c8cdd780f3eee8c30b7d64f17dbe7f5e0794de3167004f4ec72facd3d5dc.png" src="../_images/4db3c8cdd780f3eee8c30b7d64f17dbe7f5e0794de3167004f4ec72facd3d5dc.png" />
+</div>
+</div>
+<p>We can see that the best-efficiency load of stack A is <span class="math notranslate nohighlight">\(x^* = 0.725\)</span> (about 145 kg/h), where the stack uses 1.7496 times the ideal energy, or 57.2 kWh per kilogram of hydrogen. The histogram shows that the operators spent most of their time at middling loads and only 7.5% of the hours above 85% load, which means that the historian says much more about some loads than about others, unlike the 20-run design.</p>
+<p>Before we can optimize anything we need a model. The power is close to a quadratic in load, <span class="math notranslate nohighlight">\(\hat P(x) = b_0 + b_1 x + b_2 x^2\)</span>, where <span class="math notranslate nohighlight">\(b_0\)</span> stands in for the losses that do not scale with load and <span class="math notranslate nohighlight">\(b_2\)</span> stands in for the resistive losses. If we divide this by <span class="math notranslate nohighlight">\(x\)</span> we get the specific energy, <span class="math notranslate nohighlight">\(\hat P(x)/x = b_0/x + b_1 + b_2 x\)</span>, which has a minimum at <span class="math notranslate nohighlight">\(\hat x^* = \sqrt{b_0/b_2}\)</span> as long as both coefficients are positive. This is a regression surrogate in the same sense as Topic 3.5, since it is fitted to the measured power and then used to optimize the derived specific energy, and we only optimize over the range of loads in the data because the model has no support outside of that range.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">best_load</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p_mw</span><span class="p">,</span> <span class="n">lo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hi</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Fit P(x) = b0 + b1 x + b2 x^2 to (load, measured power); minimize P/x over the data's load range."""</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">b2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">p_mw</span><span class="p">)</span> <span class="o">/</span> <span class="n">el</span><span class="o">.</span><span class="n">MW_PER_UNIT</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="k">if</span> <span class="n">lo</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">lo</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="k">if</span> <span class="n">hi</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">hi</span><span class="p">,</span> <span class="mi">2001</span><span class="p">)</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="n">b0</span> <span class="o">/</span> <span class="n">g</span> <span class="o">+</span> <span class="n">b1</span> <span class="o">+</span> <span class="n">b2</span> <span class="o">*</span> <span class="n">g</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">se</span><span class="o">.</span><span class="n">argmin</span><span class="p">()]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">se</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+
+<span class="n">xh</span><span class="p">,</span> <span class="n">se_hat</span> <span class="o">=</span> <span class="n">best_load</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">load</span><span class="p">,</span> <span class="n">log</span><span class="o">.</span><span class="n">power_MW</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"complete log: estimated x* = </span><span class="si">{</span><span class="n">xh</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, predicted SE = </span><span class="si">{</span><span class="n">se_hat</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"true SE there = </span><span class="si">{</span><span class="n">t4</span><span class="o">.</span><span class="n">specific_energy</span><span class="p">(</span><span class="n">xh</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>complete log: estimated x* = 0.721, predicted SE = 1.7509, true SE there = 1.7496
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we use the complete log, the surrogate puts the best-efficiency load at 0.721 and predicts a specific energy of 1.7509, and the true value at that load is 1.7496, which is the same as the true optimum to four digits. We will use this as our reference answer, and in each of the sections below we will damage the log in one way and then ask how much of this answer survives.</p>
+<div class="exercise admonition" id="ex-t41-design-vs-log">
+
+<p class="admonition-title"><span class="caption-number">Exercise 97 </span></p>
+<section id="exercise-content">
+<p>Fit <code class="docutils literal notranslate"><span class="pre">best_load</span></code> to the 20-run Latin hypercube instead of the historian: evaluate the true power <code class="docutils literal notranslate"><span class="pre">el.to_mw(el.p_scurve(lhs,</span> <span class="pre">'A'))</span></code> at the design points, add 1% multiplicative noise with a fixed seed, and compare the estimated best-efficiency load with the 400-hour historian result. Then keep only the historian records with load below 0.6 and repeat. Which data set gives the better answer, and why?</p>
+</section>
+</div>
+</section>
+<section id="how-data-goes-missing">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">How data goes missing</a><a class="headerlink" href="#how-data-goes-missing" title="Link to this heading">#</a></h2>
+<p>Data can go missing for many reasons, including sensor failures, experiments that were never performed, outliers that were removed, or data sets that were merged from sources that did not follow the same plan. Missing values differ both in how many are missing (e.g. 1% or 80%) and in why they are missing, and it turns out that the second one matters more, since a large amount of data that is missing not at random can make a data set dangerous to use at all. In statistics we usually distinguish three <strong>mechanisms</strong>:</p>
+<ul class="simple">
+<li><p><strong>Missing completely at random (MCAR).</strong> Whether a value is missing has nothing to do with any value in the data set, observed or not. A logger that drops a random record now and then is MCAR; a sensor that always fails in one reactor because its conditions are extreme is not. No bias is introduced, so even a fairly large fraction of MCAR values can be tolerated.</p></li>
+<li><p><strong>Missing at random (MAR).</strong> Missingness depends on other variables that we do observe, but not on the missing value itself. In the lectures the example is a survey in which one group responds less often than another for reasons unrelated to the answer. In a plant, a power reading might drop out more often during cold periods because the logging computer is busy with start-up sequences; the temperature is in the log, so the cause is visible.</p></li>
+<li><p><strong>Missing not at random (MNAR).</strong> The probability that a value is missing depends on the value itself. The standard engineering case is a sensor with a limited range: a composition below the detection limit, or a power meter that saturates and logs nothing above its range. MNAR is the dangerous one, because the missing values are systematically different from the observed ones.</p></li>
+</ul>
+<p>In engineering, missing data tend to be either completely random or not random at all, and MNAR mechanisms (or merged sources) will often leave whole blocks, rows or columns of the data empty. Different machine-learning tools also tolerate these gaps differently. There are formal statistical tests for the mechanism, but these are beyond the scope of this course, so in practice the best tool is to look at the data by plotting a heat map of the missing-value pattern, with the records sorted by something that might explain it.</p>
+<p>To see what the three mechanisms look like, we will damage the power column of the historian in three different ways, and in all three cases we also blank out 5% of the other four sensor readings at random. The MCAR case drops 20% of the power readings at random, the MAR case drops power readings with probability 0.6 when the stack temperature is below 60 °C (and 0.05 otherwise), and the MNAR case models a meter that logs nothing above 8 MW.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+<span class="n">masks</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'MCAR'</span><span class="p">:</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.20</span><span class="p">,</span>                                   <span class="c1"># random logger dropouts</span>
+    <span class="s1">'MAR'</span><span class="p">:</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">temp_C</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">,</span> <span class="mf">0.60</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span>   <span class="c1"># depends on observed temperature</span>
+    <span class="s1">'MNAR'</span><span class="p">:</span> <span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">power_MW</span> <span class="o">&gt;</span> <span class="mf">8.0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>                            <span class="c1"># meter over-range above 8 MW</span>
+<span class="p">}</span>
+<span class="n">sensor_gaps</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">0.05</span>                             <span class="c1"># 5% MCAR gaps in the other sensors</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'h2_kg_h'</span><span class="p">,</span> <span class="s1">'water_kg_h'</span><span class="p">,</span> <span class="s1">'o2_kg_h'</span><span class="p">,</span> <span class="s1">'temp_C'</span><span class="p">,</span> <span class="s1">'power_MW'</span><span class="p">]</span>
+
+<span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">masks</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">miss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">sensor_gaps</span><span class="p">,</span> <span class="n">m</span><span class="p">])[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">miss</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'Greys'</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">'nearest'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">'H$_2$'</span><span class="p">,</span> <span class="s1">'water'</span><span class="p">,</span> <span class="s1">'O$_2$'</span><span class="p">,</span> <span class="s1">'T'</span><span class="p">,</span> <span class="s1">'P'</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2"> of P missing"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'sensor'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'record, sorted by load (low to high)'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">masks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">5s</span><span class="si">}</span><span class="s2"> missing </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">; highest load with power observed </span><span class="si">{</span><span class="n">log</span><span class="o">.</span><span class="n">load</span><span class="p">[</span><span class="o">~</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MCAR  missing 0.220; highest load with power observed 0.947
+MAR   missing 0.165; highest load with power observed 0.936
+MNAR  missing 0.302; highest load with power observed 0.707
+</pre></div>
+</div>
+<img alt="../_images/790c26a09ec6a380ff9c36caabbbb7bc909fe24dcc90b33c81f2c28ed70929ca.png" src="../_images/790c26a09ec6a380ff9c36caabbbb7bc909fe24dcc90b33c81f2c28ed70929ca.png" />
+</div>
+</div>
+<p>In these plots the black marks are the missing values. The MCAR power column is speckled evenly, while the MAR column is speckled more heavily at the top, among the low-load records, since a cold stack is usually a lightly loaded one. The MNAR column is a solid block, and the highest load with a power reading is 0.707, which is just below the true best-efficiency load of 0.725. This means that the data we would need to locate the optimum are exactly the data that are missing.</p>
+<div class="exercise admonition" id="ex-t41-mechanism">
+
+<p class="admonition-title"><span class="caption-number">Exercise 98 </span></p>
+<section id="exercise-content">
+<p>Make a fourth mask in which the power meter fails for whole days: split the 400 records into 16 consecutive blocks of 25 and blank the power column in 4 randomly chosen blocks. Plot its pattern twice, once in record order and once sorted by load. Which mechanism is it, and which of the two plots shows that?</p>
+</section>
+</div>
+</section>
+<section id="handling-missing-data">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Handling missing data</a><a class="headerlink" href="#handling-missing-data" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">Adapted material</p>
+<p>The comparison of deletion with imputation follows the course notebook <code class="docutils literal notranslate"><span class="pre">Outliers</span> <span class="pre">and</span> <span class="pre">Missing</span> <span class="pre">Values.ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT), which used a scikit-learn example on a public data set. Here the comparison is rebuilt on the electrolyzer historian, with current scikit-learn imputers.</p>
+</div>
+<p>The best remedy for missing data is to not have any in the first place, which means using good sensors and redundant measurements. If that is not possible, we can either delete the incomplete records or impute the missing values. The pandas and scikit-learn mechanics for doing this are covered in DA4CHE Topic 4.1, and the main options are summarized below.</p>
+<ul class="simple">
+<li><p><strong>Deletion.</strong> Remove rows (or columns) with missing values; drop a row if most of it is missing, a column if most of it is missing. The observed values in those rows are lost too.</p></li>
+<li><p><strong>Mean substitution.</strong> Fill a gap with the column mean, the most probable value if the column is normal. It adds no information, shrinks the column’s variance, breaks its correlation with everything else, and biases the data when many values are missing.</p></li>
+<li><p><strong>Regression imputation.</strong> Predict the incomplete column from the complete ones with a surrogate. It adds no information either, but it preserves correlations, the spread of the column and the shape of its distribution; scikit-learn’s <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code> cycles column by column until the filled values settle.</p></li>
+<li><p><strong>Nearest-neighbor imputation.</strong> Copy the value of the most similar complete record (or average the <span class="math notranslate nohighlight">\(k\)</span> most similar). No model is fitted, but all pairwise distances must be computed.</p></li>
+<li><p><strong>Maximum likelihood and expectation-maximization (EM).</strong> Assume the rows come from a distribution, say a multivariate normal with mean <span class="math notranslate nohighlight">\(\mu\)</span> and covariance <span class="math notranslate nohighlight">\(\Sigma\)</span>, and choose <span class="math notranslate nohighlight">\((\mu, \Sigma)\)</span> to maximize the likelihood, the measure of fit between data and model (for linear regression with normal errors, maximizing it is minimizing the sum of squared errors). The E-step fills each gap with its expected value given its row’s observed values and the current <span class="math notranslate nohighlight">\((\mu, \Sigma)\)</span>; the M-step re-estimates <span class="math notranslate nohighlight">\((\mu, \Sigma)\)</span>; the two repeat to convergence. EM is often combined with the dimensionality reduction of Topic 4.2.</p></li>
+<li><p><strong>Last observation carried forward.</strong> For time series, repeat the last reading. It fails exactly when the gap was caused by an unusual event.</p></li>
+</ul>
+<p>There are a few rules of thumb that can help with this choice. A row or column that is mostly missing should be removed, and for a small amount (under about 10%) that is missing at random, mean substitution may be good enough. For larger amounts, regression imputation or EM is usually the better choice, and methods can be combined as needed. For randomly missing values, a surrogate that is fitted to the completed data set will usually be more accurate than one that is fitted after deleting rows.</p>
+<p>For optimization, what we really care about is where the optimum of the resulting model lands, which is related to how accurate the imputed values are but is not the same thing. The next cell applies each method to each mechanism, refits the power surrogate, and then reports the imputation error, the estimated best-efficiency load, and the true specific energy at that load.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span><span class="p">,</span> <span class="n">KNNImputer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_iterative_imputer</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">IterativeImputer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">impute</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Fill the gaps in the five sensor columns; the load setpoint is always known."""</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">'mean'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">'mean'</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+    <span class="n">sc</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>                     <span class="c1"># scaler ignores NaNs when fitting</span>
+    <span class="n">imp</span> <span class="o">=</span> <span class="n">KNNImputer</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">'kNN'</span> <span class="k">else</span> <span class="n">IterativeImputer</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">imp</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Z</span><span class="p">)))</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">masks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">dmg</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">dmg</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="s1">'power_MW'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">dmg</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">cols</span><span class="p">[:</span><span class="mi">4</span><span class="p">]]</span> <span class="o">=</span> <span class="n">dmg</span><span class="p">[</span><span class="n">cols</span><span class="p">[:</span><span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">mask</span><span class="p">(</span><span class="n">sensor_gaps</span><span class="p">)</span>
+    <span class="n">xs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">best_load</span><span class="p">(</span><span class="n">dmg</span><span class="o">.</span><span class="n">load</span><span class="p">[</span><span class="o">~</span><span class="n">m</span><span class="p">],</span> <span class="n">dmg</span><span class="o">.</span><span class="n">power_MW</span><span class="p">[</span><span class="o">~</span><span class="n">m</span><span class="p">])</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="s1">'delete rows'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">t4</span><span class="o">.</span><span class="n">specific_energy</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">*</span> <span class="n">k</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'mean'</span><span class="p">,</span> <span class="s1">'kNN'</span><span class="p">,</span> <span class="s1">'regression'</span><span class="p">]:</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">impute</span><span class="p">(</span><span class="n">dmg</span><span class="p">,</span> <span class="n">method</span><span class="p">)[:,</span> <span class="mi">4</span><span class="p">]</span>
+        <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">P</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">-</span> <span class="n">log</span><span class="o">.</span><span class="n">power_MW</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">best_load</span><span class="p">(</span><span class="n">dmg</span><span class="o">.</span><span class="n">load</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">rmse</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">t4</span><span class="o">.</span><span class="n">specific_energy</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">*</span> <span class="n">k</span><span class="p">))</span>
+<span class="n">tab</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'mechanism'</span><span class="p">,</span> <span class="s1">'method'</span><span class="p">,</span> <span class="s1">'imputation RMSE (MW)'</span><span class="p">,</span>
+                                  <span class="s1">'estimated x*'</span><span class="p">,</span> <span class="s1">'true SE at x* (kWh/kg)'</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tab</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"true optimum: x* = </span><span class="si">{</span><span class="n">X_STAR</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, SE = </span><span class="si">{</span><span class="n">SE_STAR</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">k</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kWh/kg"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mechanism      method  imputation RMSE (MW)  estimated x*  true SE at x* (kWh/kg)
+     MCAR delete rows                   NaN         0.721                  57.169
+     MCAR        mean                 2.132         0.974                  58.161
+     MCAR         kNN                 0.161         0.744                  57.177
+     MCAR  regression                 0.155         0.791                  57.253
+      MAR delete rows                   NaN         0.717                  57.170
+      MAR        mean                 2.659         0.770                  57.210
+      MAR         kNN                 0.174         0.730                  57.169
+      MAR  regression                 0.173         0.774                  57.217
+     MNAR delete rows                   NaN         0.707                  57.175
+     MNAR        mean                 3.426         0.974                  58.161
+     MNAR         kNN                 1.517         0.974                  58.161
+     MNAR  regression                 0.342         0.974                  58.161
+true optimum: x* = 0.725, SE = 57.17 kWh/kg
+</pre></div>
+</div>
+</div>
+</div>
+<p>The table is easiest to read if we go through it one mechanism at a time.</p>
+<p><strong>MCAR.</strong> Deletion is harmless here, since 78% of a random sample is still a random sample, and the optimum stays at 0.721. Mean substitution writes the average power (about 6.9 MW) into rows at every load, which flattens the fitted curve and pushes the optimum to the edge of the data at 0.974. Nearest-neighbor and regression imputation recover the missing readings to within about 0.16 MW, because the flow meters track the load closely, and they give optima of 0.744 and 0.791.</p>
+<p><strong>MAR.</strong> The pattern for data that are missing at random is similar. Deletion is still nearly unbiased and gives an optimum of 0.717. This is because the cause of the gaps is the temperature, which is a function of load, and the surrogate is also a function of load, so conditioning on load removes the bias. Mean substitution again has by far the largest imputation error at 2.66 MW, although this time its optimum of 0.770 happens to land close to the one we get from regression imputation, which is 0.774.</p>
+<p><strong>MNAR.</strong> If the data are missing not at random, then every method gives a poor answer. Deletion is the least bad, since the surrogate is only fitted up to a load of 0.707 and its minimum lands on that edge, which happens to be close to the true optimum. All three of the imputation methods put the optimum at 0.974. Nearest neighbors can only copy the powers that were observed, and all of these are below 8 MW, so it looks like high load is efficient. Regression imputation does a better job on the missing values, with an RMSE of 0.34 MW, but the linear model that is behind <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code> cannot extrapolate the curvature of the power curve, so it makes an error in the same direction. In general, there is no imputation method that can recover information that the mechanism removed systematically. All it can do is extrapolate, and then the optimizer will take advantage of that extrapolation.</p>
+<p>From a thermodynamic point of view, the specific-energy curve is flat near its minimum, so even the worst answer in the table (0.974) costs 58.16 kWh/kg instead of 57.17 kWh/kg, which is a penalty of 1.7%.</p>
+<p>From an economic point of view, electricity is most of the cost of electrolytic hydrogen, so a 1.7% energy penalty is roughly a 1.7% increase in the dominant operating cost of the stack, and we will pay it for as long as the stack runs at the wrong load.</p>
+<div class="exercise admonition" id="ex-t41-imputation">
+
+<p class="admonition-title"><span class="caption-number">Exercise 99 </span></p>
+<section id="exercise-content">
+<p>Replace the linear <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code> with one whose estimator can represent curvature: <code class="docutils literal notranslate"><span class="pre">IterativeImputer(estimator=make_pipeline(PolynomialFeatures(2),</span> <span class="pre">Ridge(alpha=1.0)),</span> <span class="pre">random_state=0,</span> <span class="pre">max_iter=20)</span></code>, with <code class="docutils literal notranslate"><span class="pre">PolynomialFeatures</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn.preprocessing</span></code> and <code class="docutils literal notranslate"><span class="pre">Ridge</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn.linear_model</span></code>. (The small ridge penalty matters: with plain <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> the round-robin iterations diverge on these correlated sensors.) Rerun the MNAR row of the table. Does the estimated optimum improve, and how far above 8 MW do the imputed powers now reach? What does this say about when model-based imputation can and cannot fix MNAR data?</p>
+</section>
+</div>
+</section>
+<section id="noise-and-the-optimizer">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Noise and the optimizer</a><a class="headerlink" href="#noise-and-the-optimizer" title="Link to this heading">#</a></h2>
+<p>Real process data is never free of noise, since human error, sensor calibration and resolution, and the environment all contribute to it. <strong>Noise</strong> is measurement error, and it is usually modeled as <span class="math notranslate nohighlight">\(y = f(x) + \varepsilon\)</span> with <span class="math notranslate nohighlight">\(\varepsilon \sim \mathcal{N}(0, \sigma^2)\)</span>. An <strong>outlier</strong> is a value that is very different from the rest, which might be a very large error or might be the system genuinely behaving differently (we will discuss this in the next section). The <strong>signal-to-noise ratio</strong> compares the variance of the signal with the variance of the noise. When it is high, the directions of large variance in the data are real correlations and the directions of small variance are noise, which is the idea behind PCA in Topic 4.2. When it is low, the noise makes prediction impossible, or the “noise” is actually real variation that we have not explained yet. In our historian, the power meter has a 1% relative error on every reading.</p>
+<p>Optimizers react to differences, and near an optimum the differences are small. Let’s see what happens if we use Nelder-Mead (Topic 3.2) to read the meter directly, starting from ten different loads, where each evaluation is a fresh reading with 1% noise.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">measured_se</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""One reading of specific energy at load x, with relative meter noise sig."""</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">t4</span><span class="o">.</span><span class="n">specific_energy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sig</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">()))</span>
+
+<span class="n">starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">sig</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'noise-free'</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">'1% meter noise'</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)]:</span>
+    <span class="n">finals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">x0</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">starts</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">measured_se</span><span class="p">,</span> <span class="p">[</span><span class="n">x0</span><span class="p">],</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">j</span><span class="p">),</span> <span class="n">sig</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">'Nelder-Mead'</span><span class="p">,</span>
+                     <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xatol'</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="s1">'fatol'</span><span class="p">:</span> <span class="mf">1e-4</span><span class="p">})</span>
+        <span class="n">finals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)))</span>
+    <span class="n">se_f</span> <span class="o">=</span> <span class="n">t4</span><span class="o">.</span><span class="n">specific_energy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">finals</span><span class="p">))</span> <span class="o">*</span> <span class="n">k</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">:</span><span class="s2">15s</span><span class="si">}</span><span class="s2">: final loads </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">finals</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">finals</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">; "</span>
+          <span class="sa">f</span><span class="s2">"true SE </span><span class="si">{</span><span class="n">se_f</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">se_f</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kWh/kg"</span><span class="p">)</span>
+
+<span class="n">band</span> <span class="o">=</span> <span class="n">t4</span><span class="o">.</span><span class="n">specific_energy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.55</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SE varies by </span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">band</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> over loads 0.55-0.95; "</span>
+      <span class="sa">f</span><span class="s2">"one reading has noise sd </span><span class="si">{</span><span class="mf">0.01</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">SE_STAR</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>noise-free     : final loads 0.724-0.725; true SE 57.17-57.17 kWh/kg
+1% meter noise : final loads 0.428-0.908; true SE 57.19-60.18 kWh/kg
+SE varies by 0.0254 over loads 0.55-0.95; one reading has noise sd 0.0175
+</pre></div>
+</div>
+</div>
+</div>
+<p>Without noise, all ten runs converge to either 0.724 or 0.725. With 1% noise, the runs stop anywhere between 0.428 and 0.908, and the worst of them runs the stack at 60.18 kWh/kg instead of the optimal value of 57.17 kWh/kg. The last printed line tells us why this happens. From a load of 0.55 to 0.95 the true specific energy only changes by 0.0254 per-unit, while a single reading has a standard deviation of 0.0175. This means that any method that compares individual readings is mostly just comparing the noise, so the method will stop at whichever reading happened to be low. Methods that estimate derivatives with finite differences do even worse, since taking differences amplifies the noise.</p>
+<p>The remedy that is emphasized in the lectures is <strong>filtering by regression</strong>. A smooth surrogate with fewer parameters than data points cannot follow every reading, so the noise is averaged away and the optimum of the surrogate lands near the true one. In contrast, an <strong>interpolating</strong> surrogate (e.g. a cubic spline, or a Gaussian process with no noise term) passes through every data point, which means that the noise is reproduced exactly and the minimum lands on whichever reading happened to be low. The next cell compares these two approaches using single readings at 12 evenly spaced loads.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">CubicSpline</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">xd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">pd_mw</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">p_scurve</span><span class="p">(</span><span class="n">xd</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">xd</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+<span class="n">se_d</span> <span class="o">=</span> <span class="n">pd_mw</span> <span class="o">/</span> <span class="n">el</span><span class="o">.</span><span class="n">MW_PER_UNIT</span> <span class="o">/</span> <span class="n">xd</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">4001</span><span class="p">)</span>
+<span class="n">spline</span> <span class="o">=</span> <span class="n">CubicSpline</span><span class="p">(</span><span class="n">xd</span><span class="p">,</span> <span class="n">se_d</span><span class="p">)</span>
+<span class="n">x_int</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">spline</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()]</span>
+<span class="n">x_reg</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">best_load</span><span class="p">(</span><span class="n">xd</span><span class="p">,</span> <span class="n">pd_mw</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">lab</span><span class="p">,</span> <span class="n">xv</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'interpolating spline'</span><span class="p">,</span> <span class="n">x_int</span><span class="p">),</span> <span class="p">(</span><span class="s1">'quadratic regression'</span><span class="p">,</span> <span class="n">x_reg</span><span class="p">)]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">lab</span><span class="si">:</span><span class="s2">21s</span><span class="si">}</span><span class="s2">: x* = </span><span class="si">{</span><span class="n">xv</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, true SE there = </span><span class="si">{</span><span class="n">t4</span><span class="o">.</span><span class="n">specific_energy</span><span class="p">(</span><span class="n">xv</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">k</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kWh/kg"</span><span class="p">)</span>
+
+<span class="n">b2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">xd</span><span class="p">,</span> <span class="n">pd_mw</span> <span class="o">/</span> <span class="n">el</span><span class="o">.</span><span class="n">MW_PER_UNIT</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">t4</span><span class="o">.</span><span class="n">specific_energy</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="s1">'k-'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'true (unknown to us)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xd</span><span class="p">,</span> <span class="n">se_d</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'12 readings, 1% noise'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">spline</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'interpolating spline'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="p">(</span><span class="n">b0</span> <span class="o">/</span> <span class="n">grid</span> <span class="o">+</span> <span class="n">b1</span> <span class="o">+</span> <span class="n">b2</span> <span class="o">*</span> <span class="n">grid</span><span class="p">)</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'quadratic power regression'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'load $x$ (fraction of 200 kg/h)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'specific energy (kWh/kg H$_2$)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">56</span><span class="p">,</span> <span class="mi">62</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>interpolating spline : x* = 0.638, true SE there = 57.34 kWh/kg
+quadratic regression : x* = 0.692, true SE there = 57.19 kWh/kg
+</pre></div>
+</div>
+<img alt="../_images/de79c839f865e11f7c87f36ae9f5c144c8957515afac4c24b97c26337e9752ac.png" src="../_images/de79c839f865e11f7c87f36ae9f5c144c8957515afac4c24b97c26337e9752ac.png" />
+</div>
+</div>
+<p>The spline puts the optimum at 0.638, where the true cost is 57.34 kWh/kg, and the regression puts it at 0.692, where the true cost is 57.19 kWh/kg. Neither one is exact with only 12 readings, but the error in the regression model is about what we would expect from the noise, while the error in the spline is the noise itself. In general, we should use a regression surrogate rather than an interpolating one whenever the data are noisy, and for a Gaussian process this means that we need to fit a noise (or “nugget”) term.</p>
+<p>There are two more tools from the lectures that are useful here. The first is the choice of the fitting objective, since least squares is the maximum-likelihood fit for normal errors, while a sum of absolute errors (or the Huber loss that we will use in the next section) is less sensitive to errors with heavy tails. The second is <strong>replication</strong>, which means that we measure several times at the same conditions so that we can estimate the noise and report the optimum with error bars. A historian rarely has exact replicates, but we can get similar information from the <strong>bootstrap</strong>, where we resample the records with replacement many times, refit and re-optimize each time, and then look at the spread of the answers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">boot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">B</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">boot</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">best_load</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">log</span><span class="o">.</span><span class="n">power_MW</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+<span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">boot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">95</span><span class="p">])</span>
+<span class="n">slo</span><span class="p">,</span> <span class="n">shi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">boot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">95</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"bootstrap 90% interval: x* in [</span><span class="si">{</span><span class="n">lo</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">hi</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">] "</span>
+      <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">lo</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">hi</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kg/h); predicted SE in [</span><span class="si">{</span><span class="n">slo</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">shi</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">] kWh/kg"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bootstrap 90% interval: x* in [0.709, 0.732] (142-146 kg/h); predicted SE in [57.15, 57.27] kWh/kg
+</pre></div>
+</div>
+</div>
+</div>
+<p>With 400 hours of data, the 90% bootstrap interval for the best-efficiency load is 0.709 to 0.732 (142 to 146 kg/h), and the interval for the predicted specific energy is 57.15 to 57.27 kWh/kg. In general, a data-driven optimum should always be reported in this way, as an interval.</p>
+<p>It is also important to remember that noise is only one type of uncertainty. Simulations carry numerical noise (e.g. from solver tolerances, automatic differentiation and finite precision), there is uncertainty in the parameters of the simulation, and the form and fitted parameters of the surrogate add even more uncertainty to the problem. The lectures illustrate the last point with a carbon-sequestration simulation (Espinet and Shoemaker, 2013), where different surrogates that are fitted to the same few samples give different answers. We call uncertainty that would be reduced with more data <strong>epistemic</strong> uncertainty, and we call true randomness <strong>aleatoric</strong> uncertainty. Optimizing an expected or worst-case objective under uncertainty is the subject of the bonus topics on uncertainty (<a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html"><span class="doc">5.1 Stochastic Programming</span></a>).</p>
+<div class="exercise admonition" id="ex-t41-noise-floor">
+
+<p class="admonition-title"><span class="caption-number">Exercise 100 </span></p>
+<section id="exercise-content">
+<p>Rerun the bootstrap with only the first 50 records of the log, and again with a power meter that has 3% noise (<code class="docutils literal notranslate"><span class="pre">t4.stack_log(noise=0.03)</span></code>). How does the width of the interval on <span class="math notranslate nohighlight">\(x^*\)</span> scale with the number of records and with the noise level? Compare the interval on the load with the interval on the specific energy, and explain why one is much wider than the other in relative terms.</p>
+</section>
+</div>
+</section>
+<section id="outliers">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Outliers</a><a class="headerlink" href="#outliers" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">Adapted material</p>
+<p>The distinction between output outliers and input-output outliers, the use of the Mahalanobis distance, and the rules for handling outliers follow the course notebook <code class="docutils literal notranslate"><span class="pre">Outliers</span> <span class="pre">and</span> <span class="pre">Missing</span> <span class="pre">Values.ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT). The electrolyzer example replaces the notebook’s synthetic sine-wave data.</p>
+</div>
+<p>An <strong>outlier</strong> is an observation that is far from the main population, i.e. one that does not seem to belong to the same distribution as the rest of the data. A record can be an outlier in the output, in the inputs, or in both. If only the output is far off, then a measurement error is the likely cause (although we need enough data to be sure), but if the inputs and the output are both unusual then the record may be correct and describe a different regime of operation.</p>
+<p>To study both cases, we will add two kinds of outliers to the historian. First, twelve high-load power readings are spiked by +25%, as if the meter glitched at high current. These are output-only outliers. Second, fifteen records come from cold restarts, with high load, a stack temperature of 53 to 58 °C, and 12% more power, since a cold stack has higher resistive losses. These records are correct, but they describe a different operating regime.</p>
+<p>Detection by inspection (i.e. plotting the outputs and discarding whatever looks far away) is still common, but it can be dangerous if it ignores where each point sits in the input space. The simplest statistical test flags values that are more than two or three standard deviations from the column mean (this is the z-score test from DA4CHE Topic 4.1). The course notebook shows that this rule finds outliers easily among 1,000 points, but hardly at all among 50. A better test for the inputs is the <strong>Mahalanobis distance</strong>, which measures how far a point <span class="math notranslate nohighlight">\(y\)</span> is from the center <span class="math notranslate nohighlight">\(\mu\)</span> of the data in units of the data’s own covariance <span class="math notranslate nohighlight">\(S\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+D_M^2(y) = (y - \mu)^\top S^{-1} (y - \mu).
+\]</div>
+<p>Unlike the Euclidean distance, the Mahalanobis distance accounts for correlations, which means that a point can be within the range of every individual variable and still be far from the data if its combination of values is unusual. For normally distributed data in <span class="math notranslate nohighlight">\(p\)</span> dimensions, <span class="math notranslate nohighlight">\(D_M^2\)</span> follows a <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution with <span class="math notranslate nohighlight">\(p\)</span> degrees of freedom, and this gives us a threshold. For the outputs, the natural test is on the residuals of a fitted model, and we use a robust scale (the median absolute deviation) so that the outliers do not inflate the scale that is supposed to detect them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">bad</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">load</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">),</span> <span class="mi">12</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>   <span class="c1"># meter glitches at high current</span>
+<span class="n">bad</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">spikes</span><span class="p">,</span> <span class="s1">'power_MW'</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1.25</span>
+<span class="n">cold</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'load'</span><span class="p">:</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mi">15</span><span class="p">)})</span>               <span class="c1"># cold restarts</span>
+<span class="n">cold</span><span class="p">[</span><span class="s1">'h2_kg_h'</span><span class="p">]</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">cold</span><span class="o">.</span><span class="n">load</span><span class="p">)</span>
+<span class="n">cold</span><span class="p">[</span><span class="s1">'water_kg_h'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cold</span><span class="o">.</span><span class="n">h2_kg_h</span> <span class="o">*</span> <span class="n">t4</span><span class="o">.</span><span class="n">WATER_PER_H2</span>
+<span class="n">cold</span><span class="p">[</span><span class="s1">'o2_kg_h'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cold</span><span class="o">.</span><span class="n">h2_kg_h</span> <span class="o">*</span> <span class="n">t4</span><span class="o">.</span><span class="n">O2_PER_H2</span>
+<span class="n">cold</span><span class="p">[</span><span class="s1">'temp_C'</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">53</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">cold</span><span class="p">[</span><span class="s1">'power_MW'</span><span class="p">]</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">p_scurve</span><span class="p">(</span><span class="n">cold</span><span class="o">.</span><span class="n">load</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1.12</span>
+<span class="n">bad</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">bad</span><span class="p">,</span> <span class="n">cold</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">kind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">'normal'</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+<span class="n">kind</span><span class="p">[</span><span class="n">spikes</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'spike'</span>
+<span class="n">kind</span><span class="p">[</span><span class="n">N</span><span class="p">:]</span> <span class="o">=</span> <span class="s1">'cold'</span>
+
+<span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">bad</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span> <span class="o">-</span> <span class="n">bad</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">bad</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">flag_z</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>                                <span class="c1"># univariate z-scores</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">bad</span><span class="p">[[</span><span class="s1">'load'</span><span class="p">,</span> <span class="s1">'temp_C'</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">mu</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">md2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">'ij,jk,ik-&gt;i'</span><span class="p">,</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">mu</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">S</span><span class="p">),</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span>
+<span class="n">flag_md</span> <span class="o">=</span> <span class="n">md2</span> <span class="o">&gt;</span> <span class="n">chi2</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>                                    <span class="c1"># Mahalanobis in (load, T)</span>
+<span class="n">quad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">bad</span><span class="o">.</span><span class="n">load</span><span class="p">,</span> <span class="n">bad</span><span class="o">.</span><span class="n">power_MW</span> <span class="o">/</span> <span class="n">el</span><span class="o">.</span><span class="n">MW_PER_UNIT</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">bad</span><span class="o">.</span><span class="n">power_MW</span> <span class="o">/</span> <span class="n">el</span><span class="o">.</span><span class="n">MW_PER_UNIT</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">quad</span><span class="p">,</span> <span class="n">bad</span><span class="o">.</span><span class="n">load</span><span class="p">)</span>
+<span class="n">rz</span> <span class="o">=</span> <span class="p">(</span><span class="n">res</span> <span class="o">-</span> <span class="n">res</span><span class="o">.</span><span class="n">median</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.4826</span> <span class="o">*</span> <span class="p">(</span><span class="n">res</span> <span class="o">-</span> <span class="n">res</span><span class="o">.</span><span class="n">median</span><span class="p">())</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">median</span><span class="p">())</span>
+<span class="n">flag_res</span> <span class="o">=</span> <span class="p">(</span><span class="n">rz</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">3.5</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>                                       <span class="c1"># robust residual test</span>
+<span class="k">for</span> <span class="n">kd</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'spike'</span><span class="p">,</span> <span class="s1">'cold'</span><span class="p">,</span> <span class="s1">'normal'</span><span class="p">]:</span>
+    <span class="n">sel</span> <span class="o">=</span> <span class="n">kind</span> <span class="o">==</span> <span class="n">kd</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">kd</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">sel</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2"> rows): z-score </span><span class="si">{</span><span class="n">flag_z</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"Mahalanobis </span><span class="si">{</span><span class="n">flag_md</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">, residual </span><span class="si">{</span><span class="n">flag_res</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"temperature range of the normal rows: </span><span class="si">{</span><span class="n">bad</span><span class="o">.</span><span class="n">temp_C</span><span class="p">[</span><span class="n">kind</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'normal'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">-"</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bad</span><span class="o">.</span><span class="n">temp_C</span><span class="p">[</span><span class="n">kind</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'normal'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> C"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>spike  ( 12 rows): z-score  1, Mahalanobis  0, residual 12
+cold   ( 15 rows): z-score  0, Mahalanobis 14, residual 15
+normal (388 rows): z-score  0, Mahalanobis  0, residual  8
+temperature range of the normal rows: 52.3-76.3 C
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that the univariate z-scores find almost nothing, since they only catch 1 of the 12 spikes and none of the cold-restart records. This is because the temperatures of the cold records (53 to 58 °C) lie inside the range of the normal records (52.3 to 76.3 °C), so no single column looks unusual. The Mahalanobis distance on load and temperature flags 14 of the 15 cold records and none of the normal ones, because a temperature of 55 °C is normal at 20% load but abnormal at 85% load. However, it misses the spikes, since their inputs are normal. The residual test flags all 27 outliers plus 8 normal records, which is the price that we pay for a sensitive test. In higher dimensions it is easy for outliers to hide, so we use statistical tests and project the data onto its principal components first (Topic 4.2). There are also machine-learning detectors such as <code class="docutils literal notranslate"><span class="pre">EllipticEnvelope</span></code> (a robust Gaussian) and <code class="docutils literal notranslate"><span class="pre">IsolationForest</span></code> (tree-based, nonlinear) that extend these ideas, and these are discussed in DA4CHE Topic 4.1.</p>
+<p>Next, we can check how far these 27 records move the optimum, and whether two standard remedies are able to recover it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">HuberRegressor</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">best_load_huber</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p_mw</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""The same quadratic power surrogate, fitted with the Huber loss instead of least squares."""</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">HuberRegressor</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">1.35</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">p_mw</span><span class="p">)</span> <span class="o">/</span> <span class="n">el</span><span class="o">.</span><span class="n">MW_PER_UNIT</span><span class="p">)</span>
+    <span class="n">b0</span><span class="p">,</span> <span class="p">(</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">coef_</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">2001</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">g</span><span class="p">[(</span><span class="n">b0</span> <span class="o">/</span> <span class="n">g</span> <span class="o">+</span> <span class="n">b1</span> <span class="o">+</span> <span class="n">b2</span> <span class="o">*</span> <span class="n">g</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()])</span>
+
+<span class="n">keep</span> <span class="o">=</span> <span class="o">~</span><span class="p">(</span><span class="n">flag_md</span> <span class="o">|</span> <span class="n">flag_res</span><span class="p">)</span>
+<span class="n">cases</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">'clean log'</span><span class="p">,</span> <span class="n">best_load</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">load</span><span class="p">,</span> <span class="n">log</span><span class="o">.</span><span class="n">power_MW</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span>
+         <span class="p">(</span><span class="s1">'with outliers, least squares'</span><span class="p">,</span> <span class="n">best_load</span><span class="p">(</span><span class="n">bad</span><span class="o">.</span><span class="n">load</span><span class="p">,</span> <span class="n">bad</span><span class="o">.</span><span class="n">power_MW</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span>
+         <span class="p">(</span><span class="s1">'with outliers, Huber loss'</span><span class="p">,</span> <span class="n">best_load_huber</span><span class="p">(</span><span class="n">bad</span><span class="o">.</span><span class="n">load</span><span class="p">,</span> <span class="n">bad</span><span class="o">.</span><span class="n">power_MW</span><span class="p">)),</span>
+         <span class="p">(</span><span class="s1">'flagged rows removed'</span><span class="p">,</span> <span class="n">best_load</span><span class="p">(</span><span class="n">bad</span><span class="o">.</span><span class="n">load</span><span class="p">[</span><span class="n">keep</span><span class="p">],</span> <span class="n">bad</span><span class="o">.</span><span class="n">power_MW</span><span class="p">[</span><span class="n">keep</span><span class="p">])[</span><span class="mi">0</span><span class="p">])]</span>
+<span class="k">for</span> <span class="n">lab</span><span class="p">,</span> <span class="n">xs</span> <span class="ow">in</span> <span class="n">cases</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">lab</span><span class="si">:</span><span class="s2">30s</span><span class="si">}</span><span class="s2">: x* = </span><span class="si">{</span><span class="n">xs</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, true SE there = </span><span class="si">{</span><span class="n">t4</span><span class="o">.</span><span class="n">specific_energy</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">k</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kWh/kg"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"rows removed: </span><span class="si">{</span><span class="p">(</span><span class="o">~</span><span class="n">keep</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>clean log                     : x* = 0.721, true SE there = 57.17 kWh/kg
+with outliers, least squares  : x* = 0.589, true SE there = 57.64 kWh/kg
+with outliers, Huber loss     : x* = 0.707, true SE there = 57.17 kWh/kg
+flagged rows removed          : x* = 0.714, true SE there = 57.17 kWh/kg
+rows removed: 35
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we use least squares on the contaminated log, the best-efficiency load moves from 0.721 to 0.589, and running the stack at this load would cost 57.64 kWh/kg. The direction of the shift is predictable, since every outlier sits at high load and reads high, so the fitted curve bends up at high load and the optimum moves down. Fortunately, both remedies recover the answer. Refitting with the Huber loss, which is quadratic for small residuals and linear for large ones, gives 0.707 without removing anything, and removing the 35 flagged records (the 27 outliers plus 8 false alarms) gives 0.714. Both of these cost 57.17 kWh/kg, which is the same as the true optimum to the reported precision.</p>
+<p>The decision of which records to remove depends on what they mean. We should <strong>remove the entire record</strong> when something went wrong with it, or when it should not influence a model of normal operation, and we should <strong>remove only the output and treat it as missing</strong> when only the output is suspect. In this case the spikes are measurement errors, so they can be removed. However, the cold-restart records are not errors. If the stack will be dispatched warm then they belong to a different model, and if cold restarts are routine then the better response is to add temperature as a second input to the surrogate, instead of deleting the evidence that temperature matters.</p>
+<p>Before removing anything, it is a good idea to ask whether there is enough data to be sure that the points really are outliers, and you should always report what was removed and why.</p>
+<div class="exercise admonition" id="ex-t41-outlier-regime">
+
+<p class="admonition-title"><span class="caption-number">Exercise 101 </span></p>
+<section id="exercise-content">
+<p>Treat the cold-restart records as a regime rather than as outliers. Fit a power surrogate with temperature as a second input, <span class="math notranslate nohighlight">\(\hat P(x, T) = b_0 + b_1 x + b_2 x^2 + b_3 (T - 65)\)</span>, to the log with the spikes removed but the cold records kept. What is the best-efficiency load of a warm stack (T = 65 °C) and of a cold one (T = 55 °C)? Is the difference larger or smaller than the bootstrap interval of the previous section?</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Historian data are undesigned: the operators, not a design of experiments, decided where the samples are. A data-driven optimum is only as trustworthy as the data near it, so restrict the optimization to the region the data cover.</p></li>
+<li><p>The mechanism of missing data matters more than the amount. MCAR and MAR gaps in the stack log barely moved the optimum when rows were deleted; MNAR gaps (a saturated meter) removed exactly the data that locate the optimum, and no imputation method could put them back.</p></li>
+<li><p>Mean substitution had by far the largest imputation error in every case, because it breaks the correlation between the imputed column and the decision variable. Nearest-neighbor and regression imputation preserve correlations but can only extrapolate into an MNAR gap, and the optimizer then exploits the extrapolation.</p></li>
+<li><p>Noise misleads optimizers that compare individual readings. With 1% meter noise, Nelder-Mead stopped anywhere between loads of 0.43 and 0.91. Regression surrogates filter noise; interpolating surrogates reproduce it.</p></li>
+<li><p>A flat optimum makes its location uncertain and its value certain. Report a data-driven optimum with an interval, for example from the bootstrap.</p></li>
+<li><p>Outliers that share a direction move the optimum systematically. Univariate z-scores missed records that were unusual only in combination; the Mahalanobis distance and robust residuals found them. Huber regression or removal recovered the optimum, but records that describe a real regime should be modeled, not deleted, and every removal should be reported.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>R. J. A. Little and D. B. Rubin, <em>Statistical Analysis with Missing Data</em>, 3rd ed., Wiley (2019). The standard reference for MCAR, MAR and MNAR and for likelihood-based methods.</p></li>
+<li><p>A. P. Dempster, N. M. Laird and D. B. Rubin, “Maximum likelihood from incomplete data via the EM algorithm,” <em>Journal of the Royal Statistical Society, Series B</em> 39(1), 1–38 (1977).</p></li>
+<li><p>A. I. J. Forrester, A. Sóbester and A. J. Keane, <em>Engineering Design via Surrogate Modelling: A Practical Guide</em>, Wiley (2008). Covers regressing rather than interpolating Kriging models for noisy data.</p></li>
+<li><p>P. J. Rousseeuw and A. M. Leroy, <em>Robust Regression and Outlier Detection</em>, Wiley (1987).</p></li>
+<li><p>B. Efron and R. J. Tibshirani, <em>An Introduction to the Bootstrap</em>, Chapman &amp; Hall (1993).</p></li>
+<li><p>A. R. Conn, K. Scheinberg and L. N. Vicente, <em>Introduction to Derivative-Free Optimization</em>, SIAM (2009). Discusses derivative-free methods on noisy functions.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./4-data_driven_modeling"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data-Driven Modeling</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic4.2-Optimization_in_Reduced_Spaces.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">4.2 Optimization in Reduced Spaces</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#designed-data-and-historian-data">Designed data and historian data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-data-goes-missing">How data goes missing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-missing-data">Handling missing data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-and-the-optimizer">Noise and the optimizer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outliers">Outliers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

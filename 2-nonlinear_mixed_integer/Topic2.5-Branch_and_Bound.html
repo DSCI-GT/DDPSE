@@ -1,0 +1,891 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.5 Branch-and-Bound &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.6 Non-convex Problems and Bounding" href="Topic2.6-Non-convex_Problems_and_Bounding.html" />
+    <link rel="prev" title="2.4 Mixed-Integer Formulations" href="Topic2.4-Mixed-Integer_Formulations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Nonlinear and Mixed-Integer Optimization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>2.5 Branch-and-Bound</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relaxations-give-bounds">Relaxations give bounds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-smallest-tree-one-stack">The smallest tree: one stack</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-three-stack-tree">The three-stack tree</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#search-order-depth-first-and-breadth-first">Search order: depth-first and breadth-first</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-production-solver">A production solver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-on-continuous-variables-a-look-ahead">Branching on continuous variables: a look ahead</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#branch-and-bound" id="id1">2.5 Branch-and-Bound</a></p>
+<ul>
+<li><p><a class="reference internal" href="#relaxations-give-bounds" id="id2">Relaxations give bounds</a></p></li>
+<li><p><a class="reference internal" href="#the-smallest-tree-one-stack" id="id3">The smallest tree: one stack</a></p></li>
+<li><p><a class="reference internal" href="#the-three-stack-tree" id="id4">The three-stack tree</a></p></li>
+<li><p><a class="reference internal" href="#search-order-depth-first-and-breadth-first" id="id5">Search order: depth-first and breadth-first</a></p></li>
+<li><p><a class="reference internal" href="#a-production-solver" id="id6">A production solver</a></p></li>
+<li><p><a class="reference internal" href="#branching-on-continuous-variables-a-look-ahead" id="id7">Branching on continuous variables: a look ahead</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id8">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id9">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="branch-and-bound">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">2.5 Branch-and-Bound</a><a class="headerlink" href="#branch-and-bound" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 5, Lesson 4: <em>Branching and Bounding Concepts</em></p></li>
+<li><p>Module 5, Lesson 5: <em>Branch and Bound Algorithms</em></p></li>
+</ul>
+<p>Relaxations and bounds, which Module 5 Lesson 3 presents as part of global optimization, are introduced here first, because branch-and-bound on a MILP needs them; Topic 2.6 returns to that lesson for non-convex problems.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Explain why the LP relaxation of a MILP gives a lower bound on its optimum, and why any feasible point gives an upper bound.</p></li>
+<li><p>Carry out branch-and-bound by hand on a small MILP: relax, branch, prune by bound, by integrality and by infeasibility, and terminate with a certificate.</p></li>
+<li><p>Explain why rounding the relaxation’s solution is not a substitute for branch-and-bound.</p></li>
+<li><p>Compare depth-first and breadth-first search, and explain why node order changes the speed but not the answer.</p></li>
+<li><p>Read a production MILP solver’s log (root bound, incumbent, gap), and explain why its tree differs from a hand-built one.</p></li>
+</ul>
+</div>
+<p>In Topic 2.4 we wrote the electrolyzer plant as a mixed-integer linear program, where we choose which stacks to switch on, and at what loads, in order to meet a hydrogen demand at the lowest cost. With three stacks we could solve this by trying all eight on/off configurations, but this is not possible with thirty stacks since there are more than a billion configurations to check. In this topic we will develop <strong>branch-and-bound</strong>, which is the algorithm at the core of every MILP solver.</p>
+<p>Most of the ingredients of branch-and-bound are already familiar. In Topic 2.3 we introduced the <strong>bound-pair</strong>: a lower bound on the optimum from a relaxation or a dual, and an upper bound from any feasible point. When the two bounds meet, the feasible point is certified as optimal. Branch-and-bound simply applies the bound-pair recursively. If the bounds do not meet, we split the problem into two smaller problems and compute a bound-pair for each smaller problem, and we keep repeating this process (discarding every piece that provably cannot contain a better solution) until the lowest remaining bound reaches the best feasible point. We can think of the resulting tree of pieces as the place where the two bounds are applied again and again until they are equal.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.environ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyo</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">part2b_tools</span> <span class="k">as</span> <span class="n">bt</span>
+
+<span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">F_FIXED</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">])</span>     <span class="c1"># fixed charges (0.3, 0.4, 0.2)</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">E_LINEAR</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">])</span>    <span class="c1"># energy per unit load (1.2, 1.45, 1.7)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="mf">1.2</span>                                             <span class="c1"># 240 kg H2/h</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="relaxations-give-bounds">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Relaxations give bounds</a><a class="headerlink" href="#relaxations-give-bounds" title="Link to this heading">#</a></h2>
+<p>Remember that the fixed-charge model from Topic 2.4 is:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{x,\,y} \ \sum_i \left( F_i y_i + e_i x_i \right) \quad \text{s.t.} \quad \sum_i x_i = D, \quad 0 \le x_i \le y_i, \quad y_i \in \{0, 1\} .
+\]</div>
+<p>A <strong>relaxation</strong> of an optimization problem is a simpler problem with a feasible set that contains every feasible point of the original problem, and usually more points as well. Relaxing a constraint can only help the objective, so for a minimization problem we know that:</p>
+<ul class="simple">
+<li><p>the optimal value of a relaxation is a <strong>lower bound</strong> (LB) on the original optimum, because the original optimum is one of the points the relaxation considered;</p></li>
+<li><p>the objective at any feasible point of the original is an <strong>upper bound</strong> (UB), because the optimum is at least as good as that point.</p></li>
+</ul>
+<p>For a maximization problem the roles are swapped, so the relaxation gives the upper bound and a feasible point gives the lower bound. A good relaxation is one that is easy to solve and also close to the original problem. The most natural relaxation of a MILP is to replace <span class="math notranslate nohighlight">\(y_i \in \{0, 1\}\)</span> by <span class="math notranslate nohighlight">\(0 \le y_i \le 1\)</span>, which turns the problem into an LP (the <strong>LP relaxation</strong>) that we can solve quickly and with a certificate (Topics 1.4 and 2.3). Since an LP is convex, the value returned by the solver is the true minimum of the relaxation, and this means that the bound can be trusted. This will be important in Topic 2.6, where we will need to arrange it on purpose.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">root_bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span>          <span class="c1"># x in [0, 1], y relaxed to [0, 1]</span>
+<span class="n">z</span><span class="p">,</span> <span class="n">LB</span> <span class="o">=</span> <span class="n">bt</span><span class="o">.</span><span class="n">fc_lp</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">root_bounds</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"LP relaxation:  x ="</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">z</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="s2">"  y ="</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">3</span><span class="p">:],</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"lower bound LB = </span><span class="si">{</span><span class="n">LB</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> per-unit (</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">LB</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW)"</span><span class="p">)</span>
+
+<span class="c1"># any feasible point is an upper bound: for example, all three stacks on, the LP merit order for the loads</span>
+<span class="n">y_all</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="n">z_all</span><span class="p">,</span> <span class="n">UB</span> <span class="o">=</span> <span class="n">bt</span><span class="o">.</span><span class="n">fc_lp</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">y_all</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"feasible point (all on): x = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">z_all</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">, UB = </span><span class="si">{</span><span class="n">UB</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> per-unit"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"the optimum lies in [</span><span class="si">{</span><span class="n">LB</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">UB</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LP relaxation:  x = [1.  0.2 0. ]   y = [1.  0.2 0. ]
+lower bound LB = 1.87 per-unit (12.22 MW)
+feasible point (all on): x = [1.  0.2 0. ], UB = 2.39 per-unit
+the optimum lies in [1.87, 2.39]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The relaxation runs A at full load and B at 0.2, with <span class="math notranslate nohighlight">\(y_B = 0.2\)</span>. This means that it has bought 20% of stack B for 20% of the standby cost of B. Nobody can operate a plant like this, but the cost of this plan, 1.87 (12.22 MW), is a guaranteed floor since no real plan can have a lower cost. Switching all three stacks on is a real plan with a cost of 2.39, so we know that the optimum lies somewhere between 1.87 and 2.39.</p>
+<p>We can explain this choice with the merit order of the relaxation. With <span class="math notranslate nohighlight">\(y_i = x_i\)</span> the relaxed stack costs <span class="math notranslate nohighlight">\((e_i + F_i)\,x_i\)</span>, so the effective price per unit of load is 1.5 for A, 1.85 for B and 1.9 for C. The relaxation therefore fills the demand with A first, and then takes the last 0.2 from B.</p>
+<p>In economic terms, the relaxation is an optimistic appraisal: it lets the plant rent capacity pro rata and pay for standby by the kilogram, which is why the answer it gives is a bound and not a plan.</p>
+<div class="exercise admonition" id="ex-t25-relaxation">
+
+<p class="admonition-title"><span class="caption-number">Exercise 46 </span></p>
+<section id="exercise-content">
+<p>Find a better upper bound than 2.39 by trying a few configurations with <code class="docutils literal notranslate"><span class="pre">bt.fc_lp</span></code> (fix each <span class="math notranslate nohighlight">\(y_i\)</span> to 0 or 1 through its bounds). Then compute the LP relaxation’s bound for demands <span class="math notranslate nohighlight">\(D = 0.6, 1.2, 1.8, 2.4\)</span>. At which demand is the relaxation already integer, and what does that mean for the bound-pair?</p>
+</section>
+</div>
+</section>
+<section id="the-smallest-tree-one-stack">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">The smallest tree: one stack</a><a class="headerlink" href="#the-smallest-tree-one-stack" title="Link to this heading">#</a></h2>
+<p>Branch-and-bound is easiest to see on a problem with only one binary variable. We will take stack A by itself (<span class="math notranslate nohighlight">\(F = 0.3\)</span>, <span class="math notranslate nohighlight">\(e = 1.2\)</span>) with a demand of <span class="math notranslate nohighlight">\(D = 0.6\)</span> (120 kg/h) that must be met. The model is then <span class="math notranslate nohighlight">\(\min\, 0.3 y + 1.2 x\)</span> subject to <span class="math notranslate nohighlight">\(x = 0.6\)</span> and <span class="math notranslate nohighlight">\(x \le y\)</span>, with <span class="math notranslate nohighlight">\(y\)</span> restricted to be binary.</p>
+<p><strong>Relax.</strong> The cheapest choice with <span class="math notranslate nohighlight">\(0 \le y \le 1\)</span> is <span class="math notranslate nohighlight">\(y = 0.6\)</span>. The relaxation then costs <span class="math notranslate nohighlight">\(0.3 \times 0.6 + 1.2 \times 0.6 = 0.90\)</span>, which is the lower bound.</p>
+<p><strong>Branch.</strong> The value <span class="math notranslate nohighlight">\(y = 0.6\)</span> from the relaxation is fractional. However, we know that every valid solution has either <span class="math notranslate nohighlight">\(y = 1\)</span> or <span class="math notranslate nohighlight">\(y = 0\)</span>. This means that we can split the problem into two children where <span class="math notranslate nohighlight">\(y\)</span> is fixed to one of the two values. Every integer solution survives in exactly one of the children, while the fractional point does not survive in either child.</p>
+<p><strong>Bound and prune.</strong> The child with <span class="math notranslate nohighlight">\(y = 1\)</span> is an LP with no binaries left, so the solution is integer and has a cost of <span class="math notranslate nohighlight">\(0.3 + 0.72 = 1.02\)</span>. This solution becomes the <strong>incumbent</strong>, which is the best feasible solution that we have found up to this point. The child with <span class="math notranslate nohighlight">\(y = 0\)</span> forces <span class="math notranslate nohighlight">\(x = 0\)</span>, which cannot meet the demand. This child is infeasible, so it is discarded from the tree.</p>
+<p><strong>Terminate.</strong> There are no unexplored nodes left, so the incumbent is the proven optimum: every possibility is either the incumbent or provably no better than the incumbent, and this closes the bound-pair.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">one</span> <span class="o">=</span> <span class="n">bt</span><span class="o">.</span><span class="n">fc_bb</span><span class="p">(</span><span class="n">F</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span> <span class="n">e</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'A'</span><span class="p">])</span>
+<span class="n">bt</span><span class="o">.</span><span class="n">print_tree_log</span><span class="p">(</span><span class="n">one</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"optimum </span><span class="si">{</span><span class="n">one</span><span class="p">[</span><span class="s1">'best'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> after </span><span class="si">{</span><span class="n">one</span><span class="p">[</span><span class="s1">'nodes'</span><span class="p">]</span><span class="si">}</span><span class="s2"> nodes; root gap </span><span class="si">{</span><span class="n">one</span><span class="p">[</span><span class="s1">'best'</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.90</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> "</span>
+      <span class="sa">f</span><span class="s2">"= F (1 - D) = </span><span class="si">{</span><span class="mf">0.3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.6</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>node 1 [root]: bound 0.9000, y_A = 0.600 -&gt; branch
+    node 2 [y_A=1]: integer: new incumbent 1.0200
+    node 3 [y_A=0]: pruned: infeasible
+optimum 1.02 after 3 nodes; root gap 0.12 = F (1 - D) = 0.12
+</pre></div>
+</div>
+</div>
+</div>
+<p>This tree has three nodes, which show a relaxation, a branch, an incumbent and a prune by infeasibility. The gap at the root is <span class="math notranslate nohighlight">\(1.02 - 0.90 = 0.12\)</span>, which is equal to <span class="math notranslate nohighlight">\(F(1 - D)\)</span>. This is the standby cost avoided by the relaxation when it bought 60% of the stack – the same cheat described in the big-M warning of Topic 2.4.</p>
+<p>There are three reasons for pruning a node (i.e. removing it from further consideration):</p>
+<ol class="arabic simple">
+<li><p><strong>By infeasibility.</strong> Its relaxation has no feasible point, so neither do any of its descendants.</p></li>
+<li><p><strong>By integrality.</strong> Its relaxation’s solution is already integer. It is feasible for the original problem, so it is a candidate incumbent, and no descendant can beat its own relaxation.</p></li>
+<li><p><strong>By bound.</strong> Its relaxation’s value is no better than the incumbent. No descendant can beat the relaxation, so no descendant can beat the incumbent. Pruning by bound is what lets branch-and-bound skip most of the configurations.</p></li>
+</ol>
+<p>We can now put these pieces together into an algorithm for a minimization problem. Throughout the book we report the size of a tree as the number of <strong>nodes processed</strong>, i.e. the nodes where the relaxation was solved, after which the node was either branched on or pruned from the tree. When some children are pruned at the moment of creation, we also give the number of nodes created in parentheses.</p>
+<div class="note admonition">
+<p class="admonition-title">Branch-and-bound for a MILP (minimization)</p>
+<ol class="arabic simple">
+<li><p><strong>Root.</strong> Relax every binary to <span class="math notranslate nohighlight">\([0, 1]\)</span> and solve the LP. Its value is the lower bound LB.</p></li>
+<li><p><strong>Incumbent.</strong> Find any feasible solution, if one is at hand (a heuristic, or a known plan). Its cost is the upper bound UB. If UB = LB, stop.</p></li>
+<li><p><strong>Branch.</strong> Pick an open node and a binary that is fractional in its relaxation. Create two children with that binary fixed to 0 and to 1, and solve each child’s LP.</p></li>
+<li><p><strong>Prune.</strong> Discard a child whose LP is infeasible, or whose bound is at least UB. If a child’s LP solution is integer, it is feasible: update UB if it is better, and discard the child.</p></li>
+<li><p><strong>Update.</strong> The global LB is the smallest bound among the open nodes. If no nodes remain, or if UB − LB is below a tolerance, stop: the incumbent is optimal (to that tolerance). Otherwise return to step 3.</p></li>
+</ol>
+<p>For a maximization, swap the roles: the relaxation gives an upper bound, a feasible point a lower bound, and a node is pruned when its bound is no larger than the incumbent. For a general integer variable with a fractional value, say <span class="math notranslate nohighlight">\(n^* = 1.5\)</span>, the two children are <span class="math notranslate nohighlight">\(n \le 1\)</span> and <span class="math notranslate nohighlight">\(n \ge 2\)</span>; every integer value survives in one of them.</p>
+</div>
+<div class="exercise admonition" id="ex-t25-opener">
+
+<p class="admonition-title"><span class="caption-number">Exercise 47 </span></p>
+<section id="exercise-content">
+<p>Run the one-stack tree with <span class="math notranslate nohighlight">\(D = 1.0\)</span> and with <span class="math notranslate nohighlight">\(D = 0.2\)</span>. How many nodes does each need, and how large is the root gap <span class="math notranslate nohighlight">\(F(1 - D)\)</span>? Explain why the tree at <span class="math notranslate nohighlight">\(D = 1.0\)</span> needs no branching at all.</p>
+</section>
+</div>
+</section>
+<section id="the-three-stack-tree">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">The three-stack tree</a><a class="headerlink" href="#the-three-stack-tree" title="Link to this heading">#</a></h2>
+<p>Now we can return to the full plant at <span class="math notranslate nohighlight">\(D = 1.2\)</span>. We will branch on the most fractional binary and explore the tree <strong>depth-first</strong>, which means that we will always follow the newest node and take the <span class="math notranslate nohighlight">\(y = 1\)</span> child first. The LP at each node is solved by HiGHS, and the tree logic is only a dozen lines in <code class="docutils literal notranslate"><span class="pre">bt.fc_bb</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dfs</span> <span class="o">=</span> <span class="n">bt</span><span class="o">.</span><span class="n">fc_bb</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s2">"dfs"</span><span class="p">)</span>
+<span class="n">bt</span><span class="o">.</span><span class="n">print_tree_log</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">optimum </span><span class="si">{</span><span class="n">dfs</span><span class="p">[</span><span class="s1">'best'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> per-unit (</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">dfs</span><span class="p">[</span><span class="s1">'best'</span><span class="p">])</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW): </span><span class="si">{</span><span class="n">bt</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">dfs</span><span class="p">[</span><span class="s1">'z'</span><span class="p">],</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2"> on, "</span>
+      <span class="sa">f</span><span class="s2">"loads </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">dfs</span><span class="p">[</span><span class="s1">'z'</span><span class="p">][:</span><span class="mi">3</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">; </span><span class="si">{</span><span class="n">dfs</span><span class="p">[</span><span class="s1">'nodes'</span><span class="p">]</span><span class="si">}</span><span class="s2"> nodes, </span><span class="si">{</span><span class="n">dfs</span><span class="p">[</span><span class="s1">'stats'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">node_label</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'branch'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">: LB </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'bound'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="se">\n</span><span class="s2">$y_</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'var'</span><span class="p">]</span><span class="si">}</span><span class="s2">$ = </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'z'</span><span class="p">][</span><span class="mi">3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'var'</span><span class="p">])]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'integer'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">: integer</span><span class="se">\n</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'bound'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'bound'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">: pruned</span><span class="se">\n</span><span class="s2">LB </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'bound'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">: infeasible"</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">4.6</span><span class="p">))</span>
+<span class="n">bt</span><span class="o">.</span><span class="n">draw_tree</span><span class="p">(</span><span class="n">dfs</span><span class="p">[</span><span class="s1">'log'</span><span class="p">],</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">node_label</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Depth-first branch-and-bound, D = 1.2 (240 kg/h)'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">lab</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'branch'</span><span class="p">,</span> <span class="s1">'branched'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'integer'</span><span class="p">,</span> <span class="s1">'integer (incumbent)'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'bound'</span><span class="p">,</span> <span class="s1">'pruned by bound'</span><span class="p">),</span>
+               <span class="p">(</span><span class="s1">'infeasible'</span><span class="p">,</span> <span class="s1">'pruned: infeasible'</span><span class="p">)]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="n">bt</span><span class="o">.</span><span class="n">STATUS_COLOR</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">lab</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">'upper left'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>node 1 [root]: bound 1.8700, y_B = 0.200 -&gt; branch
+    node 2 [y_B=1]: bound 2.1500, y_A = 0.200 -&gt; branch
+        node 3 [y_A=1]: integer: new incumbent 2.1900
+        node 4 [y_A=0]: pruned: bound 2.2300 &gt;= 2.1900
+    node 5 [y_B=0]: bound 1.8800, y_C = 0.200 -&gt; branch
+        node 6 [y_C=1]: integer: new incumbent 2.0400
+        node 7 [y_C=0]: pruned: infeasible
+
+optimum 2.04 per-unit (13.33 MW): A+C on, loads [1.  0.  0.2]; 7 nodes, {'branched': 3, 'integer': 2, 'bound': 1, 'infeasible': 1}
+</pre></div>
+</div>
+<img alt="../_images/7f9f9e884e6ebfc6ff7b79bae103420938493817b2802c78885c9757a909738d.png" src="../_images/7f9f9e884e6ebfc6ff7b79bae103420938493817b2802c78885c9757a909738d.png" />
+</div>
+</div>
+<p>We can read the tree node by node, and the numbers at each node can be checked by hand from the merit order.</p>
+<ol class="arabic simple">
+<li><p><strong>Root.</strong> Bound 1.87, with <span class="math notranslate nohighlight">\(y_B = 0.2\)</span> fractional. Branch on <span class="math notranslate nohighlight">\(y_B\)</span>.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(y_B = 1\)</span>.</strong> B now pays its full standby cost, so its marginal price is just <span class="math notranslate nohighlight">\(e_B = 1.45\)</span>, cheaper than A’s relaxed 1.5. B fills to capacity and A takes the last 0.2 with <span class="math notranslate nohighlight">\(y_A = 0.2\)</span>. Bound <span class="math notranslate nohighlight">\(0.4 + 1.45 + 0.2 \times 1.5 = 2.15\)</span>. Branch on <span class="math notranslate nohighlight">\(y_A\)</span>.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(y_A = 1\)</span>.</strong> Integer: A and B both on, A at 0.2 and B at 1.0, cost 2.19. First incumbent.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(y_A = 0\)</span>.</strong> B carries 1.0 and C the last 0.2 with <span class="math notranslate nohighlight">\(y_C = 0.2\)</span>: bound 2.23, worse than the incumbent 2.19. Pruned by bound.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(y_B = 0\)</span>.</strong> A at full load and C at 0.2 with <span class="math notranslate nohighlight">\(y_C = 0.2\)</span>: bound 1.88. Still below the incumbent, so we branch on <span class="math notranslate nohighlight">\(y_C\)</span>.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(y_C = 1\)</span>.</strong> Integer: A and C, cost 2.04. A better incumbent.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(y_C = 0\)</span>.</strong> Only A is left, and it cannot make 1.2. Pruned by infeasibility.</p></li>
+</ol>
+<p>When no nodes remain, we have proven that A+C at 2.04 (13.33 MW) is optimal, with stack A at full load and C at 0.2. In total we solved seven LPs (seven nodes processed, and here also seven nodes created). Complete enumeration would have needed eight LPs, so the saving is small in this case (the three-binary example in the lecture makes the same comparison, with five LPs against eight). However, the saving will grow quickly with the number of binaries, since a single prune by bound high in a large tree discards an exponential number of configurations at once.</p>
+<p><strong>Rounding the relaxation fails.</strong> It is tempting to skip the tree, solve the relaxation and round each <span class="math notranslate nohighlight">\(y_i\)</span> to the nearest integer. In this case the root solution <span class="math notranslate nohighlight">\(y = (1, 0.2, 0)\)</span> rounds to “A on, B and C off”, which is not enough to meet the demand.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_round</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">bt</span><span class="o">.</span><span class="n">fc_lp</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">yi</span><span class="p">)</span> <span class="k">for</span> <span class="n">yi</span> <span class="ow">in</span> <span class="n">y_round</span><span class="p">]</span> <span class="o">+</span> <span class="p">[(</span><span class="n">yi</span><span class="p">,</span> <span class="n">yi</span><span class="p">)</span> <span class="k">for</span> <span class="n">yi</span> <span class="ow">in</span> <span class="n">y_round</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"root y = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">3</span><span class="p">:],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> rounds to </span><span class="si">{</span><span class="n">y_round</span><span class="si">}</span><span class="s2">: "</span>
+      <span class="o">+</span> <span class="p">(</span><span class="s2">"infeasible"</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"cost </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>root y = [1.  0.2 0. ] rounds to [1 0 0]: infeasible
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we round up instead and turn on both A and B, we get a feasible plan. However, this plan costs 2.19, which is 7% above the optimum, and is also the wrong configuration: B was preferred by the relaxation, while C is used in the optimal plan.</p>
+<p><strong>Integrality does visible work.</strong> Why did the relaxation prefer B for the last 0.2, when the optimum uses C? In the relaxation the standby cost of a stack is paid pro rata, so for 0.2 of load B costs <span class="math notranslate nohighlight">\(0.2 \times 0.4 + 0.2 \times 1.45 = 0.37\)</span> and C costs <span class="math notranslate nohighlight">\(0.2 \times 0.2 + 0.2 \times 1.7 = 0.38\)</span>, and B wins by a narrow margin. Once each stack is required to be wholly on, C costs <span class="math notranslate nohighlight">\(0.2 + 0.34 = 0.54\)</span> and B costs <span class="math notranslate nohighlight">\(0.4 + 0.29 = 0.69\)</span>, so C wins clearly by a margin of 0.15. The ranking of the stacks is changed by the binaries, which is why we cannot trust the relaxation alone to pick the configuration.</p>
+<div class="exercise admonition" id="ex-t25-tree">
+
+<p class="admonition-title"><span class="caption-number">Exercise 48 </span></p>
+<section id="exercise-content">
+<p>Run <code class="docutils literal notranslate"><span class="pre">bt.fc_bb</span></code> at <span class="math notranslate nohighlight">\(D = 1.5\)</span> and <span class="math notranslate nohighlight">\(D = 1.8\)</span>, print the logs, and draw the trees. Which nodes are pruned for which reason? At either demand, does rounding the root relaxation give the optimal configuration?</p>
+</section>
+</div>
+</section>
+<section id="search-order-depth-first-and-breadth-first">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Search order: depth-first and breadth-first</a><a class="headerlink" href="#search-order-depth-first-and-breadth-first" title="Link to this heading">#</a></h2>
+<p>Branch-and-bound leaves several choices open, and the rules for making these choices are called heuristics in the lecture.</p>
+<ul class="simple">
+<li><p><strong>Which variable to branch on.</strong> We branch on the most fractional binary. Alternatives include the variable whose branching most changes the objective.</p></li>
+<li><p><strong>Where to split.</strong> For a binary there is only one way. For a general integer or a continuous variable, the split point is a choice (Topic 2.6).</p></li>
+<li><p><strong>Which node to explore next.</strong> <strong>Depth-first</strong> search follows one branch down until it is pruned, which finds feasible solutions early and keeps few nodes in memory. <strong>Breadth-first</strong> search finishes each level of the tree before going deeper. <strong>Best-first</strong> search always explores the node with the lowest bound, which raises the global lower bound fastest.</p></li>
+</ul>
+<p>No single rule is best on every problem, since the most effective choices will depend on the problem. For this reason production solvers allow the user to tune these rules or to supply new rules. Here is the same problem explored breadth-first:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bfs</span> <span class="o">=</span> <span class="n">bt</span><span class="o">.</span><span class="n">fc_bb</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s2">"bfs"</span><span class="p">)</span>
+<span class="n">bt</span><span class="o">.</span><span class="n">print_tree_log</span><span class="p">(</span><span class="n">bfs</span><span class="p">)</span>
+<span class="n">first</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">bfs</span><span class="p">[</span><span class="s1">'log'</span><span class="p">]</span> <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'integer'</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'bound'</span><span class="p">]</span> <span class="o">-</span> <span class="n">bfs</span><span class="p">[</span><span class="s1">'best'</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-9</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">optimum </span><span class="si">{</span><span class="n">bfs</span><span class="p">[</span><span class="s1">'best'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">bt</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bfs</span><span class="p">[</span><span class="s1">'z'</span><span class="p">],</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">), </span><span class="si">{</span><span class="n">bfs</span><span class="p">[</span><span class="s1">'nodes'</span><span class="p">]</span><span class="si">}</span><span class="s2"> nodes, found at node </span><span class="si">{</span><span class="n">first</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bfs</span><span class="p">[</span><span class="s1">'stats'</span><span class="p">][</span><span class="s1">'bound'</span><span class="p">]</span><span class="si">}</span><span class="s2"> prunes by bound"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">4.6</span><span class="p">))</span>
+<span class="n">bt</span><span class="o">.</span><span class="n">draw_tree</span><span class="p">(</span><span class="n">bfs</span><span class="p">[</span><span class="s1">'log'</span><span class="p">],</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">node_label</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Breadth-first branch-and-bound, D = 1.2 (240 kg/h)'</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>node 1 [root]: bound 1.8700, y_B = 0.200 -&gt; branch
+    node 2 [y_B=0]: bound 1.8800, y_C = 0.200 -&gt; branch
+    node 3 [y_B=1]: bound 2.1500, y_A = 0.200 -&gt; branch
+        node 4 [y_C=0]: pruned: infeasible
+        node 5 [y_C=1]: integer: new incumbent 2.0400
+        node 6 [y_A=0]: pruned: bound 2.2300 &gt;= 2.0400
+        node 7 [y_A=1]: pruned: bound 2.1900 &gt;= 2.0400
+
+optimum 2.04 (A+C), 7 nodes, found at node 5, 2 prunes by bound
+</pre></div>
+</div>
+<img alt="../_images/2419d82647951992475425c652dfb0c84c0628c51720d8d5d547cd1fdc3d09f6.png" src="../_images/2419d82647951992475425c652dfb0c84c0628c51720d8d5d547cd1fdc3d09f6.png" />
+</div>
+</div>
+<p>With breadth-first search, the same seven nodes are processed in a different order. The optimum is found at the fifth node, and since A+B is never encountered as an incumbent, both nodes on the <span class="math notranslate nohighlight">\(y_B = 1\)</span> side are pruned by bound against 2.04. The answer is the same as before, and this is true in general: <strong>the branching variable and the node order change the speed of branch-and-bound, not its answer</strong>, because every rule we could choose only discards nodes that provably cannot hold a better solution.</p>
+<div class="exercise admonition" id="ex-t25-node-order">
+
+<p class="admonition-title"><span class="caption-number">Exercise 49 </span></p>
+<section id="exercise-content">
+<p>Change <code class="docutils literal notranslate"><span class="pre">fc_bb</span></code> (a copy of it in your notebook) so that depth-first takes the <span class="math notranslate nohighlight">\(y = 0\)</span> child first. How many nodes does it process at <span class="math notranslate nohighlight">\(D = 1.2\)</span>, and at which node does it find the optimum? Then write a best-first version that keeps the open nodes in a priority queue keyed by their parent’s bound. Compare the three orders by the number of nodes processed.</p>
+</section>
+</div>
+</section>
+<section id="a-production-solver">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">A production solver</a><a class="headerlink" href="#a-production-solver" title="Link to this heading">#</a></h2>
+<p>The same tree is used in real MILP solvers, along with many refinements. Below we write the same model in Pyomo and hand it to HiGHS with the log printed:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fixed_charge_model</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Binary</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">demand</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">)</span> <span class="o">==</span> <span class="n">D</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">on_off</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">F_FIXED</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">E_LINEAR</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">I</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+<span class="n">highs</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">SolverFactory</span><span class="p">(</span><span class="s1">'appsi_highs'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">highs</span><span class="o">.</span><span class="n">available</span><span class="p">(</span><span class="n">exception_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">fixed_charge_model</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">highs</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">HiGHS: </span><span class="si">{</span><span class="s1">'+'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="si">}</span><span class="s2"> on, cost </span><span class="si">{</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"lower bound </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">lower_bound</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"HiGHS is not available through Pyomo; the hand tree above is the reference solution."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HiGHS: A+C on, cost 2.04, lower bound 2.04
+</pre></div>
+</div>
+</div>
+</div>
+<p>The log reports the same quantities as our tree, although the exact layout will depend on the HiGHS version. The columns labeled <em>BestBound</em> and <em>BestSol</em> are the global lower bound and the incumbent, and <em>Gap</em> is the relative difference between the bound and the incumbent. In the run used to write this page, a primal heuristic found the plan A+B at 2.19 before the root relaxation was solved, which is the same first incumbent found by our depth-first tree at node 3. The root relaxation then gave the same bound as ours (1.87, a gap of about 15%), and the solver closed that gap at the root without the six further nodes needed by our tree. Your log may show a different heuristic or a different order of events, but the root bound of 1.87 and the final bounds (equal at 2.04) should not change.</p>
+<p>Two kinds of refinement explain this difference. <strong>Presolve</strong> simplifies the model before and during the solve, for example by fixing binaries with values that can be deduced and then restarting on the smaller model (in our run it fixed one of the three binaries). <strong>Cutting planes</strong> are extra linear inequalities that are satisfied by every integer solution but not by the fractional relaxation point, so adding them tightens the relaxation without branching. The <em>Cuts</em> column of the log counts the cuts, and in our run a small sub-problem heuristic found the optimum at the same time. We will not develop cutting planes in this course. For now it is enough to know that cutting planes, together with presolve and heuristics, are the reason that the tree of a production solver is much smaller than a textbook tree, and that the mismatch with our hand tree is expected. The important thing is that both finish with the same certificate: lower and upper bounds that are equal at 2.04.</p>
+<p>Why should we learn the algorithm if a solver can run it as a black box? There are two reasons. The first is that the idea of branch-and-bound is useful beyond MILPs. When a problem is too hard to solve exactly, it helps to look for easier problems that bound it from above and below. A pair of bounds is useful in itself, since knowing that a cost lies between two values is often enough to make a decision, and every model is approximate anyway. The second reason is that knowing what the solver does will help us to get the most out of the solver: it lets us recognize a weak formulation from a large root gap, choose node-selection and branching options, and give the solver a good starting incumbent or a problem-specific bound.</p>
+<div class="exercise admonition" id="ex-t25-solver">
+
+<p class="admonition-title"><span class="caption-number">Exercise 50 </span></p>
+<section id="exercise-content">
+<p>Build a larger fleet by repeating the three stacks ten times (30 stacks, with <span class="math notranslate nohighlight">\(F\)</span> and <span class="math notranslate nohighlight">\(e\)</span> perturbed slightly, for example by <code class="docutils literal notranslate"><span class="pre">np.random.default_rng(0).normal(0,</span> <span class="pre">0.01,</span> <span class="pre">30)</span></code>) and a demand of 12. Solve it with HiGHS and read the log: root bound, first incumbent, number of nodes, final gap. How many configurations would complete enumeration need?</p>
+</section>
+</div>
+</section>
+<section id="branching-on-continuous-variables-a-look-ahead">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Branching on continuous variables: a look ahead</a><a class="headerlink" href="#branching-on-continuous-variables-a-look-ahead" title="Link to this heading">#</a></h2>
+<p>We could trust every bound in this topic, since the relaxation at each node was an LP and all LPs are convex. The value returned by the solver at each node was the true minimum of the relaxation, so pruning by bound never discarded a better solution.</p>
+<p>Note that branching itself does not need integers. A continuous variable with bounds <span class="math notranslate nohighlight">\([l, u]\)</span> can be split at any interior point <span class="math notranslate nohighlight">\(c\)</span> into the children <span class="math notranslate nohighlight">\([l, c]\)</span> and <span class="math notranslate nohighlight">\([c, u]\)</span>, and every solution survives in one of the two children. Topic 2.4 ended with the S-shaped power curve, which makes the relaxation at each node a non-convex NLP. In Topic 2.6 we will see how to recover valid bounds for this problem from convex underestimators of the curve, and how splitting the continuous loads makes those bounds tighter. The resulting <strong>spatial branch-and-bound</strong> is the same algorithm as in this topic, but with one more kind of branch.</p>
+<div class="exercise admonition" id="ex-t25-continuous">
+
+<p class="admonition-title"><span class="caption-number">Exercise 51 </span></p>
+<section id="exercise-content">
+<p>Take the convex ohmic dispatch of Topic 2.1 (each stack draws <span class="math notranslate nohighlight">\(x + r_i x^2\)</span>, with <span class="math notranslate nohighlight">\(r = (0.5, 0.35, 0.7)\)</span>, <span class="math notranslate nohighlight">\(D = 1.2\)</span>, no binaries). Solve it once with all loads in <span class="math notranslate nohighlight">\([0, 1]\)</span>. Then split stack A’s load interval at its optimal value and solve each child. Do the children’s bounds ever improve on the root’s, and why is branching useless on a convex problem?</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Branch-and-bound is the bound-pair applied recursively. A relaxation (for a MILP, the LP relaxation) gives a lower bound; any feasible point gives an upper bound, the incumbent.</p></li>
+<li><p>At each node: relax, then prune by infeasibility, by integrality, or by bound; otherwise branch on a fractional binary. When no nodes remain, the incumbent is certified optimal.</p></li>
+<li><p>On the electrolyzer plant at 240 kg/h the root bound is 1.87 (12.22 MW); depth-first search processes 7 nodes and certifies A+C at 2.04 (13.33 MW). Breadth-first search processes the same 7 nodes and finds the optimum fifth.</p></li>
+<li><p>Rounding the relaxation fails (it is infeasible here), and integrality changes the ranking of the stacks, so the relaxation alone cannot choose the configuration.</p></li>
+<li><p>Node order and the choice of branching variable change the speed, not the answer.</p></li>
+<li><p>Production solvers add presolve, heuristics and cutting planes, so their trees are smaller; they report the same bound-pair as a gap.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Land, A. H., and Doig, A. G. An automatic method of solving discrete programming problems. <em>Econometrica</em> 28, 497–520 (1960). The original branch-and-bound paper.</p></li>
+<li><p>Wolsey, L. A. <em>Integer Programming</em>, 2nd ed. Wiley, 2020. Relaxations, branch-and-bound and cutting planes, at the next level of depth.</p></li>
+<li><p>Bertsimas, D., and Tsitsiklis, J. N. <em>Introduction to Linear Optimization</em>. Athena Scientific, 1997. Chapters 10–11 on integer programming.</p></li>
+<li><p>Ravindran, A., Ragsdell, K. M., and Reklaitis, G. V. <em>Engineering Optimization: Methods and Applications</em>, 2nd ed. Wiley, 2006. Integer programming and branch-and-bound for engineers.</p></li>
+<li><p>Achterberg, T. SCIP: solving constraint integer programs. <em>Mathematical Programming Computation</em> 1, 1–41 (2009). How a modern solver combines branching, presolve, cutting planes and heuristics.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./2-nonlinear_mixed_integer"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic2.4-Mixed-Integer_Formulations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2.4 Mixed-Integer Formulations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic2.6-Non-convex_Problems_and_Bounding.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2.6 Non-convex Problems and Bounding</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relaxations-give-bounds">Relaxations give bounds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-smallest-tree-one-stack">The smallest tree: one stack</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-three-stack-tree">The three-stack tree</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#search-order-depth-first-and-breadth-first">Search order: depth-first and breadth-first</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-production-solver">A production solver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-on-continuous-variables-a-look-ahead">Branching on continuous variables: a look ahead</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

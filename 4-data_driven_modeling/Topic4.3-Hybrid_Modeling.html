@@ -1,0 +1,1165 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.3 Hybrid Modeling &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '4-data_driven_modeling/Topic4.3-Hybrid_Modeling';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.4 Physics-Informed Machine Learning" href="Topic4.4-Physics-Informed_Machine_Learning.html" />
+    <link rel="prev" title="4.2 Optimization in Reduced Spaces" href="Topic4.2-Optimization_in_Reduced_Spaces.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Data-Driven Modeling</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/4-data_driven_modeling/Topic4.3-Hybrid_Modeling.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/4-data_driven_modeling/Topic4.3-Hybrid_Modeling.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>4.3 Hybrid Modeling</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mechanistic-data-driven-and-hybrid-models">Mechanistic, data-driven and hybrid models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-reactor-to-model">A reactor to model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-networks-in-pytorch">Training networks in PyTorch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mechanism-correction-the-parallel-structure">Mechanism correction: the parallel structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mechanism-identification-the-serial-structure">Mechanism identification: the serial structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolation-versus-extrapolation">Interpolation versus extrapolation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-with-an-embedded-network">Optimization with an embedded network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#warm-up-a-network-as-a-constraint">Warm-up: a network as a constraint</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizing-the-reactor-through-the-serial-hybrid">Optimizing the reactor through the serial hybrid</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#hybrid-modeling" id="id1">4.3 Hybrid Modeling</a></p>
+<ul>
+<li><p><a class="reference internal" href="#mechanistic-data-driven-and-hybrid-models" id="id2">Mechanistic, data-driven and hybrid models</a></p></li>
+<li><p><a class="reference internal" href="#a-reactor-to-model" id="id3">A reactor to model</a></p></li>
+<li><p><a class="reference internal" href="#training-networks-in-pytorch" id="id4">Training networks in PyTorch</a></p></li>
+<li><p><a class="reference internal" href="#mechanism-correction-the-parallel-structure" id="id5">Mechanism correction: the parallel structure</a></p></li>
+<li><p><a class="reference internal" href="#mechanism-identification-the-serial-structure" id="id6">Mechanism identification: the serial structure</a></p></li>
+<li><p><a class="reference internal" href="#interpolation-versus-extrapolation" id="id7">Interpolation versus extrapolation</a></p></li>
+<li><p><a class="reference internal" href="#optimization-with-an-embedded-network" id="id8">Optimization with an embedded network</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id9">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id10">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="hybrid-modeling">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">4.3 Hybrid Modeling</a><a class="headerlink" href="#hybrid-modeling" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 11, Lesson 1: <em>Hybrid Modeling Introduction</em></p></li>
+<li><p>Module 11, Lesson 2: <em>Mechanism Correction</em></p></li>
+<li><p>Module 11, Lesson 3: <em>Mechanism Identification</em></p></li>
+<li><p>Module 11, Lesson 4: <em>Chemical Reactor Example</em></p></li>
+<li><p>Module 11, Lesson 5: <em>HM Python Implementations</em></p></li>
+<li><p>Module 12, Lesson 1: <em>Advanced Machine Learning in Python Part 1</em></p></li>
+<li><p>Module 12, Lesson 2: <em>Advanced Machine Learning in Python Part 2</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Explain what a hybrid model is and why we would build one instead of a purely mechanistic or purely data-driven model.</p></li>
+<li><p>Distinguish parallel (mechanism correction) and serial (mechanism identification) hybrid structures.</p></li>
+<li><p>Train a black-box network, a discrepancy model and a network-inside-the-balances model in PyTorch, and compare them inside and outside the training region.</p></li>
+<li><p>Embed a trained network in a Pyomo model with OMLT and optimize through it, keeping the optimizer inside the training region.</p></li>
+</ul>
+</div>
+<p>In Topics 3.1–3.6 we treated the process as a black box and replaced it with a surrogate fitted to samples. However, in chemical engineering it is rare to know nothing about the inside of the box. The conservation laws are almost always known, and the missing piece is usually one part of the model, such as a rate law, a transport coefficient or a property correlation. A <strong>hybrid model</strong> keeps the trusted parts of the model and uses data to learn only the unknown part. In this topic we will build the two main kinds of hybrid model, compare them on a reactor, and then put a trained network inside an optimization model.</p>
+<section id="mechanistic-data-driven-and-hybrid-models">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Mechanistic, data-driven and hybrid models</a><a class="headerlink" href="#mechanistic-data-driven-and-hybrid-models" title="Link to this heading">#</a></h2>
+<p>A <strong>mechanistic model</strong> (also called a first-principles or white-box model) is built from balances, kinetics, thermodynamics and transport laws. The parameters of a mechanistic model have physical meaning and relatively little data is needed to calibrate them, and the model generalizes well because a mass balance that holds at 340 K will also hold at 370 K. The main weakness is the cost of building the model, and there are also some phenomena (e.g. catalyst deactivation or fouling) that are hard to write down from first principles at all.</p>
+<p>A <strong>data-driven model</strong> (or black-box model), such as a neural network or a Gaussian process, learns the input-output map from data. We can build one quickly even if we know very little about the physics, although it needs much more data and its parameters have no physical meaning. When we ask it to predict outside of the training data, it extrapolates according to its own functional form rather than according to the physics.</p>
+<p>A <strong>hybrid model</strong> combines the two, and the lectures give three reasons why we would build one. The first is that the mechanistic model has every piece but still gives the wrong answer, because a parameter is inaccurate or because the plant does not obey an assumption that we made (such as first-order kinetics). The second is that the mechanistic model is missing a piece, such as a correlation that nobody has written down. The third is that we need to merge knowledge at several scales, for example if a molecular-simulation result is summarized by a surrogate inside a process model. Applications range from pH neutralization, methanol synthesis, polymerization, reactive distillation and crystallization to yeast and CHO-cell cultures and wastewater treatment (reviewed by von Stosch et al. 2014), and most of them use one of the two structures that are summarized in the table below.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Structure</p></th>
+<th class="head"><p>Also called</p></th>
+<th class="head"><p>What the network learns</p></th>
+<th class="head"><p>Where it sits</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Parallel</strong></p></td>
+<td><p>mechanism correction, discrepancy modeling</p></td>
+<td><p>the error of the mechanistic prediction</p></td>
+<td><p>beside the mechanistic model; outputs are added or multiplied</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Serial</strong></p></td>
+<td><p>mechanism identification, grey-box modeling</p></td>
+<td><p>an unknown term, such as a rate</p></td>
+<td><p>inside the balances; its output feeds the equations</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In the parallel structure the network is the last thing that the prediction passes through, while in the serial structure the last step is the balances. This ordering determines how each structure behaves when it is asked to extrapolate, and this is the main result of the topic.</p>
+<p>The two structures can also be combined in a <strong>serial-parallel</strong> structure, where one network supplies an unknown term inside the balances and a second network corrects the output. In either structure the data-driven part can be any regression model, and studies cited in the lectures compared polynomials, neural and radial-basis-function networks, fuzzy networks, MARS splines, PLS and its nonlinear variants, and support vector machines. No model wins everywhere, and the choice of which inputs the data-driven part sees (input selection) often matters as much as the choice of model. We will use small neural networks throughout, since they are easy to train inside an ODE solver and easy to embed in Pyomo.</p>
+<div class="exercise admonition" id="ex-t43-structures">
+
+<p class="admonition-title"><span class="caption-number">Exercise 108 </span></p>
+<section id="exercise-content">
+<p>For a jacketed CSTR whose heat-transfer coefficient <span class="math notranslate nohighlight">\(U\)</span> falls slowly as the wall fouls, sketch a parallel and a serial hybrid model. For each, state the network’s inputs and outputs and which equations stay mechanistic. Which would you trust when the feed temperature is raised beyond the historical range, and why?</p>
+</section>
+</div>
+</section>
+<section id="a-reactor-to-model">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">A reactor to model</a><a class="headerlink" href="#a-reactor-to-model" title="Link to this heading">#</a></h2>
+<p>We will use the same reactor in this topic and the next one. An isothermal plug-flow reactor (or a batch reactor, with residence time as batch time) carries out the series reaction <span class="math notranslate nohighlight">\(\mathrm{A} \rightarrow \mathrm{B} \rightarrow \mathrm{C}\)</span>, and we want to make as much of the intermediate B as possible. The mole balances in residence time <span class="math notranslate nohighlight">\(\tau\)</span> are</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{dC_A}{d\tau} = -r_1, \qquad \frac{dC_B}{d\tau} = r_1 - r_2, \qquad C_A(0) = 1\ \mathrm{mol/L}, \quad C_B(0) = 0.
+\]</div>
+<p>We will treat the balances as certain, and we will also treat the second step, <span class="math notranslate nohighlight">\(r_2 = k_2(T)\,C_B\)</span>, as certain, since we assume that it has been characterized in separate experiments. The uncertain part is the rate of the first step. The “plant”, which we simulate to make data but pretend not to know, has an inhibited rate law,</p>
+<div class="math notranslate nohighlight">
+\[
+r_1 = \frac{k_1(T)\, C_A}{1 + K C_A}, \qquad K = 2\ \mathrm{L/mol},
+\]</div>
+<p>with Arrhenius constants <span class="math notranslate nohighlight">\(k_1 = 0.60\ \mathrm{min^{-1}}\)</span> and <span class="math notranslate nohighlight">\(k_2 = 0.15\ \mathrm{min^{-1}}\)</span> at 350 K and activation energies of 50 and 90 kJ/mol. The second step has the larger activation energy, so a hotter reactor makes B faster but also destroys it faster, which means that there is a best temperature for each residence time.</p>
+<p>An engineer who did not know about the inhibition would write a first-order law, <span class="math notranslate nohighlight">\(r_1 = k_1(T) C_A\)</span>, which has a closed-form solution, and then fit <span class="math notranslate nohighlight">\(k_1\)</span> to the data. This will be our <strong>low-fidelity mechanistic model</strong>. The data are concentration profiles at 330, 340, 350 and 360 K for residence times from 0.5 to 4 min, with a measurement noise of 0.01 mol/L. The helper <code class="docutils literal notranslate"><span class="pre">Reactor</span></code> in <code class="docutils literal notranslate"><span class="pre">_lib/part4b_tools.py</span></code> holds the plant and integrates it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">time</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">least_squares</span><span class="p">,</span> <span class="n">minimize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part4b_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reactor</span> <span class="k">as</span> <span class="n">R</span><span class="p">,</span> <span class="n">mlp</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">omlt_network</span><span class="p">,</span> <span class="n">find_solver</span><span class="p">,</span> <span class="n">rk4_reactor_pyomo</span>
+
+<span class="n">T_TRAIN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">330.</span><span class="p">,</span> <span class="mf">340.</span><span class="p">,</span> <span class="mf">350.</span><span class="p">,</span> <span class="mf">360.</span><span class="p">])</span>
+<span class="n">TAU</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">4.01</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>                                  <span class="c1"># min</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">T_TRAIN</span><span class="p">,</span> <span class="n">TAU</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>                        <span class="c1"># rows: T, tau, C_A, C_B</span>
+<span class="n">val</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">measure</span><span class="p">([</span><span class="mf">335.</span><span class="p">,</span> <span class="mf">345.</span><span class="p">,</span> <span class="mf">355.</span><span class="p">],</span> <span class="n">TAU</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>              <span class="c1"># held-out validation data</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">first_order</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">k1_ref</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Low-fidelity model: first-order A -&gt; B plus the known B -&gt; C step (closed form)."""</span>
+    <span class="n">k1</span> <span class="o">=</span> <span class="n">k1_ref</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">R</span><span class="o">.</span><span class="n">E1</span> <span class="o">/</span> <span class="n">R</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">T</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">R</span><span class="o">.</span><span class="n">T_REF</span><span class="p">))</span>
+    <span class="n">k2</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">k2</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k1</span> <span class="o">*</span> <span class="n">tau</span><span class="p">),</span> <span class="n">k1</span> <span class="o">/</span> <span class="p">(</span><span class="n">k2</span> <span class="o">-</span> <span class="n">k1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k1</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k2</span> <span class="o">*</span> <span class="n">tau</span><span class="p">))]</span>
+
+<span class="n">k1_fit</span> <span class="o">=</span> <span class="n">least_squares</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span><span class="n">first_order</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:])</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">])</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">rms_mech</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">first_order</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">k1_fit</span><span class="p">)</span> <span class="o">-</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> measurements; fitted first-order k1(350 K) = </span><span class="si">{</span><span class="n">k1_fit</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> 1/min"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"RMS misfit of the first-order model on its own training data: </span><span class="si">{</span><span class="n">rms_mech</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> mol/L"</span><span class="p">)</span>
+
+<span class="n">tau_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">81</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">T</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">T_TRAIN</span><span class="p">,</span> <span class="p">[</span><span class="s1">'C0'</span><span class="p">,</span> <span class="s1">'C1'</span><span class="p">,</span> <span class="s1">'C2'</span><span class="p">,</span> <span class="s1">'C3'</span><span class="p">]):</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">T</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rows</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">rows</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">],</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'data, </span><span class="si">{</span><span class="n">T</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> K'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_fine</span><span class="p">,</span> <span class="n">first_order</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">tau_fine</span><span class="p">,</span> <span class="n">k1_fit</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">'--'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'residence time $\tau$ (min)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'$C_B$ (mol/L)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Plant data and the fitted first-order model (dashed)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>32 measurements; fitted first-order k1(350 K) = 0.246 1/min
+RMS misfit of the first-order model on its own training data: 0.0278 mol/L
+</pre></div>
+</div>
+<img alt="../_images/c0b1af28581f1eef569e28ee345959a2b4a5f0db877cf5c3beb02f753d40b932.png" src="../_images/c0b1af28581f1eef569e28ee345959a2b4a5f0db877cf5c3beb02f753d40b932.png" />
+</div>
+</div>
+<p>The fitted first-order constant of 0.246 min⁻¹ is well below the value of 0.60 in the plant. This happens because a single first-order constant has to average the inhibited rate over the whole range of <span class="math notranslate nohighlight">\(C_A\)</span>, and the misfit of about 0.028 mol/L is nearly three times the noise. The model does get the trends right, since B rises and then falls and it does so faster at higher temperature. However, the shapes are wrong, and there is no value of <span class="math notranslate nohighlight">\(k_1\)</span> that will fix them. The lectures say that this situation (where we have the right trends but the wrong details) is the case for mechanism correction, and that a simplifying assumption can lead to the same situation. In the plug-flow reactor from the lectures, which is ethylbenzene dehydrogenation to styrene with side reactions to benzene and toluene, the low-fidelity model assumes that the reactor is isothermal. It misses the temperature profile, so it also misses the concentration profiles. In that case a discrepancy model on top of the isothermal model was accurate, because the isothermal model was already close and the data were not noisy.</p>
+<div class="exercise admonition" id="ex-t43-first-order">
+
+<p class="admonition-title"><span class="caption-number">Exercise 109 </span></p>
+<section id="exercise-content">
+<p>Refit the first-order model using only the 360 K profile, then only the 330 K profile. How different are the two fitted values of <span class="math notranslate nohighlight">\(k_1(350\ \mathrm{K})\)</span>? Explain the difference with the inhibition factor <span class="math notranslate nohighlight">\(1/(1 + K C_A)\)</span> and the range of <span class="math notranslate nohighlight">\(C_A\)</span> each profile covers.</p>
+</section>
+</div>
+</section>
+<section id="training-networks-in-pytorch">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Training networks in PyTorch</a><a class="headerlink" href="#training-networks-in-pytorch" title="Link to this heading">#</a></h2>
+<p>The Module 12 lectures build networks with TensorFlow and Keras, while this book uses PyTorch, but the ideas carry over one for one. Network basics (layers, activations, backpropagation, cross-entropy for classification) are covered in DA4CHE Topics 6.3 and 6.4 (<a class="reference external" href="https://www.medford.chbe.gatech.edu/DA4CHE/">https://www.medford.chbe.gatech.edu/DA4CHE/</a>), so here we only give the map from one library to the other:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Step</p></th>
+<th class="head"><p>Keras (lectures)</p></th>
+<th class="head"><p>PyTorch (this book)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>define</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Sequential()</span></code> with <code class="docutils literal notranslate"><span class="pre">Dense</span></code> layers</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">torch.nn.Sequential</span></code> with <code class="docutils literal notranslate"><span class="pre">Linear</span></code> layers and activations</p></td>
+</tr>
+<tr class="row-odd"><td><p>loss and optimizer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model.compile(loss='MSE',</span> <span class="pre">optimizer='Adam')</span></code></p></td>
+<td><p>a loss expression; <code class="docutils literal notranslate"><span class="pre">torch.optim.Adam(net.parameters())</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>train</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model.fit(X,</span> <span class="pre">y,</span> <span class="pre">epochs,</span> <span class="pre">validation_data)</span></code></p></td>
+<td><p>a loop: zero gradients, loss, <code class="docutils literal notranslate"><span class="pre">backward()</span></code>, <code class="docutils literal notranslate"><span class="pre">step()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>monitor</p></td>
+<td><p>the <code class="docutils literal notranslate"><span class="pre">history</span></code> from <code class="docutils literal notranslate"><span class="pre">fit</span></code></p></td>
+<td><p>record training and validation losses yourself</p></td>
+</tr>
+<tr class="row-even"><td><p>save</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">model.save</span></code>, <code class="docutils literal notranslate"><span class="pre">load_model</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">torch.save(net.state_dict(),</span> <span class="pre">path)</span></code>, <code class="docutils literal notranslate"><span class="pre">net.load_state_dict(...)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The networks in scikit-learn are convenient, but they expose very little of the model. TensorFlow (developed by Google Brain) and PyTorch (developed by Meta’s AI research lab) give full control of the architecture and the loss, and Keras is a higher-level interface to TensorFlow that sits between these and scikit-learn in terms of abstraction.</p>
+<p>The same choices come up in each library. We need to choose the <strong>layer type</strong> (dense, or convolutional, pooling and recurrent layers for images and sequences, see DA4CHE Topic 6.4), the <strong>width</strong> and <strong>depth</strong>, the <strong>loss</strong> (mean squared error for regression, cross-entropy for classification), the <strong>optimizer</strong> (SGD, Adam, or L-BFGS for small full-batch problems) and its <strong>learning rate</strong>, the number of <strong>epochs</strong> (passes over the data), and the <strong>batch size</strong> (samples per gradient step, and our loops are full batch). The digits example in the lectures (8×8 images, 64 inputs) is first fitted as a regression on the value of the digit, and then reformulated as a 10-class classification with a cross-entropy loss, which is its natural form.</p>
+<p>If we write the loop explicitly, it becomes clear that training is an optimization problem in the weights that is solved by a first-order method, which is what Topic 3.5 called optimization <em>for</em> training. Writing the loop ourselves also lets us put anything we like in the loss, including an ODE solver, which we will need for the serial hybrid.</p>
+<p>Our <strong>black-box</strong> baseline is a network from <span class="math notranslate nohighlight">\((T, \tau)\)</span> to <span class="math notranslate nohighlight">\((C_A, C_B)\)</span> with two hidden layers of 16 tanh nodes. We scale the inputs to about <span class="math notranslate nohighlight">\([-1, 1]\)</span> to keep the tanh units in their useful range, and at every step we record the loss on held-out validation profiles at 335, 345 and 355 K.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""(T, tau) -&gt; roughly [-1, 1]."""</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">345</span><span class="p">)</span> <span class="o">/</span> <span class="mi">15</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">2.25</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1.75</span><span class="p">])</span>
+
+<span class="n">X_tr</span><span class="p">,</span> <span class="n">Y_tr</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:])</span>
+<span class="n">X_va</span><span class="p">,</span> <span class="n">Y_va</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">val</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:])</span>
+<span class="n">bb</span> <span class="o">=</span> <span class="n">mlp</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">bb</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">)</span>
+<span class="n">hist_tr</span><span class="p">,</span> <span class="n">hist_va</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3000</span><span class="p">):</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="p">((</span><span class="n">bb</span><span class="p">(</span><span class="n">X_tr</span><span class="p">)</span> <span class="o">-</span> <span class="n">Y_tr</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">hist_tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+        <span class="n">hist_va</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">bb</span><span class="p">(</span><span class="n">X_va</span><span class="p">)</span> <span class="o">-</span> <span class="n">Y_va</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"black box: training MSE </span><span class="si">{</span><span class="n">hist_tr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">, validation MSE </span><span class="si">{</span><span class="n">hist_va</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> "</span>
+      <span class="sa">f</span><span class="s2">"(lowest </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">hist_va</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> at step </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">hist_va</span><span class="p">))</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">hist_tr</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'training'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">hist_va</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'validation'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.01</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'noise variance'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Adam step'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'MSE (mol$^2$/L$^2$)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>black box: training MSE 5.09e-05, validation MSE 1.84e-04 (lowest 1.76e-04 at step 1277)
+</pre></div>
+</div>
+<img alt="../_images/e62e601185156993f7922c01a38b877cdfff26a6590a3cc026fe39066546d81a.png" src="../_images/e62e601185156993f7922c01a38b877cdfff26a6590a3cc026fe39066546d81a.png" />
+</div>
+</div>
+<p>The training loss falls below the noise variance (the floor below which a model is fitting noise), while the validation loss levels off near <span class="math notranslate nohighlight">\(1.8 \times 10^{-4}\)</span>. The validation data were held out of training, so the validation loss is the honest guide to how well the model predicts. The minimum of the validation loss is the natural place to stop training, although the lectures note that a clear minimum is rare, and usually the curve just flattens out like it does here. The width, depth, learning rate and number of steps are hyperparameters, and in the lectures these are tuned by grid search. DA4CHE covers cross-validated searches, and grid search over surrogate hyperparameters is covered in <a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html"><span class="doc">3.5 Surrogate Models</span></a>. In this topic we keep the hyperparameters fixed so that the comparisons below are fair.</p>
+<div class="exercise admonition" id="ex-t43-width">
+
+<p class="admonition-title"><span class="caption-number">Exercise 110 </span></p>
+<section id="exercise-content">
+<p>Retrain the black box with 4, 16 and 64 nodes per hidden layer (same seed) and plot the validation curves together. Which width overfits, and how can you tell? Save the best network with <code class="docutils literal notranslate"><span class="pre">torch.save(bb.state_dict(),</span> <span class="pre">'bb.pt')</span></code> and reload it into a fresh <code class="docutils literal notranslate"><span class="pre">mlp</span></code>.</p>
+</section>
+</div>
+</section>
+<section id="mechanism-correction-the-parallel-structure">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Mechanism correction: the parallel structure</a><a class="headerlink" href="#mechanism-correction-the-parallel-structure" title="Link to this heading">#</a></h2>
+<p>In mechanism correction the first-order model runs unchanged, and a second network learns its error, i.e. the <strong>discrepancy</strong> between the data and the model: <span class="math notranslate nohighlight">\(\hat{C}(T, \tau) = C^{\text{mech}}(T, \tau) + \mathrm{NN}(T, \tau)\)</span>. This works when the error is systematic, meaning that it is a smooth function of the inputs. A map of the error is also useful in its own right, since it shows where the model over- or under-predicts and where new experiments would reduce the error the most, and it can be carried into an optimization as a correction to the mechanistic prediction.</p>
+<p>The lectures make a second point with a fed-batch penicillin case study, which is that the mechanistic model acts as a <strong>noise filter</strong>. It turns noisy measurements into a smooth trend, so the network only has to learn a small, smooth residual, and the benefit over a black box grows as the data get noisier or sparser.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resid</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">-</span> <span class="n">first_order</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">k1_fit</span><span class="p">))</span>
+<span class="n">par</span> <span class="o">=</span> <span class="n">mlp</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">train</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">((</span><span class="n">par</span><span class="p">(</span><span class="n">X_tr</span><span class="p">)</span> <span class="o">-</span> <span class="n">resid</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">steps</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">predict_parallel</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">first_order</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">k1_fit</span><span class="p">)</span> <span class="o">+</span> <span class="n">par</span><span class="p">(</span><span class="n">scale</span><span class="p">(</span><span class="n">X</span><span class="p">))</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="n">rms_par</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">predict_parallel</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"parallel hybrid: training RMS misfit </span><span class="si">{</span><span class="n">rms_par</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> mol/L (first-order alone: </span><span class="si">{</span><span class="n">rms_mech</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>parallel hybrid: training RMS misfit 0.0056 mol/L (first-order alone: 0.0278)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The correction brings the training misfit below the noise level, just like the black box does, so the two models look the same on the training data. The difference will show up when we leave the training region, or when the data are noisier.</p>
+<p>In the penicillin study from the lectures the black box and the hybrid had similar errors when the data were clean, and the advantage of the hybrid only appeared with noisy data and missing values. We can test the noise-filter argument directly by making the noise five times larger (0.05 mol/L). A 16-node network will fit this noise, so for both models we use a deliberately small network with one hidden layer of 4 nodes, and we compare them over three noise seeds at the interpolation temperatures and at residence times from 4.5 to 6 min.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiet</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">X_int</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">measure</span><span class="p">([</span><span class="mf">335.</span><span class="p">,</span> <span class="mf">345.</span><span class="p">,</span> <span class="mf">355.</span><span class="p">],</span> <span class="n">TAU</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">quiet</span><span class="p">)</span>
+<span class="n">X_ext</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">T_TRAIN</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">6.01</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">quiet</span><span class="p">)</span>
+<span class="n">rms</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">pred</span><span class="p">,</span> <span class="n">Z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">pred</span><span class="p">(</span><span class="n">Z</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Z</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'black box'</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">'parallel'</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">noisy</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">T_TRAIN</span><span class="p">,</span> <span class="n">TAU</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">least_squares</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span><span class="n">first_order</span><span class="p">(</span><span class="n">noisy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">noisy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">noisy</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:])</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">])</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">Xn</span><span class="p">,</span> <span class="n">Yn</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">noisy</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">noisy</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:])</span>
+    <span class="n">small_bb</span><span class="p">,</span> <span class="n">small_par</span> <span class="o">=</span> <span class="n">mlp</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">mlp</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">res_n</span> <span class="o">=</span> <span class="n">Yn</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">first_order</span><span class="p">(</span><span class="n">noisy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">noisy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">k</span><span class="p">))</span>
+    <span class="n">train</span><span class="p">(</span><span class="n">small_bb</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">((</span><span class="n">small_bb</span><span class="p">(</span><span class="n">Xn</span><span class="p">)</span> <span class="o">-</span> <span class="n">Yn</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">steps</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">)</span>
+    <span class="n">train</span><span class="p">(</span><span class="n">small_par</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">((</span><span class="n">small_par</span><span class="p">(</span><span class="n">Xn</span><span class="p">)</span> <span class="o">-</span> <span class="n">res_n</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">steps</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">)</span>
+    <span class="n">f_bb</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">Z</span><span class="p">:</span> <span class="n">small_bb</span><span class="p">(</span><span class="n">scale</span><span class="p">(</span><span class="n">Z</span><span class="p">))</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">f_par</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">Z</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">:</span> <span class="n">first_order</span><span class="p">(</span><span class="n">Z</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">Z</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">small_par</span><span class="p">(</span><span class="n">scale</span><span class="p">(</span><span class="n">Z</span><span class="p">))</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">'black box'</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">rms</span><span class="p">(</span><span class="n">f_bb</span><span class="p">,</span> <span class="n">X_int</span><span class="p">),</span> <span class="n">rms</span><span class="p">(</span><span class="n">f_bb</span><span class="p">,</span> <span class="n">X_ext</span><span class="p">)))</span>
+    <span class="n">results</span><span class="p">[</span><span class="s1">'parallel'</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">rms</span><span class="p">(</span><span class="n">f_par</span><span class="p">,</span> <span class="n">X_int</span><span class="p">),</span> <span class="n">rms</span><span class="p">(</span><span class="n">f_par</span><span class="p">,</span> <span class="n">X_ext</span><span class="p">)))</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"noise 0.05 mol/L, 4-node network, </span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">9s</span><span class="si">}</span><span class="s2">: RMS error in C_B, interpolation "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, tau 4.5-6 min </span><span class="si">{</span><span class="n">r</span><span class="p">[:,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (mean of 3 seeds)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>noise 0.05 mol/L, 4-node network, black box: RMS error in C_B, interpolation 0.0297, tau 4.5-6 min 0.1105 (mean of 3 seeds)
+noise 0.05 mol/L, 4-node network, parallel : RMS error in C_B, interpolation 0.0169, tau 4.5-6 min 0.0637 (mean of 3 seeds)
+</pre></div>
+</div>
+</div>
+</div>
+<p>With the small network, the errors of the parallel hybrid are about half of the black-box errors, both between the training temperatures (0.017 against 0.030 mol/L) and at longer residence times (0.064 against 0.111 mol/L). The small black box cannot represent the curved profiles on its own, but the small correction network only has to represent a residual, since the first-order model already supplies the shape. This is how the mechanistic part acts as a noise filter: noisy data force us to keep the network simple, and a simple network is only enough when the mechanistic model carries the trend.</p>
+<p>The lectures also point out the limits of correction. One open question is how wrong the mechanistic model can be before its trends start to mislead the network. Since the prediction still ends in a network, the hybrid cannot claim to extrapolate any better than its network does, and a network that is too flexible will fit the noise rather than the error (which is why we shrank it above).</p>
+<div class="exercise admonition" id="ex-t43-multiplicative">
+
+<p class="admonition-title"><span class="caption-number">Exercise 111 </span></p>
+<section id="exercise-content">
+<p>Build a multiplicative correction, <span class="math notranslate nohighlight">\(\hat{C}_B = C_B^{\text{mech}} (1 + \mathrm{NN}(T, \tau))\)</span>, train it on the same data, and compare its training misfit with the additive one. Which structure guarantees <span class="math notranslate nohighlight">\(\hat{C}_B = 0\)</span> at <span class="math notranslate nohighlight">\(\tau = 0\)</span>?</p>
+</section>
+</div>
+</section>
+<section id="mechanism-identification-the-serial-structure">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Mechanism identification: the serial structure</a><a class="headerlink" href="#mechanism-identification-the-serial-structure" title="Link to this heading">#</a></h2>
+<p>In mechanism identification the network goes inside the balances and replaces the unknown term, which in this case is the rate of the first step:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{dC_A}{d\tau} = -\hat r_1(C_A, T), \qquad \frac{dC_B}{d\tau} = \hat r_1(C_A, T) - k_2(T)\, C_B.
+\]</div>
+<p>No matter what rate the network predicts, the concentrations are computed from the mole balances, so species are conserved, the known second step is applied exactly, and every profile starts from the feed.</p>
+<p>There are two choices left. The first is how much physics to build into <span class="math notranslate nohighlight">\(\hat r_1\)</span> itself. A plain network can predict a nonzero rate when there is no A left, which is physically impossible, so instead we write <span class="math notranslate nohighlight">\(\hat r_1 = C_A \cdot s(\mathrm{NN}(C_A, T))\)</span> with <span class="math notranslate nohighlight">\(s(z) = 0.3 \ln(1 + e^{z})\)</span>. The softplus function <span class="math notranslate nohighlight">\(s\)</span> keeps the apparent rate constant positive, and the factor of 0.3 min⁻¹ only sets its scale. In effect, this is a first-order rate law where the rate constant is learned as a function of concentration and temperature.</p>
+<p>How should we train the network? The lectures describe two approaches. <strong>Sequential training</strong> first estimates rates from the data (by differentiating smoothed profiles), then fits the network to those rates, and then solves the ODEs. Each step is easy, but differentiating noisy data amplifies the noise. <strong>Integrated training</strong> fits the weights so that the <em>solution of the ODEs</em> matches the measured concentrations. In the lectures this is set up as one large, nonconvex Pyomo parameter-estimation problem, which is best initialized from black-box weights. Automatic differentiation makes integrated training routine, since we can write a fixed-step fourth-order Runge–Kutta (RK4) integrator in PyTorch, and then the gradient of the loss with respect to the weights flows back through every step of the integrator. This is a small example of what is often called a neural ODE.</p>
+<p>It is useful to write the two approaches as optimization problems, since then it is clear that they differ in where the ODEs sit. With weights <span class="math notranslate nohighlight">\(w\)</span>, states <span class="math notranslate nohighlight">\(X\)</span> (concentrations), the balances <span class="math notranslate nohighlight">\(h(X, r) = 0\)</span> and the rate network <span class="math notranslate nohighlight">\(r(X, w)\)</span>, integrated training is</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{w}\; \sum_{\text{data}} \big(X - X^{\text{meas}}\big)^2 \quad \text{s.t.} \quad h\big(X, r(X, w)\big) = 0,
+\]</div>
+<p>while sequential training first solves <span class="math notranslate nohighlight">\(\min_w \sum (r(X^{\text{meas}}, w) - R^{\text{est}})^2\)</span> against the rate estimates <span class="math notranslate nohighlight">\(R^{\text{est}}\)</span>, and only then integrates <span class="math notranslate nohighlight">\(h = 0\)</span> with the trained network. In the fermentation example from the lectures there are biomass, substrate, product and dissolved-oxygen balances with rates that are predicted by networks, and the integrated problem is written directly in Pyomo with the balances and the network together and the weights as variables. The lectures also list why this is difficult. There are many parameters, and since the objective weights several measured states, those weights become hyperparameters. The problem is also nonconvex, so global solvers are impractical and local solvers will often stop at infeasible points. This is why the lectures suggest that we initialize from black-box weights, i.e. from a black-box network that was trained separately.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">H</span> <span class="o">=</span> <span class="mf">0.25</span>                                   <span class="c1"># RK4 step, min</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">TAU</span> <span class="o">/</span> <span class="n">H</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>        <span class="c1"># steps at which data are measured</span>
+<span class="n">rnet</span> <span class="o">=</span> <span class="n">mlp</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rate_nn</span><span class="p">(</span><span class="n">ca</span><span class="p">,</span> <span class="n">Ts</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Learned first-step rate, mol/(L min): C_A times a positive apparent rate constant."""</span>
+    <span class="k">return</span> <span class="n">ca</span> <span class="o">*</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">rnet</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">ca</span><span class="p">,</span> <span class="n">Ts</span><span class="p">],</span> <span class="mi">1</span><span class="p">))[:,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_serial</span><span class="p">(</span><span class="n">temps</span><span class="p">,</span> <span class="n">tau_max</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Integrate the balances with the learned r1 by RK4. Returns an array (steps+1, n_T, 2)."""</span>
+    <span class="n">temps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">temps</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+    <span class="n">Ts</span><span class="p">,</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">((</span><span class="n">temps</span> <span class="o">-</span> <span class="mi">345</span><span class="p">)</span> <span class="o">/</span> <span class="mi">15</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">k2</span><span class="p">(</span><span class="n">temps</span><span class="p">))</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+        <span class="n">r1</span> <span class="o">=</span> <span class="n">rate_nn</span><span class="p">(</span><span class="n">c</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">Ts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="o">-</span><span class="n">r1</span><span class="p">,</span> <span class="n">r1</span> <span class="o">-</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">c</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">temps</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">);</span> <span class="n">c</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">CA0</span>
+    <span class="n">traj</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">tau_max</span> <span class="o">/</span> <span class="n">H</span><span class="p">))):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">c</span><span class="p">);</span> <span class="n">b</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">H</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span><span class="p">);</span> <span class="n">d</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">H</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">b</span><span class="p">);</span> <span class="n">e</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">H</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="n">H</span> <span class="o">/</span> <span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">b</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span>
+        <span class="n">traj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">traj</span><span class="p">)</span>
+
+<span class="n">Y_prof</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">T_TRAIN</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">TAU</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">hist</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">rnet</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">((</span><span class="n">simulate_serial</span><span class="p">(</span><span class="n">T_TRAIN</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y_prof</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+             <span class="n">steps</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"serial hybrid: training MSE </span><span class="si">{</span><span class="n">hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> s of integrated training)"</span><span class="p">)</span>
+<span class="n">ca_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">330.</span><span class="p">,</span> <span class="mf">360.</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">learned</span> <span class="o">=</span> <span class="n">rate_nn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">ca_grid</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">3</span><span class="p">,),</span> <span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="mi">345</span><span class="p">)</span> <span class="o">/</span> <span class="mi">15</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"T = </span><span class="si">{</span><span class="n">T</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> K, C_A = </span><span class="si">{</span><span class="n">ca_grid</span><span class="si">}</span><span class="s2">: true r1 = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">r1_true</span><span class="p">(</span><span class="n">ca_grid</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">),</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"learned r1 = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">learned</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>serial hybrid: training MSE 7.30e-05 (6.3 s of integrated training)
+T = 330 K, C_A = [0.2 0.5 0.8]: true r1 = [0.03  0.053 0.065], learned r1 = [0.024 0.05  0.066]
+T = 360 K, C_A = [0.2 0.5 0.8]: true r1 = [0.138 0.242 0.298], learned r1 = [0.126 0.249 0.299]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The network was never shown a rate, only concentrations, but the rates that it learned match the inhibited rate law of the plant within about 5% wherever the data are informative. The one larger miss is at 330 K and <span class="math notranslate nohighlight">\(C_A = 0.2\)</span>, which is a state that the data never visit, since at 330 K so little A reacts that <span class="math notranslate nohighlight">\(C_A\)</span> stays above about 0.7 mol/L. Because the learned rate can be plotted, inspected and compared with candidate rate laws, we say that the serial structure <em>identifies</em> the mechanism.</p>
+<p>The serial structure also has some costs. The mechanistic model must be open to modification, which is often not the case for legacy simulation code, every evaluation of the loss requires integrating the model, and identification gets harder when several terms are unknown at the same time. In the plug-flow reactor from the lectures all three rates were unknown and learned, and the identified model captured the trends but kept a visible error. This error reflects the fact that missing every rate term is a harder problem, and it does not mean that identification is a worse approach. Mechanistic knowledge can also be vast (e.g. a cell-signaling pathway has hundreds of reactions), and in these cases a hybrid model may be the only practical way to fill in the gaps.</p>
+<p>The benefit that we get in exchange is the ability to extrapolate through the white-box part of the model. Te Braake, van Can and Verbruggen (1998) showed that this works for process scale-up, since the kinetics that the network learns do not depend on scale and the balances that do depend on scale carry the model to the larger unit. A black box that is trained at the small scale fails.</p>
+<div class="exercise admonition" id="ex-t43-plain-rate">
+
+<p class="admonition-title"><span class="caption-number">Exercise 112 </span></p>
+<section id="exercise-content">
+<p>Replace <code class="docutils literal notranslate"><span class="pre">rate_nn</span></code> with a plain network, <code class="docutils literal notranslate"><span class="pre">0.3</span> <span class="pre">*</span> <span class="pre">rnet(...)[:,</span> <span class="pre">0]</span></code>, with no factor <span class="math notranslate nohighlight">\(C_A\)</span> and no softplus. Retrain it, print the learned rate at <span class="math notranslate nohighlight">\(C_A = 0\)</span> for 330 and 360 K, and repeat the extrapolation comparison of the next section. What does the missing structure cost?</p>
+</section>
+</div>
+</section>
+<section id="interpolation-versus-extrapolation">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Interpolation versus extrapolation</a><a class="headerlink" href="#interpolation-versus-extrapolation" title="Link to this heading">#</a></h2>
+<p>We test the four models on noise-free plant predictions in three regions, which are <strong>interpolation</strong> (335, 345 and 355 K, at the training residence times), <strong>longer residence times</strong> (the training temperatures, with <span class="math notranslate nohighlight">\(\tau\)</span> from 4.5 to 8 min), and a <strong>hotter reactor</strong> (370 K, which is 10 K above the data).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">predict_serial</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]):</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">T</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">traj</span> <span class="o">=</span> <span class="n">simulate_serial</span><span class="p">([</span><span class="n">T</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">traj</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">H</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="n">models</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'first-order'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">X</span><span class="p">:</span> <span class="n">first_order</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">k1_fit</span><span class="p">),</span>
+          <span class="s1">'black box'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">X</span><span class="p">:</span> <span class="n">bb</span><span class="p">(</span><span class="n">scale</span><span class="p">(</span><span class="n">X</span><span class="p">))</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
+          <span class="s1">'parallel'</span><span class="p">:</span> <span class="n">predict_parallel</span><span class="p">,</span> <span class="s1">'serial'</span><span class="p">:</span> <span class="n">predict_serial</span><span class="p">}</span>
+<span class="n">quiet</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tests</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'interpolation'</span><span class="p">:</span> <span class="n">R</span><span class="o">.</span><span class="n">measure</span><span class="p">([</span><span class="mf">335.</span><span class="p">,</span> <span class="mf">345.</span><span class="p">,</span> <span class="mf">355.</span><span class="p">],</span> <span class="n">TAU</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">quiet</span><span class="p">),</span>
+         <span class="s1">'tau 4.5-8 min'</span><span class="p">:</span> <span class="n">R</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">T_TRAIN</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">8.01</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">quiet</span><span class="p">),</span>
+         <span class="s1">'T = 370 K'</span><span class="p">:</span> <span class="n">R</span><span class="o">.</span><span class="n">measure</span><span class="p">([</span><span class="mf">370.</span><span class="p">],</span> <span class="n">TAU</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">quiet</span><span class="p">)}</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'RMS error in C_B (mol/L)'</span><span class="si">:</span><span class="s2">26s</span><span class="si">}</span><span class="s2">"</span> <span class="o">+</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">&gt;13s</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">models</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">X</span> <span class="ow">in</span> <span class="n">tests</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">errs</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">f</span><span class="p">(</span><span class="n">X</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">26s</span><span class="si">}</span><span class="s2">"</span> <span class="o">+</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">e</span><span class="si">:</span><span class="s2">13.4f</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">errs</span><span class="p">))</span>
+
+<span class="n">tau_long</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">8.01</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">tau_long</span><span class="p">,</span> <span class="mf">350.</span><span class="p">),</span> <span class="n">tau_long</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'0.92'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">'training range of $\tau$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_long</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mf">350.</span><span class="p">,</span> <span class="n">tau_long</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">'k-'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'plant'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ls</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="p">[</span><span class="s1">':'</span><span class="p">,</span> <span class="s1">'--'</span><span class="p">,</span> <span class="s1">'-.'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_long</span><span class="p">,</span> <span class="n">models</span><span class="p">[</span><span class="n">name</span><span class="p">](</span><span class="n">X</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ls</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'residence time $\tau$ (min)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'$C_B$ at 350 K (mol/L)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMS error in C_B (mol/L)    first-order    black box     parallel       serial
+interpolation                    0.0234       0.0070       0.0073       0.0023
+tau 4.5-8 min                    0.0371       0.0826       0.0689       0.0076
+T = 370 K                        0.0312       0.0473       0.0123       0.0132
+</pre></div>
+</div>
+<img alt="../_images/b4486c11818d36973a0de09e7448dae697da427ca007eb2d270917761c23bb6c.png" src="../_images/b4486c11818d36973a0de09e7448dae697da427ca007eb2d270917761c23bb6c.png" />
+</div>
+</div>
+<p>Inside the training region all three data-driven models beat the first-order model and predict below the 0.01 mol/L noise level, and the serial hybrid is the most accurate (0.002 mol/L). Outside of the training region the models start to separate.</p>
+<ul class="simple">
+<li><p>At <strong>longer residence times</strong> the black box and the parallel hybrid miss by 0.08 and 0.07 mol/L, worse than the uncorrected first-order model, because both end in a network whose input <span class="math notranslate nohighlight">\(\tau\)</span> is now out of range. The serial hybrid stays below 0.01 mol/L. Its network never sees <span class="math notranslate nohighlight">\(\tau\)</span> as an input; it sees <span class="math notranslate nohighlight">\(C_A\)</span> and <span class="math notranslate nohighlight">\(T\)</span>, and at long residence times <span class="math notranslate nohighlight">\(C_A\)</span> is still within the range that the hotter training profiles covered, so the balances carry the prediction forward.</p></li>
+<li><p>At <strong>370 K</strong> every network’s input <span class="math notranslate nohighlight">\(T\)</span> is out of range. The parallel and serial hybrids are similar (0.012 and 0.013 mol/L) and much better than the black box. The serial model has no structural advantage here, because its rate network is itself extrapolating in temperature.</p></li>
+</ul>
+<p>In general, a model that ends in a network is only as good as the extrapolation of the network, while a model that ends in the balances inherits the generality of the balances, as long as the inputs to the network itself stay within the range of the data.</p>
+<div class="exercise admonition" id="ex-t43-arrhenius">
+
+<p class="admonition-title"><span class="caption-number">Exercise 113 </span></p>
+<section id="exercise-content">
+<p>Give the serial model the Arrhenius form, <span class="math notranslate nohighlight">\(\hat r_1 = k_1^{\text{fit}}(T)\, C_A\, s(\mathrm{NN}(C_A))\)</span>, so that the known activation energy carries the temperature dependence and the network sees only <span class="math notranslate nohighlight">\(C_A\)</span>. Retrain it and recompute the 370 K row. Why does this version extrapolate in temperature when the two-input version does not?</p>
+</section>
+</div>
+</section>
+<section id="optimization-with-an-embedded-network">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Optimization with an embedded network</a><a class="headerlink" href="#optimization-with-an-embedded-network" title="Link to this heading">#</a></h2>
+<p>In Topic 3.5 we separated optimization <em>for</em> training a model from optimization <em>with</em> a trained model that is embedded in a larger problem. So far we have done the first one, and now we will do the second, by writing the trained network as algebraic constraints in Pyomo and optimizing the process through it.</p>
+<p>In the lectures, each tanh node of a Keras network is written by hand as a Pyomo expression. The Optimization and Machine Learning Toolkit (<strong>OMLT</strong>) automates this by building a Pyomo block with a variable for each node, and it exposes the <code class="docutils literal notranslate"><span class="pre">inputs</span></code> and <code class="docutils literal notranslate"><span class="pre">outputs</span></code> of the network. For tanh it writes a smooth NLP (<code class="docutils literal notranslate"><span class="pre">FullSpaceSmoothNNFormulation</span></code>) for Ipopt, and for ReLU it can write an exact big-M MILP (Topic 2.4) that a MILP solver will solve globally. OMLT reads ONNX files, which is the usual route from PyTorch, but our helper <code class="docutils literal notranslate"><span class="pre">omlt_network</span></code> just copies the weights directly.</p>
+<section id="warm-up-a-network-as-a-constraint">
+<h3>Warm-up: a network as a constraint<a class="headerlink" href="#warm-up-a-network-as-a-constraint" title="Link to this heading">#</a></h3>
+<div class="note admonition">
+<p class="admonition-title">Adapted from the course notebook</p>
+<p>Adapted from <code class="docutils literal notranslate"><span class="pre">NeuralNets-HybridModels-PINNs.ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT), section “Hybrid Modeling: Incorporating ML Models into Pyomo”. Modernized: PyTorch replaces Keras, Latin hypercube sampling replaces uniform random sampling, and OMLT replaces the hand-written network constraint.</p>
+</div>
+<p>As a test problem, we will minimize the Rosenbrock function <span class="math notranslate nohighlight">\((1-x)^2 + 100(y - x^2)^2\)</span> over <span class="math notranslate nohighlight">\(x, y \in [-2, 2]\)</span> subject to <span class="math notranslate nohighlight">\(\sin x \sin y \le 0.6\)</span>. We will pretend that the constraint function is expensive to evaluate, so that we have to sample it, fit a network, and then use the network in place of the constraint. The version in the lectures draws 3,000 random samples, which assumes that sampling is cheap, but here we find that 400 Latin-hypercube samples are enough.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.environ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">qmc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">omlt</span><span class="w"> </span><span class="kn">import</span> <span class="n">OmltBlock</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">omlt.neuralnet</span><span class="w"> </span><span class="kn">import</span> <span class="n">FullSpaceSmoothNNFormulation</span>
+
+<span class="n">ipopt</span> <span class="o">=</span> <span class="n">find_solver</span><span class="p">(</span><span class="s1">'ipopt'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Ipopt found'</span> <span class="k">if</span> <span class="n">ipopt</span> <span class="k">else</span> <span class="s1">'Ipopt not found: optimization cells fall back to scipy'</span><span class="p">)</span>
+
+<span class="n">XY</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">400</span><span class="p">),</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">XY</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">XY</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]))[:,</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">gnet</span> <span class="o">=</span> <span class="n">mlp</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">gnet</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">((</span><span class="n">gnet</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">XY</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="n">g</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">steps</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"constraint network: training RMS error </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> on 400 samples"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rosenbrock</span><span class="p">(</span><span class="n">use_network</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=-</span><span class="mf">1.2</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">use_network</span><span class="p">:</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">nn</span> <span class="o">=</span> <span class="n">OmltBlock</span><span class="p">()</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">build_formulation</span><span class="p">(</span><span class="n">FullSpaceSmoothNNFormulation</span><span class="p">(</span>
+            <span class="n">omlt_network</span><span class="p">(</span><span class="n">gnet</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">input_bounds</span><span class="o">=</span><span class="p">[(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])))</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">link</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">)[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">0.6</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.6</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+<span class="k">for</span> <span class="n">use_network</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ipopt</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">rosenbrock</span><span class="p">(</span><span class="n">use_network</span><span class="p">);</span> <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">);</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">gfun</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">gnet</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">z</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">item</span><span class="p">())</span> <span class="k">if</span> <span class="n">use_network</span> <span class="k">else</span> \
+               <span class="p">(</span><span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                        <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="p">{</span><span class="s1">'type'</span><span class="p">:</span> <span class="s1">'ineq'</span><span class="p">,</span> <span class="s1">'fun'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="mf">0.6</span> <span class="o">-</span> <span class="n">gfun</span><span class="p">(</span><span class="n">z</span><span class="p">)})</span><span class="o">.</span><span class="n">x</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'network'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">use_network</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'exact  '</span><span class="si">}</span><span class="s2"> constraint: x = </span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, y = </span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"true sin(x)sin(y) = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ipopt found
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>constraint network: training RMS error 0.0128 on 400 samples
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>exact   constraint: x = 0.9230, y = 0.8517, true sin(x)sin(y) = 0.6000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>network constraint: x = 0.9205, y = 0.8471, true sin(x)sin(y) = 0.5964
+</pre></div>
+</div>
+</div>
+</div>
+<p>Without the constraint the minimum is at <span class="math notranslate nohighlight">\((1, 1)\)</span>, where <span class="math notranslate nohighlight">\(\sin 1 \sin 1 = 0.708\)</span>, so we know that the constraint is active. When the network is used in place of the constraint, the solver lands within 0.005 of the exact solution <span class="math notranslate nohighlight">\((0.923, 0.852)\)</span>, at a point where the true constraint is 0.596 rather than 0.6. This shows that the small fitting error of the network has turned into a small error in where the constraint binds, and in general an embedded model is only as accurate as its fit near the optimum. The notebook also compares one- and two-hidden-layer networks as the constraint, along with the solve times of the network and exact formulations. Each node in the network adds a variable and a constraint, so deeper and wider networks cost more per solve, although at this size both of the solves take a fraction of a second.</p>
+</section>
+<section id="optimizing-the-reactor-through-the-serial-hybrid">
+<h3>Optimizing the reactor through the serial hybrid<a class="headerlink" href="#optimizing-the-reactor-through-the-serial-hybrid" title="Link to this heading">#</a></h3>
+<p>Now we can choose <span class="math notranslate nohighlight">\(T \in [330, 360]\)</span> K and <span class="math notranslate nohighlight">\(\tau \in [0.5, 4]\)</span> min to maximize the outlet <span class="math notranslate nohighlight">\(C_B\)</span> with the serial hybrid. The helper <code class="docutils literal notranslate"><span class="pre">rk4_reactor_pyomo</span></code> writes the RK4 integrator as algebraic constraints with 16 steps of length <span class="math notranslate nohighlight">\(\tau/16\)</span>, and at each of the four stages of each step an OMLT block evaluates the learned rate from the <span class="math notranslate nohighlight">\(C_A\)</span> and <span class="math notranslate nohighlight">\(T\)</span> of that stage, which gives 64 copies of the network in all. This is the same integrator as the PyTorch version above, just written in Pyomo.</p>
+<p>The bounds match the training region on purpose, and OMLT also bounds the inputs of the network to <span class="math notranslate nohighlight">\(C_A \in [0, 1]\)</span>, <span class="math notranslate nohighlight">\(T \in [330, 360]\)</span> K. An optimizer will find any place where a data-driven model is wrong in its favor, and these places are almost always outside of the data, so bounding the inputs to the training region is the simplest way to guard against them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rate_def</span> <span class="o">=</span> <span class="n">omlt_network</span><span class="p">(</span><span class="n">rnet</span><span class="p">,</span> <span class="n">x_offset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">345</span><span class="p">],</span> <span class="n">x_factor</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="n">y_offset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_factor</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="n">input_bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">330</span><span class="p">,</span> <span class="mi">360</span><span class="p">)])</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">rk4_reactor_pyomo</span><span class="p">(</span><span class="n">rate_def</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">T_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">330</span><span class="p">,</span> <span class="mi">360</span><span class="p">),</span> <span class="n">tau_bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">ipopt</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">T_hyb</span><span class="p">,</span> <span class="n">tau_hyb</span><span class="p">,</span> <span class="n">cb_hyb</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">cb</span><span class="p">[</span><span class="mi">16</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ipopt: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">termination_condition</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>   <span class="c1"># fallback: optimize T with scipy at the 4 min bound</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">best</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">simulate_serial</span><span class="p">([</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="mf">4.0</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="p">[</span><span class="mf">345.</span><span class="p">],</span>
+                        <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">330</span><span class="p">,</span> <span class="mi">360</span><span class="p">)],</span> <span class="n">method</span><span class="o">=</span><span class="s1">'Nelder-Mead'</span><span class="p">)</span>
+    <span class="n">T_hyb</span><span class="p">,</span> <span class="n">tau_hyb</span><span class="p">,</span> <span class="n">cb_hyb</span> <span class="o">=</span> <span class="n">best</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">4.0</span><span class="p">,</span> <span class="o">-</span><span class="n">best</span><span class="o">.</span><span class="n">fun</span>
+
+<span class="n">plant_cb</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">R</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">n</span><span class="o">=</span><span class="mi">200</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">box</span><span class="p">,</span> <span class="n">starts</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">330</span><span class="p">,</span> <span class="mi">360</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)],</span> <span class="p">[(</span><span class="mi">335</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">355</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+<span class="n">true</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="o">-</span><span class="n">plant_cb</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">s</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">box</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">starts</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">fun</span><span class="p">)</span>
+<span class="n">mech</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="o">-</span><span class="n">first_order</span><span class="p">(</span><span class="o">*</span><span class="n">z</span><span class="p">,</span> <span class="n">k1_fit</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">box</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">starts</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">fun</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">''</span><span class="si">:</span><span class="s2">22s</span><span class="si">}{</span><span class="s1">'T (K)'</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}{</span><span class="s1">'tau (min)'</span><span class="si">:</span><span class="s2">&gt;11s</span><span class="si">}{</span><span class="s1">'predicted C_B'</span><span class="si">:</span><span class="s2">&gt;15s</span><span class="si">}{</span><span class="s1">'plant C_B'</span><span class="si">:</span><span class="s2">&gt;11s</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'serial hybrid (OMLT)'</span><span class="si">:</span><span class="s2">22s</span><span class="si">}{</span><span class="n">T_hyb</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}{</span><span class="n">tau_hyb</span><span class="si">:</span><span class="s2">11.2f</span><span class="si">}{</span><span class="n">cb_hyb</span><span class="si">:</span><span class="s2">15.4f</span><span class="si">}{</span><span class="n">plant_cb</span><span class="p">((</span><span class="n">T_hyb</span><span class="p">,</span><span class="w"> </span><span class="n">tau_hyb</span><span class="p">))</span><span class="si">:</span><span class="s2">11.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'first-order model'</span><span class="si">:</span><span class="s2">22s</span><span class="si">}{</span><span class="n">mech</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}{</span><span class="n">mech</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">11.2f</span><span class="si">}{</span><span class="o">-</span><span class="n">mech</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">15.4f</span><span class="si">}{</span><span class="n">plant_cb</span><span class="p">(</span><span class="n">mech</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="si">:</span><span class="s2">11.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'true optimum'</span><span class="si">:</span><span class="s2">22s</span><span class="si">}{</span><span class="n">true</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}{</span><span class="n">true</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">11.2f</span><span class="si">}{</span><span class="s1">''</span><span class="si">:</span><span class="s2">15s</span><span class="si">}{</span><span class="o">-</span><span class="n">true</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">11.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ipopt: optimal
+                         T (K)  tau (min)  predicted C_B  plant C_B
+serial hybrid (OMLT)     352.0       4.00         0.4883     0.4888
+first-order model        349.5       4.00         0.4490     0.4825
+true optimum             352.0       4.00                    0.4888
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(T\)</span> (K)</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\tau\)</span> (min)</p></th>
+<th class="head"><p>predicted <span class="math notranslate nohighlight">\(C_B\)</span> (mol/L)</p></th>
+<th class="head"><p>plant <span class="math notranslate nohighlight">\(C_B\)</span> (mol/L)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>serial hybrid (OMLT)</p></td>
+<td><p>352.0</p></td>
+<td><p>4.00</p></td>
+<td><p>0.4883</p></td>
+<td><p>0.4888</p></td>
+</tr>
+<tr class="row-odd"><td><p>first-order model</p></td>
+<td><p>349.5</p></td>
+<td><p>4.00</p></td>
+<td><p>0.4490</p></td>
+<td><p>0.4825</p></td>
+</tr>
+<tr class="row-even"><td><p>true optimum</p></td>
+<td><p>352.0</p></td>
+<td><p>4.00</p></td>
+<td><p></p></td>
+<td><p>0.4888</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The table shows that the optimizer has found the true optimum of the plant by going to the 4 min bound and an interior temperature. At this point the plant would give the true maximum of B to four decimals, which is very close to the prediction of the hybrid. With the first-order model the optimizer also goes to the bound on <span class="math notranslate nohighlight">\(\tau\)</span>, but picks a cooler reactor because the dependence of the rate on <span class="math notranslate nohighlight">\(C_A\)</span> is wrong in that model. The first-order prediction for the amount of B is also too low. Since the optimum is flat in <span class="math notranslate nohighlight">\(T\)</span>, the decision of the first-order model only costs about 1% of the achievable B, but the predicted value is off by about 7%.</p>
+<p>The optimum sits on the <span class="math notranslate nohighlight">\(\tau\)</span> bound, which is also the edge of the training data. If we lift that bound the optimizer will have to extrapolate, and the previous section showed that this is relatively safe for the serial hybrid and unsafe for the black box.</p>
+<div class="exercise admonition" id="ex-t43-omlt">
+
+<p class="admonition-title"><span class="caption-number">Exercise 114 </span></p>
+<section id="exercise-content">
+<p>Embed the black box <code class="docutils literal notranslate"><span class="pre">bb</span></code> with OMLT (one block with inputs <span class="math notranslate nohighlight">\(T\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span>, scaled as in <code class="docutils literal notranslate"><span class="pre">scale</span></code>) and maximize its predicted <span class="math notranslate nohighlight">\(C_B\)</span> over the same box. Compare its optimum, and the plant’s <span class="math notranslate nohighlight">\(C_B\)</span> there, with the serial hybrid’s. Then widen the <span class="math notranslate nohighlight">\(\tau\)</span> bound to 8 min for both. Which optimum moves to a point where the plant disagrees with the model, and by how much?</p>
+</section>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Parallel</strong> hybrids (mechanism correction) add a learned discrepancy to an unchanged mechanistic model. The mechanistic model acts as a noise filter, but the prediction ends in a network and extrapolates like one.</p></li>
+<li><p><strong>Serial</strong> hybrids (mechanism identification) put the network inside the balances. Trained through an ODE solver, ours learned the never-measured rate of A → B within about 5% where the data are informative.</p></li>
+<li><p>At residence times twice those in the data, the black box and the parallel hybrid missed by 0.07 to 0.08 mol/L; the serial hybrid stayed below 0.01 mol/L.</p></li>
+<li><p>OMLT writes a trained network as Pyomo constraints. Optimizing through 64 copies of the learned rate recovered the plant’s optimum, 352 K at the 4 min bound. Keep embedded networks inside their training region.</p></li>
+<li><p><a class="reference internal" href="Topic4.4-Physics-Informed_Machine_Learning.html"><span class="doc">4.4 Physics-Informed Machine Learning</span></a> puts the physics into the training loss instead of around the network.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>D. C. Psichogios and L. H. Ungar, “A hybrid neural network-first principles approach to process modeling,” <em>AIChE Journal</em> 38 (1992) 1499–1511. The original serial structure.</p></li>
+<li><p>M. L. Thompson and M. A. Kramer, “Modeling chemical processes using prior knowledge and neural networks,” <em>AIChE Journal</em> 40 (1994) 1328–1340. The parallel structure and the fed-batch penicillin example.</p></li>
+<li><p>H. A. B. te Braake, H. J. L. van Can and H. B. Verbruggen, “Semi-mechanistic modeling of chemical processes with neural networks,” <em>Engineering Applications of Artificial Intelligence</em> 11 (1998) 507–515.</p></li>
+<li><p>M. von Stosch, R. Oliveira, J. Peres and S. Feyo de Azevedo, “Hybrid semi-parametric modeling in process systems engineering: Past, present and future,” <em>Computers &amp; Chemical Engineering</em> 60 (2014) 86–101.</p></li>
+<li><p>F. Ceccon, J. Jalving, J. Haddad, A. Thebelt, C. Tsay, C. D. Laird and R. Misener, “OMLT: Optimization &amp; Machine Learning Toolkit,” <em>Journal of Machine Learning Research</em> 23 (2022) 1–8.</p></li>
+<li><p>L. T. Biegler, <em>Nonlinear Programming: Concepts, Algorithms, and Applications to Chemical Processes</em>, SIAM (2010). The simultaneous (discretize-then-optimize) approach used in the last example.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./4-data_driven_modeling"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic4.2-Optimization_in_Reduced_Spaces.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">4.2 Optimization in Reduced Spaces</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic4.4-Physics-Informed_Machine_Learning.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">4.4 Physics-Informed Machine Learning</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mechanistic-data-driven-and-hybrid-models">Mechanistic, data-driven and hybrid models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-reactor-to-model">A reactor to model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-networks-in-pytorch">Training networks in PyTorch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mechanism-correction-the-parallel-structure">Mechanism correction: the parallel structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mechanism-identification-the-serial-structure">Mechanism identification: the serial structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolation-versus-extrapolation">Interpolation versus extrapolation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-with-an-embedded-network">Optimization with an embedded network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#warm-up-a-network-as-a-constraint">Warm-up: a network as a constraint</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizing-the-reactor-through-the-serial-hybrid">Optimizing the reactor through the serial hybrid</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

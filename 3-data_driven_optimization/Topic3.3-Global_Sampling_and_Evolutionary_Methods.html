@@ -1,0 +1,964 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.3 Global Sampling and Evolutionary Methods &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.4 Constraints in Data-Driven Optimization" href="Topic3.4-Constraints_in_Data-Driven_Optimization.html" />
+    <link rel="prev" title="3.2 Direct-Search Methods" href="Topic3.2-Direct-Search_Methods.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Data-Driven Optimization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3.3 Global Sampling and Evolutionary Methods</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-sampling-methods">Global sampling methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lipschitz-continuity-and-lower-bounds">Lipschitz continuity and lower bounds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-direct-algorithm">The DIRECT algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#closing-a-certified-gap-on-bb1">Closing a certified gap on BB1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-and-evolutionary-methods">Stochastic and evolutionary methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-methods-on-bb1-and-bb2">Global methods on BB1 and BB2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#global-sampling-and-evolutionary-methods" id="id1">3.3 Global Sampling and Evolutionary Methods</a></p>
+<ul>
+<li><p><a class="reference internal" href="#global-sampling-methods" id="id2">Global sampling methods</a></p></li>
+<li><p><a class="reference internal" href="#lipschitz-continuity-and-lower-bounds" id="id3">Lipschitz continuity and lower bounds</a></p></li>
+<li><p><a class="reference internal" href="#the-direct-algorithm" id="id4">The DIRECT algorithm</a></p></li>
+<li><p><a class="reference internal" href="#closing-a-certified-gap-on-bb1" id="id5">Closing a certified gap on BB1</a></p></li>
+<li><p><a class="reference internal" href="#stochastic-and-evolutionary-methods" id="id6">Stochastic and evolutionary methods</a></p></li>
+<li><p><a class="reference internal" href="#global-methods-on-bb1-and-bb2" id="id7">Global methods on BB1 and BB2</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id8">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id9">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="global-sampling-and-evolutionary-methods">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">3.3 Global Sampling and Evolutionary Methods</a><a class="headerlink" href="#global-sampling-and-evolutionary-methods" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 7, Lesson 4: <em>Global Sampling Methods and DIRECT Algorithm</em></p></li>
+<li><p>Module 7, Lesson 5: <em>Sampling-Based Stochastic Methods</em></p></li>
+<li><p>Module 7, Lesson 6: <em>Sampling-Based Stochastic and Evolutionary Methods</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Contrast global sampling methods with local direct search, and say what “global” does and does not promise.</p></li>
+<li><p>State Lipschitz continuity precisely and use a Lipschitz constant to compute a valid lower bound on a black box over an interval.</p></li>
+<li><p>Describe how DIRECT divides and samples the search space, and explain why it cannot stop on its own.</p></li>
+<li><p>Use a Lipschitz constant to turn DIRECT-style sampling into a method that certifies a gap, and relate it to branch-and-bound.</p></li>
+<li><p>Explain the mechanisms of simulated annealing, genetic algorithms and particle swarm optimization, and run scipy’s global methods on a black box.</p></li>
+</ul>
+</div>
+<p>The local methods of <a class="reference internal" href="Topic3.2-Direct-Search_Methods.html"><span class="doc">3.2 Direct-Search Methods</span></a> find the well they start in, and on BB1 this was the global optimum about one time in three. The obvious fix is to stop sampling around one point and to sample the whole box instead, and in this topic we will cover methods designed to do exactly this. Some of these methods are deterministic and systematic, like DIRECT, while others are stochastic and inspired by nature, like simulated annealing, genetic algorithms and particle swarms. None of them, on its own, can know when it has found the global optimum. However, one of them can be made to know if we give it one more number about the function, which is a Lipschitz constant, and this is also the connection between this part and the branch-and-bound of Topics 2.5 and 2.6.</p>
+<section id="global-sampling-methods">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Global sampling methods</a><a class="headerlink" href="#global-sampling-methods" title="Link to this heading">#</a></h2>
+<p>A <strong>global sampling method</strong> collects samples everywhere in the search space, rather than in a small region around a current point. Since there is no current point with a neighborhood to be covered, it does not need positive spanning sets or simplices; instead, it spreads samples over the box and concentrates later samples in the places where earlier ones looked good. The same effect could be achieved, although less systematically, by starting a local method from many points (the multistart of Topic 3.2).</p>
+<p>“Global” is a name for the search, not for the result. A global sampling method explores more than a local one, which raises the odds of landing in the best well, but without assumptions about <span class="math notranslate nohighlight">\(f\)</span> it has no way to know whether it has. As we saw in Topic 3.1, if we only have samples it is never possible to rule out a narrow well between two samples. Global methods also give up the local guarantee of Topic 3.2, since without derivatives or a controlled pattern it is not possible to prove convergence even to a stationary point, and they usually need many more evaluations, so they are only worth their cost when the landscape has several wells and evaluations are cheap enough. The convergence argument for these methods is about coverage: a good global method keeps its samples from repeating, so if it could sample forever it would eventually sample everywhere and find the global optimum. With a finite budget, how quickly it gets close depends entirely on the heuristics used to decide where to sample next.</p>
+<p>This changes the kind of answer we are asking for. A local method returns an <strong>exact local optimum</strong>, which is a point where, under the smoothness assumptions of Topic 3.2, the gradient is zero, but whose value may be poor. A global method returns an <strong>approximate global optimum</strong>, which is a point that may have a much better value but is not exactly stationary, and may be slightly off the bottom of its well. Which of these is preferable depends on the application, and if we polish an approximate global answer with a short local search, as dual annealing does internally, we can get both.</p>
+<p>Global sampling methods come in two kinds. <strong>Deterministic</strong> methods, such as DIRECT, give the same samples every time they are run. <strong>Stochastic</strong> methods, such as simulated annealing, genetic algorithms and particle swarm optimization, use random numbers to choose samples, so two runs can give different answers.</p>
+<p>It is helpful to have a baseline to judge them all against. Pure random sampling places points uniformly in the box and keeps the best one. On BB1 a sample can only be within <span class="math notranslate nohighlight">\(10^{-3}\)</span> of the optimum if it lands very close to an edge, so pure random search is a poor method here, and the next cell measures just how poor it is.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">direct</span><span class="p">,</span> <span class="n">differential_evolution</span><span class="p">,</span> <span class="n">dual_annealing</span><span class="p">,</span> <span class="n">Bounds</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part3a_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="n">FSTAR1</span> <span class="o">=</span> <span class="mf">1.58921</span>                      <span class="c1"># BB1 optimum (Topic 3.1)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">900001</span><span class="p">)</span>
+<span class="n">fx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">([</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">[::</span><span class="mi">100</span><span class="p">]])</span>
+<span class="n">near</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fx</span> <span class="o">&lt;</span> <span class="n">FSTAR1</span> <span class="o">+</span> <span class="mf">1e-3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"fraction of [0, 0.9] where BB1 is within 1e-3 of the optimum: </span><span class="si">{</span><span class="n">near</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"expected uniform samples until the first such point: about </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">near</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fraction of [0, 0.9] where BB1 is within 1e-3 of the optimum: 0.0004
+expected uniform samples until the first such point: about 2250
+</pre></div>
+</div>
+</div>
+</div>
+<p>Only 0.04% of the range is good enough, because <span class="math notranslate nohighlight">\(f\)</span> rises steeply away from the edges, so a uniform sampler needs about 2,250 evaluations, on average, to get one sample there, and this is the cost of searching blindly.</p>
+<div class="exercise admonition" id="ex-t33-random">
+
+<p class="admonition-title"><span class="caption-number">Exercise 71 </span></p>
+<section id="exercise-content">
+<p>Run pure random search on BB1 with 10 different seeds and a budget of 1,000 evaluations each. In how many runs is the best sample within <span class="math notranslate nohighlight">\(10^{-3}\)</span> of 1.58921? Compare with the estimate printed above, and with the success rates of the local methods in Topic 3.2 at the same total budget.</p>
+</section>
+</div>
+</section>
+<section id="lipschitz-continuity-and-lower-bounds">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Lipschitz continuity and lower bounds</a><a class="headerlink" href="#lipschitz-continuity-and-lower-bounds" title="Link to this heading">#</a></h2>
+<p>A function <span class="math notranslate nohighlight">\(f\)</span> is <strong>Lipschitz continuous</strong> on a set <span class="math notranslate nohighlight">\(X\)</span> with <strong>Lipschitz constant</strong> <span class="math notranslate nohighlight">\(L\)</span> if</p>
+<div class="math notranslate nohighlight">
+\[
+|f(x) - f(y)| \le L\, \|x - y\| \quad \text{for all } x, y \in X.
+\]</div>
+<p>The constant is a bound on how fast <span class="math notranslate nohighlight">\(f\)</span> can change, since over a distance <span class="math notranslate nohighlight">\(h\)</span>, <span class="math notranslate nohighlight">\(f\)</span> cannot rise or fall by more than <span class="math notranslate nohighlight">\(Lh\)</span>. If <span class="math notranslate nohighlight">\(f\)</span> is differentiable on an interval, the mean value theorem gives a valid constant directly, <span class="math notranslate nohighlight">\(L = \max_{x} |f'(x)|\)</span>. For example, <span class="math notranslate nohighlight">\(f(x) = x^3\)</span> is Lipschitz on <span class="math notranslate nohighlight">\([1, 2]\)</span>, because <span class="math notranslate nohighlight">\(|x^3 - y^3| = |x - y|\,|x^2 + xy + y^2| \le 12\,|x - y|\)</span>, since <span class="math notranslate nohighlight">\(x^2 + xy + y^2 \le 12\)</span> there, and <span class="math notranslate nohighlight">\(L = 12\)</span> is also <span class="math notranslate nohighlight">\(\max |f'| = 3 \cdot 2^2\)</span>. A function can fail to be Lipschitz in two ways. It can jump, like BB3 at its on/off switches and penalty walls, and in this case no <span class="math notranslate nohighlight">\(L\)</span> works. Alternatively, it can be continuous but infinitely steep somewhere, and for example <span class="math notranslate nohighlight">\(f(x) = \sqrt{x}\)</span> on <span class="math notranslate nohighlight">\([0, 1]\)</span> has <span class="math notranslate nohighlight">\(f'(x) = 1/(2\sqrt{x})\)</span>, which grows without bound as <span class="math notranslate nohighlight">\(x \to 0\)</span>, so no single <span class="math notranslate nohighlight">\(L\)</span> can bound its slope near zero. At small scale BB1 is close to the second case, since its smoothed fixed charge makes the slope at zero load the largest anywhere, and the smaller <span class="math notranslate nohighlight">\(\epsilon\)</span> is, the larger that slope will be.</p>
+<p>With Lipschitz continuity, a single sample can be turned into a bound. If <span class="math notranslate nohighlight">\(x\)</span> lies within distance <span class="math notranslate nohighlight">\(r\)</span> of a sampled point <span class="math notranslate nohighlight">\(c\)</span>, then <span class="math notranslate nohighlight">\(f(x) \ge f(c) - L\,r\)</span>, and in particular, over an interval <span class="math notranslate nohighlight">\([a, b]\)</span> sampled at its center <span class="math notranslate nohighlight">\(c\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{x \in [a, b]} f(x) \;\ge\; f(c) - L\,\frac{b - a}{2}.
+\]</div>
+<p>This is a <strong>valid lower bound</strong> in exactly the sense of Topic 2.6, since no point in the interval can be better than it. With several samples, the bounds from all of them together form a sawtooth of downward cones under <span class="math notranslate nohighlight">\(f\)</span>, and the lowest point of the sawtooth is a lower bound on the global minimum.</p>
+<p>For BB1, we can compute a Lipschitz constant from the formula we have been hiding from the solver, as the largest slope of <span class="math notranslate nohighlight">\(f\)</span> over <span class="math notranslate nohighlight">\([0, 0.9]\)</span> on a fine grid, with a 1% safety margin. In a real black-box problem nobody hands us this number, so it has to come from physics (a bound on how fast the power can change with load), from the data, or from experience, and the certificate below is only as good as that number.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part3a_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lipschitz_bb1</span>
+
+<span class="n">L</span> <span class="o">=</span> <span class="n">lipschitz_bb1</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Lipschitz constant of BB1 on [0, 0.9]: L = </span><span class="si">{</span><span class="n">L</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> per-unit power per unit load"</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">901</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">([</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">7</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>            <span class="c1"># five interior samples</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">([</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">])</span>
+<span class="n">cones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">fs</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">L</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">samples</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'BB1 (hidden)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">cones</span><span class="p">,</span> <span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Lipschitz lower bound, L = </span><span class="si">{</span><span class="n">L</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="s1">'ko'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'samples'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">FSTAR1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'0.5'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'stack 1 load $x_1$ (per-unit)'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'total power (per-unit)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"best sample </span><span class="si">{</span><span class="n">fs</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">; lower bound from five samples </span><span class="si">{</span><span class="n">cones</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">; gap </span><span class="si">{</span><span class="n">fs</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cones</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lipschitz constant of BB1 on [0, 0.9]: L = 5.133 per-unit power per unit load
+best sample 1.6425; lower bound from five samples 0.9288; gap 0.7137
+</pre></div>
+</div>
+<img alt="../_images/c54c637a2ce95ac689c0f43b5967ba799457d804243f434b7dc3a05e281f4d52.png" src="../_images/c54c637a2ce95ac689c0f43b5967ba799457d804243f434b7dc3a05e281f4d52.png" />
+</div>
+</div>
+<p>BB1’s Lipschitz constant is <span class="math notranslate nohighlight">\(L = 5.13\)</span>, and the steepest slope is at zero load, because the smoothed fixed charge <span class="math notranslate nohighlight">\(a\,x/(x+\epsilon)\)</span> rises fastest just as a stack turns on; this is the same physical feature responsible for the narrow edge wells. With five evenly spaced interior samples, the best sample is the equal split, 1.6425, and the sawtooth bound is 0.9288, which is a gap of 0.71. The bound is weakest near the edges, which are the parts of the box farthest from a sample, and this is exactly where the optimum is hiding. If we want to close the gap, we will need to sample more in the places where the bound is low.</p>
+<div class="exercise admonition" id="ex-t33-lipschitz">
+
+<p class="admonition-title"><span class="caption-number">Exercise 72 </span></p>
+<section id="exercise-content">
+<p>(a) Compute a Lipschitz constant for BB1 restricted to <span class="math notranslate nohighlight">\([0.2, 0.7]\)</span> with <code class="docutils literal notranslate"><span class="pre">lipschitz_bb1(0.2,</span> <span class="pre">0.7)</span></code> and explain why it is much smaller than 5.13. (b) Show that BB3 is not Lipschitz continuous by finding two points 0.001 apart whose values differ by more than 1. (c) Redraw the figure with <span class="math notranslate nohighlight">\(L = 2\)</span>. Is the dashed curve still below <span class="math notranslate nohighlight">\(f\)</span> everywhere? What would a method that trusted it conclude?</p>
+</section>
+</div>
+</section>
+<section id="the-direct-algorithm">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">The DIRECT algorithm</a><a class="headerlink" href="#the-direct-algorithm" title="Link to this heading">#</a></h2>
+<p>DIRECT, short for “DIviding RECTangles”, was proposed by Jones, Perttunen and Stuckman (1993), motivated by design problems run on car simulations at General Motors, and Jones and Martins (2021) review its first 25 years. It is the most widely used deterministic global sampling method, and the idea behind it is the sawtooth bound above, applied without knowing <span class="math notranslate nohighlight">\(L\)</span>.</p>
+<p>DIRECT normalizes the box to a unit hypercube, samples its center, and then repeats:</p>
+<ol class="arabic simple">
+<li><p><strong>Select</strong> the potentially optimal rectangles. A rectangle with center value <span class="math notranslate nohighlight">\(f(c)\)</span> and half-diagonal <span class="math notranslate nohighlight">\(r\)</span> has the Lipschitz bound <span class="math notranslate nohighlight">\(f(c) - Lr\)</span>. DIRECT does not know <span class="math notranslate nohighlight">\(L\)</span>, so it selects every rectangle that would have the lowest bound for <em>some</em> value of <span class="math notranslate nohighlight">\(L &gt; 0\)</span> (and that could improve on the best value by a meaningful amount). Small <span class="math notranslate nohighlight">\(L\)</span> favors rectangles with good center values, which is local refinement; large <span class="math notranslate nohighlight">\(L\)</span> favors big rectangles, which is global exploration. Taking all of them at once balances the two without choosing.</p></li>
+<li><p><strong>Divide</strong> each selected rectangle into thirds along its longest side (a hypercube is divided along every dimension, one after another) and <strong>sample</strong> the centers of the two new outer thirds. The old center stays the center of the middle third, so each division costs two evaluations.</p></li>
+</ol>
+<p>This is “Lipschitzian optimization without the Lipschitz constant”. It is also the reason for the weakness of DIRECT, since without ever committing to an <span class="math notranslate nohighlight">\(L\)</span> it never has a lower bound, so it cannot prove that it has found the optimum, and it stops only when it runs out of budget or its rectangles become too small. The cell below runs the scipy implementation on BB1 with a budget of 4,000 evaluations and a minimum rectangle size of <span class="math notranslate nohighlight">\(10^{-6}\)</span>, and it records when the best value found first comes within <span class="math notranslate nohighlight">\(10^{-2}\)</span> and <span class="math notranslate nohighlight">\(10^{-3}\)</span> of the optimum.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fD</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">direct</span><span class="p">(</span><span class="n">fD</span><span class="p">,</span> <span class="n">Bounds</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">]),</span> <span class="n">maxfun</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">len_tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fD</span><span class="o">.</span><span class="n">history</span><span class="p">)</span>
+<span class="n">hit2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">h</span> <span class="o">&lt;</span> <span class="n">FSTAR1</span> <span class="o">+</span> <span class="mf">1e-2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">hit3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">h</span> <span class="o">&lt;</span> <span class="n">FSTAR1</span> <span class="o">+</span> <span class="mf">1e-3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"DIRECT on BB1: best </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> at x1 = </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> after </span><span class="si">{</span><span class="n">fD</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2"> evaluations"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"best within 1e-2 of the optimum at evaluation </span><span class="si">{</span><span class="n">hit2</span><span class="si">}</span><span class="s2">, within 1e-3 at evaluation </span><span class="si">{</span><span class="n">hit3</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DIRECT on BB1: best 1.58921 at x1 = 0.0000 after 2397 evaluations
+best within 1e-2 of the optimum at evaluation 55, within 1e-3 at evaluation 81
+</pre></div>
+</div>
+</div>
+</div>
+<p>DIRECT is within <span class="math notranslate nohighlight">\(10^{-2}\)</span> of the optimum at evaluation 55 and within <span class="math notranslate nohighlight">\(10^{-3}\)</span> at evaluation 81, but then it keeps going for more than 2,300 further evaluations, refining rectangles all over the box, because nothing is telling it that it is done, and it only stops when its rectangles reach the size limit, after 2,397 evaluations. <strong>DIRECT finds, but it cannot prove.</strong></p>
+<p>This pattern, where the method is close to the optimum quickly but is exact only after many more samples, is typical of DIRECT. It is the most popular deterministic global sampling method, with reported uses ranging from power generation, photovoltaic systems and hydrogen fuel cell management to aircraft routing, hard-disk design and genetics. Because its concept is simple and tied directly to Lipschitz theory, DIRECT works well on problems with up to about 10 variables, although with more variables than this the number of rectangles will grow too quickly to be practical.</p>
+<div class="exercise admonition" id="ex-t33-direct">
+
+<p class="admonition-title"><span class="caption-number">Exercise 73 </span></p>
+<section id="exercise-content">
+<p>Run <code class="docutils literal notranslate"><span class="pre">direct</span></code> on BB2 over <span class="math notranslate nohighlight">\([0, 1]^2\)</span> with <code class="docutils literal notranslate"><span class="pre">maxfun=4000</span></code> and record, as above, the evaluations at which the best value first comes within <span class="math notranslate nohighlight">\(10^{-2}\)</span> and <span class="math notranslate nohighlight">\(10^{-3}\)</span> of 2.08181. Then plot the sampled points (wrap <code class="docutils literal notranslate"><span class="pre">el.bb2</span></code> in a function that stores its arguments). Where does DIRECT spend its samples, and why does it take so long to reach the optimum on the edge <span class="math notranslate nohighlight">\(x_B = 0\)</span>?</p>
+</section>
+</div>
+</section>
+<section id="closing-a-certified-gap-on-bb1">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Closing a certified gap on BB1</a><a class="headerlink" href="#closing-a-certified-gap-on-bb1" title="Link to this heading">#</a></h2>
+<p>Now we can give the geometry of DIRECT the one thing it lacks. With a known Lipschitz constant, every interval carries the lower bound <span class="math notranslate nohighlight">\(f(c) - L\,(b - a)/2\)</span>, and the smallest of these over all the intervals is a lower bound on the global minimum. The best value sampled so far, called the <strong>incumbent</strong>, is an upper bound, and the difference between the two is a <strong>certified gap</strong>, since the incumbent is provably within the gap of the true optimum.</p>
+<p>The method in <code class="docutils literal notranslate"><span class="pre">_lib/part3a_tools.py</span></code> (<code class="docutils literal notranslate"><span class="pre">direct_certified</span></code>) runs center-sampled trisection on BB1 (as DIRECT does in one dimension) with two changes. Every interval with a lower bound that could still beat the incumbent is split, while every interval with a lower bound already worse than the incumbent is <strong>discarded</strong>, since the optimum cannot be there, and the method stops when the gap is at most <span class="math notranslate nohighlight">\(10^{-3}\)</span>. The splitting and discarding rules are exactly the two moves of branch-and-bound in <a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html"><span class="doc">2.5 Branch-and-Bound</span></a>, where we branch on the regions that could still hold the optimum and prune the ones proven to be worse. We will run it twice, once with the single global constant <span class="math notranslate nohighlight">\(L = 5.13\)</span>, and once with a <strong>local</strong> constant for each interval, equal to its own largest slope. The local version uses the formula, so it would not be available to a true black-box method, although it is useful as a way to show how much a tighter constant can buy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part3a_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">direct_certified</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">local</span><span class="p">,</span> <span class="n">lab</span> <span class="ow">in</span> <span class="p">((</span><span class="kc">False</span><span class="p">,</span> <span class="s1">'global L = 5.13'</span><span class="p">),</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">'local L per interval'</span><span class="p">)):</span>
+    <span class="n">n3</span><span class="p">,</span> <span class="n">hist</span> <span class="o">=</span> <span class="n">direct_certified</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="n">local</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+    <span class="n">n2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">H</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">H</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1e-2</span><span class="p">),</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">H</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">H</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">where</span><span class="o">=</span><span class="s1">'post'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'incumbent (</span><span class="si">{</span><span class="n">lab</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">H</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">H</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">H</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">where</span><span class="o">=</span><span class="s1">'post'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'lower bound (</span><span class="si">{</span><span class="n">lab</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">H</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">H</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">H</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">lab</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">lab</span><span class="si">:</span><span class="s2">22s</span><span class="si">}</span><span class="s2">: gap &lt;= 1e-2 after </span><span class="si">{</span><span class="n">n2</span><span class="si">}</span><span class="s2"> evaluations, gap &lt;= 1e-3 after </span><span class="si">{</span><span class="n">n3</span><span class="si">}</span><span class="s2">; incumbent </span><span class="si">{</span><span class="n">H</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">FSTAR1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'0.5'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'black-box evaluations'</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'total power (per-unit)'</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Incumbent and certified lower bound'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'0.5'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'black-box evaluations'</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'certified gap (per-unit)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'The gap closes'</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>global L = 5.13       : gap &lt;= 1e-2 after 73 evaluations, gap &lt;= 1e-3 after 83; incumbent 1.58956
+local L per interval  : gap &lt;= 1e-2 after 27 evaluations, gap &lt;= 1e-3 after 37; incumbent 1.58956
+</pre></div>
+</div>
+<img alt="../_images/fb270de67301bf1e94323ca6d58c4b8e9a0a295599353e1360bf9c9cec44a962.png" src="../_images/fb270de67301bf1e94323ca6d58c4b8e9a0a295599353e1360bf9c9cec44a962.png" />
+</div>
+</div>
+<p>With the global constant the gap reaches <span class="math notranslate nohighlight">\(10^{-2}\)</span> after 73 evaluations and <span class="math notranslate nohighlight">\(10^{-3}\)</span> after 83. The incumbent is 1.58956, which is within the certified <span class="math notranslate nohighlight">\(10^{-3}\)</span> of the true optimum 1.58921; center sampling never lands exactly on the edge, so the incumbent is a point very near it. With local constants, the gap is closed after 27 and 37 evaluations. The honest global constant is loose, because the steep slope near zero load is charged to every interval, although it is not so loose as to keep the gap from closing in a readable number of evaluations.</p>
+<p>We can now set this result beside Topic 2.6. At the end of <a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html"><span class="doc">2.6 Non-convex Problems and Bounding</span></a> we pointed to DIRECT as another route to a certificate, and in this section we have followed that route. In Topic 2.6, spatial branch-and-bound proved the same optimum of the same instance in 12 nodes, with the lower bound of each node coming from a convex relaxation built from the equations. Here the lower bound of each interval comes from one sample and the Lipschitz constant, and the proof requires 83 black-box evaluations. <strong>Branch-and-bound proves with the equations; DIRECT proves with <span class="math notranslate nohighlight">\(L\)</span>.</strong> The structure of the argument is the same in both cases, with an incumbent above, a valid bound below, branching to tighten the bound, and pruning where the bound already exceeds the incumbent. The difference is the source of the bound, and therefore what we need to trust, since in Topic 2.6 we trusted the relaxation and here we are trusting <span class="math notranslate nohighlight">\(L\)</span>. If <span class="math notranslate nohighlight">\(L\)</span> is too small, the cones poke above <span class="math notranslate nohighlight">\(f\)</span>, so the “bound” is not a bound, and the method can report a closed gap around the wrong answer, as a local solve passed off as a bound did in Topic 2.6. The moment you trust a bound from a non-convex problem, you are doing global optimization, whether you meant to or not.</p>
+<div class="exercise admonition" id="ex-t33-certificate">
+
+<p class="admonition-title"><span class="caption-number">Exercise 74 </span></p>
+<section id="exercise-content">
+<p>Modify a copy of <code class="docutils literal notranslate"><span class="pre">direct_certified</span></code> to use a constant <span class="math notranslate nohighlight">\(L\)</span> that you pass in, and run it with <span class="math notranslate nohighlight">\(L\)</span> = 10, 5.13, 3 and 1. Report the evaluations to a <span class="math notranslate nohighlight">\(10^{-3}\)</span> gap and the incumbent in each case. For which values is the certificate valid? For which does the method stop at the wrong answer, and what does it report about its own gap?</p>
+</section>
+</div>
+</section>
+<section id="stochastic-and-evolutionary-methods">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Stochastic and evolutionary methods</a><a class="headerlink" href="#stochastic-and-evolutionary-methods" title="Link to this heading">#</a></h2>
+<p>A second family of global sampling methods uses randomness and rules of thumb. These methods are called <strong>stochastic</strong> because random perturbations generate their samples, so the same algorithm run twice with different random seeds can give different results. They are called <strong>heuristic</strong> because their rules are justified by analogy and experience rather than by theorems. They make no assumption about the function, need no derivatives, and can be applied to any problem, including discontinuous ones and problems with integer or binary variables, so they compete directly with direct search for the same problems. In exchange they give no guarantee: their convergence to the global optimum holds only in the limit of infinitely many samples. Heuristics are not unique to these methods, since any rule chosen because it seems to work, such as where to put the initial samples, is a heuristic, while computing a derivative and solving for where it vanishes is not. (They are not methods for optimization <em>under</em> uncertainty; that is the subject of the bonus topics on uncertainty, and <a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html"><span class="doc">5.1 Stochastic Programming</span></a> separates “stochastic methods” from “stochastic programming”.) The lectures present three, each inspired by a natural process.</p>
+<p><strong>Simulated annealing</strong> (Kirkpatrick, Gelatt and Vecchi 1983) imitates the slow cooling of a metal. From the current point it proposes a random nearby point, and a better point is always accepted, while a worse one is accepted with probability <span class="math notranslate nohighlight">\(\exp(-\Delta f / T)\)</span>, where <span class="math notranslate nohighlight">\(\Delta f\)</span> is how much worse it is and <span class="math notranslate nohighlight">\(T\)</span> is a “temperature”. At the start <span class="math notranslate nohighlight">\(T\)</span> is high and the search accepts many uphill moves, so it can climb out of wells, and as <span class="math notranslate nohighlight">\(T\)</span> is lowered it settles into the best well it has found, with the cooling schedule and the step size as its tuning parameters.</p>
+<p><strong>Genetic algorithms</strong> (Holland, in the 1960s and 1970s) imitate natural selection and belong to the broader class of <strong>evolutionary algorithms</strong>. We start by evaluating a <strong>population</strong> of candidate points, where each candidate (a vector of decision variables) is called a <strong>chromosome</strong> or individual; classic GAs encode it as a string of bits (genes), while the version below works with real numbers directly. The objective is used as the <strong>fitness</strong> of each individual. Fitter individuals are more likely to be <strong>selected</strong> as parents, pairs of parents are combined by <strong>crossover</strong> into children, some children are randomly <strong>mutated</strong>, and the best individuals may be carried over unchanged (<strong>elitism</strong>). The offspring form the next generation, and the loop ends after a set time or number of generations, or when a good enough solution appears, so that over many generations the population drifts toward good regions. A well-known application of this approach is the evolved antenna NASA used for the 2006 ST5 spacecraft, with an irregular shape found by a genetic algorithm to meet an unusual radiation-pattern requirement. Differential evolution, which can be found in scipy, is a modern relative where children are built from differences between population members.</p>
+<p><strong>Particle swarm optimization</strong> (Kennedy and Eberhart 1995) imitates a flock of birds or a school of fish. Each <strong>particle</strong> has a position and a velocity, and at each step the velocity is pulled toward the best point seen by the particle itself and toward the best point seen by any particle, with random weights, before the particle moves. The swarm explores while the particles disagree and contracts as they converge on a common best point. Many variants of the update formula exist, as well as many other nature-inspired heuristics such as ant colony optimization, and new ones appear regularly.</p>
+<p><strong>Scatter search</strong> (Glover 1977; Laguna and Martí 2003), which is listed in Topic 1.1 with the other stochastic methods, is a population method that works in a more deterministic way. It keeps a small reference set of good and diverse points, combines pairs of them by taking points along and beyond the line between them (rather than by random crossover), and improves the combined points with a local search before deciding which of them enter the reference set. Diversity is managed explicitly through the distance between points, instead of being left to random mutation. We do not implement it here, since its combine-then-improve loop is close to the genetic algorithm above with a local optimizer added.</p>
+<p>The next cell implements each method in a few lines on BB1, with a budget of roughly 600 evaluations each. These are teaching versions written to show the mechanism (not production code), and each one is run once with seed 0 and then with 10 seeds to show how much the outcome can vary.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.9</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sa</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mf">0.45</span><span class="p">,</span> <span class="n">T0</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">cool</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">);</span> <span class="n">x</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">x0</span><span class="p">,</span> <span class="n">f</span><span class="p">([</span><span class="n">x0</span><span class="p">]);</span> <span class="n">best</span> <span class="o">=</span> <span class="p">(</span><span class="n">fx</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span> <span class="n">T</span> <span class="o">=</span> <span class="n">T0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(),</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">));</span> <span class="n">fy</span> <span class="o">=</span> <span class="n">f</span><span class="p">([</span><span class="n">y</span><span class="p">])</span>     <span class="c1"># random neighbor</span>
+        <span class="k">if</span> <span class="n">fy</span> <span class="o">&lt;</span> <span class="n">fx</span> <span class="ow">or</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">fy</span> <span class="o">-</span> <span class="n">fx</span><span class="p">)</span> <span class="o">/</span> <span class="n">T</span><span class="p">):</span>                  <span class="c1"># Metropolis rule</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">fy</span>
+        <span class="n">best</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">best</span><span class="p">,</span> <span class="p">(</span><span class="n">fx</span><span class="p">,</span> <span class="n">x</span><span class="p">));</span> <span class="n">T</span> <span class="o">*=</span> <span class="n">cool</span>                                   <span class="c1"># cool down</span>
+    <span class="k">return</span> <span class="n">best</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ga</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">pop</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">gens</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">pm</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">);</span> <span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">pop</span><span class="p">);</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">([</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">gens</span><span class="p">):</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">pop</span><span class="p">))</span>
+        <span class="n">parents</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>                            <span class="c1"># tournament selection</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">pop</span><span class="p">);</span> <span class="n">kids</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">parents</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">parents</span><span class="p">)</span>   <span class="c1"># crossover</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">pm</span><span class="p">;</span> <span class="n">kids</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>    <span class="c1"># mutation</span>
+        <span class="n">kids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">kids</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">);</span> <span class="n">yk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">([</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kids</span><span class="p">])</span>
+        <span class="n">kids</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yk</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">y</span><span class="p">)],</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>                              <span class="c1"># elitism</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">kids</span><span class="p">,</span> <span class="n">yk</span>
+    <span class="k">return</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">X</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pso</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">c1</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">c2</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">);</span> <span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span> <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">([</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]);</span> <span class="n">P</span><span class="p">,</span> <span class="n">py</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>             <span class="c1"># personal bests</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">py</span><span class="p">)]</span>                                                   <span class="c1"># swarm best</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">V</span> <span class="o">+</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">P</span> <span class="o">-</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="n">c2</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">g</span> <span class="o">-</span> <span class="n">X</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">X</span> <span class="o">+</span> <span class="n">V</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">);</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">([</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span>
+        <span class="n">better</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">py</span><span class="p">;</span> <span class="n">P</span><span class="p">[</span><span class="n">better</span><span class="p">],</span> <span class="n">py</span><span class="p">[</span><span class="n">better</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">better</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">better</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">py</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">P</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">py</span><span class="p">)]</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">((</span><span class="s1">'simulated annealing'</span><span class="p">,</span> <span class="n">sa</span><span class="p">),</span> <span class="p">(</span><span class="s1">'genetic algorithm'</span><span class="p">,</span> <span class="n">ga</span><span class="p">),</span> <span class="p">(</span><span class="s1">'particle swarm'</span><span class="p">,</span> <span class="n">pso</span><span class="p">)):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">);</span> <span class="n">best</span><span class="p">,</span> <span class="n">xb</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">wins</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">method</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">),</span> <span class="n">seed</span><span class="o">=</span><span class="n">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">FSTAR1</span> <span class="o">+</span> <span class="mf">1e-3</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">20s</span><span class="si">}</span><span class="s2"> seed 0: best </span><span class="si">{</span><span class="n">best</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> at x1 = </span><span class="si">{</span><span class="n">xb</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2"> evaluations); "</span>
+          <span class="sa">f</span><span class="s2">"optimum found in </span><span class="si">{</span><span class="n">wins</span><span class="si">}</span><span class="s2">/10 seeds"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>simulated annealing  seed 0: best 1.58921 at x1 = 0.000 (601 evaluations); optimum found in 10/10 seeds
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>genetic algorithm    seed 0: best 1.58921 at x1 = 0.000 (620 evaluations); optimum found in 6/10 seeds
+particle swarm       seed 0: best 1.58921 at x1 = 0.000 (615 evaluations); optimum found in 9/10 seeds
+</pre></div>
+</div>
+</div>
+</div>
+<p>With seed 0 all three methods find the optimum, at an edge. Over 10 seeds, simulated annealing finds it 10 times, the particle swarm 9 times and the genetic algorithm 6 times, and the misses settle in the equal-split well at 1.6425. There is one detail helping all three on this problem, which is that each clips its samples to the bounds, so any step that would leave the box lands exactly on an edge, and this is where the optimum of BB1 is. A box with its optimum in the interior would not get that help. More generally, these methods can escape wells, but they cost hundreds of evaluations to do it, with an answer that depends on the seed and the tuning.</p>
+<p>The lectures weigh the three methods in similar terms. Simulated annealing helps avoid local minima and has many implementations, but the result depends on the cooling schedule, and the returned point is an approximate global optimum that may not even be a local one. Genetic algorithms can use any cost function and are widely used, especially in biomedical and bioengineering work, and they are likely to find the region of the global minimum, but good settings are hard to find, the process is slow and may not converge, and exact solutions are rare. Implementations of particle swarms are easy to find, and they can locate the region of the global optimum, but they need many samples, and because the swarm crowds around the best region, it is costly to pin down the exact optimum. All three come with no guarantee of local or global optimality, and a rerun from a different seed can give a different answer, although with infinitely many samples they would all converge to the same solution.</p>
+<p>These methods are a good choice when an approximate global solution is good enough, the problem has discontinuities or noise, and evaluations are cheap. They should be avoided when evaluations are expensive, since they need many of them, and when the equations exist, since a derivative-based or global deterministic solver can then do better and prove it.</p>
+<div class="exercise admonition" id="ex-t33-heuristics">
+
+<p class="admonition-title"><span class="caption-number">Exercise 75 </span></p>
+<section id="exercise-content">
+<p>Change one tuning parameter of each method and rerun the 10-seed count: the cooling rate <code class="docutils literal notranslate"><span class="pre">cool</span></code> of simulated annealing (try 0.9 and 0.995), the mutation probability <code class="docutils literal notranslate"><span class="pre">pm</span></code> of the genetic algorithm (try 0 and 0.5), and the inertia <code class="docutils literal notranslate"><span class="pre">w</span></code> of the swarm (try 0.3 and 0.95). Which changes help, which hurt, and why? Then replace <code class="docutils literal notranslate"><span class="pre">np.clip</span></code> in <code class="docutils literal notranslate"><span class="pre">sa</span></code> with a rule that rejects out-of-bounds proposals, and report the effect.</p>
+</section>
+</div>
+</section>
+<section id="global-methods-on-bb1-and-bb2">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Global methods on BB1 and BB2</a><a class="headerlink" href="#global-methods-on-bb1-and-bb2" title="Link to this heading">#</a></h2>
+<p>For real runs we will use library implementations. In scipy there is DIRECT (<code class="docutils literal notranslate"><span class="pre">direct</span></code>), a generalized simulated annealing (<code class="docutils literal notranslate"><span class="pre">dual_annealing</span></code>, which also runs a local search from promising points) and differential evolution (<code class="docutils literal notranslate"><span class="pre">differential_evolution</span></code>), but no particle swarm. The cell below repeats the experiment of Topic 3.2 with these methods, using 30 seeds for the stochastic ones, one run for the deterministic DIRECT, a definition of success as a result within <span class="math notranslate nohighlight">\(10^{-3}\)</span> of the optimum, and a budget of about 4,000 evaluations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">global_table</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bb</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">fstar</span><span class="p">,</span> <span class="n">seeds</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hi</span><span class="p">,</span> <span class="nb">float</span><span class="p">);</span> <span class="n">bounds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">meth</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'DIRECT'</span><span class="p">,</span> <span class="s1">'diff. evolution'</span><span class="p">,</span> <span class="s1">'dual annealing'</span><span class="p">):</span>
+        <span class="n">hits</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">vals</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'DIRECT'</span> <span class="k">else</span> <span class="n">seeds</span><span class="p">):</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">bb</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'DIRECT'</span><span class="p">:</span>
+                <span class="n">fx</span> <span class="o">=</span> <span class="n">direct</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Bounds</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">),</span> <span class="n">maxfun</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">len_tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span><span class="o">.</span><span class="n">fun</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">history</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">fstar</span> <span class="o">+</span> <span class="n">tol</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  DIRECT first within </span><span class="si">{</span><span class="n">tol</span><span class="si">}</span><span class="s2"> of the optimum at evaluation </span><span class="si">{</span><span class="n">first</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'diff. evolution'</span><span class="p">:</span>
+                <span class="n">fx</span> <span class="o">=</span> <span class="n">differential_evolution</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">polish</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">fun</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fx</span> <span class="o">=</span> <span class="n">dual_annealing</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">maxfun</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span><span class="o">.</span><span class="n">fun</span>
+            <span class="n">hits</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">fx</span> <span class="o">-</span> <span class="n">fstar</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">;</span> <span class="n">nf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">n</span><span class="p">);</span> <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fx</span><span class="p">)</span>
+        <span class="n">runs</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'DIRECT'</span> <span class="k">else</span> <span class="n">seeds</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">meth</span><span class="si">:</span><span class="s2">16s</span><span class="si">}</span><span class="s2"> success </span><span class="si">{</span><span class="n">hits</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">runs</span><span class="si">:</span><span class="s2">&lt;2d</span><span class="si">}</span><span class="s2">  median evaluations </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">nf</span><span class="p">))</span><span class="si">:</span><span class="s2">5d</span><span class="si">}</span><span class="s2">  "</span>
+              <span class="sa">f</span><span class="s2">"worst result </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">global_table</span><span class="p">(</span><span class="s1">'BB1'</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">],</span> <span class="mf">1.58921</span><span class="p">)</span>
+<span class="n">global_table</span><span class="p">(</span><span class="s1">'BB2'</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mf">2.08181</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB1  DIRECT first within 0.001 of the optimum at evaluation 81
+BB1  DIRECT           success  1/1   median evaluations  2397  worst result 1.58921
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB1  diff. evolution  success 15/30  median evaluations   367  worst result 1.64250
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB1  dual annealing   success 30/30  median evaluations  2013  worst result 1.58921
+BB2  DIRECT first within 0.001 of the optimum at evaluation 835
+BB2  DIRECT           success  1/1   median evaluations  4003  worst result 2.08199
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB2  diff. evolution  success 10/30  median evaluations  1695  worst result 2.14236
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB2  dual annealing   success 22/30  median evaluations  4000  worst result 2.09012
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Black box</p></th>
+<th class="head"><p>Method</p></th>
+<th class="head"><p>Success</p></th>
+<th class="head"><p>Median evaluations</p></th>
+<th class="head"><p>Worst result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>BB1</p></td>
+<td><p>DIRECT</p></td>
+<td><p>1/1</p></td>
+<td><p>2,397</p></td>
+<td><p>1.58921</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>differential evolution</p></td>
+<td><p>15/30</p></td>
+<td><p>367</p></td>
+<td><p>1.64250</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>dual annealing</p></td>
+<td><p>30/30</p></td>
+<td><p>2,013</p></td>
+<td><p>1.58921</p></td>
+</tr>
+<tr class="row-odd"><td><p>BB2</p></td>
+<td><p>DIRECT</p></td>
+<td><p>1/1</p></td>
+<td><p>4,003</p></td>
+<td><p>2.08199</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>differential evolution</p></td>
+<td><p>10/30</p></td>
+<td><p>1,695</p></td>
+<td><p>2.14236</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>dual annealing</p></td>
+<td><p>22/30</p></td>
+<td><p>4,000</p></td>
+<td><p>2.09012</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We can compare this with Topic 3.2, where Nelder–Mead and compass search succeeded 9 and 8 times in 30 on BB1, and 4 and 3 times on BB2. Dual annealing is the most reliable method here, at the price of using its whole budget, while differential evolution is cheaper and succeeds about half the time on BB1 and a third of the time on BB2, with its failures in the equal-split well on BB1 and in other wells on BB2. DIRECT is successful on both, deterministically, but runs to its budget because it cannot stop on its own; on BB2 it first came within <span class="math notranslate nohighlight">\(10^{-3}\)</span> of the optimum after 835 evaluations, which is much later than on BB1, because the optimum lies on the edge <span class="math notranslate nohighlight">\(x_B = 0\)</span>, and center sampling can only approach this edge slowly.</p>
+<p>None of these methods certifies its answer. Each of the 30 dual-annealing runs on BB1 found the optimum, but nothing in the run says so, and we only know because the answer was proven in Topic 2.6. On a black box without a Lipschitz constant, “30 out of 30” is the strongest statement we can make, and it is a statement about our experiment, not about the problem.</p>
+<p>The same methods on BB3, the full MINLP as a black box, behave differently again, and the reasons have to do with how the constraints are formulated, which is the subject of <a class="reference internal" href="Topic3.4-Constraints_in_Data-Driven_Optimization.html"><span class="doc">3.4 Constraints in Data-Driven Optimization</span></a>.</p>
+<div class="exercise admonition" id="ex-t33-budget">
+
+<p class="admonition-title"><span class="caption-number">Exercise 76 </span></p>
+<section id="exercise-content">
+<p>Rerun <code class="docutils literal notranslate"><span class="pre">global_table</span></code> for BB1 with dual annealing limited to <code class="docutils literal notranslate"><span class="pre">maxfun=500</span></code> and then <code class="docutils literal notranslate"><span class="pre">maxfun=1000</span></code>, and with differential evolution at <code class="docutils literal notranslate"><span class="pre">popsize=5</span></code> and <code class="docutils literal notranslate"><span class="pre">popsize=30</span></code>. Plot success rate against median evaluations for every configuration, together with the multistart compass search of Topic 3.2 (8/30 at 47 evaluations per run, so about 1,400 in total). Which method would you choose if each evaluation took one minute?</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Global sampling methods sample the whole box. “Global” describes the search, not a guarantee; without assumptions on <span class="math notranslate nohighlight">\(f\)</span>, no sampling method can prove its answer.</p></li>
+<li><p>A function is Lipschitz continuous with constant <span class="math notranslate nohighlight">\(L\)</span> if <span class="math notranslate nohighlight">\(|f(x) - f(y)| \le L\|x - y\|\)</span>; then one center sample gives the valid bound <span class="math notranslate nohighlight">\(f(c) - L\,(b-a)/2\)</span> over an interval. BB1 has <span class="math notranslate nohighlight">\(L = 5.13\)</span>, set by the steep slope at zero load. BB3, with jumps, has none.</p></li>
+<li><p>DIRECT divides rectangles and samples their centers, selecting every rectangle that could be best for some <span class="math notranslate nohighlight">\(L\)</span>. On BB1 it is within <span class="math notranslate nohighlight">\(10^{-3}\)</span> of the optimum at evaluation 81 but runs to 2,397, because it cannot stop on its own.</p></li>
+<li><p>With the Lipschitz constant, the same trisection closes a certified gap: <span class="math notranslate nohighlight">\(10^{-3}\)</span> after 83 evaluations with the global <span class="math notranslate nohighlight">\(L\)</span>, 37 with local constants. Branch-and-bound proved the same optimum in 12 nodes with the equations; DIRECT proves it with <span class="math notranslate nohighlight">\(L\)</span>.</p></li>
+<li><p>Simulated annealing, genetic algorithms and particle swarms are heuristic, seed-dependent global methods. With scipy’s versions on BB1, dual annealing succeeds 30/30 and differential evolution 15/30; on BB2, 22/30 and 10/30.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Jones, D. R., Perttunen, C. D., and Stuckman, B. E. (1993). Lipschitzian optimization without the Lipschitz constant. <em>Journal of Optimization Theory and Applications</em>, 79, 157–181.</p></li>
+<li><p>Jones, D. R., and Martins, J. R. R. A. (2021). The DIRECT algorithm: 25 years later. <em>Journal of Global Optimization</em>, 79, 521–566.</p></li>
+<li><p>Kirkpatrick, S., Gelatt, C. D., Jr., and Vecchi, M. P. (1983). Optimization by simulated annealing. <em>Science</em>, 220, 671–680.</p></li>
+<li><p>Kennedy, J., and Eberhart, R. (1995). Particle swarm optimization. <em>Proceedings of the IEEE International Conference on Neural Networks</em>, IV, 1942–1948.</p></li>
+<li><p>Laguna, M., and Martí, R. (2003). <em>Scatter Search: Methodology and Implementations in C</em>. Springer.</p></li>
+<li><p>Storn, R., and Price, K. (1997). Differential evolution: a simple and efficient heuristic for global optimization over continuous spaces. <em>Journal of Global Optimization</em>, 11, 341–359.</p></li>
+<li><p>Rios, L. M., and Sahinidis, N. V. (2013). Derivative-free optimization: a review of algorithms and comparison of software implementations. <em>Journal of Global Optimization</em>, 56, 1247–1293.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./3-data_driven_optimization"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic3.2-Direct-Search_Methods.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">3.2 Direct-Search Methods</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic3.4-Constraints_in_Data-Driven_Optimization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">3.4 Constraints in Data-Driven Optimization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-sampling-methods">Global sampling methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lipschitz-continuity-and-lower-bounds">Lipschitz continuity and lower bounds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-direct-algorithm">The DIRECT algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#closing-a-certified-gap-on-bb1">Closing a certified gap on BB1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-and-evolutionary-methods">Stochastic and evolutionary methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-methods-on-bb1-and-bb2">Global methods on BB1 and BB2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

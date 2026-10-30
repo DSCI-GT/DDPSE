@@ -1,0 +1,858 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.1 Optimization without Equations &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '3-data_driven_optimization/Topic3.1-Optimization_without_Equations';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.2 Direct-Search Methods" href="Topic3.2-Direct-Search_Methods.html" />
+    <link rel="prev" title="Data-Driven Optimization" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Data-Driven Optimization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/3-data_driven_optimization/Topic3.1-Optimization_without_Equations.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/3-data_driven_optimization/Topic3.1-Optimization_without_Equations.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3.1 Optimization without Equations</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-the-equations-are-missing">When the equations are missing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-electrolyzer-as-a-black-box">The electrolyzer as a black box</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-data-driven-methods">Types of data-driven methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-optimality-can-mean-without-derivatives">What optimality can mean without derivatives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-first-model-based-method">A first model-based method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#optimization-without-equations" id="id1">3.1 Optimization without Equations</a></p>
+<ul>
+<li><p><a class="reference internal" href="#when-the-equations-are-missing" id="id2">When the equations are missing</a></p></li>
+<li><p><a class="reference internal" href="#the-electrolyzer-as-a-black-box" id="id3">The electrolyzer as a black box</a></p></li>
+<li><p><a class="reference internal" href="#types-of-data-driven-methods" id="id4">Types of data-driven methods</a></p></li>
+<li><p><a class="reference internal" href="#what-optimality-can-mean-without-derivatives" id="id5">What optimality can mean without derivatives</a></p></li>
+<li><p><a class="reference internal" href="#a-first-model-based-method" id="id6">A first model-based method</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id7">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id8">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="optimization-without-equations">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">3.1 Optimization without Equations</a><a class="headerlink" href="#optimization-without-equations" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 6, Lesson 1: <em>Intro to Data-Driven Optimization</em></p></li>
+<li><p>Module 6, Lesson 2: <em>Types of Data-Driven Optimization</em></p></li>
+<li><p>Module 6, Lesson 3: <em>Optimality in Data-Driven Optimization</em></p></li>
+<li><p>Module 6, Lesson 5: <em>Model-Based Methods</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>State the black-box optimization problem and explain how it differs from the equation-based problems of Topics 1.1–2.6.</p></li>
+<li><p>Name the sources of black-box data (experiments, simulations, first-principles codes) and recognize when a black-box method is the wrong choice.</p></li>
+<li><p>Classify a data-driven method as direct-search or model-based, and as local or global.</p></li>
+<li><p>Explain what optimality can and cannot mean when no derivatives are available.</p></li>
+<li><p>Fit a simple surrogate (a quadratic) to samples of a black box and explain why its minimum can sit in the wrong place.</p></li>
+</ul>
+</div>
+<p>In Topics 1.1–2.6 the optimizer always had access to the equations, so it could compute a gradient, check the KKT conditions, build a convex relaxation, and prove that an answer was optimal. In this part we will remove this access. The objective (and sometimes the constraints) can only be <em>evaluated</em>: we choose an input, the system is run, and the output is a single number. An algorithm must learn everything about the problem from these numbers.</p>
+<p>This is still the same minimization problem, <span class="math notranslate nohighlight">\(\min_x f(x)\)</span> subject to constraints, as in the rest of the book, and the ideas of Topics 1.1–2.6 (feasibility, local versus global optima, bounds and gaps) are all still valid. The difference is in the knowledge available to an algorithm, and therefore in the promises it can make about the answer.</p>
+<section id="when-the-equations-are-missing">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">When the equations are missing</a><a class="headerlink" href="#when-the-equations-are-missing" title="Link to this heading">#</a></h2>
+<p>A <strong>black-box optimization problem</strong> is an optimization problem where the objective, and possibly some or all of the constraints, are not available in closed form. We can evaluate them at any chosen point, but we cannot see the formulas, which means that we have no derivatives and no structure to exploit. In standard form,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_{x} \quad &amp; f(x) \\
+\text{s.t.} \quad &amp; g_j(x) \le 0, \quad j = 1, \ldots, m \\
+&amp; x^L \le x \le x^U
+\end{aligned}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f\)</span> and some of the <span class="math notranslate nohighlight">\(g_j\)</span> are now known only through evaluations. The bounds <span class="math notranslate nohighlight">\(x^L \le x \le x^U\)</span> are almost always known, since we have to tell the black box what range of inputs is allowed. Several names are used for this setting in the literature: <strong>derivative-free optimization</strong>, <strong>black-box optimization</strong>, <strong>simulation optimization</strong>, and, in this course, <strong>data-driven optimization</strong>. These terms overlap almost completely, so we will use “black box” for the function and “data-driven” or “derivative-free” for the methods.</p>
+<p>What is the source of the evaluations? In practice there are three common sources. The first source is <strong>experiments</strong>, such as a pilot plant, a reactor in the lab, or historical operating data, where each data point costs time and money. The second is <strong>computer simulations</strong> (e.g. a process simulator, a computational fluid dynamics model, or a molecular simulation), where each evaluation may take seconds or hours. The third is <strong>first-principles models that are too complicated to hand to an optimizer</strong>. In this case the equations exist but are buried inside a code with iterative solvers, tables and switches, which means that in practice we can only run the code. If some of the equations are known and usable while others can only be evaluated, the problem is often called <strong>grey-box</strong>. Note that if a system is described by an accurate explicit model that a solver can use, we should use that model, since a derivative-based solver with the equations will almost always beat a derivative-free method that ignores the equations.</p>
+<p>Optimization without derivatives is an old field (Rios and Sahinidis 2013 review the field and compare the software). The first methods date to the 1960s, a time when derivatives computed from noisy experimental or numerical data could not be trusted because they were too inaccurate. There has been renewed interest for two reasons. First, simulation has become cheap enough to call thousands of times. Second, modern engineering problems chain models across scales, from molecules to plants to supply chains, and no single equation-based formulation can cover the whole system.</p>
+<p>The lectures for this module introduce case studies that show the range of applications. In the first, an oilfield operator decides how much water to inject into each well, month by month over five years, to maximize the net present value of the field under a limit on water use. The response of the reservoir comes from a reservoir simulator that can only be queried by the optimizer. In the second, a carbon dioxide capture supply chain is designed: the goal is to decide where to build capture plants and which capture technology (adsorption, membranes, absorption) to use in order to minimize the total cost of capture, transport and storage, and the performance of each technology is computed by a detailed ASPEN process model. A third case study, from an earlier version of this lecture than the recorded video, designs a pharmaceutical tablet plant through a flowsheet of powder-processing unit models, with the goal of minimizing the daily production cost while meeting demand and the tablet specifications. These are the kinds of systems that motivate these methods, but they will not be used as examples in this book. Instead we will keep the electrolyzer plant from the first two modules (Topics 1.1–2.6), since we already know the answers for this plant and can check every method against these known answers.</p>
+<p>One more naming issue needs to be clarified at this point. In parts of the literature, “data-driven optimization” means something else: optimization <em>under uncertainty</em>, where data are used to build the uncertainty sets or scenarios of a robust or stochastic program. That is the subject of the bonus topics on uncertainty, and <a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html"><span class="doc">5.1 Stochastic Programming</span></a> sorts out the related terms “stochastic methods” and “stochastic programming”. In Topics 3.1–4.4, “data-driven” means that input–output data stand in for missing equations.</p>
+<div class="exercise admonition" id="ex-t31-sources">
+
+<p class="admonition-title"><span class="caption-number">Exercise 60 </span></p>
+<section id="exercise-content">
+<p>For each of the following, decide whether a black-box method is appropriate, and if so, which of the three data sources it uses: (a) choosing the reflux ratio of a distillation column modeled in a commercial flowsheet simulator; (b) choosing the loads of the three electrolyzer stacks when the power curves <span class="math notranslate nohighlight">\(P_i(x)\)</span> are given as formulas; (c) choosing the temperature and residence time of a new catalytic reaction using bench-scale runs. For the case where a black-box method is the wrong choice, say what you would use instead.</p>
+</section>
+</div>
+</section>
+<section id="the-electrolyzer-as-a-black-box">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">The electrolyzer as a black box</a><a class="headerlink" href="#the-electrolyzer-as-a-black-box" title="Link to this heading">#</a></h2>
+<p>We will use the same electrolyzer fleet as before, but the solver is only allowed to query the fleet as a black box. The model is unchanged: the stylized S-curve power curve <span class="math notranslate nohighlight">\(P_i(x) = x + a_i\,x/(x+\epsilon) + r_i x^2\)</span> of <a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html"><span class="doc">2.6 Non-convex Problems and Bounding</span></a>, in per-unit (load <span class="math notranslate nohighlight">\(x = 1\)</span> is 200 kg H₂/h; power 1 is the 6.53 MW ideal full-load power). The difference is in the rules of the game: a method in this part may call the function and read the number that it returns, but it may not look inside the function.</p>
+<p>This restriction is more than a classroom device. The power curve of a real stack is not an explicit formula in the load. A detailed alkaline electrolyzer model gives the cell voltage and the Faraday efficiency as functions of the current, so finding the power that delivers a given hydrogen output <span class="math notranslate nohighlight">\(x\)</span> requires a root-find for the current inside every evaluation (Ulleberg 2003; Sánchez et al. 2018; Baumhof et al. 2023). This means that “a plant model you can only query” is literally true of the physics represented by our stylized curve.</p>
+<p>We will define three black boxes, where each one is a step harder than the previous one, and we will use their names throughout Topics 3.1–3.6.</p>
+<ul class="simple">
+<li><p><strong>BB1</strong>: two identical type-A stacks share a demand <span class="math notranslate nohighlight">\(D = 0.9\)</span> (180 kg/h), with continuous loads and no on/off decisions. Eliminating the demand balance leaves one decision, the first stack’s load <span class="math notranslate nohighlight">\(x_1 \in [0, 0.9]\)</span>, with <span class="math notranslate nohighlight">\(x_2 = 0.9 - x_1\)</span>. This is the spatial branch-and-bound instance of Topic 2.6, which proved the optimum in 12 nodes.</p></li>
+<li><p><strong>BB2</strong>: stacks A, B and C share <span class="math notranslate nohighlight">\(D = 1.2\)</span> (240 kg/h), with continuous loads and no fixed costs or minimum loads. There are two decisions, <span class="math notranslate nohighlight">\((x_A, x_B)\)</span>; stack C takes the rest, <span class="math notranslate nohighlight">\(x_C = D - x_A - x_B\)</span>, and a point where <span class="math notranslate nohighlight">\(x_C\)</span> falls outside <span class="math notranslate nohighlight">\([0, 1]\)</span> returns a penalty value of 10.</p></li>
+<li><p><strong>BB3</strong>: the full MINLP of Topic 2.6 as a black box. The same two decisions, but a stack whose load is below the minimum load <span class="math notranslate nohighlight">\(x_{\min} = 0.1\)</span> is off (it costs nothing and makes nothing), and a stack that is on pays the on-cost <span class="math notranslate nohighlight">\(F = 0.12\)</span> plus its power. A point where C’s load is neither zero nor between <span class="math notranslate nohighlight">\(x_{\min}\)</span> and 1 is infeasible and returns 10.</p></li>
+</ul>
+<p>The library <code class="docutils literal notranslate"><span class="pre">_lib/electrolyzer.py</span></code> provides all three as functions <code class="docutils literal notranslate"><span class="pre">el.bb1</span></code>, <code class="docutils literal notranslate"><span class="pre">el.bb2</span></code> and <code class="docutils literal notranslate"><span class="pre">el.bb3</span></code>, which each take a vector of decisions and return one number. Since we want to keep track of the cost of a method, we wrap each black box in a small counter that records every evaluation (<code class="docutils literal notranslate"><span class="pre">Counter</span></code>, in <code class="docutils literal notranslate"><span class="pre">_lib/part3a_tools.py</span></code>). In this part the evaluation count is the price of an answer, in the same way that solver time was the price in Topics 2.1–2.6.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part3a_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">):</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">f</span><span class="p">([</span><span class="n">x</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BB1 at x1 = </span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">: f = </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> per-unit = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"evaluations so far: </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BB2 at (0.4, 0.4): </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span><span class="w"> </span><span class="mf">0.4</span><span class="p">])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BB3 at (0.4, 0.4): </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">bb3</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span><span class="w"> </span><span class="mf">0.4</span><span class="p">])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BB3 at (0.05, 0.05): </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">bb3</span><span class="p">([</span><span class="mf">0.05</span><span class="p">,</span><span class="w"> </span><span class="mf">0.05</span><span class="p">])</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB1 at x1 = 0.00: f = 1.5892 per-unit = 10.39 MW
+BB1 at x1 = 0.20: f = 1.6850 per-unit = 11.01 MW
+BB1 at x1 = 0.45: f = 1.6425 per-unit = 10.73 MW
+evaluations so far: 3
+BB2 at (0.4, 0.4): 2.2480
+BB3 at (0.4, 0.4): 2.6080
+BB3 at (0.05, 0.05): 10.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>The last line shows what infeasibility looks like from the outside. At <span class="math notranslate nohighlight">\((0.05, 0.05)\)</span> both A and B are below the minimum load, which means that they are switched off and C would have to carry all 1.2 units of demand, which is more than the capacity of C. The black box does not give any explanation, and the only output is the value 10.</p>
+<p>Since we can see the formulas, we can draw the landscape that is hidden from the solver. The figure below shows BB1 over the whole range and BB2 and BB3 over the <span class="math notranslate nohighlight">\((x_A, x_B)\)</span> square. Note that these maps are only drawn to help us judge the methods later, and that a real black box would never be mapped this densely, since the BB2 and BB3 maps cost 40,401 evaluations each.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">901</span><span class="p">)</span>
+<span class="n">f1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">([</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x1</span><span class="p">])</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
+<span class="n">XA</span><span class="p">,</span> <span class="n">XB</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+<span class="n">F2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">g</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">g</span><span class="p">])</span>
+<span class="n">F3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">el</span><span class="o">.</span><span class="n">bb3</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">g</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">g</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">x1</span><span class="p">),</span> <span class="n">f1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'stack 1 load (kg H$_2$/h)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'total power (per-unit)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'BB1: two A stacks, 180 kg/h'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">((</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">F2</span><span class="p">,</span> <span class="s1">'BB2: A, B, C, 240 kg/h'</span><span class="p">),</span> <span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">F3</span><span class="p">,</span> <span class="s1">'BB3: full MINLP, 240 kg/h'</span><span class="p">)):</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">XA</span><span class="p">),</span> <span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">XB</span><span class="p">),</span> <span class="p">(</span><span class="n">F</span> <span class="o">&gt;=</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">'0.85'</span><span class="p">])</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">XA</span><span class="p">),</span> <span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">XB</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">F</span> <span class="o">&gt;=</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span><span class="p">,</span> <span class="n">F</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'stack A load (kg/h)'</span><span class="p">);</span> <span class="n">a</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'stack B load (kg/h)'</span><span class="p">);</span> <span class="n">a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'power (per-unit)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BB1: best </span><span class="si">{</span><span class="n">f1</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> at x1 = </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">f1</span><span class="p">)]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (and at 0.90); equal split </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">([</span><span class="mf">0.45</span><span class="p">])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BB1 hills at x1 = </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">f1</span><span class="p">[:</span><span class="mi">200</span><span class="p">])]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="mi">700</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">f1</span><span class="p">[</span><span class="mi">700</span><span class="p">:])]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">F2</span><span class="p">),</span> <span class="n">F2</span><span class="o">.</span><span class="n">shape</span><span class="p">);</span> <span class="n">k3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">F3</span><span class="p">),</span> <span class="n">F3</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BB2 grid best </span><span class="si">{</span><span class="n">F2</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> at (xA, xB) = (</span><span class="si">{</span><span class="n">g</span><span class="p">[</span><span class="n">k2</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">g</span><span class="p">[</span><span class="n">k2</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BB3 grid best </span><span class="si">{</span><span class="n">F3</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> at (xA, xB) = (</span><span class="si">{</span><span class="n">g</span><span class="p">[</span><span class="n">k3</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">g</span><span class="p">[</span><span class="n">k3</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BB3 infeasible (grey) on </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">F3</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2"> of the square"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB1: best 1.58921 at x1 = 0.00 (and at 0.90); equal split 1.6425
+BB1 hills at x1 = 0.093 and 0.807
+BB2 grid best 2.0818 at (xA, xB) = (0.705, 0.000)
+BB3 grid best 2.3218 at (xA, xB) = (0.705, 0.000)
+BB3 infeasible (grey) on 44% of the square
+</pre></div>
+</div>
+<img alt="../_images/e4cfd3085fd0d58e15eebc39ae3f2d70c6236ed860ddd9106f1c32dc1f5082a4.png" src="../_images/e4cfd3085fd0d58e15eebc39ae3f2d70c6236ed860ddd9106f1c32dc1f5082a4.png" />
+</div>
+</div>
+<p>These pictures preview the difficulties of this part. BB1 has three wells. The global optimum, 1.58921 per-unit (10.39 MW), sits at either edge, with one stack off and the other stack carrying the whole 180 kg/h. The equal split at <span class="math notranslate nohighlight">\(x_1 = 0.45\)</span> is a local minimum at 1.6425 (10.73 MW), which is 3.4% worse. The edge wells are narrow, and they are separated from the wide middle well by hills at <span class="math notranslate nohighlight">\(x_1 \approx 0.093\)</span> and <span class="math notranslate nohighlight">\(0.807\)</span>. These are the same wells that trapped the local NLP solver in Topic 2.6.</p>
+<p>The best grid point of BB2 lies on the boundary <span class="math notranslate nohighlight">\(x_B = 0\)</span> (stack B off). The landscape of BB3 is broken up by the minimum-load switches and by a large grey infeasible region that covers 44% of the square, and the best grid point is the MINLP optimum of Topic 2.6: A + C at loads (0.703, 0.497), with a cost of 2.32181 (the grid point at <span class="math notranslate nohighlight">\(x_A = 0.705\)</span> is within <span class="math notranslate nohighlight">\(10^{-4}\)</span> of the optimum).</p>
+<div class="exercise admonition" id="ex-t31-counter">
+
+<p class="admonition-title"><span class="caption-number">Exercise 61 </span></p>
+<section id="exercise-content">
+<p>Wrap <code class="docutils literal notranslate"><span class="pre">el.bb3</span></code> in a <code class="docutils literal notranslate"><span class="pre">Counter</span></code> and evaluate it on a 21 × 21 grid over the <span class="math notranslate nohighlight">\((x_A, x_B)\)</span> square. How many evaluations did that cost, what is the best grid point, and how far is it from 2.32181? How fine a grid would you need to get within <span class="math notranslate nohighlight">\(10^{-3}\)</span>, and how many evaluations would that cost? Repeat the estimate for a fleet of 10 stacks (9 free loads).</p>
+</section>
+</div>
+</section>
+<section id="types-of-data-driven-methods">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Types of data-driven methods</a><a class="headerlink" href="#types-of-data-driven-methods" title="Link to this heading">#</a></h2>
+<p>Every data-driven method starts from data, i.e. a set of points where the black box has been evaluated. The points may be chosen at random, by a designed experiment, or one at a time by the algorithm itself, and they may be spread over the whole box or concentrated in a small region. The field can be divided in two based on what a method then does with the data.</p>
+<p><strong>Direct-search</strong> (or sample-driven) methods use the samples directly, which means that they compare function values and decide where to sample next based only on these comparisons, without fitting any model. Compass search and the Nelder–Mead method of Topic 3.2 are examples of direct-search methods.</p>
+<p><strong>Model-based</strong> methods fit an approximate model, called a <strong>surrogate</strong>, to the samples, and then optimize the surrogate with the derivative-based tools of Topics 1.1–2.6. The minimum of the surrogate suggests where to sample next, the new sample improves the surrogate, and the loop continues in this way; these methods are developed in Topics 3.5 and 3.6.</p>
+<p>Each family can be used for either a local or a global search. A <strong>local</strong> method only samples a small part of the space at a time, around a current best point, and moves that region in the downhill direction, while a <strong>global</strong> method samples the whole space. If we combine these two distinctions, we get four classes:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Local search</p></th>
+<th class="head"><p>Global search</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Direct-search</strong></p></td>
+<td><p>compass (pattern) search, Nelder–Mead (Topic 3.2)</p></td>
+<td><p>DIRECT, simulated annealing, genetic algorithms, particle swarm (Topic 3.3)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Model-based</strong></p></td>
+<td><p>trust-region methods with local linear or quadratic models (Topic 3.6)</p></td>
+<td><p>global surrogates, efficient global optimization (Topics 3.5 and 3.6)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The two families trade different costs. Model-based methods give us equations, which means that we also get derivatives and the whole equation-based toolkit. A good surrogate can also predict promising regions, so that fewer samples are needed. However, fitting a model takes effort, every fit introduces approximation error, and a surrogate can be wrong in ways that mislead the optimizer, as we will see in the last section of this topic. Direct-search methods are cheap per step, simple to implement and easy to picture, and make no assumption about the shape of <span class="math notranslate nohighlight">\(f\)</span>. Since they do not use a model at all, they also cannot be misled by a bad model. On the other hand, they may need many more evaluations, these evaluations are needed at very specific points (which an experiment or a historical data set may not allow), and no reusable knowledge is gained. Which family is best for a given problem will depend on how expensive an evaluation is, how many variables there are, and how noisy the data are.</p>
+<div class="exercise admonition" id="ex-t31-classify">
+
+<p class="admonition-title"><span class="caption-number">Exercise 62 </span></p>
+<section id="exercise-content">
+<p>Place each of the following in the table above, and say what information it uses at each step: (a) a grid search followed by a local Nelder–Mead run from the best grid point; (b) fitting a quadratic to the ten most recent samples near the current point and stepping to the quadratic’s minimum if it lies within a radius <span class="math notranslate nohighlight">\(\Delta\)</span>; (c) <code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize</span></code> with <code class="docutils literal notranslate"><span class="pre">method='SLSQP'</span></code> and finite-difference gradients. Is (c) derivative-free?</p>
+</section>
+</div>
+</section>
+<section id="what-optimality-can-mean-without-derivatives">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">What optimality can mean without derivatives</a><a class="headerlink" href="#what-optimality-can-mean-without-derivatives" title="Link to this heading">#</a></h2>
+<p>In Topics 2.1–2.6 optimality had precise meanings: a point is a local optimum if there is no better feasible point in its neighborhood, the KKT conditions identify candidates from the derivatives, and convexity (or a certified lower bound from branch-and-bound) makes a local answer global. In a black-box problem none of this is directly available. We do not know whether the problem is linear, or whether it is convex, and there are no first or second derivatives available for testing. Every theorem from those topics started from some of this knowledge. It is possible that we do not even know which variables matter, or which variables affect the objective and which affect each constraint.</p>
+<p>So what can a black-box method guarantee? If nothing is known about <span class="math notranslate nohighlight">\(f\)</span>, no finite set of samples can rule out a narrow, deep well between two samples. This means that <strong>no method can guarantee the global optimum</strong> without enumerating every possibility or sampling infinitely many points. It turns out that guarantees can only be recovered if we assume something about <span class="math notranslate nohighlight">\(f\)</span>. Two assumptions carry most of the theory, and each one will be stated precisely in the place where it is used:</p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(f\)</span> is smooth (its gradient exists and does not change too quickly), a local direct-search method can guarantee convergence to a <strong>stationary point</strong>, a point where the gradient is zero, without ever computing the gradient. Topic 3.2 shows why.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(f\)</span> cannot change faster than a known rate (it is Lipschitz continuous with a known constant), a global method can compute a valid <strong>lower bound</strong> on <span class="math notranslate nohighlight">\(f\)</span> over a region from a single sample, and so prove how far its answer is from the global optimum. Topic 3.3 uses this to close a certified gap on BB1, the way branch-and-bound did in Topic 2.6.</p></li>
+</ul>
+<p>Without such assumptions the practical goal is more modest: to find a point that is as good as possible with the available resources (the evaluation budget, the computing time and the data we can collect), which is often enough in engineering practice. The approach of a method to this goal, and its stopping criterion, depend on four kinds of mechanism that are used in different combinations by the different classes of method: sampling, movement toward better points (descent), subdivision of the space, and bounding of the objective.</p>
+<p><strong>Local convergence mechanisms.</strong> A local direct-search method needs three ingredients: a way to find a descent direction from samples alone, control of the geometry of the sample points so that a descent direction cannot be missed, and a step size that is driven to zero. A local model-based method replaces the first two ingredients with a model. It fits a linear or quadratic surrogate inside a small <strong>trust region</strong>, steps to the minimum of the model, and shrinks the region when the prediction of the model turns out to be poor. Both families stop when the step size (or the trust-region radius) falls below a small threshold.</p>
+<p><strong>Global mechanisms.</strong> A global direct-search method samples the space and divides it into regions, and then keeps sampling and dividing the regions with the most promising values. A global model-based method fits one surrogate over the whole space, optimizes the surrogate, checks the answer by sampling at that point, and then repeats the cycle with a refitted surrogate.</p>
+<p><strong>Stopping and noise.</strong> Without a gradient, a method cannot test <span class="math notranslate nohighlight">\(\nabla f = 0\)</span>, so it has to stop on a small step size, a small change in <span class="math notranslate nohighlight">\(f\)</span>, or an exhausted budget. When the evaluations are noisy, comparisons between nearby points become random once the step is so small that the true change in <span class="math notranslate nohighlight">\(f\)</span> is below the noise, so noise sets a floor on the step-size criterion; we return to noisy black boxes in the noisy-black-box section of <a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html"><span class="doc">5.2 Robust Optimization</span></a>. In one respect data-driven methods can cope with noise better than derivative-based methods: they never difference nearby noisy values, and sampling over a region tends to smooth out small-scale noise, while a finite-difference gradient of noisy data can point in any direction.</p>
+<p><strong>Challenges.</strong> Although these methods have simpler theory and shorter implementations, the problem itself is harder, since the method has less information. The cost that matters shifts from linear algebra to the number of function evaluations, where each evaluation can take hours. Constraints that depend on the data are still an open research question (Topic 3.4). State-of-the-art methods work well up to tens or a few hundred variables, but we should not expect that their accuracy or speed will match a derivative-based solver that has the equations. Dimension is the main enemy of model-based methods in particular. A full quadratic model in <span class="math notranslate nohighlight">\(n\)</span> variables has <span class="math notranslate nohighlight">\((n+1)(n+2)/2\)</span> coefficients, so interpolating one in <span class="math notranslate nohighlight">\(n = 100\)</span> variables (the local model needed for a Newton-like rate of convergence) costs 5,151 evaluations per model. Cheaper incomplete models trade accuracy for samples: a linear model needs <span class="math notranslate nohighlight">\(n + 1\)</span> points, and a model with gradient and diagonal curvature from central differences needs <span class="math notranslate nohighlight">\(2n + 1\)</span>, in the same way that quasi-Newton methods approximate the Hessian instead of computing the exact Hessian.</p>
+<p>On a smooth black box like BB1 it is possible to estimate the gradient by finite differences and then run a derivative-based local solver on the result. In the cell below we use this approach to run SLSQP from three starting points.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="k">for</span> <span class="n">x0</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">x0</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">'SLSQP'</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"start </span><span class="si">{</span><span class="n">x0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">: x1 = </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, f = </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, success = </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">success</span><span class="si">}</span><span class="s2">, evaluations = </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>start 0.45: x1 = 0.4500, f = 1.64250, success = True, evaluations = 2
+start 0.30: x1 = 0.4500, f = 1.64250, success = True, evaluations = 8
+start 0.05: x1 = 0.0000, f = 1.58921, success = True, evaluations = 4
+</pre></div>
+</div>
+</div>
+</div>
+<p>If the starting point is the equal split, or <span class="math notranslate nohighlight">\(x_1 = 0.3\)</span>, SLSQP returns the equal-split well at 1.6425 and reports success, exactly as in Topic 2.6. With a starting point of <span class="math notranslate nohighlight">\(x_1 = 0.05\)</span>, which is inside the narrow edge well, the solver finds the global optimum. Finite differences turn a smooth black box back into an NLP, at the cost of extra evaluations for every gradient, but the solver is still just as blind to the other wells: a local method, with or without derivatives, will find the well that contains its starting point.</p>
+<div class="exercise admonition" id="ex-t31-multistart">
+
+<p class="admonition-title"><span class="caption-number">Exercise 63 </span></p>
+<section id="exercise-content">
+<p>Run SLSQP with finite-difference gradients on BB1 from 30 random starting points in <span class="math notranslate nohighlight">\([0, 0.9]\)</span> (use <code class="docutils literal notranslate"><span class="pre">np.random.default_rng(0)</span></code>). In what fraction of runs does it find 1.58921? Compare that fraction with the widths of the three wells you can read off the BB1 figure. What is the total evaluation count of the 30 runs?</p>
+</section>
+</div>
+</section>
+<section id="a-first-model-based-method">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">A first model-based method</a><a class="headerlink" href="#a-first-model-based-method" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">Adapted from the course notebook</p>
+<p>The quadratic-interpolation construction in this section is adapted from the course notebook <code class="docutils literal notranslate"><span class="pre">Intro</span> <span class="pre">to</span> <span class="pre">Derivative-Free</span> <span class="pre">Optimization</span> <span class="pre">(Module6-7).ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT), with the electrolyzer black box BB1 in place of the notebook’s test functions.</p>
+</div>
+<p>The simplest model-based idea is to fit a quadratic. Three samples <span class="math notranslate nohighlight">\(x_1 &lt; x_2 &lt; x_3\)</span> determine a unique quadratic that passes through all three points, which we can write in the Newton form,</p>
+<div class="math notranslate nohighlight">
+\[
+q(x) = a_0 + a_1 (x - x_1) + a_2 (x - x_1)(x - x_2),
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(a_0 = f(x_1)\)</span>, <span class="math notranslate nohighlight">\(a_1 = [f(x_2) - f(x_1)]/(x_2 - x_1)\)</span>, and <span class="math notranslate nohighlight">\(a_2 = \big([f(x_3) - f(x_1)]/(x_3 - x_1) - a_1\big)/(x_3 - x_2)\)</span>. Since there are three points and three parameters, the interpolant has a closed form. If <span class="math notranslate nohighlight">\(a_2 &gt; 0\)</span> the quadratic is convex, with a minimum where <span class="math notranslate nohighlight">\(dq/dx = 0\)</span>; we take that point as our estimate of the optimum and, in a full method, this is where the next sample would be taken. This is the idea behind Powell’s quadratic-interpolation line search. Once it has been fitted, the surrogate is an ordinary equation-based problem: the course notebook passes it to Ipopt through Pyomo, but here a one-dimensional grid is enough. A surrogate is only as good as two things: the quality of the fit, and whether it can be optimized in a reliable way (a convex quadratic can be optimized to the global optimum). On a function that really is bowl-shaped the estimate is very good, and the course notebook lands within about 1.4% of the minimizer of <span class="math notranslate nohighlight">\(2x^2 + 16/x\)</span> on <span class="math notranslate nohighlight">\([1, 5]\)</span> when the samples are at 1, 3 and 5.</p>
+<p>On BB1 the same method fails. In the cell below we draw <span class="math notranslate nohighlight">\(n\)</span> points from a Latin hypercube design (a way of spreading samples evenly over the range, developed in Topic 3.5), fit a quadratic by least squares (for <span class="math notranslate nohighlight">\(n = 3\)</span> this is the interpolant above), and report the location of the minimum of the quadratic and the true cost of the black box at that point. The sample points come from a helper, <code class="docutils literal notranslate"><span class="pre">preview_samples</span></code>, so that Topic 3.6 can start its surrogate-based search from exactly the same data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part3a_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">preview_samples</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">15</span><span class="p">)):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">preview_samples</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>                    <span class="c1"># Latin hypercube, seed 1, on [0, 0.9]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">([</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                   <span class="c1"># least-squares quadratic; interpolates when n = 3</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x1</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"n = </span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">'convex'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'concave'</span><span class="si">}</span><span class="s2">, minimum at x1 = </span><span class="si">{</span><span class="n">x1</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"true f there = </span><span class="si">{</span><span class="n">f1</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (optimum 1.5892); max |error| = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'black box (hidden)'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'quadratic fit'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'samples'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'0.5'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'n = </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'stack 1 load $x_1$ (per-unit)'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'total power (per-unit)'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n =  3: convex, minimum at x1 = 0.247, true f there = 1.6719 (optimum 1.5892); max |error| = 0.109
+n =  5: convex, minimum at x1 = 0.578, true f there = 1.6547 (optimum 1.5892); max |error| = 0.152
+n =  9: convex, minimum at x1 = 0.000, true f there = 1.5892 (optimum 1.5892); max |error| = 0.104
+n = 15: convex, minimum at x1 = 0.118, true f there = 1.7054 (optimum 1.5892); max |error| = 0.092
+</pre></div>
+</div>
+<img alt="../_images/e410f5237909fc7cf79c9c953c6f3ca68b92ba06527db19644343eb483203843.png" src="../_images/e410f5237909fc7cf79c9c953c6f3ca68b92ba06527db19644343eb483203843.png" />
+</div>
+</div>
+<p>Every quadratic is convex, and with three, five or fifteen samples the minimum lands inside the domain, where the true cost is 1.65 to 1.71. This is worse than the equal-split trap. A convex quadratic has a single minimum, so it cannot represent a function with the best points at the two edges and a bowl between them. With nine samples the fit happens to tilt so that its minimum falls on the boundary <span class="math notranslate nohighlight">\(x_1 = 0\)</span>, which is the true optimum; this is luck in the placement of the samples, not a property of the method. Adding samples does not fix the fit (the maximum error stays between 0.09 and 0.15), because the model has the wrong shape. This is the electrolyzer version of the counterexample from the lecture, <span class="math notranslate nohighlight">\(x^2 + 20 \sin(2x)\)</span>, which is also completely misrepresented by a quadratic through three points.</p>
+<p>The lectures suggest three remedies, and each of them will return later. We can add samples, check the error and refit the model; we can use a more flexible surrogate, such as a Gaussian process (Topic 3.5); or we can fit local models, since a small enough piece of any function, regardless of the number of wells, looks like a bowl or a plane, which is the idea behind trust-region methods.</p>
+<p>However, more data and more parameters are not automatically better. The Weierstrass approximation theorem says that a polynomial of high enough order can approximate any continuous function on an interval to any desired accuracy. But with equally spaced samples, high-order interpolating polynomials oscillate wildly near the ends of the interval (Runge’s phenomenon, the <span class="math notranslate nohighlight">\(1/(1+25x^2)\)</span> example from the lectures), and the minima of these polynomials can land in exactly the wrong place. Both the location of the samples and the kind of model that we fit will decide whether the minimum of the surrogate is meaningful; and the number of samples that we can afford grows quickly with the number of variables. Topic 3.5 takes up both questions, and Topic 3.6 runs a surrogate-based search on BB1 from these same samples.</p>
+<div class="exercise admonition" id="ex-t31-quadratic">
+
+<p class="admonition-title"><span class="caption-number">Exercise 64 </span></p>
+<section id="exercise-content">
+<p>Fit the three-point interpolating quadratic of this section to BB1 at the equally spaced points <span class="math notranslate nohighlight">\(x_1 = 0\)</span>, <span class="math notranslate nohighlight">\(0.45\)</span> and <span class="math notranslate nohighlight">\(0.9\)</span>, computing <span class="math notranslate nohighlight">\(a_0\)</span>, <span class="math notranslate nohighlight">\(a_1\)</span> and <span class="math notranslate nohighlight">\(a_2\)</span> from the formulas above. Is the quadratic convex or concave? Where is its minimum over <span class="math notranslate nohighlight">\([0, 0.9]\)</span>, and is that the right answer? Now repeat with the points <span class="math notranslate nohighlight">\(0.1\)</span>, <span class="math notranslate nohighlight">\(0.45\)</span> and <span class="math notranslate nohighlight">\(0.8\)</span>. Explain why the first outcome does not make the method reliable.</p>
+</section>
+</div>
+<div class="exercise admonition" id="ex-t31-noise">
+
+<p class="admonition-title"><span class="caption-number">Exercise 65 </span></p>
+<section id="exercise-content">
+<p>The course notebook adds a small random error to each of its three samples before fitting the quadratic, to mimic measurement noise. Do the same on BB1 with the three Latin hypercube points from <code class="docutils literal notranslate"><span class="pre">preview_samples(3)</span></code>: add uniform noise between 0 and <span class="math notranslate nohighlight">\(\sigma\)</span> to each value for <span class="math notranslate nohighlight">\(\sigma\)</span> = 0.001, 0.01 and 0.05 (20 random draws each), refit, and record where the quadratic’s minimum lands. Then write the fitted quadratic as a Pyomo model and solve it (Ipopt if it is available, otherwise <code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize_scalar</span></code> on <span class="math notranslate nohighlight">\([0, 0.9]\)</span>). How large must the noise be before the surrogate’s minimum moves more than 0.05?</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>A black-box problem is an ordinary optimization problem whose objective, and possibly constraints, can only be evaluated. Evaluations come from experiments, simulations, or first-principles codes too complex to give to a solver. If usable equations exist, use them.</p></li>
+<li><p>The electrolyzer plant becomes three black boxes: BB1 (one load, two A stacks, <span class="math notranslate nohighlight">\(D = 0.9\)</span>; global optimum 1.58921 at the edges, trap 1.6425 at the equal split), BB2 (two loads, three stacks, <span class="math notranslate nohighlight">\(D = 1.2\)</span>; optimum on the edge <span class="math notranslate nohighlight">\(x_B = 0\)</span>), and BB3 (the full MINLP; optimum A + C at 2.32181). A real stack’s power curve already needs a root-find inside each evaluation.</p></li>
+<li><p>Data-driven methods are direct-search or model-based, and local or global.</p></li>
+<li><p>Without assumptions on <span class="math notranslate nohighlight">\(f\)</span>, no method can guarantee a global optimum. Smoothness gives local direct search a guarantee of stationarity (Topic 3.2); a Lipschitz constant gives a global method a certified bound (Topic 3.3). Noise sets a floor on step-size stopping rules (Topic 5.2).</p></li>
+<li><p>A quadratic surrogate of BB1 is convex and puts its minimum between the wells, missing the edge optimum, and more data does not help because the model has the wrong shape. Topics 3.5 and 3.6 develop better surrogates and reuse these samples.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Conn, A. R., Scheinberg, K., and Vicente, L. N. (2009). <em>Introduction to Derivative-Free Optimization</em>. SIAM. Chapters 1 and 2 introduce the problem class and the geometry of sample sets.</p></li>
+<li><p>Rios, L. M., and Sahinidis, N. V. (2013). Derivative-free optimization: a review of algorithms and comparison of software implementations. <em>Journal of Global Optimization</em>, 56, 1247–1293.</p></li>
+<li><p>Larson, J., Menickelly, M., and Wild, S. M. (2019). Derivative-free optimization methods. <em>Acta Numerica</em>, 28, 287–404.</p></li>
+<li><p>Ulleberg, Ø. (2003). Modeling of advanced alkaline electrolyzers: a system simulation approach. <em>International Journal of Hydrogen Energy</em>, 28, 21–33.</p></li>
+<li><p>Sánchez, M., Amores, E., Rodríguez, L., and Clemente-Jul, C. (2018). Semi-empirical model and experimental validation for the performance evaluation of a 15 kW alkaline water electrolyzer. <em>International Journal of Hydrogen Energy</em>, 43, 20332–20345.</p></li>
+<li><p>Baumhof, M. T., Raheli, E., Johnsen, A. G., and Kazempour, J. (2023). Optimization of hybrid power plants: when is a detailed electrolyzer model necessary? arXiv:2301.05310. Uses the Ulleberg–Sánchez model inside a plant optimization.</p></li>
+<li><p>Forrester, A. I. J., Sóbester, A., and Keane, A. J. (2008). <em>Engineering Design via Surrogate Modelling: A Practical Guide</em>. Wiley.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./3-data_driven_optimization"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data-Driven Optimization</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic3.2-Direct-Search_Methods.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">3.2 Direct-Search Methods</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-the-equations-are-missing">When the equations are missing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-electrolyzer-as-a-black-box">The electrolyzer as a black box</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-data-driven-methods">Types of data-driven methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-optimality-can-mean-without-derivatives">What optimality can mean without derivatives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-first-model-based-method">A first model-based method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1082 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.2 Lagrange Multipliers and KKT Conditions &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.3 Duality" href="Topic2.3-Duality.html" />
+    <link rel="prev" title="2.1 Nonlinear Programs and Convexity" href="Topic2.1-Nonlinear_Programs_and_Convexity.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Nonlinear and Mixed-Integer Optimization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>2.2 Lagrange Multipliers and KKT Conditions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-lagrange-function">The Lagrange function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-readings-of-a-multiplier">Three readings of a multiplier</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-electrolysis-equilibrium-derived">The electrolysis equilibrium, derived</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kkt-conditions">The KKT conditions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hidden-inequality-in-the-electrolyzer">The hidden inequality in the electrolyzer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kkt-for-the-ohmic-dispatch">KKT for the ohmic dispatch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#lagrange-multipliers-and-kkt-conditions" id="id4">2.2 Lagrange Multipliers and KKT Conditions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#the-lagrange-function" id="id5">The Lagrange function</a></p></li>
+<li><p><a class="reference internal" href="#the-electrolysis-equilibrium-derived" id="id6">The electrolysis equilibrium, derived</a></p></li>
+<li><p><a class="reference internal" href="#the-kkt-conditions" id="id7">The KKT conditions</a></p></li>
+<li><p><a class="reference internal" href="#kkt-for-the-ohmic-dispatch" id="id8">KKT for the ohmic dispatch</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id9">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id10">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="lagrange-multipliers-and-kkt-conditions">
+<h1><a class="toc-backref" href="#id4" role="doc-backlink">2.2 Lagrange Multipliers and KKT Conditions</a><a class="headerlink" href="#lagrange-multipliers-and-kkt-conditions" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 4, Lesson 4: <em>Constrained Optimization and Lagrange Function</em></p></li>
+<li><p>Module 4, Lesson 5: <em>KKT Conditions for Optimality</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Form the Lagrange function of a constrained problem and derive its stationarity conditions.</p></li>
+<li><p>Explain a Lagrange multiplier three ways: as the ratio of two parallel gradients, as a constraint force, and as the sensitivity of the optimal objective to the constraint’s right-hand side.</p></li>
+<li><p>Derive the equilibrium of a water electrolyzer as a constrained Gibbs minimization, identify its multipliers as elemental chemical potentials and the electron price <span class="math notranslate nohighlight">\(-FU\)</span>, and recover the Nernst equation.</p></li>
+<li><p>State the KKT conditions, classify inequality constraints as active or inactive, and apply complementary slackness.</p></li>
+<li><p>Solve the ohmic dispatch with a binding capacity from its KKT conditions and read the multipliers as the hydrogen price and a capacity rent.</p></li>
+</ul>
+</div>
+<p>In Topic 2.1 we found the minimum of an unconstrained function, where the gradient vanishes and the Hessian is positive semidefinite. However, real problems have constraints, and at a constrained minimum the gradient of the objective usually does <em>not</em> vanish. In this topic we will build the conditions that replace “gradient equals zero” when there are constraints, and we will do this in two steps: first we look at equality constraints, which lead to Lagrange multipliers, and then we add inequality constraints, which lead to the Karush–Kuhn–Tucker (KKT) conditions. Along the way we will derive the equilibrium of the water electrolyzer that we solved numerically in Topic 1.2, and we will see that its multipliers are quantities that a chemist already knows.</p>
+<section id="the-lagrange-function">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">The Lagrange function</a><a class="headerlink" href="#the-lagrange-function" title="Link to this heading">#</a></h2>
+<p>A general constrained NLP has <span class="math notranslate nohighlight">\(M\)</span> equality and <span class="math notranslate nohighlight">\(N\)</span> inequality constraints:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_x \quad &amp; f(x) \\
+\text{s.t.} \quad &amp; h_j(x) = b_j, \quad j = 1, \ldots, M \\
+&amp; g_k(x) \le 0, \quad k = 1, \ldots, N .
+\end{aligned}
+\end{split}\]</div>
+<p>The simplest way to deal with an equality constraint is to get rid of it. If we can rearrange <span class="math notranslate nohighlight">\(h_j(x) = b_j\)</span> to solve for one variable explicitly, then we can substitute it into the objective, which is called <strong>variable elimination</strong>. This is what we used in Topic 2.1 to remove the demand constraint from the dispatch, and many solvers also do it automatically. However, elimination fails if the constraint cannot be solved for a variable in closed form, and even when it works it hides the information we will most want, which is the value of the constraint.</p>
+<p>The general alternative is to bring the constraints into the objective. For a problem with equality constraints only, the <strong>Lagrange function</strong> (or Lagrangian) is</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(x, \lambda) = f(x) - \sum_j \lambda_j \left(h_j(x) - b_j\right),
+\]</div>
+<p>with one new variable, a <strong>Lagrange multiplier</strong> <span class="math notranslate nohighlight">\(\lambda_j\)</span>, for each constraint. At any feasible point the added terms are zero, so <span class="math notranslate nohighlight">\(\mathcal{L} = f\)</span> there, and the constrained optimum is a stationary point of <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> in both sets of variables:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_x \mathcal{L} = \nabla f(x) - \sum_j \lambda_j \nabla h_j(x) = 0, \qquad \frac{\partial \mathcal{L}}{\partial \lambda_j} = -(h_j(x) - b_j) = 0 .
+\]</div>
+<p>The second set of equations simply returns the constraints, while the first set says that the gradient of the objective is a combination of the constraint gradients. Think of <span class="math notranslate nohighlight">\(\lambda\)</span> as a parameter that we adjust until the unconstrained stationary point of <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> happens to satisfy the constraints, at which point it also solves the original problem.</p>
+<p>A note on signs. Many texts, and the lectures, write the constraints as <span class="math notranslate nohighlight">\(h_j(x) = 0\)</span> and the Lagrangian as <span class="math notranslate nohighlight">\(\mathcal{L} = f + \sum_j \lambda_j h_j\)</span>. That convention gives the same <span class="math notranslate nohighlight">\(x^*\)</span> and multipliers of the opposite sign, so that the sensitivity of the optimum to a constraint’s right-hand side is <span class="math notranslate nohighlight">\(-\lambda\)</span>. We use <span class="math notranslate nohighlight">\(f - \lambda(h - b)\)</span> throughout this book, including Topics 2.1 and 2.3, because it makes <span class="math notranslate nohighlight">\(\lambda\)</span> equal to <span class="math notranslate nohighlight">\(+\partial f^*/\partial b\)</span>, the sensitivity we derive below, which is also the sign Pyomo reports for a minimization. When comparing with the lectures, flip the sign of every multiplier.</p>
+<section id="three-readings-of-a-multiplier">
+<h3>Three readings of a multiplier<a class="headerlink" href="#three-readings-of-a-multiplier" title="Link to this heading">#</a></h3>
+<p><strong>Geometry: tangency.</strong> Let’s take two stacks, A and B, that share a demand of <span class="math notranslate nohighlight">\(D = 1\)</span>, so that the feasible set <span class="math notranslate nohighlight">\(x_A + x_B = 1\)</span> is a line in the plane of loads. As we walk along this line we cross the contours of the total power, <span class="math notranslate nohighlight">\(f = P_A + P_B\)</span>, and <span class="math notranslate nohighlight">\(f\)</span> keeps decreasing as long as the line cuts the contours at an angle, so we stop at the point where the line is <em>tangent</em> to a contour. At this point the gradient of <span class="math notranslate nohighlight">\(f\)</span> is perpendicular to the line, which means that it is parallel to the normal of the constraint, <span class="math notranslate nohighlight">\(\nabla h = (1, 1)\)</span>, and the multiplier is just the ratio of their lengths: <span class="math notranslate nohighlight">\(\nabla f = \lambda \nabla h\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.environ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">linprog</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">part2a_tools</span> <span class="k">as</span> <span class="n">t2</span>
+
+<span class="n">rA</span><span class="p">,</span> <span class="n">rB</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="s1">'A'</span><span class="p">],</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="s1">'B'</span><span class="p">]</span>
+<span class="n">D2</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">lam2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">D2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">rA</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">rB</span><span class="p">))</span>           <span class="c1"># equal marginal power</span>
+<span class="n">xA</span><span class="p">,</span> <span class="n">xB</span> <span class="o">=</span> <span class="p">(</span><span class="n">lam2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">rA</span><span class="p">),</span> <span class="p">(</span><span class="n">lam2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">rB</span><span class="p">)</span>
+<span class="n">grad_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rA</span> <span class="o">*</span> <span class="n">xA</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rB</span> <span class="o">*</span> <span class="n">xB</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"two stacks, D = 1: x = (</span><span class="si">{</span><span class="n">xA</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">xB</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">), grad f = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">grad_f</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"lambda = </span><span class="si">{</span><span class="n">lam2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (grad f = lambda * (1, 1))"</span><span class="p">)</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">XA</span><span class="p">,</span> <span class="n">XB</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.2</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">XA</span><span class="p">,</span> <span class="n">XB</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">p_ohmic</span><span class="p">(</span><span class="n">XA</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">)</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">p_ohmic</span><span class="p">(</span><span class="n">XB</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">D2</span> <span class="o">-</span> <span class="n">g</span><span class="p">,</span> <span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'constraint $x_A + x_B = 1$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xA</span><span class="p">,</span> <span class="n">xB</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'optimum (tangency)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">xA</span> <span class="o">+</span> <span class="mf">0.12</span> <span class="o">*</span> <span class="n">grad_f</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xB</span> <span class="o">+</span> <span class="mf">0.12</span> <span class="o">*</span> <span class="n">grad_f</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">xA</span><span class="p">,</span> <span class="n">xB</span><span class="p">),</span>
+            <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">'-&gt;'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">xA</span> <span class="o">+</span> <span class="mf">0.17</span><span class="p">,</span> <span class="n">xB</span> <span class="o">+</span> <span class="mf">0.17</span><span class="p">,</span> <span class="sa">r</span><span class="s1">'$\nabla f = \lambda \nabla h$'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">'equal'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'load on stack A, $x_A$'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'load on stack B, $x_B$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'total power contours (per-unit)'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">'upper right'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>two stacks, D = 1: x = (0.4118, 0.5882), grad f = [1.4118 1.4118], lambda = 1.4118 (grad f = lambda * (1, 1))
+</pre></div>
+</div>
+<img alt="../_images/609f1da636654890c19e6498f7463a2cbd2ef6904f1e5f2a41f079fff5d96253.png" src="../_images/609f1da636654890c19e6498f7463a2cbd2ef6904f1e5f2a41f079fff5d96253.png" />
+</div>
+</div>
+<p>Both components of <span class="math notranslate nohighlight">\(\nabla f\)</span> are equal to 1.4118, so the arrow points along <span class="math notranslate nohighlight">\((1, 1)\)</span> (i.e. perpendicular to the constraint line), and <span class="math notranslate nohighlight">\(\lambda = 1.4118\)</span>.</p>
+<p>The code found this point by following the same recipe that the lectures use for a Lagrange problem:</p>
+<ol class="arabic simple">
+<li><p><strong>Fix <span class="math notranslate nohighlight">\(\lambda\)</span> and minimize <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> over <span class="math notranslate nohighlight">\(x\)</span>.</strong> Here <span class="math notranslate nohighlight">\(\partial \mathcal{L}/\partial x_i = 1 + 2 r_i x_i - \lambda = 0\)</span> gives <span class="math notranslate nohighlight">\(x_i(\lambda) = (\lambda - 1)/(2r_i)\)</span>.</p></li>
+<li><p><strong>Check that this is a minimum.</strong> The Hessian of <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> in <span class="math notranslate nohighlight">\(x\)</span> is <span class="math notranslate nohighlight">\(\mathrm{diag}(2r_A, 2r_B)\)</span>, positive definite, so <span class="math notranslate nohighlight">\(x(\lambda)\)</span> is the global minimizer of <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> for that <span class="math notranslate nohighlight">\(\lambda\)</span>.</p></li>
+<li><p><strong>Choose <span class="math notranslate nohighlight">\(\lambda\)</span> so the constraint holds.</strong> Substituting into <span class="math notranslate nohighlight">\(x_A + x_B = D\)</span> gives <span class="math notranslate nohighlight">\(\lambda = 1 + D/\big(1/(2r_A) + 1/(2r_B)\big)\)</span>. For that <span class="math notranslate nohighlight">\(\lambda\)</span>, the unconstrained minimizer of <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is feasible, the penalty term vanishes, and the point solves the constrained problem.</p></li>
+</ol>
+<p><strong>Mechanics: a bead on a wire.</strong> Lagrange’s own picture was mechanical. If we thread a bead on a curved wire, it comes to rest where gravity (which is minus the gradient of the potential energy) is exactly cancelled by the force that the wire exerts on the bead, and the wire can only push perpendicular to itself. This force balance, <span class="math notranslate nohighlight">\(\nabla f = \lambda \nabla h\)</span>, is the Lagrange condition, and the multiplier is the magnitude of the constraint force, so if we think of a constraint as a wall, then its multiplier tells us how hard the wall has to push.</p>
+<p><strong>Sensitivity: the envelope theorem.</strong> The most useful reading is a quantitative one, and it comes from asking how the optimal objective <span class="math notranslate nohighlight">\(f^*(b)\)</span> changes as we move the right-hand side of the constraint, which gives</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda_j = \frac{\partial f^*}{\partial b_j} .
+\]</div>
+<p>The argument is short: at the optimum <span class="math notranslate nohighlight">\(f^*(b) = \mathcal{L}(x^*(b), \lambda^*(b), b)\)</span>, and when we differentiate with respect to <span class="math notranslate nohighlight">\(b\)</span> the terms that come from the change in <span class="math notranslate nohighlight">\(x^*\)</span> and <span class="math notranslate nohighlight">\(\lambda^*\)</span> vanish because <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is already stationary in both, so only the explicit dependence of <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> on <span class="math notranslate nohighlight">\(b\)</span> survives and that derivative is <span class="math notranslate nohighlight">\(\lambda\)</span>. This result is known as the <strong>envelope theorem</strong>, and it says that re-optimizing the internal variables contributes nothing to first order, so that a multiplier is the marginal value of relaxing its constraint.</p>
+<p>For the three-stack ohmic dispatch this means that the multiplier on the demand constraint should be the extra power that is needed per extra unit of demand, which we can check with finite differences:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1e-5</span>
+<span class="n">lam</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dispatch</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="n">fd</span> <span class="o">=</span> <span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dispatch</span><span class="p">(</span><span class="n">D</span> <span class="o">+</span> <span class="n">h</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dispatch</span><span class="p">(</span><span class="n">D</span> <span class="o">-</span> <span class="n">h</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"D = </span><span class="si">{</span><span class="n">D</span><span class="si">}</span><span class="s2">: lambda = </span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, dC*/dD by finite difference = </span><span class="si">{</span><span class="n">fd</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 1.2: lambda = 1.38182, dC*/dD by finite difference = 1.38182
+</pre></div>
+</div>
+</div>
+</div>
+<div class="exercise admonition" id="ex-t22-tangency">
+
+<p class="admonition-title"><span class="caption-number">Exercise 30 </span></p>
+<section id="exercise-content">
+<p>In the two-stack picture, change the demand to <span class="math notranslate nohighlight">\(D = 0.5\)</span> and <span class="math notranslate nohighlight">\(D = 1.5\)</span> and redraw. Does the tangency point move along a straight line in the <span class="math notranslate nohighlight">\((x_A, x_B)\)</span> plane? Derive the answer from <span class="math notranslate nohighlight">\(1 + 2r_A x_A = 1 + 2 r_B x_B\)</span>, then confirm it in the plot.</p>
+</section>
+</div>
+</section>
+</section>
+<section id="the-electrolysis-equilibrium-derived">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">The electrolysis equilibrium, derived</a><a class="headerlink" href="#the-electrolysis-equilibrium-derived" title="Link to this heading">#</a></h2>
+<p>In Topic 1.2 we solved the closed electrolysis cell numerically, and now we can derive its equilibrium with Lagrange multipliers, which will show us where the Nernst equation comes from and what the multipliers actually mean.</p>
+<p><strong>The system.</strong> We consider a cell at <span class="math notranslate nohighlight">\(T = 298.15\)</span> K that holds liquid water and a closed 1 L headspace, where the hydrogen and oxygen collect as ideal gases. A power supply pushes <span class="math notranslate nohighlight">\(q\)</span> moles of electrons through the cell at an applied voltage <span class="math notranslate nohighlight">\(U\)</span> and does work <span class="math notranslate nohighlight">\(FUq\)</span> on the system, where <span class="math notranslate nohighlight">\(F\)</span> is the Faraday constant, and since the water is in large excess (1000 mol) it never runs out.</p>
+<p><strong>The variables.</strong> The variables in this problem are the amounts <span class="math notranslate nohighlight">\(n_{\mathrm{H_2O}}\)</span>, <span class="math notranslate nohighlight">\(n_{\mathrm{H_2}}\)</span> and <span class="math notranslate nohighlight">\(n_{\mathrm{O_2}}\)</span>, along with the charge <span class="math notranslate nohighlight">\(q\)</span>.</p>
+<p><strong>The objective.</strong> At fixed temperature the system minimizes its free energy less the work that is done on it, <span class="math notranslate nohighlight">\(G(n) - FUq\)</span>. Since liquid water is a pure condensed phase, its chemical potential is fixed at the standard value <span class="math notranslate nohighlight">\(\mu^0_{\mathrm{H_2O}} = -\Delta G^0 = -237.13\)</span> kJ/mol, while each gas contributes <span class="math notranslate nohighlight">\(n_i\left[\mu^0_i + RT\left(\ln(p_i/p^0) - 1\right)\right]\)</span> with <span class="math notranslate nohighlight">\(\mu^0_i = 0\)</span> and partial pressure <span class="math notranslate nohighlight">\(p_i = n_i RT/V\)</span>, so that the derivative of this term is just the chemical potential of the gas, <span class="math notranslate nohighlight">\(\mu_i = \mu_i^0 + RT \ln(p_i/p^0)\)</span>.</p>
+<p><strong>The constraints.</strong> We need to conserve hydrogen atoms, oxygen atoms and charge, and Faraday’s law tells us that each molecule of H₂ needs two electrons from the supply:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\text{H:} \quad &amp; 2 n_{\mathrm{H_2O}} + 2 n_{\mathrm{H_2}} = b_{\mathrm{H}} &amp; (\lambda_{\mathrm{H}}) \\
+\text{O:} \quad &amp; n_{\mathrm{H_2O}} + 2 n_{\mathrm{O_2}} = b_{\mathrm{O}} &amp; (\lambda_{\mathrm{O}}) \\
+\text{charge:} \quad &amp; q - 2 n_{\mathrm{H_2}} = 0 &amp; (\lambda_e)
+\end{aligned}
+\end{split}\]</div>
+<p><strong>The Lagrangian.</strong></p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L} = G(n) - FUq - \lambda_{\mathrm{H}}\left(2 n_{\mathrm{H_2O}} + 2 n_{\mathrm{H_2}} - b_{\mathrm{H}}\right) - \lambda_{\mathrm{O}}\left(n_{\mathrm{H_2O}} + 2 n_{\mathrm{O_2}} - b_{\mathrm{O}}\right) - \lambda_e \left(q - 2 n_{\mathrm{H_2}}\right).
+\]</div>
+<p><strong>Stationarity.</strong> If we set each partial derivative to zero we get one equation per variable:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\partial / \partial q: \quad &amp; -FU - \lambda_e = 0 &amp; \Rightarrow \quad &amp; \lambda_e = -FU \\
+\partial / \partial n_{\mathrm{H_2}}: \quad &amp; \mu_{\mathrm{H_2}} - 2\lambda_{\mathrm{H}} + 2 \lambda_e = 0 &amp; \Rightarrow \quad &amp; \mu_{\mathrm{H_2}} = 2\lambda_{\mathrm{H}} + 2FU \\
+\partial / \partial n_{\mathrm{O_2}}: \quad &amp; \mu_{\mathrm{O_2}} - 2\lambda_{\mathrm{O}} = 0 &amp; \Rightarrow \quad &amp; \mu_{\mathrm{O_2}} = 2\lambda_{\mathrm{O}} \\
+\partial / \partial n_{\mathrm{H_2O}}: \quad &amp; \mu_{\mathrm{H_2O}} - 2\lambda_{\mathrm{H}} - \lambda_{\mathrm{O}} = 0 &amp; \Rightarrow \quad &amp; \mu_{\mathrm{H_2O}} = 2\lambda_{\mathrm{H}} + \lambda_{\mathrm{O}}
+\end{aligned}
+\end{split}\]</div>
+<p>This tells us that the chemical potential of every species is the sum of the multipliers of the things it is made of, counted by the constraint coefficients. The electrons are booked on H₂, since the charge constraint links <span class="math notranslate nohighlight">\(q\)</span> to <span class="math notranslate nohighlight">\(n_{\mathrm{H_2}}\)</span>.</p>
+<p><strong>Nernst falls out.</strong> Now we can eliminate the multipliers to get <span class="math notranslate nohighlight">\(\mu_{\mathrm{H_2}} + \tfrac{1}{2}\mu_{\mathrm{O_2}} - \mu_{\mathrm{H_2O}} = 2FU\)</span>. If we substitute the chemical potentials, we get</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta G^0 + RT \ln\left(\frac{p_{\mathrm{H_2}}}{p^0}\left(\frac{p_{\mathrm{O_2}}}{p^0}\right)^{1/2}\right) = 2FU
+\quad \Longleftrightarrow \quad
+\frac{p_{\mathrm{H_2}}}{p^0}\left(\frac{p_{\mathrm{O_2}}}{p^0}\right)^{1/2} = \exp\left(\frac{2F(U - E^0)}{RT}\right),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(E^0 = \Delta G^0 / 2F = 1.229\)</span> V. This is the Nernst equation for water electrolysis! We never put it into the model, but it follows directly from the stationarity conditions of the Lagrangian.</p>
+<p>Now let’s solve the model in Pyomo with Ipopt, read the three multipliers from the solver, and check them against the derivation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">F</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">P0</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">P0</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">V_HEAD</span>
+<span class="n">DG0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">NW</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">DG0</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">E0</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">N_WATER</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kernel</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">bH</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">NW</span><span class="p">,</span> <span class="n">bO</span><span class="o">=</span><span class="n">NW</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">nw</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-12</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="n">NW</span><span class="p">)</span>       <span class="c1"># liquid water</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">nh</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-14</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">)</span>     <span class="c1"># H2 in the headspace</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-14</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">5e-4</span><span class="p">)</span>     <span class="c1"># O2 in the headspace</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">2e-3</span><span class="p">)</span>          <span class="c1"># mol of electrons passed</span>
+    <span class="n">gas</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">T</span> <span class="o">/</span> <span class="p">(</span><span class="n">V</span> <span class="o">*</span> <span class="n">P0</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">T</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=-</span><span class="n">DG0</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">nw</span> <span class="o">+</span> <span class="n">gas</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">nh</span><span class="p">)</span> <span class="o">+</span> <span class="n">gas</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">no</span><span class="p">)</span> <span class="o">-</span> <span class="n">F</span> <span class="o">*</span> <span class="n">U</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">nw</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">nh</span> <span class="o">==</span> <span class="n">bH</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">O</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">nw</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">no</span> <span class="o">==</span> <span class="n">bO</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">q</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">nh</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+    <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'tol'</span><span class="p">:</span> <span class="mf">1e-12</span><span class="p">,</span> <span class="s1">'acceptable_tol'</span><span class="p">:</span> <span class="mf">1e-12</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+<span class="n">ipopt</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">get_solver</span><span class="p">(</span><span class="s1">'ipopt'</span><span class="p">)</span>
+<span class="n">dUs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.15</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.10</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">])</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">" U-E0 (V) | p_H2 (bar) | p_H2*sqrt(p_O2) | Nernst    | lam_H   lam_O   lam_e   -FU  (kJ/mol)"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">dU</span> <span class="ow">in</span> <span class="n">dUs</span><span class="p">:</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">E0</span> <span class="o">+</span> <span class="n">dU</span>
+    <span class="k">if</span> <span class="n">ipopt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+        <span class="n">nh</span><span class="p">,</span> <span class="n">no</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">nh</span><span class="p">),</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">no</span><span class="p">)</span>
+        <span class="n">lH</span><span class="p">,</span> <span class="n">lO</span><span class="p">,</span> <span class="n">le</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">O</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>                                    <span class="c1"># fallback: the closed form derived above</span>
+        <span class="n">nh</span><span class="p">,</span> <span class="n">no</span><span class="p">,</span> <span class="n">lH</span><span class="p">,</span> <span class="n">lO</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">kernel_closed_form</span><span class="p">(</span><span class="n">U</span><span class="p">);</span> <span class="n">le</span> <span class="o">=</span> <span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="n">U</span>
+    <span class="n">pH</span><span class="p">,</span> <span class="n">pO</span> <span class="o">=</span> <span class="n">nh</span> <span class="o">*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">T</span> <span class="o">/</span> <span class="n">V</span> <span class="o">/</span> <span class="n">P0</span><span class="p">,</span> <span class="n">no</span> <span class="o">*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">T</span> <span class="o">/</span> <span class="n">V</span> <span class="o">/</span> <span class="n">P0</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dU</span><span class="p">,</span> <span class="n">pH</span><span class="p">,</span> <span class="n">lH</span><span class="p">,</span> <span class="n">lO</span><span class="p">,</span> <span class="n">le</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">dU</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2">   | </span><span class="si">{</span><span class="n">pH</span><span class="si">:</span><span class="s2">10.4g</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">pH</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pO</span><span class="o">**</span><span class="mf">0.5</span><span class="si">:</span><span class="s2">15.4g</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">F</span><span class="o">*</span><span class="n">dU</span><span class="o">/</span><span class="p">(</span><span class="n">R</span><span class="o">*</span><span class="n">T</span><span class="p">))</span><span class="si">:</span><span class="s2">9.4g</span><span class="si">}</span><span class="s2"> | "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">lH</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">7.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">lO</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">le</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">8.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="o">-</span><span class="n">F</span><span class="o">*</span><span class="n">U</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">8.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> U-E0 (V) | p_H2 (bar) | p_H2*sqrt(p_O2) | Nernst    | lam_H   lam_O   lam_e   -FU  (kJ/mol)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  -0.15   |  0.0005244 |       8.491e-06 | 8.491e-06 | -113.45 -10.22 -104.092 -104.092
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  -0.10   |   0.007023 |       0.0004162 | 0.0004162 | -115.06  -7.01 -108.916 -108.916
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  -0.05   |    0.09407 |          0.0204 |    0.0204 | -116.67  -3.79 -113.741 -113.741
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  +0.00   |       1.26 |               1 |         1 | -118.28  -0.57 -118.565 -118.565
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  +0.05   |      16.87 |           49.02 |     49.02 | -119.89   2.64 -123.389 -123.389
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  +0.10   |        226 |            2403 |      2403 | -121.49   5.86 -128.214 -128.214
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  +0.15   |       3027 |       1.178e+05 | 1.178e+05 | -123.10   9.08 -133.038 -133.038
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that the equilibrium satisfies Nernst at every voltage, and the charge multiplier from the solver equals <span class="math notranslate nohighlight">\(-FU\)</span> to the printed precision. Below <span class="math notranslate nohighlight">\(E^0\)</span> there is only a trace of gas in the headspace. At <span class="math notranslate nohighlight">\(E^0\)</span> there is 1.26 bar of hydrogen, and 0.10 V above <span class="math notranslate nohighlight">\(E^0\)</span> there is 226 bar. (A real gas is far from ideal above about 100 bar, so the last rows are an idealization.)</p>
+<p>We can do two more checks to confirm the sign convention and the identities. If <span class="math notranslate nohighlight">\(\lambda = \partial G^*/\partial b\)</span>, then adding a little hydrogen or oxygen to the cell should change the optimal free energy at the rates <span class="math notranslate nohighlight">\(\lambda_{\mathrm{H}}\)</span> and <span class="math notranslate nohighlight">\(\lambda_{\mathrm{O}}\)</span>. We can also check that the chemical potentials we compute from the solution satisfy the three identities:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">U</span> <span class="o">=</span> <span class="n">E0</span> <span class="o">+</span> <span class="mf">0.05</span>
+<span class="k">if</span> <span class="n">ipopt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">(</span><span class="n">U</span><span class="p">);</span> <span class="n">h</span> <span class="o">=</span> <span class="mf">1e-6</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">bH</span><span class="p">,</span> <span class="n">bO</span><span class="p">:</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">kernel</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">bH</span><span class="p">,</span> <span class="n">bO</span><span class="p">)</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+    <span class="n">fdH</span> <span class="o">=</span> <span class="p">(</span><span class="n">G</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">NW</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">NW</span><span class="p">)</span> <span class="o">-</span> <span class="n">G</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">NW</span> <span class="o">-</span> <span class="n">h</span><span class="p">,</span> <span class="n">NW</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">fdO</span> <span class="o">=</span> <span class="p">(</span><span class="n">G</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">NW</span><span class="p">,</span> <span class="n">NW</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">G</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">NW</span><span class="p">,</span> <span class="n">NW</span> <span class="o">-</span> <span class="n">h</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">lH</span><span class="p">,</span> <span class="n">lO</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">H</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">O</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"dG*/db_H = </span><span class="si">{</span><span class="n">fdH</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> kJ/mol (finite difference) vs lam_H = </span><span class="si">{</span><span class="n">lH</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"dG*/db_O = </span><span class="si">{</span><span class="n">fdO</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> kJ/mol (finite difference) vs lam_O = </span><span class="si">{</span><span class="n">lO</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">R</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">T</span> <span class="o">/</span> <span class="p">(</span><span class="n">V</span> <span class="o">*</span> <span class="n">P0</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"identity residuals (J/mol): mu_H2 - (2 lam_H + 2FU) = </span><span class="si">{</span><span class="n">mu</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">nh</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">lH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">F</span><span class="o">*</span><span class="n">U</span><span class="p">)</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"mu_O2 - 2 lam_O = </span><span class="si">{</span><span class="n">mu</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">no</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">lO</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">, mu_H2O - (2 lam_H + lam_O) = </span><span class="si">{</span><span class="o">-</span><span class="n">DG0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">lH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lO</span><span class="p">)</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Ipopt not available: the finite-difference check needs a solver."</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rows</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">rows</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">'$\lambda_\mathrm</span><span class="si">{H}</span><span class="s1">$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rows</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">rows</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s1">'s-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">'$\lambda_\mathrm</span><span class="si">{O}</span><span class="s1">$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rows</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">rows</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s1">'^-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">'$\lambda_e$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rows</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="p">(</span><span class="n">E0</span> <span class="o">+</span> <span class="n">rows</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s1">'k:'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">'$-FU$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'applied voltage $U - E^0$ (V)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'multiplier (kJ/mol)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dG*/db_H = -119.887 kJ/mol (finite difference) vs lam_H = -119.887
+dG*/db_O = 2.643 kJ/mol (finite difference) vs lam_O = 2.643
+identity residuals (J/mol): mu_H2 - (2 lam_H + 2FU) = 8.9e-10, mu_O2 - 2 lam_O = 8.7e-10, mu_H2O - (2 lam_H + lam_O) = 2.9e-11
+</pre></div>
+</div>
+<img alt="../_images/9790dea1caa1aa254d12a7be6f5c71221f9efd928cb7cf9bb0d9d45eace72e2c.png" src="../_images/9790dea1caa1aa254d12a7be6f5c71221f9efd928cb7cf9bb0d9d45eace72e2c.png" />
+</div>
+</div>
+<p>The finite differences match the multipliers (<span class="math notranslate nohighlight">\(-119.887\)</span> and <span class="math notranslate nohighlight">\(2.643\)</span> kJ/mol at <span class="math notranslate nohighlight">\(U = E^0 + 0.05\)</span> V), and the three identities hold to about <span class="math notranslate nohighlight">\(10^{-9}\)</span> J/mol. As the voltage goes up, <span class="math notranslate nohighlight">\(\lambda_e\)</span> falls along <span class="math notranslate nohighlight">\(-FU\)</span> and <span class="math notranslate nohighlight">\(\lambda_{\mathrm{O}}\)</span> rises as oxygen builds up. Meanwhile <span class="math notranslate nohighlight">\(\lambda_{\mathrm{H}}\)</span> falls by half as much, which keeps <span class="math notranslate nohighlight">\(2\lambda_{\mathrm{H}} + \lambda_{\mathrm{O}}\)</span> pinned at the chemical potential of liquid water.</p>
+<p><strong>The thermodynamic reading.</strong> The multipliers <span class="math notranslate nohighlight">\(\lambda_{\mathrm{H}}\)</span> and <span class="math notranslate nohighlight">\(\lambda_{\mathrm{O}}\)</span> are the <strong>elemental chemical potentials</strong>, that is, the change in the cell’s free energy when one mole of H or O atoms is added and the system re-equilibrates, and stationarity says that each species present is in equilibrium with its elements. The charge multiplier <span class="math notranslate nohighlight">\(\lambda_e = -FU\)</span> is the electrochemical potential of the electrons in the power supply, which acts as a reservoir of electrons at a fixed potential set by <span class="math notranslate nohighlight">\(U\)</span>. The Nernst equation then states that a mole of H₂ plus half a mole of O₂ has exactly the free energy of a mole of water plus the work of two moles of electrons.</p>
+<p><strong>The economic reading.</strong> The same equations also describe a market. The multipliers <span class="math notranslate nohighlight">\(\lambda_{\mathrm{H}}\)</span> and <span class="math notranslate nohighlight">\(\lambda_{\mathrm{O}}\)</span> are the prices of a raw H atom and a raw O atom, and stationarity is a no-arbitrage rule: every molecule sells for the price of its parts, or someone could profit by assembling or dismantling it. The power supply sells electrons at a posted price, and <span class="math notranslate nohighlight">\(FU\)</span> is that price. With rough market prices of $5/kg for hydrogen<a class="footnote-reference brackets" href="#h2price" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, $0.15/kg for oxygen<a class="footnote-reference brackets" href="#o2price" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> and nearly nothing for water, the identities imply atom prices of about $0.0024 per mole of O and <span class="math notranslate nohighlight">\(-\)</span>$0.0012 per mole of H, and a break-even electron price of $0.0062 per mole, which at the reversible voltage is $0.19 per kWh. Electricity at $0.05/kWh<a class="footnote-reference brackets" href="#elecprice" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> costs about $0.0017 per mole of electrons there, so ideal electrolysis would be about 3.8 times in the money. These prices are round illustrative numbers chosen to have the right order of magnitude, not market data.</p>
+<div class="exercise admonition" id="ex-t22-headspace">
+
+<p class="admonition-title"><span class="caption-number">Exercise 31 </span></p>
+<section id="exercise-content">
+<p>Double the headspace volume to 2 L (pass a different <code class="docutils literal notranslate"><span class="pre">V</span></code> by editing the model) and re-solve at <span class="math notranslate nohighlight">\(U = E^0\)</span> and <span class="math notranslate nohighlight">\(U = E^0 + 0.05\)</span> V. Which of <span class="math notranslate nohighlight">\(p_{\mathrm{H_2}}\)</span>, <span class="math notranslate nohighlight">\(\lambda_{\mathrm{H}}\)</span>, <span class="math notranslate nohighlight">\(\lambda_{\mathrm{O}}\)</span> and <span class="math notranslate nohighlight">\(\lambda_e\)</span> change, and which do not? Explain each answer from the stationarity equations.</p>
+</section>
+</div>
+</section>
+<section id="the-kkt-conditions">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">The KKT conditions</a><a class="headerlink" href="#the-kkt-conditions" title="Link to this heading">#</a></h2>
+<p>Inequality constraints add a complication. At the optimum, each inequality is either <strong>active</strong> (i.e. it holds with equality, <span class="math notranslate nohighlight">\(g_k(x^*) = 0\)</span>) or <strong>inactive</strong> (<span class="math notranslate nohighlight">\(g_k(x^*) &lt; 0\)</span>). An inactive constraint does not affect the solution at all, so we could delete it and nothing would change. An active constraint, on the other hand, behaves locally like an equality. The problem is that we do not know ahead of time which constraints will be active. The <strong>Karush–Kuhn–Tucker (KKT) conditions</strong> are the Lagrange conditions plus a set of logical switches that sort this out.</p>
+<p>First, we add a multiplier <span class="math notranslate nohighlight">\(\nu_k\)</span> for each inequality and write the Lagrangian as <span class="math notranslate nohighlight">\(\mathcal{L} = f(x) - \sum_j \lambda_j (h_j(x) - b_j) + \sum_k \nu_k g_k(x)\)</span>. A point <span class="math notranslate nohighlight">\(x^*\)</span> is a KKT point if there are multipliers <span class="math notranslate nohighlight">\(\lambda\)</span> and <span class="math notranslate nohighlight">\(\nu\)</span> such that</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Condition</p></th>
+<th class="head"><p>Statement</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Stationarity</p></td>
+<td><p><span class="math notranslate nohighlight">\(\nabla f(x^*) - \sum_j \lambda_j \nabla h_j(x^*) + \sum_k \nu_k \nabla g_k(x^*) = 0\)</span></p></td>
+<td><p>the objective’s pull is balanced by the constraints pushing back</p></td>
+</tr>
+<tr class="row-odd"><td><p>Primal feasibility</p></td>
+<td><p><span class="math notranslate nohighlight">\(h_j(x^*) = b_j\)</span>, <span class="math notranslate nohighlight">\(g_k(x^*) \le 0\)</span></p></td>
+<td><p>the point is allowed</p></td>
+</tr>
+<tr class="row-even"><td><p>Dual feasibility</p></td>
+<td><p><span class="math notranslate nohighlight">\(\nu_k \ge 0\)</span></p></td>
+<td><p>a one-sided wall can only push, not pull</p></td>
+</tr>
+<tr class="row-odd"><td><p>Complementary slackness</p></td>
+<td><p><span class="math notranslate nohighlight">\(\nu_k \, g_k(x^*) = 0\)</span></p></td>
+<td><p>each inequality is active or its multiplier is zero</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Note that equality multipliers can have either sign, since an equality can push from either side, but inequality multipliers must be nonnegative. If a solver returned a negative <span class="math notranslate nohighlight">\(\nu_k\)</span>, then stepping off that constraint into the feasible region would lower the objective, so the constraint was not really holding the solution in place. Complementary slackness ties these two conditions together. A constraint that is not touching the solution exerts no force, and a constraint that exerts a force must be touching it.</p>
+<p>The variables <span class="math notranslate nohighlight">\(x\)</span> are called the <strong>primal</strong> variables and the multipliers are called the <strong>dual</strong> variables. Primal feasibility and dual feasibility are just the conditions on each set. In Topic 2.3 we will see that the multipliers solve an optimization problem of their own, which is called the dual problem.</p>
+<p><strong>When are the KKT conditions enough?</strong> If a problem satisfies a mild regularity condition (called a <em>constraint qualification</em>), then the KKT conditions are necessary for a local minimum. If the problem is convex (convex objective, convex inequalities, linear equalities) and also has a strictly feasible point (Slater’s condition), then they are also sufficient, and any KKT point is a global minimum. However, for a non-convex problem a KKT point can be a local minimum, a saddle, or even a maximum.</p>
+<section id="the-hidden-inequality-in-the-electrolyzer">
+<h3>The hidden inequality in the electrolyzer<a class="headerlink" href="#the-hidden-inequality-in-the-electrolyzer" title="Link to this heading">#</a></h3>
+<p>The electrolysis model has inequalities that we did not write as constraints, since the amounts cannot be negative: <span class="math notranslate nohighlight">\(n_i \ge 0\)</span> and <span class="math notranslate nohighlight">\(q \ge 0\)</span>. If we add multipliers <span class="math notranslate nohighlight">\(\nu_i \ge 0\)</span> on these bounds, stationarity in <span class="math notranslate nohighlight">\(n_{\mathrm{H_2}}\)</span> becomes</p>
+<div class="math notranslate nohighlight">
+\[
+\mu_{\mathrm{H_2}} - (2\lambda_{\mathrm{H}} + 2FU) - \nu_{\mathrm{H_2}} = 0, \qquad n_{\mathrm{H_2}} \ge 0, \quad \nu_{\mathrm{H_2}} \ge 0, \quad \nu_{\mathrm{H_2}}\, n_{\mathrm{H_2}} = 0 .
+\]</div>
+<p>There are two cases:</p>
+<ul class="simple">
+<li><p><strong>Species present</strong> (<span class="math notranslate nohighlight">\(n_{\mathrm{H_2}} &gt; 0\)</span>): complementary slackness forces <span class="math notranslate nohighlight">\(\nu_{\mathrm{H_2}} = 0\)</span>, and we recover the Lagrange identity.</p></li>
+<li><p><strong>Species absent</strong> (<span class="math notranslate nohighlight">\(n_{\mathrm{H_2}} = 0\)</span>): <span class="math notranslate nohighlight">\(\nu_{\mathrm{H_2}} \ge 0\)</span>, so <span class="math notranslate nohighlight">\(\mu_{\mathrm{H_2}}\)</span> is <em>at or above</em> the price of its parts. Making it would cost more than it is worth. The species is <strong>priced out</strong>, and <span class="math notranslate nohighlight">\(\nu\)</span> measures by how much.</p></li>
+</ul>
+<p>In the closed cell the second case never happens, because the chemical potential of an ideal gas falls to <span class="math notranslate nohighlight">\(-\infty\)</span> as its amount goes to zero, so some hydrogen always forms and every bound is inactive (which is why plain Lagrange multipliers were enough above). The absent case shows up when the chemical potential of a species does not depend on its amount. One example is a pure condensed phase, which appears or disappears as a whole, and the other is the <strong>LP limit</strong> from Topic 1.2, where the gases are drawn off continuously at 1 bar so that each mole of gas has the fixed chemical potential <span class="math notranslate nohighlight">\(\mu^0\)</span>. That model has only one degree of freedom, the extent <span class="math notranslate nohighlight">\(\xi\)</span> (moles of H₂ made per mole of water), with objective <span class="math notranslate nohighlight">\((\Delta G^0 - 2FU)\,\xi\)</span> and bounds <span class="math notranslate nohighlight">\(0 \le \xi \le 1\)</span>, and we can get the bound multipliers directly from the LP solver:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dU</span> <span class="ow">in</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="o">+</span><span class="mf">0.05</span><span class="p">):</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">E0</span> <span class="o">+</span> <span class="n">dU</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">linprog</span><span class="p">([</span><span class="n">DG0</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">F</span> <span class="o">*</span> <span class="n">U</span><span class="p">],</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="n">method</span><span class="o">=</span><span class="s1">'highs'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"U = E0 </span><span class="si">{</span><span class="n">dU</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2"> V: xi = </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">; multiplier on xi &gt;= 0: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">lower</span><span class="o">.</span><span class="n">marginals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}</span><span class="s2"> kJ/mol, "</span>
+          <span class="sa">f</span><span class="s2">"on xi &lt;= 1: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">upper</span><span class="o">.</span><span class="n">marginals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}</span><span class="s2"> kJ/mol"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"2F(E0 - U) at U = E0 - 0.05 V: </span><span class="si">{</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.05</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> kJ/mol"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U = E0 -0.05 V: xi = 0; multiplier on xi &gt;= 0: +9.649 kJ/mol, on xi &lt;= 1: +0.000 kJ/mol
+U = E0 +0.05 V: xi = 1; multiplier on xi &gt;= 0: +0.000 kJ/mol, on xi &lt;= 1: -9.649 kJ/mol
+2F(E0 - U) at U = E0 - 0.05 V: 9.649 kJ/mol
+</pre></div>
+</div>
+</div>
+</div>
+<p>Below the reversible voltage no hydrogen is made, and the lower bound carries a multiplier of 9.649 kJ/mol, which is exactly <span class="math notranslate nohighlight">\(2F(E^0 - U)\)</span>, so hydrogen is priced out by the shortfall in the electrons’ work. Above the reversible voltage all the water is split and the upper bound is active instead, with a multiplier of <span class="math notranslate nohighlight">\(-9.649\)</span> kJ/mol (scipy reports the multiplier of an upper bound as a nonpositive sensitivity <span class="math notranslate nohighlight">\(\partial f^*/\partial(\text{bound})\)</span>). In each case exactly one bound is active and the other carries a zero multiplier, as complementary slackness requires.</p>
+<div class="exercise admonition" id="ex-t22-priced-out">
+
+<p class="admonition-title"><span class="caption-number">Exercise 32 </span></p>
+<section id="exercise-content">
+<p>Use the LP above to sweep <span class="math notranslate nohighlight">\(U\)</span> from <span class="math notranslate nohighlight">\(E^0 - 0.1\)</span> to <span class="math notranslate nohighlight">\(E^0 + 0.1\)</span> V and plot both bound multipliers against <span class="math notranslate nohighlight">\(U\)</span>. What happens at exactly <span class="math notranslate nohighlight">\(U = E^0\)</span>? Relate what you see to the flat objective of Topic 1.2.</p>
+</section>
+</div>
+</section>
+</section>
+<section id="kkt-for-the-ohmic-dispatch">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">KKT for the ohmic dispatch</a><a class="headerlink" href="#kkt-for-the-ohmic-dispatch" title="Link to this heading">#</a></h2>
+<p>Now apply KKT to the ohmic dispatch of Topic 2.1, keeping the capacity bounds:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_x \sum_i \left(x_i + r_i x_i^2\right) \quad \text{s.t.} \quad \sum_i x_i = D \;\; (\lambda), \qquad x_i \le 1 \;\; (\mu_i \ge 0), \qquad -x_i \le 0 \;\; (\nu_i \ge 0).
+\]</div>
+<p>Stationarity for stack <span class="math notranslate nohighlight">\(i\)</span> reads</p>
+<div class="math notranslate nohighlight">
+\[
+1 + 2 r_i x_i = \lambda - \mu_i + \nu_i .
+\]</div>
+<p>For a stack that is running but not full, both bounds are inactive, <span class="math notranslate nohighlight">\(\mu_i = \nu_i = 0\)</span>, and its <strong>marginal power</strong> <span class="math notranslate nohighlight">\(1 + 2 r_i x_i\)</span> equals <span class="math notranslate nohighlight">\(\lambda\)</span>. This is the condition we found by elimination in Topic 2.1, now with <span class="math notranslate nohighlight">\(\lambda\)</span> identified as the demand multiplier. For a full stack, <span class="math notranslate nohighlight">\(\mu_i = \lambda - (1 + 2r_i) \ge 0\)</span>, meaning that the price exceeds its marginal power at full load. For an idle stack, <span class="math notranslate nohighlight">\(\nu_i = 1 - \lambda \ge 0\)</span>, which cannot happen here because every stack’s marginal power at zero load is 1 and the price is above 1. Because the problem is convex, the KKT point is the global minimum, and since the objective is strictly convex it is also unique.</p>
+<p>When all of the bounds are inactive the solution has the closed form from Topic 2.1, <span class="math notranslate nohighlight">\(\lambda - 1 = D/\sum_i (1/2r_i)\)</span>, and when a bound binds we can fix that stack at capacity and apply the same formula to the other stacks. The helper <code class="docutils literal notranslate"><span class="pre">t2.ohmic_dispatch</span></code> does this by bisection on <span class="math notranslate nohighlight">\(\lambda\)</span>, and we can compare it with Ipopt if we write the capacity bounds as explicit constraints so that the solver reports their multipliers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">dispatch_kkt</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+    <span class="n">lam</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dispatch</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>                    <span class="c1"># exact, from the KKT conditions</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"D = </span><span class="si">{</span><span class="n">D</span><span class="si">}</span><span class="s2">: lambda = </span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, x = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">, cost </span><span class="si">{</span><span class="n">cost</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, capacity multipliers </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">if</span> <span class="n">ipopt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="n">D</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">))</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">demand</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">)</span> <span class="o">==</span> <span class="n">D</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">cap</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">dual</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Suffix</span><span class="o">.</span><span class="n">IMPORT</span><span class="p">)</span>
+        <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'tol'</span><span class="p">:</span> <span class="mf">1e-10</span><span class="p">})</span>
+        <span class="n">mu_ip</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">cap</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">]</span>          <span class="c1"># Pyomo reports dC*/d(capacity) &lt;= 0</span>
+        <span class="n">line</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">         Ipopt: lambda = </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">demand</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, capacity multipliers </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">mu_ip</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lam</span><span class="p">,</span> <span class="n">x</span>
+
+<span class="n">lam12</span><span class="p">,</span> <span class="n">x12</span> <span class="o">=</span> <span class="n">dispatch_kkt</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="n">lam25</span><span class="p">,</span> <span class="n">x25</span> <span class="o">=</span> <span class="n">dispatch_kkt</span><span class="p">(</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"marginal powers at D = 2.5: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x25</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">lam</span> <span class="ow">in</span> <span class="p">(</span><span class="n">lam12</span><span class="p">,</span> <span class="n">lam25</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"price </span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> per-unit = </span><span class="si">{</span><span class="n">lam</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">DG0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kJ/mol H2 = </span><span class="si">{</span><span class="n">lam</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">E0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> V-equivalent "</span>
+          <span class="sa">f</span><span class="s2">"= </span><span class="si">{</span><span class="n">lam</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">DG0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.01588</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3600</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> kWh/kg"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 1.2: lambda = 1.38182, x = [0.3818 0.5455 0.2727], cost 1.42909, capacity multipliers [0. 0. 0.]
+         Ipopt: lambda = 1.38182, capacity multipliers [0. 0. 0.]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 2.5: lambda = 1.87500, x = [0.875 1.    0.625], cost 3.50625, capacity multipliers [0.    0.175 0.   ]
+         Ipopt: lambda = 1.87500, capacity multipliers [0.    0.175 0.   ]
+marginal powers at D = 2.5: [1.875 1.7   1.875]
+price 1.38182 per-unit = 328 kJ/mol H2 = 1.70 V-equivalent = 45.2 kWh/kg
+price 1.87500 per-unit = 445 kJ/mol H2 = 2.30 V-equivalent = 61.3 kWh/kg
+</pre></div>
+</div>
+</div>
+</div>
+<p>At <span class="math notranslate nohighlight">\(D = 1.2\)</span> every stack is interior, which means that the marginal powers are all equal to <span class="math notranslate nohighlight">\(\lambda = 1.38182\)</span> and the capacity multipliers are zero. At <span class="math notranslate nohighlight">\(D = 2.5\)</span> (500 kg/h) stack B, which is the most efficient, reaches full load, so its bound becomes active and the price rises to <span class="math notranslate nohighlight">\(\lambda = 1.875\)</span>. Stacks A and C run at 0.875 and 0.625, where their marginal powers are equal to the price, while the marginal power of B at full load is only 1.7. The gap between these, <span class="math notranslate nohighlight">\(\mu_B = 1.875 - 1.7 = 0.175\)</span>, is the capacity multiplier of stack B, and Ipopt reports the same numbers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">((</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">lam12</span><span class="p">,</span> <span class="n">x12</span><span class="p">),</span> <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">2.5</span><span class="p">,</span> <span class="n">lam25</span><span class="p">,</span> <span class="n">x25</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">xi</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">xx</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'stack </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">xi</span><span class="p">,</span> <span class="s1">'ko'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">lam</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">lam</span> <span class="o">+</span> <span class="mf">0.03</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'price $</span><span class="se">\\</span><span class="s1">lambda$ = </span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'D = </span><span class="si">{</span><span class="n">D</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> kg/h)'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'load $x$ (fraction of 200 kg/h)'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'marginal power $1 + 2 r_i x$ (per-unit)'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7905af2ddeb52cf8b80a5280b9d7a8a1baca5c5c6dd6da32cf4688fc661bc52a.png" src="../_images/7905af2ddeb52cf8b80a5280b9d7a8a1baca5c5c6dd6da32cf4688fc661bc52a.png" />
+</div>
+</div>
+<p>The figure shows the rule that each stack runs at the load where its marginal-power line crosses the price. On the right, the line for stack B ends at full load below the price, and the vertical gap at <span class="math notranslate nohighlight">\(x = 1\)</span> is its capacity multiplier.</p>
+<p><strong>Checking a candidate point.</strong> The KKT conditions are also a test: given any proposed dispatch, we can ask whether it could be optimal. Stationarity fixes the multipliers. Every stack strictly between its bounds must have marginal power equal to <span class="math notranslate nohighlight">\(\lambda\)</span>; a full stack needs <span class="math notranslate nohighlight">\(\mu_i = \lambda - (1 + 2r_i) \ge 0\)</span>; an idle stack needs <span class="math notranslate nohighlight">\(\nu_i = 1 - \lambda \ge 0\)</span>. We test three candidates at <span class="math notranslate nohighlight">\(D = 1.2\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kkt_check</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">);</span> <span class="n">mc</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rv</span> <span class="o">*</span> <span class="n">x</span>                 <span class="c1"># marginal powers</span>
+    <span class="n">issues</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">D</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">tol</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">tol</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">"not feasible"</span>
+    <span class="n">inner</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">tol</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">inner</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">mc</span><span class="p">[</span><span class="n">inner</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"not stationary: interior marginal powers </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">mc</span><span class="p">[</span><span class="n">inner</span><span class="p">],</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2"> differ"</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">mc</span><span class="p">[</span><span class="n">inner</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">if</span> <span class="n">inner</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">tol</span> <span class="ow">and</span> <span class="n">lam</span> <span class="o">-</span> <span class="n">mc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">tol</span><span class="p">:</span>
+            <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"mu_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">lam</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> &lt; 0"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tol</span> <span class="ow">and</span> <span class="n">mc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">lam</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">tol</span><span class="p">:</span>
+            <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"nu_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">mc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lam</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> &lt; 0"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"lambda = </span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">; "</span> <span class="o">+</span> <span class="p">(</span><span class="s2">"KKT point"</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">issues</span> <span class="k">else</span> <span class="s2">"dual infeasible: "</span> <span class="o">+</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">issues</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">cand</span> <span class="ow">in</span> <span class="p">[(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x12</span><span class="p">)]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"x = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">cand</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">kkt_check</span><span class="p">(</span><span class="n">cand</span><span class="p">,</span><span class="w"> </span><span class="mf">1.2</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x = [0.4 0.4 0.4]: not stationary: interior marginal powers [1.4  1.28 1.56] differ
+x = [1.  0.2 0. ]: lambda = 1.14000; dual infeasible: mu_A = -0.86 &lt; 0, nu_C = -0.14 &lt; 0
+x = [0.3818 0.5455 0.2727]: lambda = 1.38182; KKT point
+</pre></div>
+</div>
+</div>
+</div>
+<p>The equal split is feasible but not stationary: its marginal powers differ, so moving load from C to B lowers the total. The merit-order dispatch of the linear model, (1, 0.2, 0), is stationary for the only interior stack, B, with <span class="math notranslate nohighlight">\(\lambda = 1.14\)</span>, but both bounds have multipliers of the wrong sign: A’s capacity multiplier would be <span class="math notranslate nohighlight">\(-0.86\)</span> and C’s would be <span class="math notranslate nohighlight">\(-0.14\)</span>. Negative multipliers say that the bounds are pulling rather than pushing, so moving off them improves the objective. Only the KKT dispatch passes, and because the problem is convex, passing the test proves global optimality.</p>
+<p><strong>The thermodynamic reading.</strong> Equal marginal power across running stacks is the same kind of condition as equal chemical potential across phases at equilibrium: no transfer of load from one stack to another can lower the total, just as no transfer of a species between phases can lower the Gibbs energy. The demand multiplier is the marginal energy to make one more unit of hydrogen with the fleet: 1.38182 per-unit is 328 kJ per mole of H₂, equivalent to a cell voltage of 1.70 V, or 45.2 kWh per kg. The ideal is 237 kJ/mol (1.229 V); the difference is dissipated as ohmic heat in the stacks, an irreversible loss.</p>
+<p><strong>The economic reading.</strong> A dispatcher running several plants equalizes their marginal costs, which is the textbook rule for <strong>economic dispatch</strong> of power plants. The demand multiplier is the price of hydrogen, that is, what one more kilogram costs the plant at the margin. In the linear dispatch the price jumped from one stack’s cost to the next, but now it rises smoothly with demand, from 1.38182 at 240 kg/h to 1.875 at 500 kg/h. The capacity multiplier <span class="math notranslate nohighlight">\(\mu_B = 0.175\)</span> is a <strong>capacity rent</strong>: one more unit of capacity on stack B would save 0.175 per-unit of power per unit of extra capacity, which is the most an operator should pay to uprate it.</p>
+<div class="exercise admonition" id="ex-t22-capacity-rent">
+
+<p class="admonition-title"><span class="caption-number">Exercise 33 </span></p>
+<section id="exercise-content">
+<p>Verify the capacity rent by finite differences: change stack B’s capacity from 1 to <span class="math notranslate nohighlight">\(1 \pm 10^{-4}\)</span> at <span class="math notranslate nohighlight">\(D = 2.5\)</span> (pass <code class="docutils literal notranslate"><span class="pre">cap</span></code> as an array to a copy of <code class="docutils literal notranslate"><span class="pre">t2.ohmic_dispatch</span></code>, or edit the Pyomo model) and compute the change in total power. Then find the demand at which stack B first reaches capacity, and the demand at which a second stack does.</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The Lagrange function <span class="math notranslate nohighlight">\(\mathcal{L} = f - \sum_j \lambda_j(h_j - b_j)\)</span> turns an equality-constrained problem into a stationarity problem. With this sign convention, <span class="math notranslate nohighlight">\(\lambda_j = \partial f^*/\partial b_j\)</span> (the envelope theorem).</p></li>
+<li><p>A multiplier is the ratio of parallel gradients at a tangency, the force a constraint exerts, and the marginal value of relaxing the constraint.</p></li>
+<li><p>For the electrolysis cell, stationarity gives <span class="math notranslate nohighlight">\(\lambda_e = -FU\)</span>, <span class="math notranslate nohighlight">\(\mu_{\mathrm{H_2}} = 2\lambda_{\mathrm{H}} + 2FU\)</span>, <span class="math notranslate nohighlight">\(\mu_{\mathrm{O_2}} = 2\lambda_{\mathrm{O}}\)</span> and <span class="math notranslate nohighlight">\(\mu_{\mathrm{H_2O}} = 2\lambda_{\mathrm{H}} + \lambda_{\mathrm{O}}\)</span>; eliminating the multipliers gives the Nernst equation. Ipopt’s duals and finite differences agree.</p></li>
+<li><p>The KKT conditions add dual feasibility (<span class="math notranslate nohighlight">\(\nu \ge 0\)</span>) and complementary slackness (<span class="math notranslate nohighlight">\(\nu g = 0\)</span>). For convex problems with a strictly feasible point they are necessary and sufficient for a global minimum.</p></li>
+<li><p>Nonnegativity is the hidden inequality of Gibbs minimization. A species at zero has a nonnegative multiplier: it is priced out, by <span class="math notranslate nohighlight">\(2F(E^0 - U)\)</span> for hydrogen in the LP limit below <span class="math notranslate nohighlight">\(E^0\)</span>.</p></li>
+<li><p>In the ohmic dispatch, KKT gives equal marginal power across running stacks. At <span class="math notranslate nohighlight">\(D = 1.2\)</span>, <span class="math notranslate nohighlight">\(\lambda = 1.38182\)</span> (328 kJ/mol H₂, 45.2 kWh/kg) and <span class="math notranslate nohighlight">\(x = (0.3818, 0.5455, 0.2727)\)</span>; at <span class="math notranslate nohighlight">\(D = 2.5\)</span> stack B is full, <span class="math notranslate nohighlight">\(\lambda = 1.875\)</span>, and B’s capacity multiplier is 0.175.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>L. T. Biegler, <em>Nonlinear Programming: Concepts, Algorithms, and Applications to Chemical Processes</em>, SIAM (2010), Chapter 4, on KKT conditions and constraint qualifications.</p></li>
+<li><p>J. Nocedal and S. J. Wright, <em>Numerical Optimization</em>, 2nd ed., Springer (2006), Chapter 12, on the theory of constrained optimization.</p></li>
+<li><p>A. Ravindran, K. M. Ragsdell and G. V. Reklaitis, <em>Engineering Optimization: Methods and Applications</em>, 2nd ed., Wiley (2006), Chapter 5, on constrained optimality criteria.</p></li>
+<li><p>W. R. Smith and R. W. Missen, <em>Chemical Reaction Equilibrium Analysis: Theory and Algorithms</em>, Wiley (1982), on Gibbs minimization with element balances and the meaning of the multipliers.</p></li>
+<li><p>D. Bertsimas and J. N. Tsitsiklis, <em>Introduction to Linear Optimization</em>, Athena Scientific (1997), Chapter 4, on dual variables as prices.</p></li>
+</ul>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="h2price" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>The U.S. Department of Energy put the cost of hydrogen from renewable electricity at about $5/kg when it launched its Hydrogen Shot goal of $1/kg: DOE, <em>Hydrogen Shot</em> fact sheet (August 2021), <a class="reference external" href="https://www.energy.gov/sites/default/files/2021-08/factsheet-hydrogen-shot-introduction-august2021.pdf">https://www.energy.gov/sites/default/files/2021-08/factsheet-hydrogen-shot-introduction-august2021.pdf</a>.</p>
+</aside>
+<aside class="footnote brackets" id="o2price" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Merchant liquid oxygen delivered in bulk sells for a few tenths of a dollar per kilogram; for example, a 2025–26 municipal contract with Air Products prices it at $208.98 per delivered ton (Westchester County, NY, contract 5857 BPS). Oxygen piped from an on-site plant is cheaper.</p>
+</aside>
+<aside class="footnote brackets" id="elecprice" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>The average U.S. price of electricity to industrial customers was 8.51 cents/kWh in 2025 (U.S. EIA, <em>Electric Power Monthly</em>, Table 5.3, <a class="reference external" href="https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_3">https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_3</a>). Large electrolysis projects aim for cheaper power contracts, so $0.05/kWh is a low but realistic figure for a dedicated plant.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./2-nonlinear_mixed_integer"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic2.1-Nonlinear_Programs_and_Convexity.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2.1 Nonlinear Programs and Convexity</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic2.3-Duality.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2.3 Duality</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-lagrange-function">The Lagrange function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-readings-of-a-multiplier">Three readings of a multiplier</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-electrolysis-equilibrium-derived">The electrolysis equilibrium, derived</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kkt-conditions">The KKT conditions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hidden-inequality-in-the-electrolyzer">The hidden inequality in the electrolyzer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kkt-for-the-ohmic-dispatch">KKT for the ohmic dispatch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

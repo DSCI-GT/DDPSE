@@ -1,0 +1,1333 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.2 Optimization in Reduced Spaces &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.3 Hybrid Modeling" href="Topic4.3-Hybrid_Modeling.html" />
+    <link rel="prev" title="4.1 Working with Real Data" href="Topic4.1-Working_with_Real_Data.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Data-Driven Modeling</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>4.2 Optimization in Reduced Spaces</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#too-many-dimensions">Too many dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-as-an-optimization-problem">PCA as an optimization problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-worked-example-cheddar-cheese">A worked example: cheddar cheese</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-in-reduced-spaces">Regression in reduced spaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Optimization in reduced spaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constraints-in-the-reduced-space-and-adaptive-optimization">Constraints in the reduced space and adaptive optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#optimization-in-reduced-spaces" id="id2">4.2 Optimization in Reduced Spaces</a></p>
+<ul>
+<li><p><a class="reference internal" href="#too-many-dimensions" id="id3">Too many dimensions</a></p></li>
+<li><p><a class="reference internal" href="#pca-as-an-optimization-problem" id="id4">PCA as an optimization problem</a></p></li>
+<li><p><a class="reference internal" href="#a-worked-example-cheddar-cheese" id="id5">A worked example: cheddar cheese</a></p></li>
+<li><p><a class="reference internal" href="#regression-in-reduced-spaces" id="id6">Regression in reduced spaces</a></p></li>
+<li><p><a class="reference internal" href="#id1" id="id7">Optimization in reduced spaces</a></p></li>
+<li><p><a class="reference internal" href="#constraints-in-the-reduced-space-and-adaptive-optimization" id="id8">Constraints in the reduced space and adaptive optimization</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id9">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id10">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="optimization-in-reduced-spaces">
+<h1><a class="toc-backref" href="#id2" role="doc-backlink">4.2 Optimization in Reduced Spaces</a><a class="headerlink" href="#optimization-in-reduced-spaces" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 10, Lesson 1: <em>Dimensionality Challenges</em></p></li>
+<li><p>Module 10, Lesson 2: <em>Dimensionality Reduction: Principal Component Analysis</em></p></li>
+<li><p>Module 10, Lesson 3: <em>Principal Component Analysis Example</em></p></li>
+<li><p>Module 10, Lesson 4: <em>Regression in Reduced Spaces</em></p></li>
+<li><p>Module 10, Lesson 5: <em>Optimization in Reduced Spaces</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Distinguish feature selection from dimensionality reduction, and recognize when measured variables are redundant.</p></li>
+<li><p>Derive principal component analysis as a constrained optimization problem and interpret its Lagrange multipliers.</p></li>
+<li><p>Fit a regression model in a reduced space (principal component regression, partial least squares) and explain why it is better conditioned than a full-space fit on correlated inputs.</p></li>
+<li><p>Optimize a reduced-space model, map the solution back to the original variables, and check that the back-mapped point is valid.</p></li>
+<li><p>Explain how a reduced space can encode the constraints that the data obeyed, and run an adaptive optimization in that space.</p></li>
+</ul>
+</div>
+<p>In Topic 4.1 we dealt with data that were incomplete, noisy or wrong, and in this topic we will deal with data that are redundant. The variables in a historian are rarely independent (e.g. the three flow meters on one stack all measure the load), so the <em>true</em> dimensionality of the data is lower than the number of columns. If we can find it, then our models will be better conditioned, and we will be able to optimize over a few meaningful directions.</p>
+<p>The tools that we use to find it are principal component analysis (PCA) and its regression relatives, principal component regression (PCR) and partial least squares (PLS). These are covered in depth in DA4CHE, in Topic 5.2, <em>Dimensionality Reduction</em>, for PCA (covariance, eigendecomposition, scree plots, reconstruction, kernel PCA), and in Topics 2.4–2.5, <em>High-dimensional Data</em> and <em>High-dimensional Regression</em>, for scaling, forward selection, PCR and PLS (<a class="reference external" href="https://www.medford.chbe.gatech.edu/DA4CHE/">https://www.medford.chbe.gatech.edu/DA4CHE/</a>). Here we will only recap them briefly, and we will spend most of the topic on PCA as an optimization problem and on optimization in the reduced space.</p>
+<section id="too-many-dimensions">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Too many dimensions</a><a class="headerlink" href="#too-many-dimensions" title="Link to this heading">#</a></h2>
+<p>Real undesigned data sets in engineering usually have tens to hundreds of variables, and these are hard to visualize, since a scatter plot of the output shows its range but does not show how the output depends on ten inputs. It is also unlikely that every input is independent and that every input matters. Some inputs vary together because they are correlated, like the temperatures at different points of one reactor, or the mean radius, perimeter and area of a tumor in the breast-cancer data set that is used in the course notebook, and we can find these pairs with a correlation heat map. Other inputs have no effect on the output, like biomarkers that are unrelated to a patient’s condition. This creates two opportunities:</p>
+<ul class="simple">
+<li><p><strong>Feature selection</strong> removes redundant or useless variables. Regularization does this: the LASSO of Topic 3.5 drives the coefficients of unhelpful inputs to zero. So do forward selection and backward elimination, adding or removing one input at a time until the validation error goes up (DA4CHE Topic 2.5).</p></li>
+<li><p><strong>Dimensionality reduction</strong> re-expresses the information in fewer, new variables. The measured inputs may all be useful and still not be the right inputs: what drives the output may be combinations of them.</p></li>
+</ul>
+<p>The lectures illustrate the second case with an example from Shlens’s tutorial on PCA. Suppose that a ball on a spring oscillates along one axis, but that we do not know the physics, so the only thing we can do is film it with three low-resolution cameras that are placed at different angles. The 72,000 frames give six columns (two per camera) which are all noisy and strongly correlated, although they describe a one-dimensional motion. If a dimensionality-reduction method works, it should be able to recover a single variable from the six.</p>
+<p>The stack historian from Topic 4.1 has the same structure, since the hydrogen, water and oxygen flow meters and the temperature probe all respond to one thing, which is the load.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">part4a_tools</span> <span class="k">as</span> <span class="n">t4</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">t4</span><span class="o">.</span><span class="n">stack_log</span><span class="p">()</span>
+<span class="n">sensors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'h2_kg_h'</span><span class="p">,</span> <span class="s1">'water_kg_h'</span><span class="p">,</span> <span class="s1">'o2_kg_h'</span><span class="p">,</span> <span class="s1">'temp_C'</span><span class="p">]</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">log</span><span class="p">[</span><span class="n">sensors</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+<span class="n">off</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">triu_indices</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"smallest pairwise correlation among the four sensors: </span><span class="si">{</span><span class="n">off</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>            h2_kg_h  water_kg_h  o2_kg_h  temp_C
+h2_kg_h       1.000       0.999    0.998   0.943
+water_kg_h    0.999       1.000    0.998   0.942
+o2_kg_h       0.998       0.998    1.000   0.942
+temp_C        0.943       0.942    0.942   1.000
+smallest pairwise correlation among the four sensors: 0.942
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that the flow meters are correlated with each other at 0.998 or more, and the temperature is correlated with each of them at 0.942, so we have four columns but only one underlying variable. This means that a regression on all four columns has to divide one effect among nearly identical columns, which is numerically fragile.</p>
+<div class="exercise admonition" id="ex-t42-redundant-sensors">
+
+<p class="admonition-title"><span class="caption-number">Exercise 102 </span></p>
+<section id="exercise-content">
+<p>Regress the power meter reading (<code class="docutils literal notranslate"><span class="pre">power_MW</span></code>) on the four sensors with ordinary least squares, first using all 400 records and then using only the first 40. Compare the four coefficients between the two fits. Then regress power on the hydrogen meter alone. Which model would you trust to extrapolate, and why?</p>
+</section>
+</div>
+</section>
+<section id="pca-as-an-optimization-problem">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">PCA as an optimization problem</a><a class="headerlink" href="#pca-as-an-optimization-problem" title="Link to this heading">#</a></h2>
+<p>PCA finds a new set of orthogonal axes, called the <strong>principal components</strong>, which are ordered so that the first one captures as much of the variance in the data as possible, the second one captures as much of what remains as possible, and so on. It is an unsupervised method, i.e. it only looks at the inputs and not at any output. Since the variance depends on the units, the data are first centered and usually standardized (i.e. each column is scaled to unit variance), because otherwise a variable that is measured in large numbers will dominate for no physical reason.</p>
+<p>It turns out that the first principal component is the solution of an optimization problem. Let <span class="math notranslate nohighlight">\(X\)</span> be the <span class="math notranslate nohighlight">\(N \times d\)</span> matrix of centered, scaled data, and let <span class="math notranslate nohighlight">\(C = X^\top X/(N-1)\)</span> be its covariance matrix. If we project the data onto a unit vector <span class="math notranslate nohighlight">\(p\)</span> we get the scores <span class="math notranslate nohighlight">\(t = Xp\)</span>, and the variance of the scores is <span class="math notranslate nohighlight">\(p^\top C p\)</span>. The direction of greatest variance solves</p>
+<div class="math notranslate nohighlight">
+\[
+\max_{p} \; p^\top C p \quad \text{s.t.} \quad p^\top p = 1.
+\]</div>
+<p>We need the constraint because otherwise the variance would grow without bound as <span class="math notranslate nohighlight">\(p\)</span> is lengthened. The squared length of each centered point splits into its squared projection on <span class="math notranslate nohighlight">\(p\)</span> plus its squared distance from the axis, so maximizing the projected variance is the same as minimizing the sum of squared distances from the points to the axis, which is the picture of PCA used in the lectures. This is an equality-constrained NLP of the same kind that we solved in Topic 2.2. The Lagrangian is <span class="math notranslate nohighlight">\(\mathcal{L}(p, \lambda) = p^\top C p - \lambda (p^\top p - 1)\)</span>, and stationarity gives</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_p \mathcal{L} = 2Cp - 2\lambda p = 0 \quad\Longrightarrow\quad C p = \lambda p.
+\]</div>
+<p>This tells us that the KKT points are the eigenvectors of <span class="math notranslate nohighlight">\(C\)</span>, and at each one the objective is equal to <span class="math notranslate nohighlight">\(p^\top C p = \lambda p^\top p = \lambda\)</span>. Therefore, the maximum variance is the largest eigenvalue, and it is attained by the corresponding eigenvector. The Lagrange multiplier also has a direct meaning: <strong>the multiplier of the unit-length constraint is the variance captured by that component.</strong> The second component solves the same problem with the extra constraint <span class="math notranslate nohighlight">\(p^\top p_1 = 0\)</span>, which gives the eigenvector of the second-largest eigenvalue, and so on. If we collect the first <span class="math notranslate nohighlight">\(r\)</span> eigenvectors as the columns of the <strong>loading</strong> matrix <span class="math notranslate nohighlight">\(P\)</span> (<span class="math notranslate nohighlight">\(d \times r\)</span>), then the <strong>scores</strong> are <span class="math notranslate nohighlight">\(T = XP\)</span> (<span class="math notranslate nohighlight">\(N \times r\)</span>), and the data are approximated by</p>
+<div class="math notranslate nohighlight">
+\[
+X \approx T P^\top, \qquad \hat X = T P^\top + \bar x,
+\]</div>
+<p>where the mean <span class="math notranslate nohighlight">\(\bar x\)</span> is added back after a centered PCA. When the signal-to-noise ratio is high the residual <span class="math notranslate nohighlight">\(X - TP^\top\)</span> is mostly noise, so PCA also acts as a noise filter. PCA is also helpful for missing data, because a few missing values will barely move directions that are determined by many records, and EM-style algorithms can alternate between estimating the components and filling in the gaps from the current estimate.</p>
+<p>The next cell checks the derivation on the four sensors by computing the eigenvalues of <span class="math notranslate nohighlight">\(C\)</span>, and by solving the constrained problem directly with SLSQP, which is the general NLP method from Topic 2.1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="p">(</span><span class="n">log</span><span class="p">[</span><span class="n">sensors</span><span class="p">]</span> <span class="o">-</span> <span class="n">log</span><span class="p">[</span><span class="n">sensors</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">log</span><span class="p">[</span><span class="n">sensors</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">lam</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+<span class="n">lam</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">lam</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">P</span><span class="p">[:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>                      <span class="c1"># largest first</span>
+<span class="n">p1</span> <span class="o">=</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"eigenvalues (= Lagrange multipliers = variance along each PC):"</span><span class="p">,</span> <span class="n">lam</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"fraction of variance:"</span><span class="p">,</span> <span class="p">(</span><span class="n">lam</span> <span class="o">/</span> <span class="n">lam</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"first loading vector:"</span><span class="p">,</span> <span class="n">p1</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span><span class="n">p</span> <span class="o">@</span> <span class="n">C</span> <span class="o">@</span> <span class="n">p</span><span class="p">,</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">'SLSQP'</span><span class="p">,</span>
+               <span class="n">constraints</span><span class="o">=</span><span class="p">[{</span><span class="s1">'type'</span><span class="p">:</span> <span class="s1">'eq'</span><span class="p">,</span> <span class="s1">'fun'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span> <span class="o">@</span> <span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">}])</span>
+<span class="n">p_nlp</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SLSQP on max p'Cp s.t. p'p = 1: objective </span><span class="si">{</span><span class="o">-</span><span class="n">sol</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, |p - p1| = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">p_nlp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p1</span><span class="p">)</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">values</span> <span class="o">@</span> <span class="n">p1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"correlation of the first score with the true load: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">log</span><span class="o">.</span><span class="n">load</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>eigenvalues (= Lagrange multipliers = variance along each PC): [3.9115e+00 8.5300e-02 2.1000e-03 1.1000e-03]
+fraction of variance: [9.779e-01 2.130e-02 5.000e-04 3.000e-04]
+first loading vector: [0.504 0.504 0.504 0.489]
+SLSQP on max p'Cp s.t. p'p = 1: objective 3.9115, |p - p1| = 1.1e-06
+correlation of the first score with the true load: 0.9966
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Quantity</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Largest eigenvalue of <span class="math notranslate nohighlight">\(C\)</span> (the Lagrange multiplier)</p></td>
+<td><p>3.9115</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fraction of variance on the first component</p></td>
+<td><p>0.9779</p></td>
+</tr>
+<tr class="row-even"><td><p>SLSQP objective from a random start</p></td>
+<td><p>3.9115</p></td>
+</tr>
+<tr class="row-odd"><td><p>Distance between the SLSQP direction and <span class="math notranslate nohighlight">\(p_1\)</span></p></td>
+<td><p>1.1e-06</p></td>
+</tr>
+<tr class="row-even"><td><p>Loading on each flow meter</p></td>
+<td><p>0.504</p></td>
+</tr>
+<tr class="row-odd"><td><p>Loading on the temperature probe</p></td>
+<td><p>0.489</p></td>
+</tr>
+<tr class="row-even"><td><p>Correlation of the first score with the true load</p></td>
+<td><p>0.9966</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The first component explains almost all of the variance of the four standardized sensors, and starting SLSQP from a random direction gives the same objective and the same direction (to within <span class="math notranslate nohighlight">\(10^{-6}\)</span>). The loading vector weights the flow meters equally and the temperature slightly less, and the first score correlates almost perfectly with the true load, so PCA has recovered the hidden variable from four noisy, redundant measurements in the same way that it did for the ball on the spring.</p>
+<p>The key decision in PCA is how many components to keep. The ten-dimensional example from the lectures, which is adapted from the course notebook <code class="docutils literal notranslate"><span class="pre">High</span> <span class="pre">Dimensional,</span> <span class="pre">Unstructured</span> <span class="pre">Data</span> <span class="pre">analysis.ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT), shows the usual workflow on 100 samples of ten chemical properties, where each sample is labeled with a product grade from 0 to 3.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_blobs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="n">X10</span><span class="p">,</span> <span class="n">grade</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">cluster_std</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pca10</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X10</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">pca10</span><span class="o">.</span><span class="n">explained_variance_ratio_</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"explained variance ratio:"</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s2">" cumulative:"</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">S10</span> <span class="o">=</span> <span class="n">pca10</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X10</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">r</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'principal component'</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'fraction of variance'</span><span class="p">)</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">S10</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">S10</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">grade</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'score $t_1$'</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'score $t_2$'</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">'grade'</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>explained variance ratio: [0.416 0.339 0.16  0.02  0.016]  cumulative: [0.416 0.755 0.915 0.935 0.952]
+</pre></div>
+</div>
+<img alt="../_images/0fb3aac1ba1879e779e5bc1de1f04ec8f9a211a3ad531966d62eeab23b9c7f8f.png" src="../_images/0fb3aac1ba1879e779e5bc1de1f04ec8f9a211a3ad531966d62eeab23b9c7f8f.png" />
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Component</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+<th class="head"><p>5</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Explained variance ratio</p></td>
+<td><p>0.416</p></td>
+<td><p>0.339</p></td>
+<td><p>0.16</p></td>
+<td><p>0.02</p></td>
+<td><p>0.016</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cumulative</p></td>
+<td><p>0.416</p></td>
+<td><p>0.755</p></td>
+<td><p>0.915</p></td>
+<td><p>0.935</p></td>
+<td><p>0.952</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Three components explain most of the variance, after which the curve flattens out. The usual rule is to keep adding components until the explained variance reaches a plateau, using whatever is known about the noise to decide where the plateau starts. For example, if about 10% of the variance is noise, three components will be enough. The <strong>score plot</strong> of the first two components separates the four grades into clusters, even though no single input shows them, whereas for scaled data without structure the score plot would be a shapeless cloud around the origin. The loadings, which are the weights of each original variable in each component, reveal which inputs move together, and plotting the loadings as arrows gives the loadings plot that is used below for the cheddar data. DA4CHE Topic 5.2 shows the scree plot and other criteria.</p>
+<div class="exercise admonition" id="ex-t42-second-multiplier">
+
+<p class="admonition-title"><span class="caption-number">Exercise 103 </span></p>
+<section id="exercise-content">
+<p>Add the constraint <span class="math notranslate nohighlight">\(p^\top p_1 = 0\)</span> to the SLSQP problem and solve it. Check that the objective equals the second eigenvalue. Then interpret the second component from its loading vector: which sensor dominates it, and what physical effect, other than load, could it be measuring?</p>
+</section>
+</div>
+</section>
+<section id="a-worked-example-cheddar-cheese">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">A worked example: cheddar cheese</a><a class="headerlink" href="#a-worked-example-cheddar-cheese" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">Adapted material</p>
+<p>This section and the next two adapt the course notebook <code class="docutils literal notranslate"><span class="pre">Regression</span> <span class="pre">and</span> <span class="pre">Optimization</span> <span class="pre">with</span> <span class="pre">transformed</span> <span class="pre">reduced</span> <span class="pre">spaces</span> <span class="pre">(PCR,</span> <span class="pre">PLS).ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT) and its data files <code class="docutils literal notranslate"><span class="pre">cheddar-cheese.xlsx</span></code> and <code class="docutils literal notranslate"><span class="pre">cheddar-cheese2.xlsx</span></code> (stored here as CSV). The notebook’s Pyomo least-squares fits are replaced by <code class="docutils literal notranslate"><span class="pre">numpy</span></code> least squares, which gives the same coefficients; Pyomo is kept for the constrained optimization.</p>
+</div>
+<p>The main example in the lectures is a classic small data set of 30 mature cheddars from the LaTrobe Valley, Australia. There are three inputs, which are the concentrations of acetic acid and hydrogen sulfide (recorded as natural logarithms) and of lactic acid, and the output is the taste score from a panel. The data were popularized by Moore and McCabe’s statistics textbook, and they are also available as <code class="docutils literal notranslate"><span class="pre">cheddar</span></code> in the R package <code class="docutils literal notranslate"><span class="pre">faraway</span></code>. We want to find the composition that maximizes taste.</p>
+<p>This data set was not designed. These are 30 cheeses as they came, and thirty samples is enough to fit a quadratic in three inputs, but not by much.</p>
+<p>The course uses two versions of the data: the original data, and a modified version with the same taste scores in which the inputs were altered so that they are exactly redundant. We will follow the lectures and use the modified version, after first comparing it with the original. Scaling the inputs to z-scores is important in this case, because PCA is a variance-based method and the hydrogen sulfide concentration varies over a much wider numerical range than the lactic acid concentration.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">orig</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'data/cheddar-cheese.csv'</span><span class="p">)</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'data/cheddar-cheese2.csv'</span><span class="p">)</span>
+<span class="n">xcols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Acetic'</span><span class="p">,</span> <span class="s1">'H2S'</span><span class="p">,</span> <span class="s1">'Lactic'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">lab</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'original'</span><span class="p">,</span> <span class="n">orig</span><span class="p">),</span> <span class="p">(</span><span class="s1">'modified'</span><span class="p">,</span> <span class="n">mod</span><span class="p">)]:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">xcols</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">lab</span><span class="si">:</span><span class="s2">8s</span><span class="si">}</span><span class="s2">: correlations Acetic-H2S </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, Acetic-Lactic </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, H2S-Lactic </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">pca_all</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">xcols</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">lab</span><span class="si">:</span><span class="s2">8s</span><span class="si">}</span><span class="s2">: explained variance ratio </span><span class="si">{</span><span class="n">pca_all</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">A1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">mod</span><span class="p">[[</span><span class="s1">'Acetic'</span><span class="p">,</span> <span class="s1">'H2S'</span><span class="p">]]])</span>
+<span class="n">coef</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A1</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">Lactic</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"modified file: Lactic = </span><span class="si">{</span><span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">coef</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> Acetic + </span><span class="si">{</span><span class="n">coef</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> H2S, "</span>
+      <span class="sa">f</span><span class="s2">"max residual </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">Lactic</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">A1</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">coef</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">sx</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">mod</span><span class="p">[</span><span class="n">xcols</span><span class="p">])</span>
+<span class="n">sy</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">mod</span><span class="p">[[</span><span class="s1">'Taste'</span><span class="p">]])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">sx</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">mod</span><span class="p">[</span><span class="n">xcols</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">sy</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">mod</span><span class="p">[[</span><span class="s1">'Taste'</span><span class="p">]])</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"loadings (rows PC1, PC2; columns Acetic, H2S, Lactic):"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">mod</span><span class="o">.</span><span class="n">Taste</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">nm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">xcols</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.06</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">2.8</span> <span class="o">*</span> <span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="mf">2.8</span> <span class="o">*</span> <span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">nm</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'score $t_1$ (standardized units)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'score $t_2$ (standardized units)'</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'taste score'</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>original: correlations Acetic-H2S 0.62, Acetic-Lactic 0.60, H2S-Lactic 0.64
+original: explained variance ratio [0.7481 0.1337 0.1182]
+modified: correlations Acetic-H2S 0.62, Acetic-Lactic 0.91, H2S-Lactic 0.89
+modified: explained variance ratio [0.8731 0.1269 0.    ]
+modified file: Lactic = -0.1265 + 0.2261 Acetic + 0.0547 H2S, max residual 6.0e-09
+loadings (rows PC1, PC2; columns Acetic, H2S, Lactic):
+[[ 0.5589  0.5531  0.6178]
+ [-0.691   0.7225 -0.0217]]
+</pre></div>
+</div>
+<img alt="../_images/77d833dc6cf410c9dbf0c266b9329e94d774241cc19d4391a04be30592ee6f71.png" src="../_images/77d833dc6cf410c9dbf0c266b9329e94d774241cc19d4391a04be30592ee6f71.png" />
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Data</p></th>
+<th class="head"><p>Corr. Acetic–H2S</p></th>
+<th class="head"><p>Corr. Acetic–Lactic</p></th>
+<th class="head"><p>Corr. H2S–Lactic</p></th>
+<th class="head"><p>Variance, PC1</p></th>
+<th class="head"><p>Variance, PC2</p></th>
+<th class="head"><p>Variance, PC3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>original</p></td>
+<td><p>0.62</p></td>
+<td><p>0.60</p></td>
+<td><p>0.64</p></td>
+<td><p>0.7481</p></td>
+<td><p>0.1337</p></td>
+<td><p>0.1182</p></td>
+</tr>
+<tr class="row-odd"><td><p>modified</p></td>
+<td><p>0.62</p></td>
+<td><p>0.91</p></td>
+<td><p>0.89</p></td>
+<td><p>0.8731</p></td>
+<td><p>0.1269</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Loading</p></th>
+<th class="head"><p>Acetic</p></th>
+<th class="head"><p>H2S</p></th>
+<th class="head"><p>Lactic</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PC1</p></td>
+<td><p>0.5589</p></td>
+<td><p>0.5531</p></td>
+<td><p>0.6178</p></td>
+</tr>
+<tr class="row-odd"><td><p>PC2</p></td>
+<td><p>-0.691</p></td>
+<td><p>0.7225</p></td>
+<td><p>-0.0217</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The table shows that the inputs in the original data are moderately correlated, and that the variance is spread over all of the components, so there is real variation in the third direction. The modified file is different. Here lactic acid is strongly correlated with the other inputs, and the first two components explain everything while the last one explains exactly zero. This happens because lactic acid is an exact linear combination of acetic acid and hydrogen sulfide (with a residual of <span class="math notranslate nohighlight">\(6 \times 10^{-9}\)</span>), which means that the inputs lie on a plane.</p>
+<p>The figure is a <strong>score plot</strong> with the loadings drawn as arrows (also called a biplot). The first component gives similar weights to all three inputs, so we can think of this component as a measure of the overall chemical strength, and the taste rises as we move along the first component. The second component contrasts acetic acid with hydrogen sulfide. If there were clusters or outliers in the data, we would be able to see them in the score plot.</p>
+<div class="exercise admonition" id="ex-t42-original-cheddar">
+
+<p class="admonition-title"><span class="caption-number">Exercise 104 </span></p>
+<section id="exercise-content">
+<p>Repeat the score plot for the original data, <code class="docutils literal notranslate"><span class="pre">orig</span></code>, keeping two components. Compute the reconstruction error <span class="math notranslate nohighlight">\(\lVert X - \hat X \rVert\)</span> of each sample and list the three cheeses that the two-component model represents worst. Are they unusual in taste as well?</p>
+</section>
+</div>
+</section>
+<section id="regression-in-reduced-spaces">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Regression in reduced spaces</a><a class="headerlink" href="#regression-in-reduced-spaces" title="Link to this heading">#</a></h2>
+<p>In the lectures the same model is fit in two ways. <strong>Multivariate regression</strong> treats the <span class="math notranslate nohighlight">\(K = 3\)</span> inputs as independent and fits a quadratic in all of the inputs, <span class="math notranslate nohighlight">\(\hat y = b_0 + \sum_j b_j x_j + \sum_j b_{jj} x_j^2\)</span>, which has seven parameters. <strong>Principal component regression</strong> first projects the <span class="math notranslate nohighlight">\(N \times K\)</span> inputs onto <span class="math notranslate nohighlight">\(A = 2\)</span> components to get the <span class="math notranslate nohighlight">\(N \times A\)</span> score matrix <span class="math notranslate nohighlight">\(T\)</span>, and then fits the same form in the scores, <span class="math notranslate nohighlight">\(\hat y = d_0 + \sum_a d_a t_a + \sum_a d_{aa} t_a^2\)</span>, which has five parameters. Both fits are linear least squares problems, so we can solve them directly and look at how well conditioned each model is.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cross_decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PLSRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_val_predict</span><span class="p">,</span> <span class="n">LeaveOneOut</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">quad_features</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="p">)),</span> <span class="n">V</span><span class="p">,</span> <span class="n">V</span> <span class="o">**</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="n">F_full</span><span class="p">,</span> <span class="n">F_pcr</span> <span class="o">=</span> <span class="n">quad_features</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">quad_features</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+<span class="n">b_full</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">F_full</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">b_pcr</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">F_pcr</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">mse</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">F</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">F</span> <span class="o">@</span> <span class="n">b</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"full space: cond = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">F_full</span><span class="p">)</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">, training MSE = </span><span class="si">{</span><span class="n">mse</span><span class="p">(</span><span class="n">F_full</span><span class="p">,</span><span class="w"> </span><span class="n">b_full</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"largest |coefficient| = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">b_full</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"PCR       : cond = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">F_pcr</span><span class="p">)</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">, training MSE = </span><span class="si">{</span><span class="n">mse</span><span class="p">(</span><span class="n">F_pcr</span><span class="p">,</span><span class="w"> </span><span class="n">b_pcr</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"coefficients </span><span class="si">{</span><span class="n">b_pcr</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"original data, full space: cond = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">quad_features</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">orig</span><span class="p">[</span><span class="n">xcols</span><span class="p">])))</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">loo</span> <span class="o">=</span> <span class="n">LeaveOneOut</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">lab</span><span class="p">,</span> <span class="n">F</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'full quadratic'</span><span class="p">,</span> <span class="n">F_full</span><span class="p">),</span> <span class="p">(</span><span class="s1">'PCR quadratic'</span><span class="p">,</span> <span class="n">F_pcr</span><span class="p">)]:</span>
+    <span class="n">yp</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">F</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">loo</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">lab</span><span class="si">:</span><span class="s2">15s</span><span class="si">}</span><span class="s2">: leave-one-out MSE = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">yp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
+    <span class="n">yp</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">PLSRegression</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">loo</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"PLS, </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2"> latent variable</span><span class="si">{</span><span class="s1">'s'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">''</span><span class="si">}</span><span class="s2">: leave-one-out MSE = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">yp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>full space: cond = 2.2e+08, training MSE = 0.3890, largest |coefficient| = 3.1e+06
+PCR       : cond = 8.0e+00, training MSE = 0.3909, coefficients [ 0.0154  0.472   0.2812  0.0248 -0.2109]
+original data, full space: cond = 5.3e+00
+full quadratic : leave-one-out MSE = 0.6022
+PCR quadratic  : leave-one-out MSE = 0.5533
+PLS, 1 latent variable: leave-one-out MSE = 0.5108
+PLS, 2 latent variables: leave-one-out MSE = 0.4955
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Condition number</p></th>
+<th class="head"><p>Largest coefficient</p></th>
+<th class="head"><p>Training MSE</p></th>
+<th class="head"><p>Leave-one-out MSE</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Full-space quadratic</p></td>
+<td><p>2.2e+08</p></td>
+<td><p>3.1e+06</p></td>
+<td><p>0.3890</p></td>
+<td><p>0.6022</p></td>
+</tr>
+<tr class="row-odd"><td><p>PCR quadratic</p></td>
+<td><p>8.0e+00</p></td>
+<td><p>0.472</p></td>
+<td><p>0.3909</p></td>
+<td><p>0.5533</p></td>
+</tr>
+<tr class="row-even"><td><p>Full-space quadratic, original data</p></td>
+<td><p>5.3e+00</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>PLS, 1 latent variable</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>0.5108</p></td>
+</tr>
+<tr class="row-even"><td><p>PLS, 2 latent variables</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>0.4955</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>If we looked at the training error alone we would have no reason to prefer one model over the other, since both fit the data about as well as in the course notebook. There is a big difference in the conditioning, though. The design matrix in the full space is nearly singular, and the largest coefficient in the model is in the millions. This happens because huge multiples of the redundant combination of inputs can be added to the fit, since these multiples cancel on every data point. PCR does not have this problem, and has a small condition number and coefficients of order 1. When the full-space model is fit to the original data it is well behaved, which tells us that the trouble comes from the redundancy in the inputs and not from the regression. In addition, PCR predicts better than the full model under leave-one-out cross-validation.</p>
+<p><strong>Partial least squares</strong> (PLS, or projection to latent structures) takes this idea one step further. When PCA chooses its directions the only thing that is considered is the variance of the inputs, whether or not this variance is relevant to the output. PLS reduces both the input and output spaces, so that the input directions are chosen to best explain the outputs. In this example even a linear PLS model with one latent variable predicts better than either of the quadratic models, and if we use two latent variables there is a small further improvement. The details of how the PLS weights and loadings are computed can be found in DA4CHE Topic 2.5.</p>
+<p>Regression in a reduced space has fewer parameters, uses orthogonal inputs, and fits less of the noise. In this example we do not lose anything when we reconstruct the inputs from two components, <span class="math notranslate nohighlight">\(\hat X = TP^\top + \bar x\)</span>. However, if we keep fewer components than the data need we will lose detail, just like an image that is compressed with too few components loses resolution.</p>
+<div class="exercise admonition" id="ex-t42-pcr-components">
+
+<p class="admonition-title"><span class="caption-number">Exercise 105 </span></p>
+<section id="exercise-content">
+<p>Fit the PCR quadratic with one component instead of two and compare its leave-one-out MSE with the values above. Then add a cross term <span class="math notranslate nohighlight">\(t_1 t_2\)</span> to the two-component model. Does either change justify its effect on the number of parameters, given only 30 cheeses?</p>
+</section>
+</div>
+</section>
+<section id="id1">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Optimization in reduced spaces</a><a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>Now we can use each model to choose the best cheese. The obvious formulation is to maximize the fitted taste in the full space over the box of observed input ranges, and since the quadratic is separable we can get the exact maximum by checking the endpoints and stationary point for each coordinate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">to_taste</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span> <span class="o">*</span> <span class="n">sy</span><span class="o">.</span><span class="n">scale_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">sy</span><span class="o">.</span><span class="n">mean_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">to_x</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">Zs</span><span class="p">:</span> <span class="n">sx</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">Zs</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">X</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">best_in_interval</span><span class="p">(</span><span class="n">bl</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Maximize bl*z + bs*z^2 over [a, b] exactly."""</span>
+    <span class="n">cands</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">+</span> <span class="p">([</span><span class="o">-</span><span class="n">bl</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">bs</span><span class="p">)]</span> <span class="k">if</span> <span class="n">bs</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">bl</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">bs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">b</span> <span class="k">else</span> <span class="p">[])</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">cands</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">bl</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="n">bs</span> <span class="o">*</span> <span class="n">z</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="n">z_full</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">best_in_interval</span><span class="p">(</span><span class="n">b_full</span><span class="p">[</span><span class="mi">1</span> <span class="o">+</span> <span class="n">j</span><span class="p">],</span> <span class="n">b_full</span><span class="p">[</span><span class="mi">4</span> <span class="o">+</span> <span class="n">j</span><span class="p">],</span> <span class="n">lo</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">hi</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"full-space optimum in the data box: predicted taste </span><span class="si">{</span><span class="n">to_taste</span><span class="p">(</span><span class="n">quad_features</span><span class="p">(</span><span class="n">z_full</span><span class="p">[</span><span class="kc">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">b_full</span><span class="p">)</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"x = </span><span class="si">{</span><span class="n">to_x</span><span class="p">(</span><span class="n">z_full</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">z_full</span> <span class="o">-</span> <span class="n">pca</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">z_full</span><span class="p">[</span><span class="kc">None</span><span class="p">]))[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"distance of that point from the plane of the data (standardized units): </span><span class="si">{</span><span class="n">dist</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"largest distance of any cheese from the plane: "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pca</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">T</span><span class="p">),</span><span class="w"> </span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>full-space optimum in the data box: predicted taste 1.78e+08, x = [4.479 2.997 1.832]
+distance of that point from the plane of the data (standardized units): 2.835
+largest distance of any cheese from the plane: 2.2e-08
+</pre></div>
+</div>
+</div>
+</div>
+<p>The full-space model predicts a taste of <span class="math notranslate nohighlight">\(1.8 \times 10^{8}\)</span>, on a scale where the best observed value is 57.2! The optimizer has found the corner of the box (lowest acetic acid, lowest hydrogen sulfide, highest lactic acid) where the huge, cancelling coefficients no longer cancel. This corner is inside the box, but it is 2.84 standardized units away from the plane where all of the cheeses lie, and no cheese is farther than about <span class="math notranslate nohighlight">\(10^{-8}\)</span> from it. In general, correlated data only occupy a thin slice of their bounding box, and an optimizer will find the place where a model is most wrong in its favor, which for correlated inputs is somewhere off the subspace of the data.</p>
+<p>Optimizing in the reduced space removes the off-plane directions by construction. The <strong>back-mapping</strong> from scores to inputs is <span class="math notranslate nohighlight">\(x = \bar x + P t\)</span> (followed here by un-scaling), and since the back-mapping is linear, every point <span class="math notranslate nohighlight">\(t\)</span> in the score space maps to a point on the plane of the data. The scores do not have any physical meaning by themselves, but each point in the score space stands for a definite composition. The recipe is:</p>
+<ol class="arabic simple">
+<li><p>Fit the model in the scores <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+<li><p>Optimize over <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+<li><p>Map the optimal <span class="math notranslate nohighlight">\(t\)</span> back to the original inputs with the loadings.</p></li>
+<li><p>Check that the back-mapped point is valid.</p></li>
+</ol>
+<p>Step 4 is the reason the lectures insist on bounds for the scores, and there are two useful checks. First, the back-mapped inputs should lie within their observed ranges. The back-mapping is linear, so these ranges become linear constraints on <span class="math notranslate nohighlight">\(t\)</span> that can be written directly into the optimization. Second, the point should not be far from the data <em>within</em> the plane, since the correlation structure may no longer hold far from the data. The standard measure of this distance is <strong>Hotelling’s <span class="math notranslate nohighlight">\(T^2\)</span></strong>, <span class="math notranslate nohighlight">\(T^2 = \sum_a t_a^2/s_a^2\)</span>, where <span class="math notranslate nohighlight">\(s_a^2\)</span> is the variance of score <span class="math notranslate nohighlight">\(a\)</span>. This is just the Mahalanobis distance from Topic 4.1, applied in the score space. The 95% limit for a new observation with <span class="math notranslate nohighlight">\(A\)</span> components and <span class="math notranslate nohighlight">\(N\)</span> samples is <span class="math notranslate nohighlight">\(A(N-1)(N+1)/[N(N-A)]\)</span> times the 95% quantile of <span class="math notranslate nohighlight">\(F(A, N-A)\)</span>. A point inside this ellipse looks like the data, while a point outside of the ellipse is an extrapolation.</p>
+<p>Let’s compare simple bounds on each score, which is how the lectures formulate the problem, with the constrained formulation. We write the constrained problem in Pyomo and solve it with Ipopt from several starting points, since the objective is not concave, and then check the result with a grid over the score plane.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.environ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">f</span> <span class="k">as</span> <span class="n">fdist</span>
+
+<span class="n">s2</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Ncc</span><span class="p">,</span> <span class="n">A</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">2</span>
+<span class="n">T2_LIM</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ncc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ncc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">Ncc</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ncc</span> <span class="o">-</span> <span class="n">A</span><span class="p">))</span> <span class="o">*</span> <span class="n">fdist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">Ncc</span> <span class="o">-</span> <span class="n">A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"score variances </span><span class="si">{</span><span class="n">s2</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">; 95% T^2 limit </span><span class="si">{</span><span class="n">T2_LIM</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">; largest T^2 among the cheeses </span><span class="si">{</span><span class="p">(</span><span class="n">T</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">s2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">pcr</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">b_pcr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">b_pcr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">b_pcr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">b_pcr</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">b_pcr</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">back</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">to_x</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">report</span><span class="p">(</span><span class="n">lab</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="n">xb</span> <span class="o">=</span> <span class="n">back</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">flags</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span> <span class="o">+</span> <span class="p">(</span><span class="s2">" (outside data)"</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">mod</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">1e-4</span> <span class="ow">or</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">mod</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1e-4</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)</span>
+             <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xcols</span><span class="p">,</span> <span class="n">xb</span><span class="p">)]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">lab</span><span class="si">:</span><span class="s2">18s</span><span class="si">}</span><span class="s2">: t = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">, taste </span><span class="si">{</span><span class="n">to_taste</span><span class="p">(</span><span class="n">pcr</span><span class="p">(</span><span class="n">t</span><span class="p">))</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, T^2 = </span><span class="si">{</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">s2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">; "</span>
+          <span class="o">+</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">flags</span><span class="p">))</span>
+
+<span class="n">t_box</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">best_in_interval</span><span class="p">(</span><span class="n">b_pcr</span><span class="p">[</span><span class="mi">1</span> <span class="o">+</span> <span class="n">a</span><span class="p">],</span> <span class="n">b_pcr</span><span class="p">[</span><span class="mi">3</span> <span class="o">+</span> <span class="n">a</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">T</span><span class="p">[:,</span> <span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">report</span><span class="p">(</span><span class="s1">'score bounds'</span><span class="p">,</span> <span class="n">t_box</span><span class="p">)</span>
+
+<span class="n">Pm</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="p">,</span> <span class="n">pca</span><span class="o">.</span><span class="n">mean_</span>
+<span class="n">ipopt</span> <span class="o">=</span> <span class="n">t4</span><span class="o">.</span><span class="n">find_solver</span><span class="p">(</span><span class="s1">'ipopt'</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">solve_pyomo</span><span class="p">(</span><span class="n">t0</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">initialize</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">t0</span><span class="p">[</span><span class="n">a</span><span class="p">]))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">pcr</span><span class="p">([</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">maximize</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">T2</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">s2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">s2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">T2_LIM</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">xbounds</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConstraintList</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>                                  <span class="c1"># back-mapped inputs within observed ranges</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">xbounds</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">inequality</span><span class="p">(</span><span class="n">lo</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">mu</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">Pm</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Pm</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hi</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+    <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">solve_scipy</span><span class="p">(</span><span class="n">t0</span><span class="p">):</span>
+    <span class="n">cons</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'type'</span><span class="p">:</span> <span class="s1">'ineq'</span><span class="p">,</span> <span class="s1">'fun'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">T2_LIM</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">s2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()}]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">cons</span> <span class="o">+=</span> <span class="p">[{</span><span class="s1">'type'</span><span class="p">:</span> <span class="s1">'ineq'</span><span class="p">,</span> <span class="s1">'fun'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="p">:</span> <span class="n">mu</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">Pm</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">@</span> <span class="n">t</span> <span class="o">-</span> <span class="n">lo</span><span class="p">[</span><span class="n">j</span><span class="p">]},</span>
+                 <span class="p">{</span><span class="s1">'type'</span><span class="p">:</span> <span class="s1">'ineq'</span><span class="p">,</span> <span class="s1">'fun'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="p">:</span> <span class="n">hi</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">Pm</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">@</span> <span class="n">t</span><span class="p">}]</span>
+    <span class="k">return</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="o">-</span><span class="n">pcr</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">t0</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="n">cons</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'SLSQP'</span><span class="p">)</span><span class="o">.</span><span class="n">x</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">solve_pyomo</span> <span class="k">if</span> <span class="n">ipopt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">solve_scipy</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"solver:"</span><span class="p">,</span> <span class="s2">"Pyomo + Ipopt"</span> <span class="k">if</span> <span class="n">ipopt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"Ipopt not found; using scipy SLSQP"</span><span class="p">)</span>
+<span class="n">t_con</span> <span class="o">=</span> <span class="nb">max</span><span class="p">((</span><span class="n">solver</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">s0</span><span class="p">))</span> <span class="k">for</span> <span class="n">s0</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]),</span> <span class="n">key</span><span class="o">=</span><span class="n">pcr</span><span class="p">)</span>
+<span class="n">report</span><span class="p">(</span><span class="s1">'T^2 + input bounds'</span><span class="p">,</span> <span class="n">t_con</span><span class="p">)</span>
+
+<span class="n">g1</span><span class="p">,</span> <span class="n">g2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">801</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">601</span><span class="p">))</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">g1</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">g2</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+<span class="n">Xg</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">G</span> <span class="o">@</span> <span class="n">Pm</span>
+<span class="n">feas</span> <span class="o">=</span> <span class="p">((</span><span class="n">G</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">s2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">T2_LIM</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">((</span><span class="n">Xg</span> <span class="o">&gt;=</span> <span class="n">lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">Xg</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">feas</span><span class="p">,</span> <span class="n">pcr</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"grid check: best feasible taste </span><span class="si">{</span><span class="n">to_taste</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> at t = </span><span class="si">{</span><span class="n">G</span><span class="p">[</span><span class="n">vals</span><span class="o">.</span><span class="n">argmax</span><span class="p">()]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>score variances [2.7096 0.3938]; 95% T^2 limit 7.15; largest T^2 among the cheeses 6.70
+score bounds      : t = [2.921 0.667], taste 51.7, T^2 = 4.28; Acetic 6.154, H2S 10.328 (outside data), Lactic 1.830
+solver: Pyomo + Ipopt
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>T^2 + input bounds: t = [2.935 0.579], taste 51.8, T^2 = 4.03; Acetic 6.192, H2S 10.212, Lactic 1.832
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>grid check: best feasible taste 51.8 at t = [2.93 0.58]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Formulation</p></th>
+<th class="head"><p>Scores <span class="math notranslate nohighlight">\(t\)</span></p></th>
+<th class="head"><p>Taste</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(T^2\)</span></p></th>
+<th class="head"><p>Acetic</p></th>
+<th class="head"><p>H2S</p></th>
+<th class="head"><p>Lactic</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bounds on each score</p></td>
+<td><p>(2.921, 0.667)</p></td>
+<td><p>51.7</p></td>
+<td><p>4.28</p></td>
+<td><p>6.154</p></td>
+<td><p>10.328 (outside data)</p></td>
+<td><p>1.830</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(T^2\)</span> ellipse + input bounds</p></td>
+<td><p>(2.935, 0.579)</p></td>
+<td><p>51.8</p></td>
+<td><p>4.03</p></td>
+<td><p>6.192</p></td>
+<td><p>10.212</p></td>
+<td><p>1.832</p></td>
+</tr>
+<tr class="row-even"><td><p>Grid check</p></td>
+<td><p>(2.93, 0.58)</p></td>
+<td><p>51.8</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>With simple bounds on the scores, the reduced-space optimum predicts a sensible taste, but when we map it back it calls for more hydrogen sulfide than any cheese in the data (the observed maximum is 10.212), just like in the course notebook. This happens because each score mixes all three inputs, so a box on the scores is not the same as a box on the inputs. If we write the input bounds as linear constraints and add the <span class="math notranslate nohighlight">\(T^2\)</span> ellipse, then the optimum moves only slightly, with hydrogen sulfide exactly at its observed maximum and <span class="math notranslate nohighlight">\(T^2\)</span> inside the limit of 7.15 (the most extreme cheese has 6.70), and the grid search gives the same answer.</p>
+<p>This answer is valid in the sense that it lies on the plane, within every observed range, and in a region where the data are dense. However, the answer is only as good as the model, and the quadratic explains about 60% of the variance of taste. The predicted best taste of 51.8 is even below the best cheese that was observed, which had a taste of 57.2. For this reason a data-driven optimum like this one should be used as a recommendation for the next experiment rather than as a guarantee.</p>
+<p>To summarize the comparison, the two fits were of similar quality, but the reduced-space fit was more stable and had fewer parameters, and the reduced-space optimization was more reliable and gave a more reasonable solution. In general, when we optimize in a reduced space we get a smaller problem, a simpler surrogate, less noise, independent inputs and lower cost. The challenges are that latent-variable methods need enough data, and that the matrix inversions can have no solution or many solutions, or be badly scaled. If the outputs are also reduced, as in PLS, then we optimize in the latent space and map back through the loadings in the same way. Jaeckle and MacGregor (1998) treat this inversion of latent-variable models for product design, including the case where the back-mapping is not unique. There are also nonlinear and non-orthogonal alternatives that can capture curved structure, such as nonlinear and kernel PCA, independent component analysis, Isomap and other manifold learning, diffusion maps, and autoencoders. They make the back-mapping harder, and DA4CHE Topic 5.2 (<a class="reference external" href="https://www.medford.chbe.gatech.edu/DA4CHE/">https://www.medford.chbe.gatech.edu/DA4CHE/</a>) introduces several of them.</p>
+<div class="exercise admonition" id="ex-t42-validity">
+
+<p class="admonition-title"><span class="caption-number">Exercise 106 </span></p>
+<section id="exercise-content">
+<p>Tighten the validity constraint to the 50% <span class="math notranslate nohighlight">\(T^2\)</span> limit instead of 95% and re-solve. How much predicted taste is lost, and how do the back-mapped compositions change? Then remove the <span class="math notranslate nohighlight">\(T^2\)</span> constraint entirely and keep only the input bounds. Which constraints are active in each case?</p>
+</section>
+</div>
+</section>
+<section id="constraints-in-the-reduced-space-and-adaptive-optimization">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Constraints in the reduced space and adaptive optimization</a><a class="headerlink" href="#constraints-in-the-reduced-space-and-adaptive-optimization" title="Link to this heading">#</a></h2>
+<p>The cheddar data lie on a plane because someone modified them, but in our running example there is a physical reason why the data should lie on a plane. Consider a historian of the three-stack fleet that shares a demand of <span class="math notranslate nohighlight">\(D = 1.2\)</span> (240 kg/h), where the loads <span class="math notranslate nohighlight">\(x_A, x_B, x_C\)</span> and the total power were recorded for 60 hours in which every stack ran between 25% and 55% load. Since the loads always add up to the demand, the data have to lie on the plane <span class="math notranslate nohighlight">\(x_A + x_B + x_C = 1.2\)</span>. PCA has no way of knowing about this constraint, but if it works it should be able to find it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fl</span> <span class="o">=</span> <span class="n">t4</span><span class="o">.</span><span class="n">fleet_log</span><span class="p">()</span>                     <span class="c1"># 60 records, all stacks on, total power with 0.5% noise</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">fl</span><span class="p">[[</span><span class="s1">'xA'</span><span class="p">,</span> <span class="s1">'xB'</span><span class="p">,</span> <span class="s1">'xC'</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"explained variance ratio:"</span><span class="p">,</span> <span class="n">PCA</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">.</span><span class="n">components_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"third loading vector:"</span><span class="p">,</span> <span class="p">(</span><span class="n">p3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">p3</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="s2">"  1/sqrt(3) ="</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+<span class="n">Tf</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+<span class="n">sf2</span> <span class="o">=</span> <span class="n">Tf</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">qf</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)),</span> <span class="n">t</span><span class="p">,</span> <span class="n">t</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">t</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">bf</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">qf</span><span class="p">(</span><span class="n">Tf</span><span class="p">),</span> <span class="n">fl</span><span class="o">.</span><span class="n">power</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">Nf</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fl</span><span class="p">)</span>
+<span class="n">T2f</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">Nf</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Nf</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">Nf</span> <span class="o">*</span> <span class="p">(</span><span class="n">Nf</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">fdist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Nf</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="p">(</span><span class="n">qf</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">@</span> <span class="n">bf</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">'SLSQP'</span><span class="p">,</span>
+               <span class="n">constraints</span><span class="o">=</span><span class="p">[{</span><span class="s1">'type'</span><span class="p">:</span> <span class="s1">'ineq'</span><span class="p">,</span> <span class="s1">'fun'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">T2f</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">sf2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()}])</span>
+<span class="n">x_red</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reduced-space optimum: loads </span><span class="si">{</span><span class="n">x_red</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">, sum </span><span class="si">{</span><span class="n">x_red</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"predicted </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, true BB2 cost </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">(</span><span class="n">x_red</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"true cost of the best logged split: </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">L</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">; largest logged xB: </span><span class="si">{</span><span class="n">L</span><span class="p">[:,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>explained variance ratio: [0.675768 0.324232 0.      ]
+third loading vector: [0.5774 0.5774 0.5774]   1/sqrt(3) = 0.5774
+reduced-space optimum: loads [0.356 0.536 0.308], sum 1.200000, predicted 2.2151, true BB2 cost 2.2313
+true cost of the best logged split: 2.2344; largest logged xB: 0.517
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Quantity</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Explained variance ratio</p></td>
+<td><p>0.675768, 0.324232, 0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Third loading vector</p></td>
+<td><p>(0.5774, 0.5774, 0.5774)</p></td>
+</tr>
+<tr class="row-even"><td><p>Reduced-space optimum (loads)</p></td>
+<td><p>(0.356, 0.536, 0.308)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sum of the loads</p></td>
+<td><p>1.200000</p></td>
+</tr>
+<tr class="row-even"><td><p>Predicted cost of the optimum</p></td>
+<td><p>2.2151</p></td>
+</tr>
+<tr class="row-odd"><td><p>True BB2 cost of the optimum</p></td>
+<td><p>2.2313</p></td>
+</tr>
+<tr class="row-even"><td><p>True cost of the best logged split</p></td>
+<td><p>2.2344</p></td>
+</tr>
+<tr class="row-odd"><td><p>Largest logged <span class="math notranslate nohighlight">\(x_B\)</span></p></td>
+<td><p>0.517</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>As expected, PCA finds two components that explain all of the variance, along with a third component, <span class="math notranslate nohighlight">\((1, 1, 1)/\sqrt{3}\)</span>, that explains none of it. This third direction is the normal of the demand plane, so the data have revealed the equality constraint that they obeyed. This is useful, because it means that every point in the score space maps back to loads that sum to 1.2, and if we optimize in the score space the demand will be enforced even though we never wrote the constraint down.</p>
+<p>Now we can fit a quadratic surrogate in the two scores and optimize it inside the 95% <span class="math notranslate nohighlight">\(T^2\)</span> ellipse. The recommended split sums to 1.2 to six digits, and when we evaluate it on the true black box BB2 it costs less than every split in the log. However, the recommended point lies on the edge of the ellipse, which tells us that a better split would lie outside the region that the data cover.</p>
+<p>Going beyond the ellipse requires new data. With a simulator or a willing plant we can optimize <strong>adaptively</strong> in the reduced space, which is the loop of Topic 3.6 run in latent coordinates. At each iteration we run a small local design around the current point, fit a local quadratic in the scores, minimize the quadratic inside a trust region, evaluate the true system at the back-mapped point, and then grow or shrink the region. Because every evaluation is a back-mapped point, every trial satisfies the demand exactly. Here BB2 itself, without noise, plays the role of the simulator.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">simulate</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">t</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>       <span class="c1"># back-map scores to loads</span>
+    <span class="k">return</span> <span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="mi">2</span><span class="p">]),</span> <span class="n">x</span>
+
+<span class="n">hexagon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">tc</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="mf">0.06</span>
+<span class="n">yc</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span>
+<span class="n">n_sim</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="n">tc</span><span class="o">.</span><span class="n">copy</span><span class="p">()]</span>
+<span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">tc</span><span class="p">,</span> <span class="n">tc</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">hexagon</span><span class="p">])</span>           <span class="c1"># center + hexagon: 7 points</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">yc</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">simulate</span><span class="p">(</span><span class="n">p</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pts</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
+    <span class="n">n_sim</span> <span class="o">+=</span> <span class="mi">6</span>
+    <span class="n">b_loc</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">qf</span><span class="p">(</span><span class="n">pts</span><span class="p">),</span> <span class="n">ys</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>          <span class="c1"># local quadratic, 6 terms</span>
+    <span class="n">tn</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="p">(</span><span class="n">qf</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">@</span> <span class="n">b_loc</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tc</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'SLSQP'</span><span class="p">,</span>
+                  <span class="n">constraints</span><span class="o">=</span><span class="p">[{</span><span class="s1">'type'</span><span class="p">:</span> <span class="s1">'ineq'</span><span class="p">,</span> <span class="s1">'fun'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">radius</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="p">((</span><span class="n">t</span> <span class="o">-</span> <span class="n">tc</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()}])</span><span class="o">.</span><span class="n">x</span>
+    <span class="n">yn</span><span class="p">,</span> <span class="n">xn</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">tn</span><span class="p">)</span>
+    <span class="n">n_sim</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">yn</span> <span class="o">&lt;</span> <span class="n">yc</span><span class="p">:</span>
+        <span class="n">tc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="n">tn</span><span class="p">,</span> <span class="n">yn</span><span class="p">,</span> <span class="n">xn</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">radius</span> <span class="o">*=</span> <span class="mf">0.5</span>
+    <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"iteration </span><span class="si">{</span><span class="n">it</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">n_sim</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2"> simulations, loads </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">, cost </span><span class="si">{</span><span class="n">yc</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, radius </span><span class="si">{</span><span class="n">radius</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;</span> <span class="mf">1e-3</span><span class="p">:</span>
+        <span class="k">break</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"final split sums to </span><span class="si">{</span><span class="n">xc</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">grid</span> <span class="o">=</span> <span class="p">[(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">201</span><span class="p">)]</span>
+<span class="n">costs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">])</span>
+<span class="n">ga</span><span class="p">,</span> <span class="n">gb</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">costs</span><span class="o">.</span><span class="n">argmin</span><span class="p">()]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"global optimum of BB2 on a 0.005 grid: cost </span><span class="si">{</span><span class="n">costs</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> at loads (</span><span class="si">{</span><span class="n">ga</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">gb</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="mf">1.2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ga</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">gb</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Tf</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">Tf</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'historian (60 h)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T2f</span> <span class="o">*</span> <span class="n">sf2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T2f</span> <span class="o">*</span> <span class="n">sf2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="s1">'k--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'95% $T^2$ ellipse'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">path</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">path</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'trust-region centers'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="s1">'s'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C2'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'reduced-space optimum from the log'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'score $t_1$ (per-unit load)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'score $t_2$ (per-unit load)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iteration  1:   8 simulations, loads [0.369 0.571 0.261], cost 2.2293, radius 0.1200
+iteration  2:  15 simulations, loads [0.374 0.582 0.243], cost 2.2291, radius 0.2000
+iteration  3:  22 simulations, loads [0.374 0.582 0.243], cost 2.2291, radius 0.1000
+iteration  4:  29 simulations, loads [0.374 0.582 0.243], cost 2.2291, radius 0.0500
+iteration  5:  36 simulations, loads [0.374 0.582 0.243], cost 2.2291, radius 0.0250
+iteration  6:  43 simulations, loads [0.374 0.582 0.243], cost 2.2291, radius 0.0125
+iteration  7:  50 simulations, loads [0.374 0.582 0.243], cost 2.2291, radius 0.0063
+iteration  8:  57 simulations, loads [0.374 0.582 0.243], cost 2.2291, radius 0.0031
+iteration  9:  64 simulations, loads [0.374 0.582 0.243], cost 2.2291, radius 0.0016
+iteration 10:  71 simulations, loads [0.374 0.582 0.243], cost 2.2291, radius 0.0008
+final split sums to 1.200000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>global optimum of BB2 on a 0.005 grid: cost 2.0818 at loads (0.705, 0.000, 0.495)
+</pre></div>
+</div>
+<img alt="../_images/fc7fb20905016e6e580526aaccc6392133a32079183f56c46ebfdfbe9997fff9.png" src="../_images/fc7fb20905016e6e580526aaccc6392133a32079183f56c46ebfdfbe9997fff9.png" />
+</div>
+</div>
+<p>The loop leaves the ellipse at once and reaches a cost of 2.2291 at (0.374, 0.582, 0.243) after 15 simulations, and the later iterations only shrink the trust region. The historian could not have found this split because the B load of 0.582 is beyond anything in the log (where the largest B load is 0.517), but the split still sums to 1.2 to six digits. This is the interior local optimum of BB2, where all three stacks run.</p>
+<p>However, this is not the global optimum. The grid finds a cost of 2.0818 with stack B turned off and A and C at 0.705 and 0.495. A reduced space that is built from data where all of the stacks are on cannot reach that regime, and finding it is the job of the global and mixed-integer methods from earlier in the book (<a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html"><span class="doc">2.6 Non-convex Problems and Bounding</span></a>, <a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html"><span class="doc">3.6 Surrogate-Based Optimization</span></a>). In general, a reduced space is a model of where the data have been, so it cannot tell us anything about regimes that the data never saw.</p>
+<p>The gain from adaptive optimization is small in this case (2.2313 to 2.2291, or 0.1%), because the optimum is flat. Thermodynamically, this means that the losses of the fleet barely change across these splits.</p>
+<p>Economically, small gains are worth taking when each trial is safe, and in this case every trial met the demand and stayed close to known operation. In a plant with dozens of correlated variables, this safety is the main argument for optimizing in a reduced space.</p>
+<div class="exercise admonition" id="ex-t42-adaptive-noise">
+
+<p class="admonition-title"><span class="caption-number">Exercise 107 </span></p>
+<section id="exercise-content">
+<p>Rerun the adaptive loop with the 0.5% meter noise of the historian added to every simulation (for example <code class="docutils literal notranslate"><span class="pre">el.bb2(x[:2])</span> <span class="pre">*</span> <span class="pre">(1</span> <span class="pre">+</span> <span class="pre">0.005</span> <span class="pre">*</span> <span class="pre">rng.standard_normal())</span></code>). Does the loop still reach the interior optimum? Replace each evaluation by the mean of four readings and try again. Relate what you see to the noise floor of Topic 4.1.</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Undesigned data are usually redundant: their true dimensionality is lower than their number of columns. Feature selection removes variables; dimensionality reduction re-expresses them in fewer new ones.</p></li>
+<li><p>PCA is a constrained optimization problem: maximize <span class="math notranslate nohighlight">\(p^\top C p\)</span> subject to <span class="math notranslate nohighlight">\(p^\top p = 1\)</span>. Its KKT conditions are the eigenvalue equation, and the Lagrange multiplier of the unit-length constraint is the variance the component captures.</p></li>
+<li><p>Regression on redundant inputs is ill-conditioned. On the modified cheddar data, the full-space quadratic had a condition number of <span class="math notranslate nohighlight">\(2 \times 10^8\)</span> and coefficients of <span class="math notranslate nohighlight">\(3 \times 10^6\)</span>; PCR fitted equally well with a condition number of 8 and predicted better in cross-validation. PLS chooses latent directions that explain the output and did better still.</p></li>
+<li><p>Optimizing an ill-conditioned full-space model found a corner of the data box, off the data’s plane, with a predicted taste of <span class="math notranslate nohighlight">\(10^8\)</span>. Optimizing in the reduced space keeps candidates on the plane; write the input bounds as linear constraints on the scores and keep them inside a Hotelling <span class="math notranslate nohighlight">\(T^2\)</span> limit.</p></li>
+<li><p>A reduced space can encode the constraints the data obeyed. For the electrolyzer fleet, the discarded component was the demand constraint, so every back-mapped split met the demand exactly, and an adaptive trust-region loop in the scores reached the interior optimum of BB2 in 15 simulations. It cannot reach regimes the data never visited, such as switching a stack off.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>I. T. Jolliffe, <em>Principal Component Analysis</em>, 2nd ed., Springer (2002).</p></li>
+<li><p>J. Shlens, “A Tutorial on Principal Component Analysis,” arXiv:1404.1100 (2014). The source of the ball-on-a-spring example.</p></li>
+<li><p>S. Wold, M. Sjöström and L. Eriksson, “PLS-regression: a basic tool of chemometrics,” <em>Chemometrics and Intelligent Laboratory Systems</em> 58(2), 109–130 (2001).</p></li>
+<li><p>C. M. Jaeckle and J. F. MacGregor, “Product design through multivariate statistical analysis of process data,” <em>AIChE Journal</em> 44(5), 1105–1118 (1998). Optimization by inverting latent-variable models.</p></li>
+<li><p>J. F. MacGregor and T. Kourti, “Statistical process control of multivariate processes,” <em>Control Engineering Practice</em> 3(3), 403–414 (1995). Hotelling’s <span class="math notranslate nohighlight">\(T^2\)</span> and the residual in latent-variable monitoring.</p></li>
+<li><p>A. R. Conn, K. Scheinberg and L. N. Vicente, <em>Introduction to Derivative-Free Optimization</em>, SIAM (2009). Trust-region methods built on local interpolation and regression models.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./4-data_driven_modeling"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic4.1-Working_with_Real_Data.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">4.1 Working with Real Data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic4.3-Hybrid_Modeling.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">4.3 Hybrid Modeling</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#too-many-dimensions">Too many dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-as-an-optimization-problem">PCA as an optimization problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-worked-example-cheddar-cheese">A worked example: cheddar cheese</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-in-reduced-spaces">Regression in reduced spaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Optimization in reduced spaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constraints-in-the-reduced-space-and-adaptive-optimization">Constraints in the reduced space and adaptive optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

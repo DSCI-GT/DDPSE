@@ -1,0 +1,999 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.6 Surrogate-Based Optimization &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data-Driven Modeling" href="../4-data_driven_modeling/intro.html" />
+    <link rel="prev" title="3.5 Surrogate Models" href="Topic3.5-Surrogate_Models.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Data-Driven Optimization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3.6 Surrogate-Based Optimization</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adaptive-loop-exploration-and-exploitation">The adaptive loop: exploration and exploitation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficient-global-optimization">Efficient global optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameters-decide-exploration">Hyperparameters decide exploration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optima-on-the-edge">Optima on the edge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constraints-by-surrogate">Constraints by surrogate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-integer-surrogates">Mixed-integer surrogates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#find-versus-prove">Find versus prove</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#surrogate-based-optimization" id="id1">3.6 Surrogate-Based Optimization</a></p>
+<ul>
+<li><p><a class="reference internal" href="#the-adaptive-loop-exploration-and-exploitation" id="id2">The adaptive loop: exploration and exploitation</a></p></li>
+<li><p><a class="reference internal" href="#efficient-global-optimization" id="id3">Efficient global optimization</a></p></li>
+<li><p><a class="reference internal" href="#hyperparameters-decide-exploration" id="id4">Hyperparameters decide exploration</a></p></li>
+<li><p><a class="reference internal" href="#optima-on-the-edge" id="id5">Optima on the edge</a></p></li>
+<li><p><a class="reference internal" href="#constraints-by-surrogate" id="id6">Constraints by surrogate</a></p></li>
+<li><p><a class="reference internal" href="#mixed-integer-surrogates" id="id7">Mixed-integer surrogates</a></p></li>
+<li><p><a class="reference internal" href="#find-versus-prove" id="id8">Find versus prove</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id9">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id10">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="surrogate-based-optimization">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">3.6 Surrogate-Based Optimization</a><a class="headerlink" href="#surrogate-based-optimization" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 8 (second week), Lesson 8: <em>Exploration versus Exploitation and Adaptive Sampling</em></p></li>
+<li><p>Module 8 (second week), Lesson 9: <em>Convergence in Model-Based Data-Driven Optimization</em></p></li>
+<li><p>Module 8 (second week), Lesson 10: <em>Efficient Global Optimization Algorithm</em></p></li>
+<li><p>Module 8 (second week), Lesson 11: <em>Mixed Integer Surrogate Optimization</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Describe the adaptive loop and the exploration–exploitation trade-off.</p></li>
+<li><p>Implement efficient global optimization (EGO) with a Gaussian process and expected improvement.</p></li>
+<li><p>Explain how a GP’s length scale decides whether EGO explores, and fix a run that does not.</p></li>
+<li><p>Handle optima on edges, unknown constraints and on/off decisions in a surrogate loop.</p></li>
+<li><p>Compare what branch-and-bound, DIRECT and EGO can certify.</p></li>
+</ul>
+</div>
+<p>In Topic 3.5 we built each surrogate once from a fixed design, but in this topic the surrogate and the samples improve together as we fit, optimize, sample where the surrogate suggests, and then refit. This loop is the subject of the lectures for this topic, and it closes the data-driven optimization topics.</p>
+<section id="the-adaptive-loop-exploration-and-exploitation">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">The adaptive loop: exploration and exploitation</a><a class="headerlink" href="#the-adaptive-loop-exploration-and-exploitation" title="Link to this heading">#</a></h2>
+<p>The lectures extend the steps of Topic 3.5 into a loop, where after optimizing the surrogate we evaluate the black box at the proposed point, add the result to the data, refit, and repeat until a stopping rule fires. Each new sample serves one of two purposes: <strong>exploitation</strong> samples where the surrogate predicts a good value in order to refine a promising region, while <strong>exploration</strong> samples where the surrogate has little data in order to improve the model and avoid missing a better region. A loop that only exploits converges quickly to whatever its first surrogate believes, while a loop that only explores ignores what it has learned. The lectures also frame the choice of surrogate as accuracy against complexity, since a simple model optimizes globally and cheaply but may be wrong, while a flexible model is accurate but non-convex to optimize. A global optimum of an inaccurate model is of little use, and a costly global solve of an accurate one must be weighed against simply collecting more samples in the same time.</p>
+<p>The lectures add some practical rules for the first steps of the loop. We need to choose the inputs carefully, since wrong or strongly correlated inputs defeat every later step. Bounds are needed for the design, and if the solution lands near a bound we should widen it and repeat. The initial design must be large enough to fit the model, capture its nonlinearity and leave data for validation, and a common heuristic is about 10 points per input dimension, adjusted for the cost of a sample and the expected nonlinearity.</p>
+<p>Deciding when to stop is harder (Lesson 9). The usual stopping rules are a sampling budget, a CPU budget, no improvement in <span class="math notranslate nohighlight">\(N\)</span> consecutive iterations, or low validation error together with no improvement, and none of them guarantees even a local optimum. <em>Local</em> model-based methods, such as trust-region methods that fit a linear or quadratic model in a small region and then move or shrink it, inherit the convergence theory of direct search (Topic 3.2) but can get stuck. <em>Global</em> methods fit the whole domain and tend to reach the right region with fewer samples, although without any guarantee, so a common compromise is a short global surrogate search followed by a local, convergent method from its best point.</p>
+<p>A <strong>trust-region</strong> method works as follows. At the iterate <span class="math notranslate nohighlight">\(x_k\)</span> we fit a linear or quadratic model <span class="math notranslate nohighlight">\(m_k\)</span> to samples within a radius <span class="math notranslate nohighlight">\(\Delta_k\)</span> (by interpolation or regression on a well-poised set of points), and we minimize <span class="math notranslate nohighlight">\(m_k\)</span> over the ball <span class="math notranslate nohighlight">\(\lVert s \rVert \le \Delta_k\)</span> to get a trial step <span class="math notranslate nohighlight">\(s_k\)</span>. Then we evaluate the black box and compare the actual reduction with the predicted one, <span class="math notranslate nohighlight">\(\rho_k = [f(x_k) - f(x_k + s_k)]/[m_k(x_k) - m_k(x_k + s_k)]\)</span>. If <span class="math notranslate nohighlight">\(\rho_k\)</span> is small (say below 0.1) the model is not trusted, so we reject the step and shrink <span class="math notranslate nohighlight">\(\Delta_k\)</span>; if it is moderate we accept the step and keep <span class="math notranslate nohighlight">\(\Delta_k\)</span>; and if <span class="math notranslate nohighlight">\(\rho_k\)</span> is close to 1 and the step reached the boundary, we accept it and expand <span class="math notranslate nohighlight">\(\Delta_k\)</span>. The method stops when <span class="math notranslate nohighlight">\(\Delta_k\)</span> becomes small. Because the model is checked against the black box at every step, and the sample geometry is controlled as in direct search, these methods converge to a stationary point (Conn, Scheinberg and Vicente, 2009, Chapters 10–11).</p>
+<p>The simplest global loop is pure exploitation with a parametric model, which Topic 3.1 previewed on BB1 (where two A stacks share <span class="math notranslate nohighlight">\(D = 0.9\)</span> with the decision <span class="math notranslate nohighlight">\(x_1\)</span>, the global optimum 1.5892 is at either edge, and a local trap of 1.6425 is at the equal split) by fitting a quadratic to a handful of samples and going to its minimum. We can repeat it on the same Latin hypercube samples, using 3, 5, 9 and 15 points that are taken from the shared helper <code class="docutils literal notranslate"><span class="pre">preview_samples</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">'ignore'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span><span class="p">,</span> <span class="n">qmc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianProcessRegressor</span><span class="p">,</span> <span class="n">GaussianProcessClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matern</span><span class="p">,</span> <span class="n">ConstantKernel</span><span class="p">,</span> <span class="n">WhiteKernel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part3a_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">preview_samples</span><span class="p">,</span> <span class="n">lipschitz_bb1</span><span class="p">,</span> <span class="n">direct_certified</span>
+
+<span class="n">F1</span><span class="p">,</span> <span class="n">F2</span><span class="p">,</span> <span class="n">F3</span> <span class="o">=</span> <span class="mf">1.58921</span><span class="p">,</span> <span class="mf">2.08181</span><span class="p">,</span> <span class="mf">2.32181</span>            <span class="c1"># optima of BB1, BB2, BB3 (Topics 2.6 and 3.3)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">901</span><span class="p">);</span> <span class="n">f_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">15</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">preview_samples</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>                        <span class="c1"># LHS on [0, 0.9], seed 1, as in Topic 3.1</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="p">[</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">xs</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"n = </span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">'convex'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'concave'</span><span class="si">}</span><span class="s2"> quadratic, minimum at x1 = </span><span class="si">{</span><span class="n">xs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"true cost there </span><span class="si">{</span><span class="n">f_true</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">f_true</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">F1</span><span class="p">)</span><span class="o">*</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kW above optimal)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n =  3: convex quadratic, minimum at x1 = 0.247, true cost there 1.6719 (540 kW above optimal)
+n =  5: convex quadratic, minimum at x1 = 0.578, true cost there 1.6547 (428 kW above optimal)
+n =  9: convex quadratic, minimum at x1 = 0.000, true cost there 1.5892 (0 kW above optimal)
+n = 15: convex quadratic, minimum at x1 = 0.118, true cost there 1.7054 (759 kW above optimal)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Every fit is convex, because the samples are dominated by the shallow bowl between the wells, so its minimum lies inside the domain or, if it falls outside, at the nearer edge. With 9 points the minimum fell just outside and was clipped to <span class="math notranslate nohighlight">\(x_1 = 0\)</span>, which happens to be optimal, but only because of where those samples fell, while with 15 points the fit is better on average and worse at the optimum. Since a quadratic cannot represent two wells at the edges, adding more data does not help.</p>
+<div class="exercise admonition" id="ex-t36-quadratic">
+
+<p class="admonition-title"><span class="caption-number">Exercise 90 </span></p>
+<section id="exercise-content">
+<p>Replace the quadratic by a quartic and repeat for the same four designs. Does the quartic’s minimum land in a global well more often? Then repeat both fits for LHS seeds 0–19 at <span class="math notranslate nohighlight">\(n = 9\)</span> and report how often each lands within <span class="math notranslate nohighlight">\(10^{-3}\)</span> of the optimum.</p>
+</section>
+</div>
+</section>
+<section id="efficient-global-optimization">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Efficient global optimization</a><a class="headerlink" href="#efficient-global-optimization" title="Link to this heading">#</a></h2>
+<p><strong>Efficient global optimization</strong> (EGO; Jones, Schonlau and Welch, 1998) replaces the quadratic with a Gaussian process, and it replaces “go to the minimum” with a criterion that weighs both goals. At a candidate <span class="math notranslate nohighlight">\(x\)</span> the GP predicts a mean <span class="math notranslate nohighlight">\(\hat\mu(x)\)</span> and a standard deviation <span class="math notranslate nohighlight">\(\hat\sigma(x)\)</span>, and if we assume that the black box value there is normally distributed with those moments, then the expected amount by which it improves on the best value so far, <span class="math notranslate nohighlight">\(f_{\min}\)</span>, is the <strong>expected improvement</strong> <span class="math notranslate nohighlight">\(\mathrm{EI}(x) = E\big[\max(f_{\min} - Y(x), 0)\big]\)</span> with <span class="math notranslate nohighlight">\(Y(x) \sim N(\hat\mu(x), \hat\sigma(x)^2)\)</span>, which evaluates to</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{EI}(x) = \big(f_{\min} - \hat\mu(x)\big)\,\Phi(z) + \hat\sigma(x)\,\phi(z), \qquad z = \frac{f_{\min} - \hat\mu(x)}{\hat\sigma(x)},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Phi\)</span> and <span class="math notranslate nohighlight">\(\phi\)</span> are the standard normal distribution and density, and the factor <span class="math notranslate nohighlight">\(\Phi(z)\)</span> is the probability that the black box beats <span class="math notranslate nohighlight">\(f_{\min}\)</span> at <span class="math notranslate nohighlight">\(x\)</span>. The first term rewards a low predicted mean (exploitation), while the second rewards uncertainty (exploration), so that EI is zero at sampled points and positive wherever the GP is unsure. EGO samples the black box at the maximizer of EI, refits, and repeats.</p>
+<p>The lectures list the strengths of EGO, which are that the kriging model is flexible and accurate in promising regions, that local and global search are balanced, that the result depends less on the initial design because unsampled regions keep a high EI, and that stopping when EI is small is a more meaningful criterion than a budget. Its weaknesses are that EI is a new multimodal function to maximize at every step, that samples come one at a time (with no parallel evaluation), and that there is no proof of optimality. EGO is closely related to what machine learning calls Bayesian optimization, and implementations include TOMLAB in MATLAB and the <code class="docutils literal notranslate"><span class="pre">EGO</span></code> application of the Python Surrogate Modeling Toolbox (SMT).</p>
+<p>Since the course notebook from Fani has no EGO implementation, we will write one from scratch in about 20 lines that maximizes EI over a dense candidate set (2,001 points in 1-D, 4,000 random points in 2-D), which is crude but transparent. The GP uses a Matérn 5/2 kernel with its length scale fitted by maximum likelihood, where the <code class="docutils literal notranslate"><span class="pre">cap</span></code> argument bounds that length scale and <code class="docutils literal notranslate"><span class="pre">edges</span></code> adds candidates on the faces of the box. We say that a run succeeds when it samples within <span class="math notranslate nohighlight">\(10^{-3}\)</span> of the known optimum, and we give it 80 evaluations to do so. On BB1, the seed <span class="math notranslate nohighlight">\(s\)</span> starts from the four points <code class="docutils literal notranslate"><span class="pre">preview_samples(4,</span> <span class="pre">seed=s)</span></code> that come from the design of Topic 3.1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">gp</span><span class="p">(</span><span class="n">cap</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e5</span><span class="p">)</span> <span class="k">if</span> <span class="n">cap</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">cap</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">ConstantKernel</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">Matern</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span> <span class="o">+</span> <span class="n">WhiteKernel</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">,</span> <span class="p">(</span><span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ei</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">best</span><span class="p">):</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="mf">1e-12</span><span class="p">);</span> <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">best</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">best</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="n">sd</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">candidates</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="n">lo</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2001</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">)</span>     <span class="c1"># includes both ends</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">4000</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">edges</span><span class="p">:</span>                                     <span class="c1"># 800 extra points with one coordinate at 0 or 1</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">800</span><span class="p">,</span> <span class="n">d</span><span class="p">));</span> <span class="n">e</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">800</span><span class="p">),</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">800</span><span class="p">)]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">lo</span> <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="p">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ego</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">fstar</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">cap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">budget</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""EGO from an n0-point LHS; stops at the first sample within tol of fstar. Returns X, y."""</span>
+    <span class="n">rng</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">lo</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">);</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span>
+    <span class="n">cand</span> <span class="o">=</span> <span class="n">candidates</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">budget</span> <span class="ow">and</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">fstar</span> <span class="o">+</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">gp</span><span class="p">(</span><span class="n">cap</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">cand</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">xn</span> <span class="o">=</span> <span class="n">cand</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">ei</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()))]</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">xn</span><span class="p">]);</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">xn</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">hits</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">fstar</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Evaluation count at first success for each run (None = never within budget)."""</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">fstar</span> <span class="o">+</span> <span class="n">tol</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">fstar</span> <span class="o">+</span> <span class="n">tol</span> <span class="k">else</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">]</span>
+
+<span class="n">lo1</span><span class="p">,</span> <span class="n">hi1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.9</span><span class="p">])</span>
+<span class="n">runs_fit</span> <span class="o">=</span> <span class="p">[</span><span class="n">ego</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">,</span> <span class="n">lo1</span><span class="p">,</span> <span class="n">hi1</span><span class="p">,</span> <span class="n">F1</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">n0</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">preview_samples</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">s</span><span class="p">))</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">runs_fit</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"BB1, fitted length scale, evaluations to success:"</span><span class="p">,</span> <span class="n">hits</span><span class="p">(</span><span class="n">runs_fit</span><span class="p">,</span> <span class="n">F1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB1, fitted length scale, evaluations to success: [7, 77, None, 12, 7, None, None, 9, None, None]
+</pre></div>
+</div>
+</div>
+</div>
+<p>With the length scale left to maximum likelihood, EGO finds the edge optimum quickly in 4 of 10 seeds (7 to 12 evaluations), while one more run stumbles onto it at evaluation 77 and the other 5 never find it in 80 evaluations. Since DIRECT needed 81 evaluations for its first hit on BB1 (Topic 3.3), the fast runs are very cheap, and the next section explains why the other runs fail.</p>
+<div class="exercise admonition" id="ex-t36-ei">
+
+<p class="admonition-title"><span class="caption-number">Exercise 91 </span></p>
+<section id="exercise-content">
+<p>Write the “pure exploitation” and “pure exploration” acquisitions, <span class="math notranslate nohighlight">\(-\hat\mu(x)\)</span> and <span class="math notranslate nohighlight">\(\hat\sigma(x)\)</span>, and run each in place of EI on BB1 for seeds 0–9. Report the success counts and explain each result in terms of the two terms of EI.</p>
+</section>
+</div>
+</section>
+<section id="hyperparameters-decide-exploration">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Hyperparameters decide exploration</a><a class="headerlink" href="#hyperparameters-decide-exploration" title="Link to this heading">#</a></h2>
+<p>To see why half of the runs fail, we can look at what the GP believes. In a failing run (seed 2) the first samples straddle the equal split, and EI sends the next few samples near <span class="math notranslate nohighlight">\(x_1 = 0.45\)</span>. As samples pile up there, the maximum-likelihood length scale grows, and once it is longer than the domain the GP believes that the function is a single smooth bowl. This means that its band between samples collapses, EI sees nothing to gain anywhere else, and EGO keeps sampling the equal-split trap at 1.6425. Capping the length scale at 0.3 forces the GP to admit that it does not know the function between samples that are farther apart than that.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Xf</span><span class="p">,</span> <span class="n">yf</span> <span class="o">=</span> <span class="n">runs_fit</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">][:</span><span class="mi">8</span><span class="p">],</span> <span class="n">runs_fit</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">][:</span><span class="mi">8</span><span class="p">]</span>           <span class="c1"># seed 2, after 8 evaluations</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">cap</span><span class="p">,</span> <span class="n">title</span> <span class="ow">in</span> <span class="p">((</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">'fitted length scale'</span><span class="p">),</span> <span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s1">'length scale capped at 0.3'</span><span class="p">)):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">gp</span><span class="p">(</span><span class="n">cap</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xf</span><span class="p">,</span> <span class="n">yf</span><span class="p">);</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xs</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">nxt</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">ei</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">yf</span><span class="o">.</span><span class="n">min</span><span class="p">()))]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">:</span><span class="s2">26s</span><span class="si">}</span><span class="s2">: length scale </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">length_scale</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, max band </span><span class="si">{</span><span class="n">sd</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"next sample at x1 = </span><span class="si">{</span><span class="n">nxt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">mu</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sd</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sd</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'GP mean $</span><span class="se">\\</span><span class="s1">pm 2</span><span class="se">\\</span><span class="s1">sigma$'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="s1">'C0'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">f_true</span><span class="p">,</span> <span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'true BB1'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Xf</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">yf</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'samples'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">nxt</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C3'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'EI choice'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'load of stack 1, $x_1$ (fraction of 200 kg/h)'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'total power (per-unit, 1 = 6.53 MW)'</span><span class="p">);</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1.55</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">)</span>
+
+<span class="n">runs_cap</span> <span class="o">=</span> <span class="p">[</span><span class="n">ego</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">,</span> <span class="n">lo1</span><span class="p">,</span> <span class="n">hi1</span><span class="p">,</span> <span class="n">F1</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">n0</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">cap</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">hits</span><span class="p">(</span><span class="n">runs_cap</span><span class="p">,</span> <span class="n">F1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"BB1, capped length scale, evaluations to success:"</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="s2">" median"</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">h</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fitted length scale       : length scale 1.46, max band 0.0114, next sample at x1 = 0.450
+length scale capped at 0.3: length scale 0.30, max band 0.0191, next sample at x1 = 0.000
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB1, capped length scale, evaluations to success: [7, 11, 8, 12, 8, 10, 15, 9, 51, 10]  median 10
+</pre></div>
+</div>
+<img alt="../_images/9238e92f41d4b613a8608332bd18690df46e7c8f46291450b85ee4114ad2ca1d.png" src="../_images/9238e92f41d4b613a8608332bd18690df46e7c8f46291450b85ee4114ad2ca1d.png" />
+</div>
+</div>
+<p>On the same eight samples, the length scale of the fitted GP (1.46) exceeds the 0.9-wide domain and its band is narrow everywhere (at most 0.011 per-unit), so EI chooses the trap at <span class="math notranslate nohighlight">\(x_1 = 0.45\)</span> again. The capped GP keeps wider bands toward the edges (up to 0.019), which means that EI goes to the edge <span class="math notranslate nohighlight">\(x_1 = 0\)</span>. Over all 10 seeds the capped EGO succeeds every time, with a median of 10 evaluations (one seed needs 51).</p>
+<p>The main lesson of this topic is that <strong>hyperparameters decide exploration versus exploitation</strong>. EI is often described as balancing the two automatically, but it balances them only as well as <span class="math notranslate nohighlight">\(\hat\sigma(x)\)</span> is honest, and since <span class="math notranslate nohighlight">\(\hat\sigma\)</span> is set by the length scale, a long length scale says “I already know the shape” while a capped one says “keep looking”. Maximum likelihood that is fitted to a few clustered samples is a poor judge of shape, which nothing in the loop corrects, so bounding the hyperparameters from what we know about the problem (here, that the domain is narrow and the wells are sharp) is part of setting up EGO.</p>
+<div class="exercise admonition" id="ex-t36-lengthscale">
+
+<p class="admonition-title"><span class="caption-number">Exercise 92 </span></p>
+<section id="exercise-content">
+<p>Repeat the capped runs with caps of 0.1, 0.3, 0.6 and 0.9. Plot success count and median evaluations against the cap. Is there a cap that is too small? Explain what EGO does then.</p>
+</section>
+</div>
+</section>
+<section id="optima-on-the-edge">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Optima on the edge</a><a class="headerlink" href="#optima-on-the-edge" title="Link to this heading">#</a></h2>
+<p>In BB2 the stacks A, B and C share <span class="math notranslate nohighlight">\(D = 1.2\)</span>, with inputs <span class="math notranslate nohighlight">\((x_A, x_B)\)</span> in the unit box, C taking the rest, and a penalty of 10 if the load of C leaves <span class="math notranslate nohighlight">\([0, 1]\)</span>, which means that the optimum 2.0818 lies on the edge <span class="math notranslate nohighlight">\(x_B = 0\)</span> where stack B is off. Topic 3.3 met this as a measure-zero optimum that random sampling never hits, and it returns here because the EI maximizer that we wrote searches 4,000 random candidates, none of which has <span class="math notranslate nohighlight">\(x_B\)</span> exactly 0. We will compare EGO with and without 800 extra candidates on the faces of the box, starting from 10 LHS points in both cases.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lo2</span><span class="p">,</span> <span class="n">hi2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">edges</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">hits</span><span class="p">([</span><span class="n">ego</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">,</span> <span class="n">lo2</span><span class="p">,</span> <span class="n">hi2</span><span class="p">,</span> <span class="n">F2</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">n0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)],</span> <span class="n">F2</span><span class="p">)</span>
+    <span class="n">ok</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">h</span> <span class="k">if</span> <span class="n">v</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BB2, edge candidates </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span><span class="si">:</span><span class="s2">5s</span><span class="si">}</span><span class="s2">: success </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ok</span><span class="p">)</span><span class="si">}</span><span class="s2">/10, "</span>
+          <span class="sa">f</span><span class="s2">"median evaluations </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">ok</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">ok</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'-'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB2, edge candidates False: success 0/10, median evaluations -
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB2, edge candidates True : success 10/10, median evaluations 31.5
+</pre></div>
+</div>
+</div>
+</div>
+<p>Without edge candidates EGO never succeeds, while with them it succeeds in all 10 seeds, taking a median of 31.5 evaluations compared to the 835 that DIRECT needed for its first hit in Topic 3.3. The fix changes the candidate set and leaves the model alone, which tells us that if an optimum may turn a stack off, the optimizer of the acquisition function must be able to propose “off”.</p>
+<div class="exercise admonition" id="ex-t36-edges">
+
+<p class="admonition-title"><span class="caption-number">Exercise 93 </span></p>
+<section id="exercise-content">
+<p>Run BB2 with the capped length scale (0.3), with and without edge candidates. Does capping help here as it did on BB1? Suggest why BB2 behaves differently.</p>
+</section>
+</div>
+</section>
+<section id="constraints-by-surrogate">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Constraints by surrogate</a><a class="headerlink" href="#constraints-by-surrogate" title="Link to this heading">#</a></h2>
+<p>BB3 is the full MINLP as a black box, where a load below the minimum <span class="math notranslate nohighlight">\(x_{\min} = 0.1\)</span> means that the stack is off, a stack that is on pays a fixed charge, and any split that C cannot absorb returns the penalty 10. Its optimum, A + C at loads (0.703, 0.497) with B off, costs 2.3218 (15.17 MW). Topic 3.4 compared two ways to handle such constraints with direct methods, and here we look at the surrogate versions.</p>
+<ol class="arabic simple">
+<li><p><strong>Penalized GP.</strong> One GP on the penalized objective, exactly as above.</p></li>
+<li><p><strong>Feasibility classifier.</strong> A GP regressor on the feasible samples only, times a GP classifier’s probability of feasibility <span class="math notranslate nohighlight">\(P_f(x)\)</span>, with the acquisition <span class="math notranslate nohighlight">\(\mathrm{EI}(x)\,P_f(x)\)</span>.</p></li>
+<li><p><strong>Gated classifier.</strong> The same two models, but EI is computed only on candidates with <span class="math notranslate nohighlight">\(P_f(x) \ge 0.5\)</span>.</p></li>
+<li><p><strong>Per-constraint surrogate.</strong> If the black box reports the constraint’s value and not only pass or fail, model the constraint itself. Here the plant meters stack C’s load <span class="math notranslate nohighlight">\(x_C\)</span>, which must satisfy <span class="math notranslate nohighlight">\(x_{\min} \le x_C \le 1\)</span> when C is on. A second GP models <span class="math notranslate nohighlight">\(x_C(x)\)</span> from <em>all</em> samples, and its prediction gives <span class="math notranslate nohighlight">\(P_f(x) = \Phi\big((1 - \hat\mu_g)/\hat\sigma_g\big)\,\Phi\big((\hat\mu_g - x_{\min})/\hat\sigma_g\big)\)</span>, treating the two bounds as independent; the acquisition is <span class="math notranslate nohighlight">\(\mathrm{EI}(x)\,P_f(x)\)</span> with the objective GP fitted to feasible points, as before. With <span class="math notranslate nohighlight">\(J\)</span> black-box constraints there is one GP per constraint and the probabilities multiply.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">constrained_ego</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cand</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">fstar</span><span class="p">,</span> <span class="n">budget</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">pen</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""EGO with a feasible-only GP and a GP feasibility classifier. mode: 'product' or 'gate'."""</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">budget</span> <span class="ow">and</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">fstar</span> <span class="o">+</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="n">feas</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">pen</span>
+        <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">gp</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">feas</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">feas</span><span class="p">])</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">cand</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">pf</span> <span class="o">=</span> <span class="n">GaussianProcessClassifier</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">Matern</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mf">2.5</span><span class="p">),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">feas</span><span class="p">)</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">cand</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">ei</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">feas</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">pf</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">'product'</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pf</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">xn</span> <span class="o">=</span> <span class="n">cand</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">a</span><span class="p">)];</span> <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">xn</span><span class="p">]);</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">xn</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"penalized GP:"</span><span class="p">,</span> <span class="n">hits</span><span class="p">([</span><span class="n">ego</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb3</span><span class="p">,</span> <span class="n">lo2</span><span class="p">,</span> <span class="n">hi2</span><span class="p">,</span> <span class="n">F3</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">n0</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)],</span> <span class="n">F3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'product'</span><span class="p">,</span> <span class="s1">'gate'</span><span class="p">):</span>
+    <span class="n">runs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">X0</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">runs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constrained_ego</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb3</span><span class="p">,</span> <span class="n">X0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">bb3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X0</span><span class="p">]),</span>
+                                    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">mode</span><span class="p">,</span> <span class="n">F3</span><span class="p">))</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">hits</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">F3</span><span class="p">);</span> <span class="n">share</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">]</span>
+    <span class="n">fail</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"classifier, </span><span class="si">{</span><span class="n">mode</span><span class="si">:</span><span class="s2">7s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">; feasible share of samples </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">share</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">; "</span>
+          <span class="sa">f</span><span class="s2">"best feasible value in failed runs </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">fail</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">x_c</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>                                       <span class="c1"># stack C's metered load, a reported constraint value</span>
+    <span class="n">xa</span><span class="p">,</span> <span class="n">xb</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">el</span><span class="o">.</span><span class="n">X_MIN</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[:</span><span class="mi">2</span><span class="p">]);</span> <span class="k">return</span> <span class="mf">1.2</span> <span class="o">-</span> <span class="n">xa</span> <span class="o">-</span> <span class="n">xb</span>
+<span class="n">runs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">bb3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_c</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]);</span> <span class="n">cand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">80</span> <span class="ow">and</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">F3</span> <span class="o">+</span> <span class="mf">1e-3</span><span class="p">:</span>
+        <span class="n">feas</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span>
+        <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">gp</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">feas</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">feas</span><span class="p">])</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">cand</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">mg</span><span class="p">,</span> <span class="n">sg</span> <span class="o">=</span> <span class="n">gp</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">cand</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span> <span class="n">sg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">sg</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">)</span>
+        <span class="n">pf</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">mg</span><span class="p">)</span> <span class="o">/</span> <span class="n">sg</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">((</span><span class="n">mg</span> <span class="o">-</span> <span class="n">el</span><span class="o">.</span><span class="n">X_MIN</span><span class="p">)</span> <span class="o">/</span> <span class="n">sg</span><span class="p">)</span>
+        <span class="n">xn</span> <span class="o">=</span> <span class="n">cand</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">ei</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">feas</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">*</span> <span class="n">pf</span><span class="p">)]</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">xn</span><span class="p">]);</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">bb3</span><span class="p">(</span><span class="n">xn</span><span class="p">));</span> <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">x_c</span><span class="p">(</span><span class="n">xn</span><span class="p">))</span>
+    <span class="n">runs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">hits</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">F3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"per-constraint GP: </span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">; feasible share of samples </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">runs</span><span class="p">])</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">; "</span>
+      <span class="sa">f</span><span class="s2">"best value in failed runs </span><span class="si">{</span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">zip</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="kc">None</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>penalized GP: [34, 38, 20, 22, 57, 42, 11, 17, 12, 17]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>classifier, product: [None, None, 23, 40, None, 13, 11, 16, None, None]; feasible share of samples 44%; best feasible value in failed runs [2.3304 2.3303 2.3301 2.3301 2.3301]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>classifier, gate   : [25, 61, 25, 41, 23, 13, 15, 16, 42, 19]; feasible share of samples 75%; best feasible value in failed runs []
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>per-constraint GP: [21, None, 20, 34, 20, 13, 15, 16, 39, None]; feasible share of samples 79%; best value in failed runs [2.3261, 2.3238]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The penalized GP succeeds in all 10 seeds, while the classifier with the product acquisition succeeds in only 5. It is tempting to blame the boundary, as if the optimum sat where the classifier is unsure, but the optimum is well inside the feasible region (B off is legal, and A + C leaves margin on every constraint), and the printed output shows what happens instead. Only 44% of the samples in the product runs are feasible, and every run that fails stalls at 2.3301, the runner-up configuration B + C, 0.4% worse (the near-tie of Topic 2.6). Since a GP that is trained on feasible points only has no data in the infeasible region, it extrapolates there with an optimistic mean and a wide band, so EI is large exactly where the black box returns the penalty, and multiplying by a moderate <span class="math notranslate nohighlight">\(P_f\)</span> does not suppress it enough. As a result the runs spend their budget on infeasible points and on the region that they already know, so that they rarely sample the narrow strip <span class="math notranslate nohighlight">\(x_B &lt; 0.1\)</span> where B is off.</p>
+<p>Gating removes the optimistic extrapolation, because the regressor is never asked about points that the classifier considers more likely infeasible than not, and the gated runs succeed in all 10 seeds, with 75% of samples feasible. More generally, a surrogate that is trained on part of the space should not be trusted outside that part, and the acquisition should know where that part ends.</p>
+<p>The per-constraint surrogate succeeds in 8 of 10 seeds with 79% of its samples feasible, which is more than either classifier variant (44% and 75%). Because the constraint GP is fitted to every sample, including the infeasible ones, it knows where the infeasible region is without a gate. Its two failures end at 2.3238 and 2.3261, which are already in the A + C configuration (below the B + C value 2.3301) but are not within the <span class="math notranslate nohighlight">\(10^{-3}\)</span> tolerance after 80 evaluations. When a black box reports constraint values it pays to use them, since a value says how far from feasible a point is, while a pass/fail label only says which side it is on.</p>
+<div class="exercise admonition" id="ex-t36-gate">
+
+<p class="admonition-title"><span class="caption-number">Exercise 94 </span></p>
+<section id="exercise-content">
+<p>Vary the gate threshold over 0.2, 0.5 and 0.8 and report the success count and median evaluations. Then replace the gate by the product <span class="math notranslate nohighlight">\(\mathrm{EI}\,P_f^3\)</span>. Which acquisition would you trust on a new black box, and why?</p>
+</section>
+</div>
+</section>
+<section id="mixed-integer-surrogates">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Mixed-integer surrogates</a><a class="headerlink" href="#mixed-integer-surrogates" title="Link to this heading">#</a></h2>
+<p>Lesson 11 turns to discrete decisions, which Topic 3.3 flagged as the wrong job for derivative-free methods, because two problems arise when a surrogate has to handle them: a simulator may fail at non-integer values of an integer input, so that no sample is obtained at all, and regression models treat inputs as ordinal, even though a binary “unit on” is not an intensity.</p>
+<p>The lectures review three approaches, which are brute force that decouples the binaries and solves one NLP per configuration (expensive when configurations are many); relaxed surrogates that treat binaries as continuous on <span class="math notranslate nohighlight">\([0, 1]\)</span> (Müller, 2016; less accurate); and mixed-integer surrogates that are built directly (Mistry et al., 2018; harder to sample and optimize). They also give three sampling strategies for mixed spaces, which are a <strong>balanced</strong> design (a separate LHS for each discrete level), a <strong>randomized</strong> design (one LHS, with points assigned to levels at random), and an LHS with the binary coordinates <strong>rounded</strong>. With <span class="math notranslate nohighlight">\(m\)</span> discrete levels and <span class="math notranslate nohighlight">\(d\)</span> variables in total, the number of points that each level gets is <span class="math notranslate nohighlight">\(n_{\mathrm{LHS}} = \max\big(5, \lceil (10d + 1)/m \rceil\big)\)</span>, so that every level is represented evenly in the design.</p>
+<p>The fix for ordinality in the lectures is <strong>one-hot encoding</strong>, where a discrete choice with <span class="math notranslate nohighlight">\(K\)</span> options becomes <span class="math notranslate nohighlight">\(K\)</span> indicator inputs, exactly one of which is 1, so that no option is “between” two others. In a neural network there is a second reason, since a binary input of 0 multiplies its weights by zero, which means that the network cannot learn the effect of the “off” level, while with one indicator per level each level carries its own signal. The adaptive surrogate-MINLP algorithm then has four steps, which are a mixed-integer initial design; one-hot encoding and fitting; optimizing the surrogate MINLP with adaptive sampling; and finally fixing the discrete choice and solving the remaining NLP to refine the continuous variables.</p>
+<p>For the electrolyzer, the discrete decision is which stacks are on, which gives 7 nonempty configurations of A, B, C. We one-hot encode the configuration as 7 inputs and add two continuous dials in <span class="math notranslate nohighlight">\([0, 1]\)</span>, and in a configuration every on stack but the last (in the order A, B, C) runs at <span class="math notranslate nohighlight">\(x_{\min} + u\,(1 - x_{\min})\)</span>, with <span class="math notranslate nohighlight">\(u\)</span> its dial, and the last on stack takes the rest of <span class="math notranslate nohighlight">\(D = 1.2\)</span>, while an infeasible remainder returns the penalty. We draw a balanced design of 3 LHS points per configuration (21 in all) and then run an adaptive surrogate-MINLP loop, and since there are only 7 configurations, each iteration simply scores 600 random dial settings in every configuration with EI and samples the best. We will try a penalized GP and the gated classifier from the previous section.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="n">CONFIGS</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="s1">'ABC'</span><span class="p">,</span> <span class="n">r</span><span class="p">)]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">bb_mi</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="mf">1.2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Configuration k (index into CONFIGS) with dials u: the last on stack takes the remainder."""</span>
+    <span class="n">cfg</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">CONFIGS</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="nb">dict</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">ui</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cfg</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">u</span><span class="p">):</span> <span class="n">x</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">X_MIN</span> <span class="o">+</span> <span class="n">ui</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">el</span><span class="o">.</span><span class="n">X_MIN</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">[</span><span class="n">cfg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">D</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">el</span><span class="o">.</span><span class="n">fleet_cost</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="s1">'ABC'</span><span class="p">])</span> <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">X_MIN</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">[</span><span class="n">cfg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">mi_loop</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">budget</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">enc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">,</span> <span class="n">U</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">7</span><span class="p">)[</span><span class="n">k</span><span class="p">],</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">U</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">U</span><span class="p">])</span>       <span class="c1"># one-hot + dials</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">enc</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">7</span> <span class="o">*</span> <span class="n">seed</span> <span class="o">+</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bb_mi</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="mi">7</span><span class="p">])),</span> <span class="n">r</span><span class="p">[</span><span class="mi">7</span><span class="p">:])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">budget</span> <span class="ow">and</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">F3</span> <span class="o">+</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="n">cand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">enc</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">600</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)])</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">'penalized'</span><span class="p">:</span>
+            <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">gp</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">cand</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span> <span class="n">a</span> <span class="o">=</span> <span class="n">ei</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">feas</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span>
+            <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">gp</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">feas</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">feas</span><span class="p">])</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">cand</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">pf</span> <span class="o">=</span> <span class="n">GaussianProcessClassifier</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">Matern</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mf">2.5</span><span class="p">),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">feas</span><span class="p">)</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">cand</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pf</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">ei</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">feas</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">xn</span> <span class="o">=</span> <span class="n">cand</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">a</span><span class="p">)];</span> <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">xn</span><span class="p">]);</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">bb_mi</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">xn</span><span class="p">[:</span><span class="mi">7</span><span class="p">])),</span> <span class="n">xn</span><span class="p">[</span><span class="mi">7</span><span class="p">:]))</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'penalized'</span><span class="p">,</span> <span class="s1">'gated'</span><span class="p">):</span>
+    <span class="n">runs</span> <span class="o">=</span> <span class="p">[</span><span class="n">mi_loop</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">hits</span><span class="p">(</span><span class="n">runs</span><span class="p">,</span> <span class="n">F3</span><span class="p">);</span> <span class="n">ok</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">h</span> <span class="k">if</span> <span class="n">v</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mode</span><span class="si">:</span><span class="s2">9s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">; success </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ok</span><span class="p">)</span><span class="si">}</span><span class="s2">/10, median </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">ok</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> evaluations"</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">runs</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="n">best</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">y</span><span class="p">)];</span> <span class="n">k</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">best</span><span class="p">[:</span><span class="mi">7</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"seed 0 finds </span><span class="si">{</span><span class="s1">' + '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CONFIGS</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="si">}</span><span class="s2"> at dial </span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> (x_A = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">X_MIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">best</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.9</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">X_MIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">best</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.9</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kg/h), cost </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW"</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize_scalar</span>                     <span class="c1"># step 4: fix the configuration, refine the NLP</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span><span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">bb_mi</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="p">[</span><span class="n">u</span><span class="p">]),</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">'bounded'</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xatol'</span><span class="p">:</span> <span class="mf">1e-7</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"refined: x_A = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">X_MIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r</span><span class="o">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.9</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">X_MIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r</span><span class="o">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.9</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kg/h), "</span>
+      <span class="sa">f</span><span class="s2">"cost </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">nfev</span><span class="si">}</span><span class="s2"> more evaluations"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>penalized: [25, 62, 25, 37, 25, 37, 13, 13, 36, 26]; success 10/10, median 26 evaluations
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gated    : [29, 35, 35, 29, 22, 32, 13, 13, 33, 27]; success 10/10, median 29 evaluations
+seed 0 finds A + C at dial 0.660 (x_A = 0.694, 139 kg/h), cost 2.32190 = 15.17 MW
+refined: x_A = 0.703 (141 kg/h), cost 2.32181, 9 more evaluations
+</pre></div>
+</div>
+</div>
+</div>
+<p>Both loops find A + C at <span class="math notranslate nohighlight">\(D = 1.2\)</span> in all 10 seeds, with the penalized GP taking a median of 26 evaluations and the gated one taking 29, from 21 initial points. In seed 0 the loop settles on A at 139 kg/h with C carrying the rest, which is within <span class="math notranslate nohighlight">\(10^{-3}\)</span> of the optimum, and fixing A + C and refining the single dial (step 4) recovers the Topic 2.6 optimum, A at 141 kg/h and 2.32181, in 9 more evaluations. Unlike on BB3, the penalized GP does not fail here, and since we have not isolated why, on a new problem we would run both.</p>
+<p>The lectures close with a harder case from Fani’s research, a process-synthesis superstructure in the style of the Duran and Grossmann (1986) benchmark with 9 continuous and 8 binary variables and 23 constraints (21 inequalities and 2 equalities). The material balances and the logical unit-selection constraints are known equations, while the input–output relations of the units are treated as black boxes, and 8 of the constraints are gray-box. The adaptive surrogate-MINLP algorithm is compared with alternatives by its solution quality, feasibility and CPU time, which are summarized as a performance profile. The case shows the structure that we should aim for, where known constraints stay as equations and only unknown relations become surrogates.</p>
+<div class="exercise admonition" id="ex-t36-onehot">
+
+<p class="admonition-title"><span class="caption-number">Exercise 95 </span></p>
+<section id="exercise-content">
+<p>Replace the one-hot encoding by three binary inputs <span class="math notranslate nohighlight">\((y_A, y_B, y_C)\)</span>, one per stack, and rerun the gated loop. Which configurations does the GP now treat as “close” to each other, and does the success count change? Then try the randomized design (21 points assigned to configurations at random) in place of the balanced one.</p>
+</section>
+</div>
+</section>
+<section id="find-versus-prove">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Find versus prove</a><a class="headerlink" href="#find-versus-prove" title="Link to this heading">#</a></h2>
+<p>The data-driven optimization topics opened (Topic 3.1) with the question of what a black-box method can promise, so we will close it by solving BB1 in three different ways and asking what each of them certifies.</p>
+<ol class="arabic simple">
+<li><p><strong>Spatial branch-and-bound on the equations</strong> (Topic 2.6). Each node relaxes the concave part of the S-curve with its secant, which gives a valid lower bound; branching tightens the secants until the bounds meet.</p></li>
+<li><p><strong>DIRECT with a Lipschitz constant</strong> (Topic 3.3). On the black box, given <span class="math notranslate nohighlight">\(L \ge \max |f'|\)</span>, each interval’s center value minus <span class="math notranslate nohighlight">\(L\)</span> times its half-width is a valid lower bound.</p></li>
+<li><p><strong>EGO with the capped length scale</strong>, from above. It has an incumbent and no bound.</p></li>
+</ol>
+<p>Branch-and-bound lives in <code class="docutils literal notranslate"><span class="pre">_lib/part3b_tools.py</span></code>, and DIRECT with <span class="math notranslate nohighlight">\(L\)</span> is the routine of Topic 3.3 in <code class="docutils literal notranslate"><span class="pre">_lib/part3a_tools.py</span></code>. In order to put all three on one axis we count <strong>model queries</strong>, which are one black-box evaluation for DIRECT and EGO and one relaxation solve for branch-and-bound. We follow the node convention of Topic 2.6, where the spatial tree on BB1 has 12 nodes processed and 19 nodes created and each node that is created costs one relaxation solve, so that the branch-and-bound curve is plotted against relaxation solves (that is, against nodes created). Since a relaxation solve queries the equations instead of the black box, it is not the same currency, and the figure says so. Where a method has a bound we plot the gap (incumbent minus bound), while for EGO we plot the incumbent minus the true optimum, which is something that only we know.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">part3b_tools</span> <span class="k">as</span> <span class="n">p3</span>
+
+<span class="n">bb</span> <span class="o">=</span> <span class="n">p3</span><span class="o">.</span><span class="n">spatial_bb_bb1</span><span class="p">()</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">lipschitz_bb1</span><span class="p">()</span>
+<span class="n">n_direct</span><span class="p">,</span> <span class="n">hist_direct</span> <span class="o">=</span> <span class="n">direct_certified</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>          <span class="c1"># shared with Topic 3.3</span>
+<span class="n">fstar</span> <span class="o">=</span> <span class="n">bb</span><span class="p">[</span><span class="s1">'ub'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"branch-and-bound: </span><span class="si">{</span><span class="n">bb</span><span class="p">[</span><span class="s1">'nodes'</span><span class="p">]</span><span class="si">}</span><span class="s2"> nodes processed, </span><span class="si">{</span><span class="n">bb</span><span class="p">[</span><span class="s1">'solves'</span><span class="p">]</span><span class="si">}</span><span class="s2"> created (one relaxation solve each), "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bb</span><span class="p">[</span><span class="s1">'spatial'</span><span class="p">]</span><span class="si">}</span><span class="s2"> spatial branches, optimum </span><span class="si">{</span><span class="n">bb</span><span class="p">[</span><span class="s1">'ub'</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">bb</span><span class="p">[</span><span class="s1">'ub'</span><span class="p">])</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> MW, gap </span><span class="si">{</span><span class="n">bb</span><span class="p">[</span><span class="s1">'ub'</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bb</span><span class="p">[</span><span class="s1">'lb'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"DIRECT with L = </span><span class="si">{</span><span class="n">L</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">: gap &lt;= 1e-2 after "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">next</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">hist_direct</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">1e-2</span><span class="p">)</span><span class="si">}</span><span class="s2"> evaluations, &lt;= 1e-3 after </span><span class="si">{</span><span class="n">n_direct</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"EGO (capped): within 1e-3 of the optimum after </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">hits</span><span class="p">(</span><span class="n">runs_cap</span><span class="p">,</span><span class="w"> </span><span class="n">F1</span><span class="p">))</span><span class="si">}</span><span class="s2"> evaluations, no bound"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">hb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bb</span><span class="p">[</span><span class="s1">'history'</span><span class="p">]);</span> <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">hb</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">hb</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">hb</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="mf">1e-6</span><span class="p">),</span> <span class="s1">'o-'</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s1">'branch-and-bound (relaxation solves, one per node created:</span><span class="se">\n</span><span class="s1">queries the equations, not the black box)'</span><span class="p">)</span>
+<span class="n">hd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hist_direct</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">hd</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">hd</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">hd</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="s1">'s-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'DIRECT with $L$ (evaluations)'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">runs_cap</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">fstar</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C2'</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'EGO, capped, 10 seeds: incumbent $-f^*$ (no bound)'</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">':'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'model queries'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'gap or incumbent $-f^*$ (per-unit, 1 = 6.53 MW)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">5e-7</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'lower left'</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>branch-and-bound: 12 nodes processed, 19 created (one relaxation solve each), 9 spatial branches, optimum 1.58921 = 10.386 MW, gap 0e+00
+DIRECT with L = 5.13: gap &lt;= 1e-2 after 73 evaluations, &lt;= 1e-3 after 83
+EGO (capped): within 1e-3 of the optimum after [7, 8, 8, 9, 10, 10, 11, 12, 15, 51] evaluations, no bound
+</pre></div>
+</div>
+<img alt="../_images/a2a1d350b40f39ecd606d6adee915c5a79feff29d10b0e781ee6d7f2437aac3c.png" src="../_images/a2a1d350b40f39ecd606d6adee915c5a79feff29d10b0e781ee6d7f2437aac3c.png" />
+</div>
+</div>
+<p>Branch-and-bound proves the optimum (1.58921, 10.386 MW) with 12 nodes processed and 19 created (one relaxation solve each), although it can do this only because it is able to read the equations and build secants. DIRECT proves it on the black box with only a valid <span class="math notranslate nohighlight">\(L = 5.13\)</span>, closing the gap to <span class="math notranslate nohighlight">\(10^{-2}\)</span> after 73 evaluations and to <span class="math notranslate nohighlight">\(10^{-3}\)</span> after 83. Capped EGO <em>finds</em> the optimum in a median of 10 evaluations, which is roughly 8 times fewer than DIRECT, but it cannot say that it has, because expected improvement is a heuristic expectation rather than a bound, and a small EI means only that the GP sees nothing promising, as was also the case for the uncapped EGO runs that sat in the trap with a small EI.</p>
+<p>In thermodynamic terms the gap is power, so a gap of <span class="math notranslate nohighlight">\(10^{-3}\)</span> per-unit is 6.5 kW out of a plant drawing about 10.4 MW, which is below what a power meter on the fleet would resolve.</p>
+<p>In economic terms, a certificate is worth paying for when a wrong answer is expensive and the evaluations are cheap enough, while EGO is worth using when every evaluation costs a plant run and a good answer now beats a proven answer later. The rule from Topic 2.6 still holds: <em>the moment you trust a bound from a non-convex problem, you are doing global optimization</em>, and since EGO never offers a bound, it never asks for that trust.</p>
+<div class="exercise admonition" id="ex-t36-find-prove">
+
+<p class="admonition-title"><span class="caption-number">Exercise 96 </span></p>
+<section id="exercise-content">
+<p>Give DIRECT the Lipschitz constant <span class="math notranslate nohighlight">\(L/2\)</span> (too small, so invalid) and rerun it. Does it still report a closed gap? Is the reported optimum still correct? Explain what this says about trusting a certificate whose assumptions you cannot check on a black box.</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Surrogate-based optimization alternates fitting, optimizing and sampling, each sample exploiting or exploring; stopping rules are heuristics, not optimality conditions. Trust-region methods trade globality for local convergence.</p></li>
+<li><p>EGO maximizes expected improvement on a GP. With a fitted length scale it solves BB1 quickly in 4 of 10 seeds; capped at 0.3, in 10 of 10 (median 10 evaluations). Hyperparameters decide exploration.</p></li>
+<li><p>Optima that switch a stack off lie on edges: EGO on BB2 goes from 0 to 10 successes with edge candidates.</p></li>
+<li><p>On BB3: penalized GP 10/10; feasible-only GP times classifier 5/10, from optimistic extrapolation into the infeasible region; gating at <span class="math notranslate nohighlight">\(P_f \ge 0.5\)</span> 10/10; a per-constraint GP 8/10.</p></li>
+<li><p>One-hot encoding, a balanced design and an adaptive loop find A + C at <span class="math notranslate nohighlight">\(D = 1.2\)</span> in every seed.</p></li>
+<li><p>Branch-and-bound proves with equations, DIRECT proves with a Lipschitz constant, EGO finds without proof.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>D. R. Jones, M. Schonlau and W. J. Welch, “Efficient global optimization of expensive black-box functions,” <em>Journal of Global Optimization</em> 13, 455–492 (1998).</p></li>
+<li><p>A. I. J. Forrester, A. Sóbester and A. J. Keane, <em>Engineering Design via Surrogate Modelling: A Practical Guide</em>, Wiley (2008). Chapters 3–5 on infill criteria, constraints and expected improvement.</p></li>
+<li><p>A. R. Conn, K. Scheinberg and L. N. Vicente, <em>Introduction to Derivative-Free Optimization</em>, SIAM (2009). Chapters 10–11 on model-based trust-region methods and their convergence.</p></li>
+<li><p>M. A. Duran and I. E. Grossmann, “An outer-approximation algorithm for a class of mixed-integer nonlinear programs,” <em>Mathematical Programming</em> 36, 307–339 (1986). The source of the process-synthesis benchmark.</p></li>
+<li><p>A. Bhosekar and M. Ierapetritou, “Advances in surrogate based modeling, feasibility analysis, and optimization: A review,” <em>Computers &amp; Chemical Engineering</em> 108, 250–267 (2018).</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./3-data_driven_optimization"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic3.5-Surrogate_Models.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">3.5 Surrogate Models</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../4-data_driven_modeling/intro.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data-Driven Modeling</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adaptive-loop-exploration-and-exploitation">The adaptive loop: exploration and exploitation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficient-global-optimization">Efficient global optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameters-decide-exploration">Hyperparameters decide exploration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optima-on-the-edge">Optima on the edge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constraints-by-surrogate">Constraints by surrogate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-integer-surrogates">Mixed-integer surrogates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#find-versus-prove">Find versus prove</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

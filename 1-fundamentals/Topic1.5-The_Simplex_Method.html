@@ -1,0 +1,1041 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1.5 The Simplex Method &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '1-fundamentals/Topic1.5-The_Simplex_Method';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Nonlinear and Mixed-Integer Optimization" href="../2-nonlinear_mixed_integer/intro.html" />
+    <link rel="prev" title="1.4 Linear Programming" href="Topic1.4-Linear_Programming.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Optimization Fundamentals</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/1-fundamentals/Topic1.5-The_Simplex_Method.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/1-fundamentals/Topic1.5-The_Simplex_Method.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>1.5 The Simplex Method</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-form">Standard form</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-solutions-and-vertices">Basic solutions and vertices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-simplex-step">The simplex step</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-worked-tableau">A worked tableau</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-against-a-solver">Checking against a solver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#degeneracy">Degeneracy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#the-simplex-method" id="id1">1.5 The Simplex Method</a></p>
+<ul>
+<li><p><a class="reference internal" href="#standard-form" id="id2">Standard form</a></p></li>
+<li><p><a class="reference internal" href="#basic-solutions-and-vertices" id="id3">Basic solutions and vertices</a></p></li>
+<li><p><a class="reference internal" href="#the-simplex-step" id="id4">The simplex step</a></p></li>
+<li><p><a class="reference internal" href="#a-worked-tableau" id="id5">A worked tableau</a></p></li>
+<li><p><a class="reference internal" href="#checking-against-a-solver" id="id6">Checking against a solver</a></p></li>
+<li><p><a class="reference internal" href="#degeneracy" id="id7">Degeneracy</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id8">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id9">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="the-simplex-method">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">1.5 The Simplex Method</a><a class="headerlink" href="#the-simplex-method" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 3, Lesson 3: <em>Simplex Standard Form</em></p></li>
+<li><p>Module 3, Lesson 4: <em>Simplex Method Basics</em></p></li>
+<li><p>Module 3, Lesson 5: <em>Simplex Method Steps</em></p></li>
+</ul>
+<p>The lectures write the standard form as a <em>maximization</em> and call the improvement from bringing a variable into the basis its <em>relative profit</em>. This book minimizes, and uses the equivalent <em>reduced cost</em>, which is the relative profit with its sign flipped. The steps are otherwise the same.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Convert any LP to standard form with slack, surplus and split variables.</p></li>
+<li><p>Define basic and nonbasic variables, basic solutions and basic feasible solutions, and connect basic feasible solutions to the vertices of the feasible region.</p></li>
+<li><p>Carry out a simplex iteration by hand: compute reduced costs, choose an entering variable, apply the ratio test, and pivot.</p></li>
+<li><p>Read a reduced cost as the amount by which an activity is priced out, and recognize a degenerate vertex and what it does to the duals.</p></li>
+</ul>
+</div>
+<p>In Topic 1.4 we saw that if an LP has an optimum, then it always has an optimal vertex. This reduces an infinite search to a finite one, but “finite” can still be enormous, since an LP with 100 variables and 50 constraints can have more than <span class="math notranslate nohighlight">\(10^{29}\)</span> candidate vertices. The <strong>simplex method</strong>, introduced by George Dantzig in 1947, does not try to list all of these. Instead, it starts at one vertex and moves along an edge to a better neighboring vertex, then repeats this until none of the neighbors are better. Since an LP is convex, a vertex with no better neighbor has to be the global optimum.</p>
+<p>In this topic we will build up the method in the same order as the lectures. First we will look at the standard form used by the algorithm, then the algebra for identifying vertices (basic solutions), and then the step from one vertex to the next. After that we will work through one complete example by hand, the fleet dispatch LP of Topic 1.4, and check it against the HiGHS solver. Finally, we will use the water-electrolysis LP to look at degeneracy.</p>
+<section id="standard-form">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Standard form</a><a class="headerlink" href="#standard-form" title="Link to this heading">#</a></h2>
+<p>The simplex method works on one specific form of LP, called the <strong>standard form</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_x \; c^\top x \quad \text{s.t.} \quad A x = b, \quad x \ge 0,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(A\)</span> is an <span class="math notranslate nohighlight">\(m \times n\)</span> matrix of full row rank (i.e. <span class="math notranslate nohighlight">\(m\)</span> independent equations) and <span class="math notranslate nohighlight">\(b \ge 0\)</span>, so there are only equalities and only nonnegative variables. (The lectures use the same form with <span class="math notranslate nohighlight">\(\max\)</span>, but the two are interchangeable, since maximizing <span class="math notranslate nohighlight">\(f\)</span> is the same as minimizing <span class="math notranslate nohighlight">\(-f\)</span>.) We can put any LP in this form with four transformations:</p>
+<ol class="arabic simple">
+<li><p><strong>Maximization.</strong> Replace <span class="math notranslate nohighlight">\(\max c^\top x\)</span> by <span class="math notranslate nohighlight">\(\min (-c)^\top x\)</span>.</p></li>
+<li><p><strong>A <span class="math notranslate nohighlight">\(\le\)</span> inequality.</strong> Add a <strong>slack variable</strong> <span class="math notranslate nohighlight">\(s \ge 0\)</span>: <span class="math notranslate nohighlight">\(a^\top x \le \beta\)</span> becomes <span class="math notranslate nohighlight">\(a^\top x + s = \beta\)</span>. The slack measures how far the constraint is from being tight, and <span class="math notranslate nohighlight">\(s = 0\)</span> means the constraint is active.</p></li>
+<li><p><strong>A <span class="math notranslate nohighlight">\(\ge\)</span> inequality.</strong> Subtract a <strong>surplus variable</strong>: <span class="math notranslate nohighlight">\(a^\top x \ge \beta\)</span> becomes <span class="math notranslate nohighlight">\(a^\top x - s = \beta\)</span>, <span class="math notranslate nohighlight">\(s \ge 0\)</span>.</p></li>
+<li><p><strong>A free variable</strong> (allowed to be negative). Write it as the difference of two nonnegative variables, <span class="math notranslate nohighlight">\(x = x^+ - x^-\)</span>. A variable with a negative lower bound <span class="math notranslate nohighlight">\(x \ge \ell\)</span> can instead be shifted, <span class="math notranslate nohighlight">\(x' = x - \ell \ge 0\)</span>.</p></li>
+</ol>
+<p>If a right-hand side is negative, we can fix it by multiplying its row by <span class="math notranslate nohighlight">\(-1\)</span>.</p>
+<p>The fleet LP of Topic 1.4 has one equality and an upper bound <span class="math notranslate nohighlight">\(x_i \le 1\)</span> on each load. We can give each upper bound a slack <span class="math notranslate nohighlight">\(s_i = 1 - x_i\)</span>, which is the unused capacity of stack <span class="math notranslate nohighlight">\(i\)</span>, and then the standard form has <span class="math notranslate nohighlight">\(n = 6\)</span> variables and <span class="math notranslate nohighlight">\(m = 4\)</span> rows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min \quad &amp; 1.2\, x_A + 1.45\, x_B + 1.7\, x_C \\
+\text{s.t.} \quad &amp; x_A + x_B + x_C = 1.2 &amp;&amp; \text{(demand)} \\
+&amp; x_A + s_A = 1, \quad x_B + s_B = 1, \quad x_C + s_C = 1 &amp;&amp; \text{(capacity)} \\
+&amp; x_A, x_B, x_C, s_A, s_B, s_C \ge 0 .
+\end{aligned}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">linprog</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'x_A'</span><span class="p">,</span> <span class="s1">'x_B'</span><span class="p">,</span> <span class="s1">'x_C'</span><span class="p">,</span> <span class="s1">'s_A'</span><span class="p">,</span> <span class="s1">'s_B'</span><span class="p">,</span> <span class="s1">'s_C'</span><span class="p">]</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">E_LINEAR</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>      <span class="c1"># demand</span>
+              <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>      <span class="c1"># capacity of A</span>
+              <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>      <span class="c1"># capacity of B</span>
+              <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>     <span class="c1"># capacity of C</span>
+             <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="n">std</span> <span class="o">=</span> <span class="n">linprog</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">A_eq</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">b_eq</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">6</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'standard form solution:'</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">std</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">))),</span> <span class="s1">' power'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">std</span><span class="o">.</span><span class="n">fun</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>standard form solution: {'x_A': np.float64(1.0), 'x_B': np.float64(0.2), 'x_C': np.float64(0.0), 's_A': np.float64(0.0), 's_B': np.float64(0.8), 's_C': np.float64(1.0)}  power 1.49
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that the standard form has the same optimum as the original, <span class="math notranslate nohighlight">\(x^* = (1, 0.2, 0)\)</span> with power 1.49. The slacks are also reported: stack A has no spare capacity (<span class="math notranslate nohighlight">\(s_A = 0\)</span>), B has 0.8 and C has 1.</p>
+<div class="exercise admonition" id="ex-t15-standard-form">
+
+<p class="admonition-title"><span class="caption-number">Exercise 19 </span></p>
+<section id="exercise-content">
+<p>Write the water-electrolysis LP of Topic 1.4 with the demand row <span class="math notranslate nohighlight">\(n_{\mathrm{H_2}} \ge D\)</span> in standard form. How many variables and rows does it have? Build <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code> and <code class="docutils literal notranslate"><span class="pre">c</span></code> at <span class="math notranslate nohighlight">\(U = 0\)</span>, <span class="math notranslate nohighlight">\(D = 0.2\)</span>, solve with <code class="docutils literal notranslate"><span class="pre">linprog(...,</span> <span class="pre">A_eq=A,</span> <span class="pre">b_eq=b)</span></code>, and check that the objective matches the one in Topic 1.4.</p>
+</section>
+</div>
+</section>
+<section id="basic-solutions-and-vertices">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Basic solutions and vertices</a><a class="headerlink" href="#basic-solutions-and-vertices" title="Link to this heading">#</a></h2>
+<p>A system <span class="math notranslate nohighlight">\(Ax = b\)</span> with <span class="math notranslate nohighlight">\(m\)</span> equations and <span class="math notranslate nohighlight">\(n &gt; m\)</span> unknowns has infinitely many solutions. One way to pick out particular solutions is to choose <span class="math notranslate nohighlight">\(m\)</span> of the variables (called the <strong>basic variables</strong>) and set the other <span class="math notranslate nohighlight">\(n - m\)</span> variables (the <strong>nonbasic variables</strong>) to zero. If the columns of <span class="math notranslate nohighlight">\(A\)</span> for the basic variables form an invertible matrix <span class="math notranslate nohighlight">\(B\)</span>, which we call the <strong>basis</strong>, then we can solve <span class="math notranslate nohighlight">\(B x_B = b\)</span> for the basic variables. The result is called a <strong>basic solution</strong>.</p>
+<p>The lectures get to the same point using Gauss–Jordan elimination, where elementary row operations bring the system to <strong>canonical form</strong>. In canonical form each basic variable appears in exactly one equation with coefficient 1, and does not appear in any other equation. This makes it easy to read off a basic solution: if we set the nonbasic variables to zero, each basic variable equals the right-hand side of its row. A <strong>pivot</strong> is the set of row operations needed to make one variable basic in a chosen row (with coefficient 1 in that row and 0 in all others), so each pivot swaps one variable into the basis and one variable out.</p>
+<p>A basic solution is called a <strong>basic feasible solution</strong> (BFS) if all of its basic variables are also nonnegative. The key fact connecting the algebra to the picture of Topic 1.4 is: <strong>the basic feasible solutions are exactly the vertices of the feasible region.</strong> Setting <span class="math notranslate nohighlight">\(n - m\)</span> variables to zero makes <span class="math notranslate nohighlight">\(n - m\)</span> of the bounds <span class="math notranslate nohighlight">\(x_j \ge 0\)</span> active, and together with the <span class="math notranslate nohighlight">\(m\)</span> equations this pins down a single point, i.e. a corner.</p>
+<p>If we put this together with the vertex argument of Topic 1.4, we get the result the whole method rests on, which is often called the <strong>fundamental theorem of linear programming</strong>. For an LP in standard form:</p>
+<ul class="simple">
+<li><p>if the LP has a feasible solution, it has a basic feasible solution;</p></li>
+<li><p>if the LP has an optimal solution, at least one basic feasible solution is optimal.</p></li>
+</ul>
+<p>This means we can restrict the search for an optimum to the basic feasible solutions, which are a finite set.</p>
+<p>George Dantzig came up with this approach in 1947, while working on planning and logistics problems for the US Air Force after World War II. The word “programming” in “linear programming” was the word used at the time for planning a schedule of activities, and has nothing to do with computer code. With modern implementations, the simplex method can solve problems with millions of variables in seconds. However, it is still worth understanding the steps, since they explain what solvers report: bases, reduced costs and duals.</p>
+<p>There are at most <span class="math notranslate nohighlight">\(\binom{n}{m}\)</span> ways to choose the basic variables, which means there are at most that many basic solutions. For the fleet LP this is <span class="math notranslate nohighlight">\(\binom{6}{4} = 15\)</span>, which is small enough to list every one of them:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">basic_solution</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">cols</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">B</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1e-12</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>                                     <span class="c1"># columns dependent: not a basis</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">cols</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">n_bfs</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">cols</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="mi">4</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">basic_solution</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"basis </span><span class="se">{{</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="se">}}</span><span class="s2">: singular"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1e-12</span><span class="p">):</span>
+        <span class="n">n_bfs</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"basis </span><span class="se">{{</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="se">}}</span><span class="s2">: feasible, loads </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">, power </span><span class="si">{</span><span class="n">c</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">x</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"basis </span><span class="se">{{</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="se">}}</span><span class="s2">: infeasible, loads </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n_bfs</span><span class="si">}</span><span class="s2"> basic feasible solutions"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>basis {x_A, x_B, x_C, s_A}: infeasible, loads [-0.8  1.   1. ]
+basis {x_A, x_B, x_C, s_B}: infeasible, loads [ 1.  -0.8  1. ]
+basis {x_A, x_B, x_C, s_C}: infeasible, loads [ 1.   1.  -0.8]
+basis {x_A, x_B, s_A, s_B}: singular
+basis {x_A, x_B, s_A, s_C}: feasible, loads [0.2 1.  0. ], power 1.69
+basis {x_A, x_B, s_B, s_C}: feasible, loads [1.  0.2 0. ], power 1.49
+basis {x_A, x_C, s_A, s_B}: feasible, loads [0.2 0.  1. ], power 1.94
+basis {x_A, x_C, s_A, s_C}: singular
+basis {x_A, x_C, s_B, s_C}: feasible, loads [1.  0.  0.2], power 1.54
+basis {x_A, s_A, s_B, s_C}: infeasible, loads [1.2 0.  0. ]
+basis {x_B, x_C, s_A, s_B}: feasible, loads [0.  0.2 1. ], power 1.99
+basis {x_B, x_C, s_A, s_C}: feasible, loads [0.  1.  0.2], power 1.79
+basis {x_B, x_C, s_B, s_C}: singular
+basis {x_B, s_A, s_B, s_C}: infeasible, loads [0.  1.2 0. ]
+basis {x_C, s_A, s_B, s_C}: infeasible, loads [0.  0.  1.2]
+6 basic feasible solutions
+</pre></div>
+</div>
+</div>
+</div>
+<p>Of the 15 choices, 3 are singular, 6 give negative values and are infeasible, and the remaining <strong>6 are basic feasible solutions, the six corners of the hexagon</strong> drawn in Topic 1.4, with the same six power values. The singular choices leave out both <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(s_i\)</span> for some stack, so there is no basic variable left to satisfy the capacity row for that stack.</p>
+<p>Listing every basis works fine for 6 variables, but this approach breaks down quickly for larger problems. For example, a plant LP with 1,000 variables and 500 rows would have about <span class="math notranslate nohighlight">\(10^{299}\)</span> candidate bases.</p>
+<div class="exercise admonition" id="ex-t15-bases">
+
+<p class="admonition-title"><span class="caption-number">Exercise 20 </span></p>
+<section id="exercise-content">
+<p>Change the demand to <span class="math notranslate nohighlight">\(D = 2.0\)</span> and rerun the enumeration. How many basic feasible solutions are there now? Some of them have a basic variable equal to zero. Find one, and check that two different bases give the same point. (We return to this in the section on degeneracy.)</p>
+</section>
+</div>
+</section>
+<section id="the-simplex-step">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">The simplex step</a><a class="headerlink" href="#the-simplex-step" title="Link to this heading">#</a></h2>
+<p>Dantzig realized we do not actually need to look at all of the vertices. If we start from one BFS, we only need to look at its <strong>neighbors</strong> (i.e. the BFSs whose basis differs by a single variable), and then move to one of the neighbors with a lower objective. Each of these moves is one pivot, and the method has four steps:</p>
+<ol class="arabic simple">
+<li><p>Find an initial basic feasible solution.</p></li>
+<li><p>Check whether any neighbor is better. If none is, stop: the current BFS is optimal.</p></li>
+<li><p>Otherwise, choose a neighbor that improves the objective, and pivot to it.</p></li>
+<li><p>Repeat from step 2.</p></li>
+</ol>
+<p>So which neighbor improves the objective, and by how much? Let’s suppose we raise a nonbasic variable <span class="math notranslate nohighlight">\(x_j\)</span> from zero by a small amount <span class="math notranslate nohighlight">\(t\)</span>. In order to keep <span class="math notranslate nohighlight">\(Ax = b\)</span>, the basic variables have to change by <span class="math notranslate nohighlight">\(-t\, B^{-1} A_j\)</span> (here <span class="math notranslate nohighlight">\(A_j\)</span> is column <span class="math notranslate nohighlight">\(j\)</span> of <span class="math notranslate nohighlight">\(A\)</span>), and the objective changes at the rate</p>
+<div class="math notranslate nohighlight">
+\[
+r_j = c_j - y^\top A_j, \qquad y^\top = c_B^\top B^{-1} .
+\]</div>
+<p>The number <span class="math notranslate nohighlight">\(r_j\)</span> is called the <strong>reduced cost</strong> of <span class="math notranslate nohighlight">\(x_j\)</span>. It is the direct cost of one unit of <span class="math notranslate nohighlight">\(x_j\)</span> (<span class="math notranslate nohighlight">\(c_j\)</span>), minus the savings we get by displacing the basic variables (<span class="math notranslate nohighlight">\(y^\top A_j\)</span>). In canonical form we can write <span class="math notranslate nohighlight">\(y^\top A_j = \sum_i c_{B_i} \bar a_{ij}\)</span>, with <span class="math notranslate nohighlight">\(\bar a_{ij}\)</span> being the entries of column <span class="math notranslate nohighlight">\(j\)</span> in the current tableau, so this term is the cost of the basic variables displaced by one unit of <span class="math notranslate nohighlight">\(x_j\)</span>. The objective at the current BFS is <span class="math notranslate nohighlight">\(z = \sum_i c_{B_i} \bar b_i\)</span>, i.e. the costs of the basic variables times their values. The lectures derive the same expression, <span class="math notranslate nohighlight">\(c_s - \sum_i c_i \bar a_{is}\)</span>, as the relative profit of bringing <span class="math notranslate nohighlight">\(x_s\)</span> into the basis. The vector <span class="math notranslate nohighlight">\(y\)</span> holds one number per constraint, and you can think of it as the value the current basis places on the right-hand side of each row. These are the same duals we saw reported by a solver in Topic 1.4.</p>
+<p>The reduced cost has a direct interpretation: if it is positive, the activity costs more than the value of what it would replace, so at the current prices it is <strong>priced out</strong>, whereas if it is negative, the activity would pay for itself and more, so bringing it into the basis lowers the objective. The <em>relative profit</em> used in the lectures is the same quantity seen from a maximization, which is <span class="math notranslate nohighlight">\(-r_j\)</span>.</p>
+<p>Using the reduced costs, the four steps of the method become precise:</p>
+<ul class="simple">
+<li><p><strong>Optimality test.</strong> If <span class="math notranslate nohighlight">\(r_j \ge 0\)</span> for every nonbasic <span class="math notranslate nohighlight">\(j\)</span>, no neighbor is better, and the current BFS is optimal. Because an LP is convex, this local test certifies a global optimum.</p></li>
+<li><p><strong>Entering variable.</strong> Otherwise, pick a nonbasic variable with <span class="math notranslate nohighlight">\(r_j &lt; 0\)</span>. <strong>Dantzig’s rule</strong> takes the most negative one.</p></li>
+<li><p><strong>Ratio test.</strong> Raise the entering variable until the first basic variable reaches zero. With <span class="math notranslate nohighlight">\(d = B^{-1} A_j\)</span>, basic variable <span class="math notranslate nohighlight">\(i\)</span> reaches zero at <span class="math notranslate nohighlight">\(t_i = (x_B)_i / d_i\)</span> for each <span class="math notranslate nohighlight">\(d_i &gt; 0\)</span>. The smallest ratio wins, and that variable <strong>leaves</strong> the basis. If no <span class="math notranslate nohighlight">\(d_i\)</span> is positive, the entering variable can grow forever while the objective falls: the LP is <strong>unbounded</strong>.</p></li>
+<li><p><strong>Pivot.</strong> Swap the entering and leaving variables, and update the canonical form by Gauss–Jordan elimination.</p></li>
+</ul>
+<div class="exercise admonition" id="ex-t15-reduced-cost">
+
+<p class="admonition-title"><span class="caption-number">Exercise 21 </span></p>
+<section id="exercise-content">
+<p>At the vertex where stacks B and C are on, <span class="math notranslate nohighlight">\(x = (0, 1, 0.2)\)</span> with basis <span class="math notranslate nohighlight">\(\{x_B, x_C, s_A, s_C\}\)</span>, compute <span class="math notranslate nohighlight">\(y\)</span> and the reduced costs of <span class="math notranslate nohighlight">\(x_A\)</span> and <span class="math notranslate nohighlight">\(s_B\)</span> with NumPy. Interpret each reduced cost in words: what happens to the total power if that variable is increased by one small unit?</p>
+</section>
+</div>
+</section>
+<section id="a-worked-tableau">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">A worked tableau</a><a class="headerlink" href="#a-worked-tableau" title="Link to this heading">#</a></h2>
+<p>Let’s run the method by hand on the fleet LP using a <strong>tableau</strong>, which is the canonical form written as a table with one row per constraint, where each row lists the basic variable of that row on the left and its current value on the right, plus a bottom row holding the reduced costs and the (negated) objective value. The code below does the same row operations that would be done on paper.</p>
+<p>To get started the simplex method needs an initial BFS, and finding one is a problem in itself, which is usually solved by a preliminary <em>phase I</em> LP minimizing the sum of artificial variables. In this case we will skip phase I and start from a known feasible vertex with stack C at full load and B covering the remaining 0.2, which is the most expensive way to meet the demand and has the basis <span class="math notranslate nohighlight">\(\{x_B, x_C, s_A, s_B\}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_tableau</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">basis</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Canonical form for the given basis: rows B^-1 [A | b]; last row [reduced costs | -objective]."""</span>
+    <span class="n">Binv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span> <span class="n">basis</span><span class="p">])</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">Binv</span> <span class="o">@</span> <span class="n">A</span><span class="p">,</span> <span class="p">(</span><span class="n">Binv</span> <span class="o">@</span> <span class="n">b</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]])</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="n">basis</span><span class="p">]</span> <span class="o">@</span> <span class="n">T</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">T</span><span class="p">,</span> <span class="n">cost</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'        '</span> <span class="o">+</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s1">&gt;8s</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'     rhs'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">basis</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s1">&gt;6s</span><span class="si">}</span><span class="s1">  '</span> <span class="o">+</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s1">8.2f</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">T</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">T</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">8.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'  r_j   '</span> <span class="o">+</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s1">8.2f</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">T</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">'   z = </span><span class="si">{</span><span class="o">-</span><span class="n">T</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pivot</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">T</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="o">/=</span> <span class="n">T</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">row</span><span class="p">:</span>
+            <span class="n">T</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">T</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span> <span class="o">*</span> <span class="n">T</span><span class="p">[</span><span class="n">row</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">T</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simplex</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Tableau simplex with Dantzig's rule (ties broken by lowest index). Returns tableau, basis, path."""</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">make_tableau</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">basis</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span> <span class="n">x</span><span class="p">[</span><span class="n">basis</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">];</span> <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="n">show</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">r</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1e-12</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">'all reduced costs &gt;= 0: optimal</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">T</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">path</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>                                    <span class="c1"># entering variable</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">T</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="n">ratios</span> <span class="o">=</span> <span class="p">[(</span><span class="n">T</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">basis</span><span class="p">))</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1e-12</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ratios</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">}</span><span class="s1"> can grow without limit: unbounded'</span><span class="p">);</span> <span class="k">return</span> <span class="n">T</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">path</span>
+        <span class="n">t</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ratios</span><span class="p">)</span>                                       <span class="c1"># ratio test</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'enter </span><span class="si">{</span><span class="n">names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">}</span><span class="s1"> (r = </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">); ratio test: '</span>
+                  <span class="o">+</span> <span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">names</span><span class="p">[</span><span class="n">basis</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">T</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ratios</span><span class="p">)</span>
+                  <span class="o">+</span> <span class="sa">f</span><span class="s1">' -&gt; leave </span><span class="si">{</span><span class="n">names</span><span class="p">[</span><span class="n">basis</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="si">}</span><span class="s1">, step </span><span class="si">{</span><span class="n">t</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">pivot</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+        <span class="n">basis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>                                             <span class="c1"># basis {x_B, x_C, s_A, s_B}</span>
+<span class="n">T_opt</span><span class="p">,</span> <span class="n">basis_opt</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">simplex</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>             x_A     x_B     x_C     s_A     s_B     s_C     rhs
+   x_B      1.00    1.00    0.00    0.00    0.00   -1.00    0.20
+   x_C      0.00    0.00    1.00    0.00    0.00    1.00    1.00
+   s_A      1.00    0.00    0.00    1.00    0.00    0.00    1.00
+   s_B     -1.00    0.00    0.00    0.00    1.00    1.00    0.80
+  r_j      -0.25    0.00    0.00    0.00    0.00   -0.25   z = 1.99
+enter x_A (r = -0.25); ratio test: x_B 0.20, s_A 1.00 -&gt; leave x_B, step 0.20
+
+             x_A     x_B     x_C     s_A     s_B     s_C     rhs
+   x_A      1.00    1.00    0.00    0.00    0.00   -1.00    0.20
+   x_C      0.00    0.00    1.00    0.00    0.00    1.00    1.00
+   s_A      0.00   -1.00    0.00    1.00    0.00    1.00    0.80
+   s_B      0.00    1.00    0.00    0.00    1.00    0.00    1.00
+  r_j       0.00    0.25    0.00    0.00    0.00   -0.50   z = 1.94
+enter s_C (r = -0.50); ratio test: x_C 1.00, s_A 0.80 -&gt; leave s_A, step 0.80
+
+             x_A     x_B     x_C     s_A     s_B     s_C     rhs
+   x_A      1.00    0.00    0.00    1.00    0.00    0.00    1.00
+   x_C      0.00    1.00    1.00   -1.00    0.00    0.00    0.20
+   s_C      0.00   -1.00    0.00    1.00    0.00    1.00    0.80
+   s_B      0.00    1.00    0.00    0.00    1.00    0.00    1.00
+  r_j       0.00   -0.25    0.00    0.50    0.00    0.00   z = 1.54
+enter x_B (r = -0.25); ratio test: x_C 0.20, s_B 1.00 -&gt; leave x_C, step 0.20
+
+             x_A     x_B     x_C     s_A     s_B     s_C     rhs
+   x_A      1.00    0.00    0.00    1.00    0.00    0.00    1.00
+   x_B      0.00    1.00    1.00   -1.00    0.00    0.00    0.20
+   s_C      0.00    0.00    1.00    0.00    0.00    1.00    1.00
+   s_B      0.00    0.00   -1.00    1.00    1.00    0.00    0.80
+  r_j       0.00    0.00    0.25    0.25    0.00    0.00   z = 1.49
+all reduced costs &gt;= 0: optimal
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can read each iteration directly in terms of the fleet.</p>
+<p><strong>Start: power 1.99.</strong> Stack C is full and B is the marginal stack. The bottom row has two negative entries, <span class="math notranslate nohighlight">\(r = -0.25\)</span> for <span class="math notranslate nohighlight">\(x_A\)</span> and <span class="math notranslate nohighlight">\(-0.25\)</span> for <span class="math notranslate nohighlight">\(s_C\)</span>. Loading A displaces B, saving <span class="math notranslate nohighlight">\(1.45 - 1.2 = 0.25\)</span> per unit. Raising <span class="math notranslate nohighlight">\(s_C\)</span> (unloading C) shifts load to B, saving <span class="math notranslate nohighlight">\(1.7 - 1.45 = 0.25\)</span>. Both are improving moves, and the tie is broken by taking the first, <span class="math notranslate nohighlight">\(x_A\)</span>. The ratio test asks how far A can rise before something hits a bound: B reaches zero after 0.2, and A’s slack after 1, so the smaller ratio wins and <span class="math notranslate nohighlight">\(x_B\)</span> leaves.</p>
+<p><strong>Second vertex: power 1.94.</strong> Now A carries 0.2 and is the marginal stack, C is still full, and B is off. B’s reduced cost is <span class="math notranslate nohighlight">\(+0.25\)</span>, because at the new marginal price of 1.2, B is priced out. Unloading C, however, now saves <span class="math notranslate nohighlight">\(1.7 - 1.2 = 0.5\)</span> per unit, so <span class="math notranslate nohighlight">\(s_C\)</span> enters. A can absorb 0.8 more before reaching its capacity, which is the binding ratio, and <span class="math notranslate nohighlight">\(s_A\)</span> leaves.</p>
+<p><strong>Third vertex: power 1.54.</strong> A is full, C carries the remaining 0.2 and is marginal. B, at 1.45, is cheaper than the marginal stack C at 1.7, so <span class="math notranslate nohighlight">\(x_B\)</span> enters with <span class="math notranslate nohighlight">\(r = -0.25\)</span>, and C is unloaded to zero after 0.2.</p>
+<p><strong>Optimum: power 1.49.</strong> Every reduced cost is now nonnegative, and the positive ones tell us how far each idle activity is priced out. Stack C is priced out by 0.25, and unused capacity on A (<span class="math notranslate nohighlight">\(s_A\)</span>) is also priced out by 0.25, since giving up one unit of A’s capacity would force that load onto B at a cost of 0.25. This is the capacity rent of Topic 1.4, seen from the side of the slack variable.</p>
+<p>The method visited four of the six vertices, in the order <span class="math notranslate nohighlight">\((0, 0.2) \to (0.2, 0) \to (1, 0) \to (1, 0.2)\)</span> in the <span class="math notranslate nohighlight">\((x_A, x_B)\)</span> plane, and each step lowered the power. We can draw this walk around the hexagon of Topic 1.4:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]])</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">4.6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">V</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">V</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">V</span><span class="p">,</span> <span class="n">V</span><span class="p">[:</span><span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">'C0-'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="n">P</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">xytext</span><span class="o">=</span><span class="n">P</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">'-&gt;'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C3'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">path</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C3'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.04</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">c</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">x</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'$x_A$ (fraction of 200 kg/h)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'$x_B$ (fraction of 200 kg/h)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Simplex path, labeled iteration: power'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<img alt="../_images/8145d91973ce2b13bb885dab6f00dfc4d442001dfad40c081bc2485c668987d5.png" src="../_images/8145d91973ce2b13bb885dab6f00dfc4d442001dfad40c081bc2485c668987d5.png" />
+</div>
+</div>
+<p>The bottom row of the final tableau is not the only place where we can find prices. The vector <span class="math notranslate nohighlight">\(y = c_B^\top B^{-1}\)</span> for the final basis holds one number per row:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">basis_opt</span><span class="p">]</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span> <span class="n">basis_opt</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'row prices y (demand, cap A, cap B, cap C):'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'reduced costs:'</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">T_opt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">))))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>row prices y (demand, cap A, cap B, cap C): [ 1.45 -0.25  0.    0.  ]
+reduced costs: {'x_A': np.float64(0.0), 'x_B': np.float64(0.0), 'x_C': np.float64(0.25), 's_A': np.float64(0.25), 's_B': np.float64(0.0), 's_C': np.float64(0.0)}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The price on the demand row is 1.45, which is the hydrogen price of Topic 1.4, and the capacity row of A carries <span class="math notranslate nohighlight">\(-0.25\)</span>, which is the capacity rent (negative because more capacity on that row <em>lowers</em> the cost). These are the duals, now seen as a by-product of the final basis.</p>
+<div class="exercise admonition" id="ex-t15-tableau">
+
+<p class="admonition-title"><span class="caption-number">Exercise 22 </span></p>
+<section id="exercise-content">
+<p>Start the tableau from the other expensive vertex, basis <span class="math notranslate nohighlight">\(\{x_B, x_C, s_A, s_C\}\)</span> (B full, C at 0.2, power 1.79). How many pivots does Dantzig’s rule need now, and which vertices does it visit? Then change the entering rule to <em>Bland’s rule</em> (enter the lowest-index variable with a negative reduced cost) and compare the path from both starting points.</p>
+</section>
+</div>
+</section>
+<section id="checking-against-a-solver">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Checking against a solver</a><a class="headerlink" href="#checking-against-a-solver" title="Link to this heading">#</a></h2>
+<p>Our tableau code is a teaching tool. Production solvers use the <strong>revised simplex method</strong>, which keeps a factorization of <span class="math notranslate nohighlight">\(B\)</span> instead of the whole tableau, treats simple bounds such as <span class="math notranslate nohighlight">\(x_i \le 1\)</span> directly instead of adding slack rows, and usually runs the <strong>dual simplex</strong> variant, which keeps the reduced costs nonnegative and works toward feasibility. HiGHS, which we use through Pyomo and <code class="docutils literal notranslate"><span class="pre">scipy.optimize.linprog</span></code>, is a solver of this kind. Let’s check that it agrees with the hand calculation, and see how many iterations it needs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hs</span> <span class="o">=</span> <span class="n">linprog</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">A_eq</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">b_eq</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">6</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'highs-ds'</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'presolve'</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'HiGHS dual simplex on the standard form:'</span><span class="p">,</span> <span class="n">hs</span><span class="o">.</span><span class="n">nit</span><span class="p">,</span> <span class="s1">'iterations'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'  x       '</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">'   ours:'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'  y       '</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">eqlin</span><span class="o">.</span><span class="n">marginals</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">'   ours:'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'  r       '</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">lower</span><span class="o">.</span><span class="n">marginals</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">'   ours:'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">T_opt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'  nonzero '</span><span class="p">,</span> <span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="k">if</span> <span class="n">hs</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1e-9</span><span class="p">],</span>
+      <span class="s1">'   our final basis:'</span><span class="p">,</span> <span class="nb">sorted</span><span class="p">((</span><span class="n">names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">basis_opt</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
+
+<span class="n">bnd</span> <span class="o">=</span> <span class="n">linprog</span><span class="p">(</span><span class="n">c</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">A_eq</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)],</span> <span class="n">b_eq</span><span class="o">=</span><span class="p">[</span><span class="mf">1.2</span><span class="p">],</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'highs-ds'</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'presolve'</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'HiGHS with the bounds handled directly:'</span><span class="p">,</span> <span class="n">bnd</span><span class="o">.</span><span class="n">nit</span><span class="p">,</span> <span class="s1">'iteration(s), power'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">bnd</span><span class="o">.</span><span class="n">fun</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'random LPs  min c.x  s.t.  A x &gt;= b, x &gt;= 0 (A, b, c positive):'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">800</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span>
+    <span class="n">Ar</span><span class="p">,</span> <span class="n">br</span><span class="p">,</span> <span class="n">cr</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">)),</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">rr</span> <span class="o">=</span> <span class="n">linprog</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">A_ub</span><span class="o">=-</span><span class="n">Ar</span><span class="p">,</span> <span class="n">b_ub</span><span class="o">=-</span><span class="n">br</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'highs-ds'</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'presolve'</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+    <span class="n">ri</span> <span class="o">=</span> <span class="n">linprog</span><span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">A_ub</span><span class="o">=-</span><span class="n">Ar</span><span class="p">,</span> <span class="n">b_ub</span><span class="o">=-</span><span class="n">br</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'highs-ipm'</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'presolve'</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'   </span><span class="si">{</span><span class="n">m</span><span class="si">:</span><span class="s1">4d</span><span class="si">}</span><span class="s1"> rows, </span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s1">5d</span><span class="si">}</span><span class="s1"> columns: simplex </span><span class="si">{</span><span class="n">rr</span><span class="o">.</span><span class="n">nit</span><span class="si">:</span><span class="s1">4d</span><span class="si">}</span><span class="s1"> iterations, interior point </span><span class="si">{</span><span class="n">ri</span><span class="o">.</span><span class="n">nit</span><span class="si">:</span><span class="s1">3d</span><span class="si">}</span><span class="s1">, '</span>
+          <span class="sa">f</span><span class="s1">'same objective: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">fun</span><span class="p">,</span><span class="w"> </span><span class="n">ri</span><span class="o">.</span><span class="n">fun</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HiGHS dual simplex on the standard form: 4 iterations
+  x        [1.  0.2 0.  0.  0.8 1. ]    ours: [1.  0.2 0.  0.  0.8 1. ]
+  y        [ 1.45 -0.25 -0.   -0.  ]    ours: [ 1.45 -0.25  0.    0.  ]
+  r        [0.   0.   0.25 0.25 0.   0.  ]    ours: [0.   0.   0.25 0.25 0.   0.  ]
+  nonzero  ['x_A', 'x_B', 's_B', 's_C']    our final basis: ['x_A', 'x_B', 's_B', 's_C']
+HiGHS with the bounds handled directly: 1 iteration(s), power 1.49
+random LPs  min c.x  s.t.  A x &gt;= b, x &gt;= 0 (A, b, c positive):
+     10 rows,    20 columns: simplex    8 iterations, interior point   9, same objective: True
+     50 rows,   100 columns: simplex   35 iterations, interior point  12, same objective: True
+    200 rows,   400 columns: simplex  111 iterations, interior point  15, same objective: True
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    800 rows,  1600 columns: simplex  401 iterations, interior point  20, same objective: True
+</pre></div>
+</div>
+</div>
+</div>
+<p>HiGHS reaches the same vertex, the same row prices and the same reduced costs, and the variables it leaves nonzero are exactly the four basic variables of our final tableau (the optimum is not degenerate, so the basis is the set of nonzero variables). It takes 4 iterations on the standard form, and a single one when the capacity bounds are handled as bounds rather than as rows. On the random LPs, the simplex iteration count grows roughly in proportion to the number of rows: 8, 35, 111 and 401 iterations for 10 to 800 rows, while the number of candidate bases grows beyond anything countable.</p>
+<p>This is the practical case for the simplex method. In the worst case it can visit an exponential number of vertices (Klee and Minty built LPs to force this in 1972), but in practice it usually only needs a small multiple of <span class="math notranslate nohighlight">\(m\)</span> pivots. It also ends at a vertex with an explicit basis, which gives us the duals and makes it fast to re-solve after a small change (a “warm start”). Branch-and-bound (Topic 2.5) re-solves thousands of slightly changed LPs, so it relies heavily on warm starts.</p>
+<p>The last column of the output shows the main alternative, the <strong>interior-point method</strong>. An interior-point method does not walk along the boundary at all. Instead, it replaces the bounds <span class="math notranslate nohighlight">\(x \ge 0\)</span> by a <strong>logarithmic barrier</strong> and minimizes <span class="math notranslate nohighlight">\(c^\top x - \mu \sum_j \ln x_j\)</span> subject to <span class="math notranslate nohighlight">\(Ax = b\)</span>. The barrier is infinite on the boundary, so it keeps every iterate strictly inside the feasible region. Each value of the barrier weight <span class="math notranslate nohighlight">\(\mu\)</span> has its own minimizer, and as <span class="math notranslate nohighlight">\(\mu\)</span> is driven toward zero these minimizers trace out a smooth curve through the interior, called the <strong>central path</strong>, which ends at an optimal vertex. Each iteration is a Newton step, which is more expensive than a pivot, but the number of iterations grows slowly with problem size: on the random LPs it goes from 9 to 20, while the simplex count goes from 8 to 401. Interior-point methods also have polynomial worst-case bounds. HiGHS offers both (<code class="docutils literal notranslate"><span class="pre">method='highs-ipm'</span></code> in <code class="docutils literal notranslate"><span class="pre">linprog</span></code>), and the interior-point method is usually followed by a <em>crossover</em> step to move the interior solution to a vertex and recover a basis. The same barrier idea applied to nonlinear problems is the method inside Ipopt, which we have been using for NLPs since Topic 1.3.</p>
+<div class="exercise admonition" id="ex-t15-solver-trace">
+
+<p class="admonition-title"><span class="caption-number">Exercise 23 </span></p>
+<section id="exercise-content">
+<p>Build the fleet LP with <span class="math notranslate nohighlight">\(N = 30\)</span> stacks with specific energies spread evenly from 1.1 to 1.8, each of capacity 1, and demand <span class="math notranslate nohighlight">\(D = 12.5\)</span>. Solve it in standard form (slack rows for the capacities) with your tableau code, starting from a feasible basis of your choice, and with HiGHS. Compare the number of pivots, and check that both report the same demand price. Which stack is marginal?</p>
+</section>
+</div>
+</section>
+<section id="degeneracy">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Degeneracy</a><a class="headerlink" href="#degeneracy" title="Link to this heading">#</a></h2>
+<p>The simplex step assumed the ratio test gives a positive step, but this fails at a <strong>degenerate</strong> vertex, i.e. one where some basic variable is zero. A degenerate vertex has more active constraints than are needed to pin it down, so it can be described by several different bases. The water-electrolysis LP of Topic 1.2 has a vertex like this, so let’s work it out.</p>
+<p>The LP has four variables <span class="math notranslate nohighlight">\((n_{\mathrm{H_2O}}, n_{\mathrm{H_2}}, n_{\mathrm{O_2}}, q)\)</span> and three balances (H, O, charge), so every basis has three basic variables. Its feasible region is a segment with two vertices, “all water”, <span class="math notranslate nohighlight">\((1, 0, 0, 0)\)</span>, and “all split”, <span class="math notranslate nohighlight">\((0, 1, 0.5, 2)\)</span>. At “all water” only one variable is nonzero, so the other two basic variables must be zero, and they can be any two of the remaining three: three different bases describe the same point. We run the tableau simplex from each, at <span class="math notranslate nohighlight">\(U = E^0 + 0.05\)</span> V, with energies in kJ.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">F</span><span class="p">,</span> <span class="n">DG0</span><span class="p">,</span> <span class="n">E0</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">F_CONST</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">DG0</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">E0</span>
+<span class="n">kn</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'n_H2O'</span><span class="p">,</span> <span class="s1">'n_H2'</span><span class="p">,</span> <span class="s1">'n_O2'</span><span class="p">,</span> <span class="s1">'q'</span><span class="p">]</span>
+<span class="n">Ak</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">bk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kernel_cost</span><span class="p">(</span><span class="n">U</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">DG0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="n">U</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1e3</span>            <span class="c1"># kJ</span>
+
+<span class="n">U</span> <span class="o">=</span> <span class="n">E0</span> <span class="o">+</span> <span class="mf">0.05</span>
+<span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]):</span>
+    <span class="n">T0</span> <span class="o">=</span> <span class="n">make_tableau</span><span class="p">(</span><span class="n">Ak</span><span class="p">,</span> <span class="n">bk</span><span class="p">,</span> <span class="n">kernel_cost</span><span class="p">(</span><span class="n">U</span><span class="p">),</span> <span class="n">start</span><span class="p">)</span>
+    <span class="n">yk</span> <span class="o">=</span> <span class="n">kernel_cost</span><span class="p">(</span><span class="n">U</span><span class="p">)[</span><span class="n">start</span><span class="p">]</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Ak</span><span class="p">[:,</span> <span class="n">start</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"basis </span><span class="se">{{</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kn</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">start</span><span class="p">)</span><span class="si">}</span><span class="se">}}</span><span class="s2"> at all-water: prices y (H, O, charge) = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">yk</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> kJ/mol, "</span>
+          <span class="sa">f</span><span class="s2">"reduced costs </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">T0</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">T_k</span><span class="p">,</span> <span class="n">basis_k</span><span class="p">,</span> <span class="n">path_k</span> <span class="o">=</span> <span class="n">simplex</span><span class="p">(</span><span class="n">Ak</span><span class="p">,</span> <span class="n">bk</span><span class="p">,</span> <span class="n">kernel_cost</span><span class="p">(</span><span class="n">U</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">kn</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"-F U = </span><span class="si">{</span><span class="o">-</span><span class="n">F</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">U</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kJ/mol"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>basis {n_H2O, n_H2, n_O2} at all-water: prices y (H, O, charge) = [-118.56    0.   -118.56] kJ/mol, reduced costs [ 0.    0.    0.   -4.82]
+basis {n_H2O, n_O2, q} at all-water: prices y (H, O, charge) = [-118.56    0.   -123.39] kJ/mol, reduced costs [ 0.   -9.65  0.    0.  ]
+basis {n_H2O, n_H2, q} at all-water: prices y (H, O, charge) = [-123.39    9.65 -123.39] kJ/mol, reduced costs [  0.    0.  -19.3   0. ]
+
+           n_H2O    n_H2    n_O2       q     rhs
+ n_H2O      1.00    0.00    0.00    0.50    1.00
+  n_H2      0.00    1.00    0.00   -0.50    0.00
+  n_O2      0.00    0.00    1.00   -0.25    0.00
+  r_j       0.00    0.00    0.00   -4.82   z = -237.13
+enter q (r = -4.82); ratio test: n_H2O 2.00 -&gt; leave n_H2O, step 2.00
+
+           n_H2O    n_H2    n_O2       q     rhs
+     q      2.00    0.00    0.00    1.00    2.00
+  n_H2      1.00    1.00    0.00    0.00    1.00
+  n_O2      0.50    0.00    1.00    0.00    0.50
+  r_j       9.65    0.00    0.00    0.00   z = -246.78
+all reduced costs &gt;= 0: optimal
+
+-F U = -123.39 kJ/mol
+</pre></div>
+</div>
+</div>
+</div>
+<p>The three bases describe the same point, all water, with three different price vectors and three different sets of reduced costs. Each says that something can be improved by splitting water, but each attributes the improvement to a different variable (the charge <span class="math notranslate nohighlight">\(q\)</span>, the hydrogen <span class="math notranslate nohighlight">\(n_{\mathrm{H_2}}\)</span>, or the oxygen <span class="math notranslate nohighlight">\(n_{\mathrm{O_2}}\)</span>). This is why the duals of a degenerate vertex are <strong>not unique</strong>: a solver reports the prices of whichever basis it happened to stop on, and another solver, or the same one after a small change, may report different ones. Topic 1.4’s exercise on the charge balance runs into exactly this. Duality theory, in <a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html"><span class="doc">2.3 Duality</span></a>, describes the whole set of valid prices.</p>
+<p>From any of the three bases, one pivot reaches “all split”, where the bottom row is nonnegative and the row prices are unique since the vertex is not degenerate. The price of the charge balance at this vertex is <span class="math notranslate nohighlight">\(-123.39\)</span> kJ/mol, which is <span class="math notranslate nohighlight">\(-FU\)</span>, and the reduced cost of water is <span class="math notranslate nohighlight">\(+9.65\)</span> kJ/mol, which tells us that at this voltage keeping a mole of water unsplit is priced out, since it would forgo <span class="math notranslate nohighlight">\(2FU - \Delta G^0 = 2F \times 0.05\)</span> V.</p>
+<p>At exactly <span class="math notranslate nohighlight">\(U = E^0\)</span> the LP is degenerate in a second way: the objective is flat along the whole segment, so every reduced cost at the optimum is zero and every point of the segment (not only the two vertices) is optimal:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T_rev</span> <span class="o">=</span> <span class="n">make_tableau</span><span class="p">(</span><span class="n">Ak</span><span class="p">,</span> <span class="n">bk</span><span class="p">,</span> <span class="n">kernel_cost</span><span class="p">(</span><span class="n">E0</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'reduced costs at U = E0:'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">T_rev</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>reduced costs at U = E0: [0. 0. 0. 0.]
+</pre></div>
+</div>
+</div>
+</div>
+<p>A zero reduced cost on a nonbasic variable means it can enter the basis without changing the objective, and at <span class="math notranslate nohighlight">\(E^0\)</span> this reflects the fact that the cell is indifferent between making hydrogen and leaving water alone, which is the definition of the reversible voltage.</p>
+<p>Degenerate vertices come up often in practice, so this is more than a curiosity. At a degenerate vertex the ratio test can return a step of zero, so the basis changes while the point and the objective stay the same, and in rare cases a sequence of these zero steps returns to a basis already visited and the method <strong>cycles</strong> forever. <strong>Bland’s rule</strong>, which always enters the lowest-index improving variable and breaks ratio-test ties by the lowest index, provably prevents cycling, although production solvers use cheaper safeguards such as small random perturbations of the bounds.</p>
+<div class="exercise admonition" id="ex-t15-degeneracy">
+
+<p class="admonition-title"><span class="caption-number">Exercise 24 </span></p>
+<section id="exercise-content">
+<p>Run the tableau simplex on the water LP at <span class="math notranslate nohighlight">\(U = E^0 - 0.05\)</span> V from each of the three all-water bases. Do they agree on the answer? Do they agree on the reduced costs? Then compute the reduced cost of the extent of reaction, the direction <span class="math notranslate nohighlight">\((-1, 1, \tfrac12, 2)\)</span> along the segment, and show that it equals <span class="math notranslate nohighlight">\(\Delta G^0 - 2FU\)</span> at every <span class="math notranslate nohighlight">\(U\)</span>, whichever basis you start from.</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The simplex method works on the standard form <span class="math notranslate nohighlight">\(\min c^\top x\)</span>, <span class="math notranslate nohighlight">\(Ax = b\)</span>, <span class="math notranslate nohighlight">\(x \ge 0\)</span>. Slack, surplus and split variables convert any LP to it.</p></li>
+<li><p>Choosing <span class="math notranslate nohighlight">\(m\)</span> basic variables and setting the rest to zero gives a basic solution. The basic feasible solutions are the vertices: the fleet LP has 15 candidate bases and 6 BFSs, the six corners of its hexagon.</p></li>
+<li><p>One simplex iteration computes reduced costs <span class="math notranslate nohighlight">\(r_j = c_j - y^\top A_j\)</span>, enters a variable with <span class="math notranslate nohighlight">\(r_j &lt; 0\)</span>, applies the ratio test, and pivots. A positive reduced cost means the activity is priced out. All <span class="math notranslate nohighlight">\(r_j \ge 0\)</span> certifies a global optimum.</p></li>
+<li><p>On the fleet LP, the tableau walks from power 1.99 through 1.94 and 1.54 to the optimum 1.49 in three pivots. Its final row prices are <span class="math notranslate nohighlight">\(y = (1.45, -0.25, 0, 0)\)</span>, and the reduced costs price out stack C and A’s spare capacity by 0.25 each. HiGHS agrees.</p></li>
+<li><p>At a degenerate vertex, several bases describe the same point and the duals are not unique. The water LP’s all-water vertex has three such bases, and at <span class="math notranslate nohighlight">\(U = E^0\)</span> every reduced cost is zero. Bland’s rule prevents cycling.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>D. Bertsimas and J. N. Tsitsiklis, <em>Introduction to Linear Optimization</em>, Athena Scientific (1997). Chapter 3 develops the simplex method, degeneracy and anticycling rules in full.</p></li>
+<li><p>J. Nocedal and S. J. Wright, <em>Numerical Optimization</em>, 2nd ed., Springer (2006). Chapter 13 covers the revised simplex method as solvers implement it, and Chapter 14 interior-point methods for LP.</p></li>
+<li><p>A. Ravindran, K. M. Ragsdell and G. V. Reklaitis, <em>Engineering Optimization: Methods and Applications</em>, 2nd ed., Wiley (2006). The simplex steps in tableau form, in the maximization convention of the lectures.</p></li>
+<li><p>R. G. Bland, “New finite pivoting rules for the simplex method”, <em>Mathematics of Operations Research</em> 2, 103–107 (1977).</p></li>
+<li><p>V. Klee and G. J. Minty, “How good is the simplex algorithm?”, in O. Shisha (ed.), <em>Inequalities III</em>, Academic Press (1972), pp. 159–175.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./1-fundamentals"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic1.4-Linear_Programming.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">1.4 Linear Programming</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../2-nonlinear_mixed_integer/intro.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Nonlinear and Mixed-Integer Optimization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-form">Standard form</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-solutions-and-vertices">Basic solutions and vertices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-simplex-step">The simplex step</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-worked-tableau">A worked tableau</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-against-a-solver">Checking against a solver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#degeneracy">Degeneracy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

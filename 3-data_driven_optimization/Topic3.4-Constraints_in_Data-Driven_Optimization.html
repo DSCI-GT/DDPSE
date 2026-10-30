@@ -1,0 +1,947 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.4 Constraints in Data-Driven Optimization &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.5 Surrogate Models" href="Topic3.5-Surrogate_Models.html" />
+    <link rel="prev" title="3.3 Global Sampling and Evolutionary Methods" href="Topic3.3-Global_Sampling_and_Evolutionary_Methods.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Data-Driven Optimization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3.4 Constraints in Data-Driven Optimization</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#known-and-unknown-constraints">Known and unknown constraints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#four-ways-to-handle-constraints">Four ways to handle constraints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bb3-and-the-penalty-plateau">BB3 and the penalty plateau</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elimination-versus-penalty">Elimination versus penalty</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-off-decisions-are-the-wrong-job">On/off decisions are the wrong job</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#constraints-in-data-driven-optimization" id="id1">3.4 Constraints in Data-Driven Optimization</a></p>
+<ul>
+<li><p><a class="reference internal" href="#known-and-unknown-constraints" id="id2">Known and unknown constraints</a></p></li>
+<li><p><a class="reference internal" href="#four-ways-to-handle-constraints" id="id3">Four ways to handle constraints</a></p></li>
+<li><p><a class="reference internal" href="#bb3-and-the-penalty-plateau" id="id4">BB3 and the penalty plateau</a></p></li>
+<li><p><a class="reference internal" href="#elimination-versus-penalty" id="id5">Elimination versus penalty</a></p></li>
+<li><p><a class="reference internal" href="#on-off-decisions-are-the-wrong-job" id="id6">On/off decisions are the wrong job</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id7">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id8">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="constraints-in-data-driven-optimization">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">3.4 Constraints in Data-Driven Optimization</a><a class="headerlink" href="#constraints-in-data-driven-optimization" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 6, Lesson 6: <em>Constrained Data-Driven Optimization</em> (its lecture comes earlier; read here)</p></li>
+</ul>
+<p>The lecture is recorded in Module 6, about one week before the lectures of Topics 3.2 and 3.3. We read it here, after them, because its main example needs the direct-search and global methods of those topics.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Distinguish known (glass-box) from unknown (black-box) constraints, and name the four standard ways of handling constraints in data-driven optimization.</p></li>
+<li><p>Formulate a penalty function and explain the flat plateau it creates over an infeasible region.</p></li>
+<li><p>Compare eliminating a known equality constraint with penalizing it, and explain why each formulation hides some optima from black-box methods.</p></li>
+<li><p>Explain why discrete on/off decisions are the wrong job for derivative-free methods, and name the tools that handle them.</p></li>
+</ul>
+</div>
+<p>In Topics 3.2 and 3.3 we mostly ignored constraints, since BB1 and BB2 had only bounds, plus a penalty value of 10 where the slack stack’s load fell out of range. Real black-box problems almost always have constraints, including purity specifications, safety limits, demands that must be met, and units that can be either on or off. In this topic we will see that the way we write those constraints decides which solutions a black-box method can find, and in many cases this is more important than the choice of method used for the search. Our example is BB3, which is the full electrolyzer MINLP of <a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html"><span class="doc">2.6 Non-convex Problems and Bounding</span></a> treated as a black box, and we will look at it across the same range of demands for which Topic 2.6 found the optimal configuration of stacks.</p>
+<section id="known-and-unknown-constraints">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Known and unknown constraints</a><a class="headerlink" href="#known-and-unknown-constraints" title="Link to this heading">#</a></h2>
+<p>In most data-driven problems the objective is the black box, and the constraints (if there are any) fall into two categories. <strong>Known</strong> or <strong>glass-box</strong> constraints have explicit equations which can be written down and given to a solver, like a mass balance, a bound on a flow, or a demand which the outputs must meet. <strong>Unknown</strong> or <strong>black-box</strong> constraints are outputs of the same simulation or experiment as the objective, like a product purity computed by a process simulator or whether the simulation converged at all, so the only way to learn whether a point satisfies them is by evaluating that point. A problem may also have no constraints beyond bounds. In fact, most commercial data-driven solvers are written for exactly that <strong>box-constrained</strong> case, <span class="math notranslate nohighlight">\(\min f(x)\)</span> subject to <span class="math notranslate nohighlight">\(x^L \le x \le x^U\)</span>, so anything more needs a creative reformulation.</p>
+<p>The example in the lecture is a process for capturing carbon dioxide from flue gas by adsorption (after Kalyanaraman et al. 2016), where the decisions are the design and operating conditions of the process. In this process the mass and heat balances inside the adsorption columns are partial differential equations which must be solved by a simulator, so the outputs of interest (CO₂ purity, recovery and energy use) are black-box functions, and this means the constraints on purity and recovery are also black-box constraints, although the bounds on the design variables are known.</p>
+<p>There are both kinds of constraints in the electrolyzer plant. The demand balance <span class="math notranslate nohighlight">\(x_A + x_B + x_C = D\)</span> is a known linear equality and the capacity bounds <span class="math notranslate nohighlight">\(0 \le x_i \le 1\)</span> are also known constraints, but the minimum-load rule (any stack with a load below <span class="math notranslate nohighlight">\(x_{\min} = 0.1\)</span> is off) and the on-cost it triggers are inside BB3, so the solver can only see the cost coming back from the black box, or a value of 10 when the plan cannot be carried out.</p>
+<div class="exercise admonition" id="ex-t34-kinds">
+
+<p class="admonition-title"><span class="caption-number">Exercise 77 </span></p>
+<section id="exercise-content">
+<p>For the oilfield and pharmaceutical tablet case studies of Topic 3.1, list two constraints of each and classify each as known or unknown. Then explain how the classification of the demand balance in BB3 would change if the hydrogen output of each stack were measured, with some error, instead of set by the load.</p>
+</section>
+</div>
+</section>
+<section id="four-ways-to-handle-constraints">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Four ways to handle constraints</a><a class="headerlink" href="#four-ways-to-handle-constraints" title="Link to this heading">#</a></h2>
+<p>In the lecture there are four approaches, and a fifth one for known constraints can be found in the literature:</p>
+<ol class="arabic simple">
+<li><p><strong>Penalty.</strong> Replace the constrained problem by an unconstrained (or bound-constrained) one whose objective adds a penalty for violation, for example <span class="math notranslate nohighlight">\(f(x) + \sum_j \mu_j \max(0, g_j(x))\)</span> with one weight per constraint, or, for an equality, <span class="math notranslate nohighlight">\(f(x) + \mu\,|h(x)|\)</span>. Any box-constrained method can then be used, at a cost: the weight <span class="math notranslate nohighlight">\(\mu\)</span> must be tuned, the objective has been changed, and a poor <span class="math notranslate nohighlight">\(\mu\)</span> can move the optimum or make it hard to reach. A related <strong>extreme barrier</strong> returns a fixed large value at every infeasible point, which is what BB2 and BB3 do with their value of 10.</p></li>
+<li><p><strong>One surrogate per constraint.</strong> Fit a surrogate model to the black-box objective and to each black-box constraint, and solve the resulting NLP or MINLP, <span class="math notranslate nohighlight">\(\min \hat f(x)\)</span> subject to <span class="math notranslate nohighlight">\(\hat g_j(x) \le 0\)</span> for the black-box constraints, <span class="math notranslate nohighlight">\(h(x) \le 0\)</span> for the known ones, and the bounds, with a derivative-based solver. This uses the solver’s full machinery, but each surrogate costs data to fit, and small errors in a surrogate can move the boundary of the feasible region.</p></li>
+<li><p><strong>One surrogate for feasibility.</strong> Combine all the violations into a single measure, or a feasible/infeasible label, and fit one model to it, such as a classifier that predicts the probability that a point is feasible; it enters the optimization as a single constraint. This is cheaper than approach 2, but errors in the predicted feasible region can again exclude the optimum or admit infeasible points, and a complicated feasible region may be hard to describe with one function.</p></li>
+<li><p><strong>Sample-based methods that respect feasibility.</strong> Direct-search methods can be built to improve the objective while keeping or restoring feasibility, with the same three ingredients as in Topic 3.2: the geometry of the sample set, a mechanism for descent and feasibility, and a step size. The progressive-barrier version of mesh-adaptive direct search (Audet and Dennis 2009) is an example.</p></li>
+<li><p><strong>Elimination.</strong> A known equality constraint can often be solved for one variable and substituted out. The demand balance gives <span class="math notranslate nohighlight">\(x_C = D - x_A - x_B\)</span>, which removes one variable and the equality together, and this is what BB2 and BB3 do.</p></li>
+</ol>
+<p>Constraint handling in data-driven optimization is still an open research question, and there are only a few software packages that handle general constraints by default. Approaches 2 and 3 need surrogate models, which we have not built yet, so these will be developed on this same black box in <a class="reference internal" href="Topic3.6-Surrogate-Based_Optimization.html"><span class="doc">3.6 Surrogate-Based Optimization</span></a>. Here we will compare the two approaches that need no model, elimination and penalty, on BB3.</p>
+<div class="exercise admonition" id="ex-t34-penalty-weight">
+
+<p class="admonition-title"><span class="caption-number">Exercise 78 </span></p>
+<section id="exercise-content">
+<p><code class="docutils literal notranslate"><span class="pre">bb3_penalty</span></code> in <code class="docutils literal notranslate"><span class="pre">_lib/part3a_tools.py</span></code> adds <span class="math notranslate nohighlight">\(\mu\,|x_A + x_B + x_C - D|\)</span> to the fleet cost. At <span class="math notranslate nohighlight">\(D = 1.2\)</span>, evaluate it at the optimal loads (0.703, 0, 0.497) and at the under-delivering plan (0.703, 0, 0.447), which is 0.05 short. For which values of <span class="math notranslate nohighlight">\(\mu\)</span> is the infeasible plan cheaper than the optimum? Estimate the smallest safe <span class="math notranslate nohighlight">\(\mu\)</span> from the stacks’ marginal power cost, and explain what goes wrong if <span class="math notranslate nohighlight">\(\mu\)</span> is much larger than that.</p>
+</section>
+</div>
+</section>
+<section id="bb3-and-the-penalty-plateau">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">BB3 and the penalty plateau</a><a class="headerlink" href="#bb3-and-the-penalty-plateau" title="Link to this heading">#</a></h2>
+<p>We can first recall how BB3 is set up. The decisions are the loads of stacks A and B, where a load below <span class="math notranslate nohighlight">\(x_{\min}\)</span> means that the stack is off, and stack C takes the rest, <span class="math notranslate nohighlight">\(x_C = 1.2 - x_A - x_B\)</span>, so any plan in which C’s load is negative, above 1, or between 0 and <span class="math notranslate nohighlight">\(x_{\min}\)</span> is infeasible and returns 10. The known optimum from Topic 2.6 is A + C at loads (0.703, 0.497), with a cost of 2.32181, and the runner-up B + C is only 0.4% worse at 2.33012. The cell below runs the five methods of Topics 3.2 and 3.3 on BB3 with the protocol that we used there, which is 30 random starts or seeds with success defined as ending within <span class="math notranslate nohighlight">\(2 \times 10^{-3}\)</span> of the optimum (this is a slightly looser tolerance, but it is still tighter than the gap to the runner-up).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">direct</span><span class="p">,</span> <span class="n">differential_evolution</span><span class="p">,</span> <span class="n">dual_annealing</span><span class="p">,</span> <span class="n">Bounds</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part3a_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">compass</span><span class="p">,</span> <span class="n">bb3_penalty</span><span class="p">,</span> <span class="n">bb3_reference</span>
+
+<span class="n">FSTAR3</span><span class="p">,</span> <span class="n">TOL</span> <span class="o">=</span> <span class="mf">2.32181</span><span class="p">,</span> <span class="mf">2e-3</span>
+<span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ends</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">meth</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'Nelder-Mead'</span><span class="p">,</span> <span class="s1">'compass'</span><span class="p">,</span> <span class="s1">'DIRECT'</span><span class="p">,</span> <span class="s1">'diff. evolution'</span><span class="p">,</span> <span class="s1">'dual annealing'</span><span class="p">):</span>
+    <span class="n">hits</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">pts</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'DIRECT'</span> <span class="k">else</span> <span class="mi">30</span><span class="p">):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb3</span><span class="p">);</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'Nelder-Mead'</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'Nelder-Mead'</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">Bounds</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">),</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xatol'</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="s1">'fatol'</span><span class="p">:</span> <span class="mf">1e-8</span><span class="p">});</span> <span class="n">xe</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">fun</span>
+        <span class="k">elif</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'compass'</span><span class="p">:</span>
+            <span class="n">xe</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">compass</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'DIRECT'</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">direct</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Bounds</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">),</span> <span class="n">maxfun</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">len_tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">);</span> <span class="n">xe</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">fun</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">history</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">FSTAR3</span> <span class="o">+</span> <span class="n">TOL</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'diff. evolution'</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">differential_evolution</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)),</span> <span class="n">seed</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">polish</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span> <span class="n">xe</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">fun</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">dual_annealing</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)),</span> <span class="n">seed</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">maxfun</span><span class="o">=</span><span class="mi">4000</span><span class="p">);</span> <span class="n">xe</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">fun</span>
+        <span class="n">hits</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">fx</span> <span class="o">-</span> <span class="n">FSTAR3</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">TOL</span><span class="p">;</span> <span class="n">nf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">n</span><span class="p">);</span> <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fx</span><span class="p">);</span> <span class="n">pts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x0</span><span class="p">,</span> <span class="n">xe</span><span class="p">,</span> <span class="n">fx</span><span class="p">))</span>
+    <span class="n">ends</span><span class="p">[</span><span class="n">meth</span><span class="p">]</span> <span class="o">=</span> <span class="n">pts</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">);</span> <span class="n">stuck</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span> <span class="o">&gt;=</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">meth</span><span class="si">:</span><span class="s2">16s</span><span class="si">}</span><span class="s2"> success </span><span class="si">{</span><span class="n">hits</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">&lt;2d</span><span class="si">}</span><span class="s2"> median evaluations </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">nf</span><span class="p">))</span><span class="si">:</span><span class="s2">5d</span><span class="si">}</span><span class="s2">   "</span>
+          <span class="sa">f</span><span class="s2">"runs ending on the plateau (f = 10): </span><span class="si">{</span><span class="n">stuck</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"DIRECT first within </span><span class="si">{</span><span class="n">TOL</span><span class="si">}</span><span class="s2"> of the optimum at evaluation </span><span class="si">{</span><span class="n">first</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nelder-Mead      success  4/30 median evaluations    89   runs ending on the plateau (f = 10): 13
+compass          success  5/30 median evaluations    97   runs ending on the plateau (f = 10): 10
+DIRECT           success  1/1  median evaluations  4003   runs ending on the plateau (f = 10): 0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>diff. evolution  success 25/30 median evaluations   645   runs ending on the plateau (f = 10): 0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dual annealing   success 30/30 median evaluations  4000   runs ending on the plateau (f = 10): 0
+DIRECT first within 0.002 of the optimum at evaluation 79
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Success</p></th>
+<th class="head"><p>Median evaluations</p></th>
+<th class="head"><p>Runs ending at <span class="math notranslate nohighlight">\(f = 10\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Nelder–Mead</p></td>
+<td><p>4/30</p></td>
+<td><p>89</p></td>
+<td><p>13</p></td>
+</tr>
+<tr class="row-odd"><td><p>compass</p></td>
+<td><p>5/30</p></td>
+<td><p>97</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-even"><td><p>DIRECT</p></td>
+<td><p>1/1</p></td>
+<td><p>4,003</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>differential evolution</p></td>
+<td><p>25/30</p></td>
+<td><p>645</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>dual annealing</p></td>
+<td><p>30/30</p></td>
+<td><p>4,000</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Most local runs fail, and the last column explains why, since between a third and nearly half of their runs (13 of 30 for Nelder–Mead and 10 of 30 for compass search) end on the <strong>penalty plateau</strong>, where <span class="math notranslate nohighlight">\(f = 10\)</span> and the final point is infeasible as well as worse than any feasible plan. The figure below shows the final points of these runs. Infeasible points cover 44% of the square (Topic 3.1), and the black box returns the same number on all of that region, so when a direct-search method starts in this region or steps into the region, every poll point returns 10 and no step can ever be an improvement. Compass search halves the step size until the search stops, and the Nelder–Mead simplex shrinks around the starting point. Because the plateau is flat, it carries no information about which way the feasible region lies; this is the price of the extreme-barrier form of the penalty, and it is the reason why approach 1 above emphasizes a penalty which grows with the violation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">401</span><span class="p">)</span>
+<span class="n">F3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">el</span><span class="o">.</span><span class="n">bb3</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">g</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">g</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.2</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="p">(</span><span class="n">F3</span> <span class="o">&gt;=</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">'0.85'</span><span class="p">])</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">F3</span> <span class="o">&gt;=</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span><span class="p">,</span> <span class="n">F3</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'total power (per-unit)'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">meth</span><span class="p">,</span> <span class="n">mk</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">((</span><span class="s1">'Nelder-Mead'</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'compass'</span><span class="p">,</span> <span class="s1">'s'</span><span class="p">,</span> <span class="s1">'tab:orange'</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">x0</span><span class="p">,</span> <span class="n">xe</span><span class="p">,</span> <span class="n">fx</span> <span class="ow">in</span> <span class="n">ends</span><span class="p">[</span><span class="n">meth</span><span class="p">]:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">xe</span><span class="p">,</span> <span class="n">mk</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="n">col</span> <span class="k">if</span> <span class="n">fx</span> <span class="o">&lt;</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span> <span class="k">else</span> <span class="s1">'none'</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s1">'k'</span> <span class="k">if</span> <span class="n">fx</span> <span class="o">&lt;</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span> <span class="k">else</span> <span class="s1">'r'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">'w'</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Nelder-Mead end (feasible)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="s1">'s'</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">'tab:orange'</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'compass end (feasible)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s1">'r'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'end on the plateau (f = 10)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">0.703</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">'r*'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'optimum A + C'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'stack A load (per-unit)'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'stack B load (per-unit)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'BB3 at D = 1.2: where local runs stop'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'upper right'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"infeasible fraction of the square: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">F3</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>infeasible fraction of the square: 0.44
+</pre></div>
+</div>
+<img alt="../_images/1625a36ac0bea7084ac17492946a0b946602e017cbd52817ab19f183f268b010.png" src="../_images/1625a36ac0bea7084ac17492946a0b946602e017cbd52817ab19f183f268b010.png" />
+</div>
+</div>
+<p>The global methods are not trapped by the plateau, because they do not need a local improvement in order to move. DIRECT finds the optimum within <span class="math notranslate nohighlight">\(2 \times 10^{-3}\)</span> at evaluation 79, which is sooner than the <span class="math notranslate nohighlight">\(10^{-3}\)</span> first hit on the smooth BB2 (835 evaluations, Topic 3.3), and dual annealing succeeds in all 30 runs. It is surprising that differential evolution does better on the discontinuous BB3 (25 of 30) than on the smooth BB2 (10 of 30), and since we do not have a tested explanation for that, we will leave it as an open question rather than guess.</p>
+<div class="exercise admonition" id="ex-t34-plateau">
+
+<p class="admonition-title"><span class="caption-number">Exercise 79 </span></p>
+<section id="exercise-content">
+<p>Replace BB3’s flat value of 10 with a graded penalty: for an infeasible plan, return <span class="math notranslate nohighlight">\(10 + 10\,v\)</span>, where <span class="math notranslate nohighlight">\(v\)</span> is the distance by which C’s load misses the nearest allowed value (0, or the interval <span class="math notranslate nohighlight">\([x_{\min}, 1]\)</span>). Rerun Nelder–Mead and compass search from the same 30 starts. How many runs now end on the plateau, and does the success rate change?</p>
+</section>
+</div>
+</section>
+<section id="elimination-versus-penalty">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Elimination versus penalty</a><a class="headerlink" href="#elimination-versus-penalty" title="Link to this heading">#</a></h2>
+<p>BB3 eliminates the demand balance, so the load of stack C is whatever A and B leave, <span class="math notranslate nohighlight">\(x_C = D - x_A - x_B\)</span>. This keeps the search two-dimensional and ensures that the demand is always met, but it has a hidden cost, because stack C can be off only if A and B carry the demand exactly, <span class="math notranslate nohighlight">\(x_A + x_B = D\)</span>. In the <span class="math notranslate nohighlight">\((x_A, x_B)\)</span> square that is a line, which is a set of measure zero, so a sampler that draws points from a continuous distribution hits it with probability zero and a direct-search method lands on it only by luck. If the optimum turns C off, no method can find it.</p>
+<p>The alternative is to penalize the demand balance instead. In <code class="docutils literal notranslate"><span class="pre">bb3_penalty</span></code> all three loads are decisions and each one that is below <span class="math notranslate nohighlight">\(x_{\min}\)</span> is off, and the cost is the fleet’s cost plus <span class="math notranslate nohighlight">\(\mu\,|x_A + x_B + x_C - D|\)</span> with <span class="math notranslate nohighlight">\(\mu = 10\)</span>. Now “C off” is a whole face of the cube <span class="math notranslate nohighlight">\(x_C &lt; x_{\min}\)</span> that samplers can reach without trouble, and the price that we pay is a third dimension and a demand that is only met approximately, through the penalty.</p>
+<p>Topic 2.6 found that the best configuration changes with demand: it is C alone at <span class="math notranslate nohighlight">\(D = 0.6\)</span>, B alone at 0.9, A + C at 1.2, B + C at 1.5, and A + B at 1.8, and two of these (B and A + B) turn C off. The cell below runs four methods on both formulations at each demand, using 20 random starts for Nelder–Mead and compass search, 20 seeds for differential evolution (with default settings), and one run of DIRECT, where success means that the run ends within <span class="math notranslate nohighlight">\(2 \times 10^{-3}\)</span> of the true optimum. (The true optimum at each demand is computed by brute force over the seven on/off configurations as a check value, and Topic 2.6 obtains the same numbers with branch-and-bound.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">OPT</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.6</span><span class="p">:</span> <span class="s1">'C'</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">:</span> <span class="s1">'B'</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">:</span> <span class="s1">'A+C'</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">:</span> <span class="s1">'B+C'</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">:</span> <span class="s1">'A+B'</span><span class="p">}</span>
+<span class="n">METHODS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'Nelder-Mead'</span><span class="p">,</span> <span class="s1">'compass'</span><span class="p">,</span> <span class="s1">'DIRECT'</span><span class="p">,</span> <span class="s1">'diff. evolution'</span><span class="p">)</span>
+<span class="n">results</span><span class="p">,</span> <span class="n">frac</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">D</span><span class="p">,</span> <span class="n">cfg</span> <span class="ow">in</span> <span class="n">OPT</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">fstar</span><span class="p">,</span> <span class="n">cfg_check</span> <span class="o">=</span> <span class="n">bb3_reference</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">cfg_check</span> <span class="o">==</span> <span class="n">cfg</span>
+    <span class="k">for</span> <span class="n">form</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">dim</span> <span class="ow">in</span> <span class="p">((</span><span class="s1">'eliminate'</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">el</span><span class="o">.</span><span class="n">bb3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">'penalty'</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">bb3_penalty</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="mi">3</span><span class="p">)):</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">meth</span> <span class="ow">in</span> <span class="n">METHODS</span><span class="p">:</span>
+            <span class="n">runs</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'DIRECT'</span> <span class="k">else</span> <span class="mi">20</span><span class="p">;</span> <span class="n">hits</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">runs</span><span class="p">):</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">dim</span><span class="p">);</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'Nelder-Mead'</span><span class="p">:</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'Nelder-Mead'</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">Bounds</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">))</span><span class="o">.</span><span class="n">fun</span>
+                <span class="k">elif</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'compass'</span><span class="p">:</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">compass</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'DIRECT'</span><span class="p">:</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">direct</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">Bounds</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">),</span> <span class="n">maxfun</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span><span class="o">.</span><span class="n">fun</span>
+                <span class="k">else</span><span class="p">:</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">differential_evolution</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)),</span> <span class="n">seed</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">polish</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">fun</span>
+                <span class="n">hits</span> <span class="o">+=</span> <span class="n">fx</span> <span class="o">&lt;</span> <span class="n">fstar</span> <span class="o">+</span> <span class="mf">2e-3</span>
+            <span class="n">results</span><span class="p">[(</span><span class="n">D</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">meth</span><span class="p">)]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">hits</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">runs</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">frac</span><span class="p">[(</span><span class="n">D</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">meth</span><span class="p">)]</span> <span class="o">=</span> <span class="n">hits</span> <span class="o">/</span> <span class="n">runs</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"D = </span><span class="si">{</span><span class="n">D</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">cfg</span><span class="si">:</span><span class="s2">3s</span><span class="si">}</span><span class="s2">, optimum </span><span class="si">{</span><span class="n">fstar</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">) </span><span class="si">{</span><span class="n">form</span><span class="si">:</span><span class="s2">9s</span><span class="si">}</span><span class="s2">: "</span> <span class="o">+</span>
+              <span class="s2">"  "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">results</span><span class="p">[(</span><span class="n">D</span><span class="p">,</span><span class="w"> </span><span class="n">form</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)]</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">METHODS</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 0.6 (C  , optimum 1.1566) eliminate: Nelder-Mead 2/20  compass 1/20  DIRECT 1/1  diff. evolution 19/20
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 0.6 (C  , optimum 1.1566) penalty  : Nelder-Mead 3/20  compass 7/20  DIRECT 0/1  diff. evolution 8/20
+D = 0.9 (B  , optimum 1.6824) eliminate: Nelder-Mead 0/20  compass 0/20  DIRECT 0/1  diff. evolution 0/20
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 0.9 (B  , optimum 1.6824) penalty  : Nelder-Mead 0/20  compass 2/20  DIRECT 1/1  diff. evolution 9/20
+D = 1.2 (A+C, optimum 2.3218) eliminate: Nelder-Mead 2/20  compass 5/20  DIRECT 1/1  diff. evolution 19/20
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 1.2 (A+C, optimum 2.3218) penalty  : Nelder-Mead 1/20  compass 0/20  DIRECT 0/1  diff. evolution 4/20
+D = 1.5 (B+C, optimum 2.8278) eliminate: Nelder-Mead 0/20  compass 2/20  DIRECT 1/1  diff. evolution 13/20
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 1.5 (B+C, optimum 2.8278) penalty  : Nelder-Mead 2/20  compass 1/20  DIRECT 1/1  diff. evolution 8/20
+D = 1.8 (A+B, optimum 3.3733) eliminate: Nelder-Mead 0/20  compass 0/20  DIRECT 0/1  diff. evolution 0/20
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 1.8 (A+B, optimum 3.3733) penalty  : Nelder-Mead 3/20  compass 2/20  DIRECT 0/1  diff. evolution 5/20
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(D\)</span></p></th>
+<th class="head"><p>Optimum</p></th>
+<th class="head"><p>Formulation</p></th>
+<th class="head"><p>Nelder–Mead</p></th>
+<th class="head"><p>compass</p></th>
+<th class="head"><p>DIRECT</p></th>
+<th class="head"><p>diff. evolution</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.6</p></td>
+<td><p>C</p></td>
+<td><p>eliminate</p></td>
+<td><p>2/20</p></td>
+<td><p>1/20</p></td>
+<td><p>1/1</p></td>
+<td><p>19/20</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>penalty</p></td>
+<td><p>3/20</p></td>
+<td><p>7/20</p></td>
+<td><p>0/1</p></td>
+<td><p>8/20</p></td>
+</tr>
+<tr class="row-even"><td><p>0.9</p></td>
+<td><p>B (C off)</p></td>
+<td><p>eliminate</p></td>
+<td><p><strong>0/20</strong></p></td>
+<td><p><strong>0/20</strong></p></td>
+<td><p><strong>0/1</strong></p></td>
+<td><p><strong>0/20</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>penalty</p></td>
+<td><p>0/20</p></td>
+<td><p>2/20</p></td>
+<td><p>1/1</p></td>
+<td><p>9/20</p></td>
+</tr>
+<tr class="row-even"><td><p>1.2</p></td>
+<td><p>A + C</p></td>
+<td><p>eliminate</p></td>
+<td><p>2/20</p></td>
+<td><p>5/20</p></td>
+<td><p>1/1</p></td>
+<td><p>19/20</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>penalty</p></td>
+<td><p>1/20</p></td>
+<td><p>0/20</p></td>
+<td><p>0/1</p></td>
+<td><p>4/20</p></td>
+</tr>
+<tr class="row-even"><td><p>1.5</p></td>
+<td><p>B + C</p></td>
+<td><p>eliminate</p></td>
+<td><p>0/20</p></td>
+<td><p>2/20</p></td>
+<td><p>1/1</p></td>
+<td><p>13/20</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>penalty</p></td>
+<td><p>2/20</p></td>
+<td><p>1/20</p></td>
+<td><p>1/1</p></td>
+<td><p>8/20</p></td>
+</tr>
+<tr class="row-even"><td><p>1.8</p></td>
+<td><p>A + B (C off)</p></td>
+<td><p>eliminate</p></td>
+<td><p><strong>0/20</strong></p></td>
+<td><p><strong>0/20</strong></p></td>
+<td><p><strong>0/1</strong></p></td>
+<td><p><strong>0/20</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p>penalty</p></td>
+<td><p>3/20</p></td>
+<td><p>2/20</p></td>
+<td><p>0/1</p></td>
+<td><p>5/20</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">form</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="s1">'eliminate'</span><span class="p">,</span> <span class="s1">'penalty'</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">meth</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">METHODS</span><span class="p">):</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">frac</span><span class="p">[(</span><span class="n">D</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">meth</span><span class="p">)]</span> <span class="k">for</span> <span class="n">D</span> <span class="ow">in</span> <span class="n">OPT</span><span class="p">]</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">meth</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span> <span class="n">a</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kg/h</span><span class="se">\n</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">D</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">OPT</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'demand balance: </span><span class="si">{</span><span class="n">form</span><span class="si">}</span><span class="s1">'</span><span class="p">);</span> <span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'demand and optimal configuration'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">OPT</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="s1">'C'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mf">0.45</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mf">0.45</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'0.9'</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'fraction of runs that succeed'</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f8ea4cb4d68d4e12fbce14a50424260d8d9990ae7f351d4bbc61df6e7b27fe4e.png" src="../_images/f8ea4cb4d68d4e12fbce14a50424260d8d9990ae7f351d4bbc61df6e7b27fe4e.png" />
+</div>
+</div>
+<p>The shaded columns are the two demands where the optimum turns C off. Under elimination, every method fails in every run at these demands, and this includes DIRECT and differential evolution, with 0 of 20, 0 of 20, 0 of 1, and 0 of 20 successes at both <span class="math notranslate nohighlight">\(D = 0.9\)</span> and <span class="math notranslate nohighlight">\(D = 1.8\)</span>. The choice of method does not matter here, because the optimum lies on a line which is unreachable in this formulation. Where C stays on, elimination works well for the global methods, since DIRECT succeeds at all three of those demands and differential evolution succeeds in 13 to 19 of 20 runs.</p>
+<p>Penalizing the demand balance opens the shaded columns, so differential evolution now succeeds in 9 and 5 of 20 runs, DIRECT succeeds at <span class="math notranslate nohighlight">\(D = 0.9\)</span>, and the local methods succeed in a few runs. However, it costs reliability at all of the other demands: at <span class="math notranslate nohighlight">\(D = 1.2\)</span> differential evolution falls from 19 to 4 of 20 and DIRECT goes from success to failure, and at <span class="math notranslate nohighlight">\(D = 0.6\)</span> they fall from 19 to 8 and from success to failure. The extra dimension and the kink of the penalty along the demand surface make the search harder at every demand.</p>
+<p><strong>Neither formulation is safe.</strong> With elimination we keep the demand exact and the search space small, but some optima become invisible, whereas with the penalty those optima are visible again but the others become harder to find. A black-box method can only find solutions which are reachable in the formulation, so we need to think of the formulation as part of the method. This is the same lesson as in the optimization fundamentals topics, where the way a problem was written decided its class and its solver, but now we are seeing it from the other side, since here the way the problem is written decides which answers a sampler can see.</p>
+<div class="exercise admonition" id="ex-t34-sweep">
+
+<p class="admonition-title"><span class="caption-number">Exercise 80 </span></p>
+<section id="exercise-content">
+<p>Rerun the sweep for differential evolution only, with the penalty weight <span class="math notranslate nohighlight">\(\mu\)</span> = 1, 3, 10 and 30 in <code class="docutils literal notranslate"><span class="pre">bb3_penalty</span></code>. Plot the success rate at each demand for each <span class="math notranslate nohighlight">\(\mu\)</span>. Is there a single <span class="math notranslate nohighlight">\(\mu\)</span> that does well at all five demands? Then try a hybrid: eliminate the demand balance but snap C’s load to zero whenever <span class="math notranslate nohighlight">\(|x_A + x_B - D| &lt; 0.01\)</span>. Which demands does it fix, and what does it cost?</p>
+</section>
+</div>
+</section>
+<section id="on-off-decisions-are-the-wrong-job">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">On/off decisions are the wrong job</a><a class="headerlink" href="#on-off-decisions-are-the-wrong-job" title="Link to this heading">#</a></h2>
+<p>Behind the elimination failure is a discrete decision, since whether each stack is on or off is a binary choice and the three stacks have seven non-empty on/off configurations. In BB3 these binaries are hidden inside continuous loads, where a load below <span class="math notranslate nohighlight">\(x_{\min}\)</span> means the stack is off, so a derivative-free method has to discover a discrete structure through a continuous search. That structure shows up as jumps, plateaus and measure-zero lines, which are exactly the features which defeat local steps, sampling and smooth models.</p>
+<p>This is the wrong job for derivative-free methods. The mixed-integer topics already gave us the right tool for it, since branch-and-bound (<a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html"><span class="doc">2.5 Branch-and-Bound</span></a>) branches on the binaries directly and bounds each branch, and spatial branch-and-bound (Topic 2.6) proved the optimal configuration at every demand of the sweep, so when a problem has only a few integer decisions and its equations are available, branch-and-bound is the method to use. When the continuous part is a black box and the discrete part is small, the practical fix is to enumerate the configurations and run a continuous black-box method within each one (here this is only seven searches). When neither of these is possible, the remaining option is a surrogate which represents the discrete decisions explicitly (for instance by one-hot encoding the configuration) inside a mixed-integer optimization, and this is the subject of the mixed-integer surrogate example in Topic 3.6.</p>
+<p>The two model-based approaches to constraints will also wait for Topic 3.6, where a surrogate per black-box constraint (approach 2) and a classifier that predicts feasibility (approach 3) are both demonstrated on BB3. We will see there that the feasibility classifier needs some care, since a model that is trained only on feasible points extrapolates optimistically into the infeasible region.</p>
+<div class="exercise admonition" id="ex-t34-onoff">
+
+<p class="admonition-title"><span class="caption-number">Exercise 81 </span></p>
+<section id="exercise-content">
+<p>At <span class="math notranslate nohighlight">\(D = 0.9\)</span>, write a black box for each of the seven on/off configurations in which only the “on” stacks have loads and the last on stack takes the rest. For which configurations is the search space empty, a single point, a segment, or a triangle? Without running anything, explain which configuration a DIRECT run on BB3 with elimination can never reach, and why enumeration over configurations fixes it.</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Constraints are known (glass-box: explicit equations, like the demand balance) or unknown (black-box: outputs of the simulation, like the minimum-load rule inside BB3).</p></li>
+<li><p>Four standard approaches handle them: penalty, a surrogate per constraint, a surrogate for feasibility, and feasibility-preserving sample-based methods. Known equalities can also be eliminated.</p></li>
+<li><p>A flat penalty over an infeasible region is a plateau that gives direct search no direction. On BB3 at <span class="math notranslate nohighlight">\(D = 1.2\)</span>, 13 of 30 Nelder–Mead runs and 10 of 30 compass runs stop on it; the local methods succeed 4 and 5 times in 30, while dual annealing succeeds 30 times and differential evolution 25.</p></li>
+<li><p>Eliminating the demand balance makes “C off” a measure-zero line: at <span class="math notranslate nohighlight">\(D = 0.9\)</span> and <span class="math notranslate nohighlight">\(1.8\)</span>, where the optimum turns C off, every method fails in every run. Penalizing the balance makes those optima reachable but costs reliability at the other demands. Neither formulation is safe; the formulation decides what a black-box method can find.</p></li>
+<li><p>Discrete on/off decisions are the wrong job for derivative-free methods. Branch-and-bound (Topics 2.5 and 2.6) owns them; enumeration is the practical fix for a few configurations; mixed-integer surrogates and constraint surrogates follow in Topic 3.6.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Conn, A. R., Scheinberg, K., and Vicente, L. N. (2009). <em>Introduction to Derivative-Free Optimization</em>. SIAM. Chapter 13 surveys constrained derivative-free optimization.</p></li>
+<li><p>Audet, C., and Dennis, J. E., Jr. (2009). A progressive barrier for derivative-free nonlinear programming. <em>SIAM Journal on Optimization</em>, 20, 445–472.</p></li>
+<li><p>Boukouvala, F., Misener, R., and Floudas, C. A. (2016). Global optimization advances in mixed-integer nonlinear programming, MINLP, and constrained derivative-free optimization, CDFO. <em>European Journal of Operational Research</em>, 252, 701–727.</p></li>
+<li><p>Kalyanaraman, J., Kawajiri, Y., Lively, R. P., and Realff, M. J. (2016). Uncertainty quantification via Bayesian inference using sequential Monte Carlo methods for CO₂ adsorption process. <em>AIChE Journal</em>, 62(9), 3352–3368. The source of the lecture’s CO₂ adsorption-process example.</p></li>
+<li><p>Forrester, A. I. J., Sóbester, A., and Keane, A. J. (2008). <em>Engineering Design via Surrogate Modelling: A Practical Guide</em>. Wiley.</p></li>
+<li><p>Audet, C., and Hare, W. (2017). <em>Derivative-Free and Blackbox Optimization</em>. Springer.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./3-data_driven_optimization"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic3.3-Global_Sampling_and_Evolutionary_Methods.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">3.3 Global Sampling and Evolutionary Methods</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic3.5-Surrogate_Models.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">3.5 Surrogate Models</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#known-and-unknown-constraints">Known and unknown constraints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#four-ways-to-handle-constraints">Four ways to handle constraints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bb3-and-the-penalty-plateau">BB3 and the penalty plateau</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elimination-versus-penalty">Elimination versus penalty</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-off-decisions-are-the-wrong-job">On/off decisions are the wrong job</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

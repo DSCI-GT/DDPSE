@@ -1,0 +1,1061 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.3 Duality &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '2-nonlinear_mixed_integer/Topic2.3-Duality';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.4 Mixed-Integer Formulations" href="Topic2.4-Mixed-Integer_Formulations.html" />
+    <link rel="prev" title="2.2 Lagrange Multipliers and KKT Conditions" href="Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Nonlinear and Mixed-Integer Optimization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/2-nonlinear_mixed_integer/Topic2.3-Duality.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/2-nonlinear_mixed_integer/Topic2.3-Duality.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>2.3 Duality</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dual-problem">The dual problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-worked-example-the-dual-of-the-ohmic-dispatch">A worked example: the dual of the ohmic dispatch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-programming-duality">Linear programming duality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dual-of-the-electrolysis-lp">The dual of the electrolysis LP</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nonlinear-dual-of-the-electrolysis-cell">The nonlinear dual of the electrolysis cell</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#duality-as-a-picture">Duality as a picture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ceiling-meets-the-floor">The ceiling meets the floor</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#duality" id="id1">2.3 Duality</a></p>
+<ul>
+<li><p><a class="reference internal" href="#the-dual-problem" id="id2">The dual problem</a></p></li>
+<li><p><a class="reference internal" href="#linear-programming-duality" id="id3">Linear programming duality</a></p></li>
+<li><p><a class="reference internal" href="#the-nonlinear-dual-of-the-electrolysis-cell" id="id4">The nonlinear dual of the electrolysis cell</a></p></li>
+<li><p><a class="reference internal" href="#duality-as-a-picture" id="id5">Duality as a picture</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id6">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id7">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="duality">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">2.3 Duality</a><a class="headerlink" href="#duality" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 4, Lesson 6: <em>Duality: Mathematical Representation</em></p></li>
+<li><p>Module 4, Lesson 7: <em>Duality: Graphical Representation</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Construct the dual function and the dual problem of a constrained problem from its Lagrangian.</p></li>
+<li><p>Prove weak duality and explain why the dual function is always concave.</p></li>
+<li><p>Derive the dual of a linear program and read it as a pricing problem.</p></li>
+<li><p>Derive the LP and nonlinear duals of the electrolysis cell, and verify strong duality numerically.</p></li>
+<li><p>Interpret duality graphically, and explain why convex problems have no duality gap while non-convex problems can.</p></li>
+</ul>
+</div>
+<p>In Topic 2.2 we introduced the multipliers as a device for writing down optimality conditions. In this topic we will see that the multipliers are also the variables of a second optimization problem, which is called the <strong>dual problem</strong>. The original problem (now called the <strong>primal</strong>) chooses quantities, while the dual chooses prices. Every value of the dual is a lower bound on the primal, and for convex problems the best such bound is equal to the primal optimum. This lower-bound property is what drives branch-and-bound in Topics 2.5 and 2.6.</p>
+<section id="the-dual-problem">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">The dual problem</a><a class="headerlink" href="#the-dual-problem" title="Link to this heading">#</a></h2>
+<p>Let’s start from the primal problem</p>
+<div class="math notranslate nohighlight">
+\[
+\text{(P)} \qquad \min_{x \in X} f(x) \quad \text{s.t.} \quad h_j(x) = b_j, \;\; j = 1, \ldots, M, \qquad g_k(x) \le 0, \;\; k = 1, \ldots, N,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(X\)</span> collects simple bounds such as <span class="math notranslate nohighlight">\(x \ge 0\)</span>. We assume that the functions are continuous and that the problem has at least one feasible point, but we do <em>not</em> assume convexity. With the sign convention from Topic 2.2, the Lagrangian of this problem is</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(x, \lambda, \nu) = f(x) - \sum_j \lambda_j \left(h_j(x) - b_j\right) + \sum_k \nu_k\, g_k(x), \qquad \nu \ge 0, \;\; \lambda \text{ free}.
+\]</div>
+<p>We build the dual in two steps. First, we fix the multipliers and minimize the Lagrangian over the primal variables, which gives the <strong>dual function</strong></p>
+<div class="math notranslate nohighlight">
+\[
+\phi(\lambda, \nu) = \min_{x \in X} \mathcal{L}(x, \lambda, \nu),
+\]</div>
+<p>which may be <span class="math notranslate nohighlight">\(-\infty\)</span> for some multipliers (texts that allow the minimum not to be attained write <span class="math notranslate nohighlight">\(\inf\)</span> here). Second, we choose the multipliers to make this as large as possible, which gives the <strong>dual problem</strong></p>
+<div class="math notranslate nohighlight">
+\[
+\text{(D)} \qquad \max_{\lambda,\; \nu \ge 0} \; \phi(\lambda, \nu) .
+\]</div>
+<p><strong>Why maximize? Weak duality.</strong> Pick any feasible <span class="math notranslate nohighlight">\(x\)</span> and any multipliers with <span class="math notranslate nohighlight">\(\nu \ge 0\)</span>. At a feasible point the equality terms vanish and each <span class="math notranslate nohighlight">\(\nu_k g_k(x) \le 0\)</span>, so we know that <span class="math notranslate nohighlight">\(\mathcal{L}(x, \lambda, \nu) \le f(x)\)</span>, and since the dual function is the minimum of <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> over <em>all</em> <span class="math notranslate nohighlight">\(x \in X\)</span>, it can be no larger than <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> at this particular feasible <span class="math notranslate nohighlight">\(x\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\phi(\lambda, \nu) \;\le\; \mathcal{L}(x, \lambda, \nu) \;\le\; f(x).
+\]</div>
+<p>As a result, every dual value is a lower bound on every primal value, which is called <strong>weak duality</strong>, and it needs no assumptions at all. When we maximize <span class="math notranslate nohighlight">\(\phi\)</span> we push the lower bound up as far as it will go, and the difference between the primal minimum and the dual maximum is called the <strong>duality gap</strong>, so when the gap is zero we say that we have <strong>strong duality</strong>.</p>
+<p><strong>The dual function is always concave.</strong> For each fixed <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is a linear function of the multipliers, and the dual function is the pointwise minimum of these linear functions, which is concave. So the dual problem is a concave maximization, which is a convex problem <em>regardless of whether the primal is convex</em>, and we will use this property in Topic 2.6.</p>
+<section id="a-worked-example-the-dual-of-the-ohmic-dispatch">
+<h3>A worked example: the dual of the ohmic dispatch<a class="headerlink" href="#a-worked-example-the-dual-of-the-ohmic-dispatch" title="Link to this heading">#</a></h3>
+<p>Consider the ohmic dispatch of Topics 2.1 and 2.2, where we keep the bounds <span class="math notranslate nohighlight">\(0 \le x_i \le 1\)</span> in <span class="math notranslate nohighlight">\(X\)</span> and dualize only the demand constraint:</p>
+<div class="math notranslate nohighlight">
+\[
+\phi(\lambda) = \min_{0 \le x \le 1} \left[\sum_i \left(x_i + r_i x_i^2\right) - \lambda\left(\sum_i x_i - D\right)\right] = \lambda D + \sum_i \min_{0 \le x_i \le 1}\left(x_i + r_i x_i^2 - \lambda x_i\right).
+\]</div>
+<p>When we dualize the coupling constraint, the problem splits into one small problem per stack. At a hydrogen price of <span class="math notranslate nohighlight">\(\lambda\)</span>, stack <span class="math notranslate nohighlight">\(i\)</span> chooses its own load to maximize <span class="math notranslate nohighlight">\(\lambda x_i - P_i(x_i)\)</span> (its value of output less its power), and the answer is <span class="math notranslate nohighlight">\(x_i(\lambda) = \mathrm{clip}\big((\lambda - 1)/2r_i,\, 0,\, 1\big)\)</span>. The dual problem is then a one-variable concave maximization over the price, which is also the structure that the bounding step of Topic 2.6 uses.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.environ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">linprog</span><span class="p">,</span> <span class="n">minimize_scalar</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">part2a_tools</span> <span class="k">as</span> <span class="n">t2</span>
+
+<span class="n">D</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span class="n">lam_p</span><span class="p">,</span> <span class="n">x_p</span><span class="p">,</span> <span class="n">C_p</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dispatch</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>                         <span class="c1"># primal optimum (Topic 2.2)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span><span class="k">lambda</span> <span class="n">L</span><span class="p">:</span> <span class="o">-</span><span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dual</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">'bounded'</span><span class="p">,</span>
+                      <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xatol'</span><span class="p">:</span> <span class="mf">1e-12</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"primal minimum </span><span class="si">{</span><span class="n">C_p</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> at price </span><span class="si">{</span><span class="n">lam_p</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"dual maximum   </span><span class="si">{</span><span class="o">-</span><span class="n">res</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> at price </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">;  gap </span><span class="si">{</span><span class="n">C_p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">res</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   q(</span><span class="si">{</span><span class="n">L</span><span class="si">}</span><span class="s2">) = </span><span class="si">{</span><span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dual</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="p">)</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">  &lt;= </span><span class="si">{</span><span class="n">C_p</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">  (weak duality)"</span><span class="p">)</span>
+
+<span class="n">lams</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lams</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dual</span><span class="p">(</span><span class="n">lams</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'dual function $</span><span class="se">\\</span><span class="s1">phi(</span><span class="se">\\</span><span class="s1">lambda)$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">C_p</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'primal minimum </span><span class="si">{</span><span class="n">C_p</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lam_p</span><span class="p">,</span> <span class="n">C_p</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'hydrogen price $</span><span class="se">\\</span><span class="s1">lambda$ (per-unit power per unit load)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'power (per-unit)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>primal minimum 1.42909 at price 1.38182
+dual maximum   1.42909 at price 1.38182;  gap 1.2e-13
+   q(1.0) = 1.20000  &lt;= 1.42909  (weak duality)
+   q(1.2) = 1.37714  &lt;= 1.42909  (weak duality)
+   q(1.6) = 1.35429  &lt;= 1.42909  (weak duality)
+</pre></div>
+</div>
+<img alt="../_images/5f8f9aac34bdc12506af2d6568834d43d9b87505a96e98c1812f6aad6ab6153b.png" src="../_images/5f8f9aac34bdc12506af2d6568834d43d9b87505a96e98c1812f6aad6ab6153b.png" />
+</div>
+</div>
+<p>The dual function is concave, every value lies below the primal minimum, and its maximum touches the primal minimum at <span class="math notranslate nohighlight">\(\phi^* = 1.42909\)</span> and <span class="math notranslate nohighlight">\(\lambda^* = 1.38182\)</span>, which is the price we found in Topic 2.2. The duality gap is zero, as it must be for a convex problem.</p>
+<div class="exercise admonition" id="ex-t23-dual-by-hand">
+
+<p class="admonition-title"><span class="caption-number">Exercise 34 </span></p>
+<section id="exercise-content">
+<p>Work the dual of a one-variable problem entirely by hand: <span class="math notranslate nohighlight">\(\min_x (x - 1)^2\)</span> subject to <span class="math notranslate nohighlight">\(2x - 1 = 0\)</span>. Form the Lagrangian with the sign convention of this book, minimize it over <span class="math notranslate nohighlight">\(x\)</span> for fixed <span class="math notranslate nohighlight">\(\lambda\)</span> (check that the minimum exists), write the dual function, and maximize it. Compare the dual optimum and multiplier with the primal solution, and check your <span class="math notranslate nohighlight">\(\lambda\)</span> against <span class="math notranslate nohighlight">\(\partial f^*/\partial b\)</span> for the constraint <span class="math notranslate nohighlight">\(2x - 1 = b\)</span>.</p>
+</section>
+</div>
+<div class="exercise admonition" id="ex-t23-dual-shape">
+
+<p class="admonition-title"><span class="caption-number">Exercise 35 </span></p>
+<section id="exercise-content">
+<p>The dual function above has kinks. Find where they are and explain each one in terms of the per-stack loads <span class="math notranslate nohighlight">\(x_i(\lambda)\)</span>. (Hint: print <code class="docutils literal notranslate"><span class="pre">t2.ohmic_loads(L)</span></code> for a few prices near each kink.) Then plot <span class="math notranslate nohighlight">\(\phi(\lambda)\)</span> for <span class="math notranslate nohighlight">\(D = 2.5\)</span> and check that its maximum is at <span class="math notranslate nohighlight">\(\lambda = 1.875\)</span>.</p>
+</section>
+</div>
+</section>
+</section>
+<section id="linear-programming-duality">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Linear programming duality</a><a class="headerlink" href="#linear-programming-duality" title="Link to this heading">#</a></h2>
+<p>For an LP we can compute the dual function by hand, and the dual turns out to be another LP. Let’s take the linear dispatch of Topic 1.4, where stack <span class="math notranslate nohighlight">\(i\)</span> costs <span class="math notranslate nohighlight">\(e_i\)</span> per unit of load, with <span class="math notranslate nohighlight">\(e = (1.20, 1.45, 1.70)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_x \sum_i e_i x_i \quad \text{s.t.} \quad \sum_i x_i = D \;\; (\lambda), \qquad x_i \le 1 \;\; (u_i \ge 0), \qquad x \ge 0 .
+\]</div>
+<p>The Lagrangian is <span class="math notranslate nohighlight">\(\sum_i e_i x_i - \lambda(\sum_i x_i - D) + \sum_i u_i (x_i - 1)\)</span>, and if we collect the terms in each <span class="math notranslate nohighlight">\(x_i\)</span> we get</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L} = \lambda D - \sum_i u_i + \sum_i \left(e_i - \lambda + u_i\right) x_i .
+\]</div>
+<p>When we minimize over <span class="math notranslate nohighlight">\(x \ge 0\)</span>, any negative coefficient <span class="math notranslate nohighlight">\(e_i - \lambda + u_i\)</span> lets us send <span class="math notranslate nohighlight">\(x_i \to \infty\)</span> and <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> to <span class="math notranslate nohighlight">\(-\infty\)</span>, but otherwise the minimum is at <span class="math notranslate nohighlight">\(x = 0\)</span> and is equal to <span class="math notranslate nohighlight">\(\lambda D - \sum_i u_i\)</span>. The dual function is therefore finite exactly when every coefficient is nonnegative, so the dual problem is</p>
+<div class="math notranslate nohighlight">
+\[
+\max_{\lambda,\; u \ge 0} \; \lambda D - \sum_i u_i \quad \text{s.t.} \quad \lambda - u_i \le e_i \quad \text{for each stack } i.
+\]</div>
+<p>Notice that the roles have been transposed in the dual. Each primal constraint has become a dual variable (<span class="math notranslate nohighlight">\(\lambda\)</span> for demand and <span class="math notranslate nohighlight">\(u_i\)</span> for capacity), and each primal variable has become a dual constraint (one per stack). In the same way, the right-hand sides of the primal (<span class="math notranslate nohighlight">\(D\)</span> and the capacities) have become the objective coefficients of the dual, while the costs in the primal have become the right-hand sides of the dual.</p>
+<p><strong>The broker.</strong> We can read this pair as two people who are bargaining over the same plant. The factory minimizes cost over quantities; the broker maximizes appraisal over prices. The broker posts a price <span class="math notranslate nohighlight">\(\lambda\)</span> for hydrogen and a rent <span class="math notranslate nohighlight">\(u_i\)</span> for the capacity of each stack, and appraises the order at <span class="math notranslate nohighlight">\(\lambda D\)</span> less the rents that are paid out. The prices of the broker must not leave the factory an arbitrage, so for every stack the value of a unit of its hydrogen must not exceed what that unit costs to make, which is its operating cost plus its capacity rent, <span class="math notranslate nohighlight">\(\lambda \le e_i + u_i\)</span>. Weak duality says that the appraisal never exceeds the cost of any feasible dispatch, and strong duality (which always holds for a feasible, bounded LP) says that at the optimum the two agree and the books balance.</p>
+<p>We solve both problems with HiGHS:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">E_LINEAR</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">])</span>
+<span class="n">primal</span> <span class="o">=</span> <span class="n">linprog</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">A_eq</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)],</span> <span class="n">b_eq</span><span class="o">=</span><span class="p">[</span><span class="n">D</span><span class="p">],</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'highs'</span><span class="p">)</span>
+<span class="c1"># dual variables (lambda, u_A, u_B, u_C); linprog minimizes, so negate the objective</span>
+<span class="n">A_ub</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>                  <span class="c1"># lambda - u_i &lt;= e_i</span>
+<span class="n">dual</span> <span class="o">=</span> <span class="n">linprog</span><span class="p">([</span><span class="o">-</span><span class="n">D</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">A_ub</span><span class="o">=</span><span class="n">A_ub</span><span class="p">,</span> <span class="n">b_ub</span><span class="o">=</span><span class="n">e</span><span class="p">,</span>
+               <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'highs'</span><span class="p">)</span>
+<span class="n">lam_lp</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">dual</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dual</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"primal: loads </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">primal</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">, cost </span><span class="si">{</span><span class="n">primal</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"dual:   price </span><span class="si">{</span><span class="n">lam_lp</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, rents </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">, appraisal </span><span class="si">{</span><span class="o">-</span><span class="n">dual</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"solver's own demand multiplier: </span><span class="si">{</span><span class="n">primal</span><span class="o">.</span><span class="n">eqlin</span><span class="o">.</span><span class="n">marginals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reduced costs e_i - lambda + u_i: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lam_lp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"hydrogen price </span><span class="si">{</span><span class="n">lam_lp</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> per-unit = </span><span class="si">{</span><span class="n">lam_lp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">el</span><span class="o">.</span><span class="n">DG0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kJ/mol "</span>
+      <span class="sa">f</span><span class="s2">"= </span><span class="si">{</span><span class="n">lam_lp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">el</span><span class="o">.</span><span class="n">E0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> V-equivalent = </span><span class="si">{</span><span class="n">lam_lp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">el</span><span class="o">.</span><span class="n">DG0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.01588</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3600</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> kWh/kg"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>primal: loads [1.  0.2 0. ], cost 1.490
+dual:   price 1.450, rents [0.25 0.   0.  ], appraisal 1.490
+solver's own demand multiplier: 1.450
+reduced costs e_i - lambda + u_i: [0.   0.   0.25]
+hydrogen price 1.45 per-unit = 344 kJ/mol = 1.78 V-equivalent = 47.4 kWh/kg
+</pre></div>
+</div>
+</div>
+</div>
+<p>Both problems give 1.490. Stack A runs at full load, B takes the remaining 0.2, and C is idle. The dual price of hydrogen is 1.45, which is the cost of the stack that is running at part load, and the solver reports the same number as the demand multiplier of the primal. Stack A earns a capacity rent of <span class="math notranslate nohighlight">\(1.45 - 1.20 = 0.25\)</span>, while stack C has a reduced cost of <span class="math notranslate nohighlight">\(1.70 - 1.45 = 0.25\)</span>, so it is priced out. Complementary slackness links the two solutions term by term, since the full stack has a positive rent, the part-loaded stack has a zero rent and zero reduced cost, and the idle stack has a positive reduced cost.</p>
+<p><strong>Two multipliers for a mole of hydrogen.</strong> The kernel and the fleet each put a value on a mole of hydrogen, so it is worth comparing them once. In the kernel of Topic 2.2, the marginal free energy of a mole of H₂ supplied by the electrons is <span class="math notranslate nohighlight">\(2FU\)</span>, which at the reversible voltage is <span class="math notranslate nohighlight">\(2FE^0 = 237\)</span> kJ/mol (or one per-unit). The demand multiplier of the fleet is the marginal energy per mole of H₂ in the real stacks, which is 1.45 per-unit (344 kJ/mol) in this linear model and 1.38182 per-unit (328 kJ/mol) with ohmic losses. If we divide each of these by <span class="math notranslate nohighlight">\(2F\)</span> we get a voltage, so the marginal stack behaves like a cell at 1.78 V or 1.70 V, compared with the reversible 1.229 V. The demand multiplier is thus a marginal effective voltage, and the gap between it and the reversible voltage is the loss.</p>
+<p>In market terms the same comparison reads differently, since the multiplier is what the next kilogram costs the plant (47.4 kWh/kg here) while the ideal cell would need 32.7 kWh/kg, and the difference is the price that the plant pays for the inefficiency of the stacks.</p>
+<section id="the-dual-of-the-electrolysis-lp">
+<h3>The dual of the electrolysis LP<a class="headerlink" href="#the-dual-of-the-electrolysis-lp" title="Link to this heading">#</a></h3>
+<p>Next we derive the dual of the electrolysis cell in its LP limit from Topic 1.2, where the gases are drawn off at a pressure of 1 bar, and if we work per mole of water fed the primal is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\min_{n, q \ge 0} \; -\Delta G^0 n_{\mathrm{H_2O}} - FUq \quad \text{s.t.} \quad
+\begin{cases}
+2 n_{\mathrm{H_2O}} + 2 n_{\mathrm{H_2}} = 2 &amp; (\lambda_{\mathrm{H}}) \\
+n_{\mathrm{H_2O}} + 2 n_{\mathrm{O_2}} = 1 &amp; (\lambda_{\mathrm{O}}) \\
+q - 2 n_{\mathrm{H_2}} = 0 &amp; (\lambda_e)
+\end{cases}
+\end{split}\]</div>
+<p>If we follow the same steps as above, we get one dual constraint per primal variable:</p>
+<div class="math notranslate nohighlight">
+\[
+\max_{\lambda} \; 2\lambda_{\mathrm{H}} + \lambda_{\mathrm{O}} \quad \text{s.t.} \quad
+\underbrace{2\lambda_{\mathrm{H}} + \lambda_{\mathrm{O}} \le -\Delta G^0}_{\mathrm{H_2O}}, \quad
+\underbrace{2\lambda_{\mathrm{H}} - 2\lambda_e \le 0}_{\mathrm{H_2}}, \quad
+\underbrace{2\lambda_{\mathrm{O}} \le 0}_{\mathrm{O_2}}, \quad
+\underbrace{\lambda_e \le -FU}_{q}.
+\]</div>
+<p>Each of these constraints says that a species can be worth no more than its parts, so the dual constraints are just the Lagrange identities of Topic 2.2 turned into inequalities. Since the charge balance has a zero right-hand side, <span class="math notranslate nohighlight">\(\lambda_e\)</span> does not appear in the objective, and the H₂ and <span class="math notranslate nohighlight">\(q\)</span> constraints together say only that <span class="math notranslate nohighlight">\(\lambda_{\mathrm{H}} \le \lambda_e \le -FU\)</span> (i.e. <span class="math notranslate nohighlight">\(\lambda_{\mathrm{H}} \le -FU\)</span>). This means that the dual lives in the plane of the two atom prices, with three edges that correspond to water, oxygen, and hydrogen-plus-electrons. The primal had four variables and three constraints, while the dual has three variables (of which only two matter), so the primal and dual live in different spaces that are linked by the same matrix read by rows and by columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">F</span><span class="p">,</span> <span class="n">DG0</span><span class="p">,</span> <span class="n">E0</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">DG0</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">E0</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>          <span class="c1"># rows H, O, charge; cols H2O, H2, O2, q</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kernel_lp_pair</span><span class="p">(</span><span class="n">U</span><span class="p">):</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">DG0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="n">U</span><span class="p">])</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">linprog</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">A_eq</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">b_eq</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'highs'</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">linprog</span><span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="p">,</span> <span class="n">A_ub</span><span class="o">=</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">b_ub</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'highs'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span>
+
+<span class="n">nlp_mult</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">kernel_closed_form</span><span class="p">(</span><span class="n">E0</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>                       <span class="c1"># closed-cell multipliers (Topic 2.2)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">LH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">128</span><span class="p">,</span> <span class="o">-</span><span class="mi">108</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">dU</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)):</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">E0</span> <span class="o">+</span> <span class="n">dU</span>
+    <span class="n">p</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">kernel_lp_pair</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"U = E0 </span><span class="si">{</span><span class="n">dU</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2"> V: primal </span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">fun</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kJ (n = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">), dual </span><span class="si">{</span><span class="o">-</span><span class="n">d</span><span class="o">.</span><span class="n">fun</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kJ, "</span>
+          <span class="sa">f</span><span class="s2">"solver's dual point (lam_H, lam_O) = (</span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">) kJ/mol"</span><span class="p">)</span>
+    <span class="n">water</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">DG0</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">LH</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e3</span>
+    <span class="n">top</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">water</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">LH</span><span class="p">[</span><span class="n">LH</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="n">U</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">],</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="n">top</span><span class="p">[</span><span class="n">LH</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="n">U</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C2'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="s1">'dual feasible region'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">LH</span><span class="p">,</span> <span class="n">water</span><span class="p">,</span> <span class="s1">'C0'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'H$_2$O edge: $2</span><span class="se">\\</span><span class="s1">lambda_H + </span><span class="se">\\</span><span class="s1">lambda_O = -</span><span class="se">\\</span><span class="s1">Delta G^0$'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'O$_2$ edge: $</span><span class="se">\\</span><span class="s1">lambda_O = 0$'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="n">U</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C3'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'H$_2$ edge: $</span><span class="se">\\</span><span class="s1">lambda_H = -FU$'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dU</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">seg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">DG0</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="n">U</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1e3</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">seg</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">DG0</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">seg</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'optimal set (a segment)'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nlp_mult</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">nlp_mult</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s1">'*'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C4'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'closed-cell multipliers'</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="n">U</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">'ko'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'optimal vertex'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">128</span><span class="p">,</span> <span class="o">-</span><span class="mi">108</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'U = E$^0$ </span><span class="si">{</span><span class="n">dU</span><span class="o">*</span><span class="mf">1e3</span><span class="si">:</span><span class="s1">+.0f</span><span class="si">}</span><span class="s1"> mV'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'$</span><span class="se">\\</span><span class="s1">lambda_H$ (kJ/mol H)'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'$</span><span class="se">\\</span><span class="s1">lambda_O$ (kJ/mol O)'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'lower left'</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'lower left'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U = E0 -0.05 V: primal -237.13 kJ (n = [ 1.  0. -0. -0.]), dual -237.13 kJ, solver's dual point (lam_H, lam_O) = (-118.56, -0.00) kJ/mol
+U = E0 +0.05 V: primal -246.78 kJ (n = [0.  1.  0.5 2. ]), dual -246.78 kJ, solver's dual point (lam_H, lam_O) = (-123.39, -0.00) kJ/mol
+</pre></div>
+</div>
+<img alt="../_images/f344afc2cf4858e36cd730a1ad991f049a8051c56907e6bc0a227086018cf1ad.png" src="../_images/f344afc2cf4858e36cd730a1ad991f049a8051c56907e6bc0a227086018cf1ad.png" />
+</div>
+</div>
+<p>Below the reversible voltage (left) the primal keeps all of the water, and the dual objective <span class="math notranslate nohighlight">\(2\lambda_{\mathrm{H}} + \lambda_{\mathrm{O}}\)</span> is parallel to the water edge. Every point on the edge between the oxygen edge and the hydrogen edge is optimal, with a value of <span class="math notranslate nohighlight">\(-237.13\)</span> kJ, so the dual optimum is a whole segment rather than a single point. This happens because the primal vertex is <strong>degenerate</strong>, since six constraints are active (the three balances and the three bounds <span class="math notranslate nohighlight">\(n_{\mathrm{H_2}} = n_{\mathrm{O_2}} = q = 0\)</span>) in a four-dimensional space, which is two more than a vertex needs, and degenerate primals have non-unique duals. Only the price of water, <span class="math notranslate nohighlight">\(2\lambda_{\mathrm{H}} + \lambda_{\mathrm{O}}\)</span>, is pinned, and how that price splits between H and O is not, because no H₂ or O₂ is made that would reveal it. HiGHS returns one end of the segment, <span class="math notranslate nohighlight">\((-118.565, 0)\)</span>, but another solver could return any other point, so we need to keep this in mind when we interpret shadow prices from a degenerate LP.</p>
+<p>Above the reversible voltage (right) the hydrogen edge has moved past the corner where the water and oxygen edges meet. Now the optimum is a single vertex, <span class="math notranslate nohighlight">\(\lambda_{\mathrm{H}} = -FU\)</span>, <span class="math notranslate nohighlight">\(\lambda_{\mathrm{O}} = 0\)</span>, with a value of <span class="math notranslate nohighlight">\(-2FU = -246.78\)</span> kJ, which is equal to the primal value with all of the water split. As <span class="math notranslate nohighlight">\(U\)</span> rises through <span class="math notranslate nohighlight">\(E^0\)</span> the optimal set shrinks from a segment to a point, and this happens at the same voltage where the primal jumps from one vertex to the other.</p>
+<p>The star on the left marks the multipliers of the closed cell at the same voltage, which we found in Topic 2.2. It sits on the water edge, inside the optimal segment of the LP, and we will explain why in the next section.</p>
+<div class="exercise admonition" id="ex-t23-dual-price">
+
+<p class="admonition-title"><span class="caption-number">Exercise 36 </span></p>
+<section id="exercise-content">
+<p>Repeat the dual-plane plot at <span class="math notranslate nohighlight">\(U = E^0 - 0.10\)</span> V and <span class="math notranslate nohighlight">\(U = E^0 - 0.01\)</span> V. How does the length of the optimal segment depend on <span class="math notranslate nohighlight">\(U\)</span>? Derive the length in kJ/mol from the edge equations and compare.</p>
+</section>
+</div>
+</section>
+</section>
+<section id="the-nonlinear-dual-of-the-electrolysis-cell">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">The nonlinear dual of the electrolysis cell</a><a class="headerlink" href="#the-nonlinear-dual-of-the-electrolysis-cell" title="Link to this heading">#</a></h2>
+<p>Now let’s dualize the closed cell of Topic 2.2, where the gases stay in a 1 L headspace. We keep <span class="math notranslate nohighlight">\(n \ge 0\)</span> and <span class="math notranslate nohighlight">\(q \ge 0\)</span> in <span class="math notranslate nohighlight">\(X\)</span> and dualize the three balances, and since the Lagrangian separates by variable, the dual function is a sum of one-variable minimizations:</p>
+<ul class="simple">
+<li><p><strong>The charge <span class="math notranslate nohighlight">\(q\)</span></strong> enters linearly with coefficient <span class="math notranslate nohighlight">\(-FU - \lambda_e\)</span>. The minimum over <span class="math notranslate nohighlight">\(q \ge 0\)</span> is 0 if <span class="math notranslate nohighlight">\(\lambda_e \le -FU\)</span> and <span class="math notranslate nohighlight">\(-\infty\)</span> otherwise.</p></li>
+<li><p><strong>The liquid water</strong> enters linearly with coefficient <span class="math notranslate nohighlight">\(-\Delta G^0 - 2\lambda_{\mathrm{H}} - \lambda_{\mathrm{O}}\)</span>. The minimum is 0 if <span class="math notranslate nohighlight">\(2\lambda_{\mathrm{H}} + \lambda_{\mathrm{O}} \le -\Delta G^0\)</span> and <span class="math notranslate nohighlight">\(-\infty\)</span> otherwise. These are the same two edges as in the LP.</p></li>
+<li><p><strong>Each gas</strong> enters through <span class="math notranslate nohighlight">\(n\left[RT\left(\ln(p/p^0) - 1\right)\right] - a\,n\)</span>, where <span class="math notranslate nohighlight">\(a = 2\lambda_{\mathrm{H}} - 2\lambda_e\)</span> for H₂ and <span class="math notranslate nohighlight">\(a = 2\lambda_{\mathrm{O}}\)</span> for O₂. Setting the derivative to zero gives <span class="math notranslate nohighlight">\(RT \ln(p/p^0) = a\)</span>, a gas whose chemical potential equals the price of its parts, and substituting back, the minimum is <span class="math notranslate nohighlight">\(-p^0 V e^{a/RT}\)</span>, which is <span class="math notranslate nohighlight">\(-pV\)</span> for that gas.</p></li>
+</ul>
+<p>Summing the pieces, the dual function is</p>
+<div class="math notranslate nohighlight">
+\[
+\phi(\lambda) = \lambda_{\mathrm{H}} b_{\mathrm{H}} + \lambda_{\mathrm{O}} b_{\mathrm{O}} - p^0 V \left[e^{2(\lambda_{\mathrm{H}} - \lambda_e)/RT} + e^{2\lambda_{\mathrm{O}}/RT}\right]
+\quad \text{on} \quad \lambda_e \le -FU, \;\; 2\lambda_{\mathrm{H}} + \lambda_{\mathrm{O}} \le -\Delta G^0 .
+\]</div>
+<p>The hard oxygen and hydrogen edges of the LP have become smooth exponential penalties. Well inside an edge the penalty is negligible, and beyond it the penalty grows exponentially over a width of order <span class="math notranslate nohighlight">\(RT/2 \approx 1.2\)</span> kJ/mol, so two edges of the LP polygon have been softened by an amount that is set by <span class="math notranslate nohighlight">\(RT\)</span>.</p>
+<p>Two of the remaining choices are easy. The dual function increases with <span class="math notranslate nohighlight">\(\lambda_e\)</span>, so at the optimum <span class="math notranslate nohighlight">\(\lambda_e = -FU\)</span>, which means that the electron price is pinned by the power supply. With water in excess the water edge is active, so <span class="math notranslate nohighlight">\(\lambda_{\mathrm{H}} = (-\Delta G^0 - \lambda_{\mathrm{O}})/2\)</span> and the dual becomes a one-variable concave maximization over <span class="math notranslate nohighlight">\(\lambda_{\mathrm{O}}\)</span>, which we can solve and compare with the primal solution from Ipopt:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">R</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">P0</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">NW</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">P0</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">V_HEAD</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">N_WATER</span>
+<span class="n">bH</span><span class="p">,</span> <span class="n">bO</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">NW</span><span class="p">,</span> <span class="n">NW</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">q_dual</span><span class="p">(</span><span class="n">lam_O</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+    <span class="n">lam_H</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">DG0</span> <span class="o">-</span> <span class="n">lam_O</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>                                     <span class="c1"># on the water edge</span>
+    <span class="n">lam_e</span> <span class="o">=</span> <span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="n">U</span>                                                 <span class="c1"># pinned by the power supply</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">lam_H</span> <span class="o">*</span> <span class="n">bH</span> <span class="o">+</span> <span class="n">lam_O</span> <span class="o">*</span> <span class="n">bO</span>
+            <span class="o">-</span> <span class="n">P0</span> <span class="o">*</span> <span class="n">V</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">lam_H</span> <span class="o">-</span> <span class="n">lam_e</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lam_O</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">))))</span>
+
+<span class="n">ipopt</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">get_solver</span><span class="p">(</span><span class="s1">'ipopt'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">dU</span> <span class="ow">in</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">):</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">E0</span> <span class="o">+</span> <span class="n">dU</span>
+    <span class="n">best</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span><span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="o">-</span><span class="n">q_dual</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">U</span><span class="p">),</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">30e3</span><span class="p">,</span> <span class="mf">30e3</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">'bounded'</span><span class="p">,</span>
+                           <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xatol'</span><span class="p">:</span> <span class="mf">1e-9</span><span class="p">})</span>
+    <span class="n">lam_O</span> <span class="o">=</span> <span class="n">best</span><span class="o">.</span><span class="n">x</span><span class="p">;</span> <span class="n">lam_H</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">DG0</span> <span class="o">-</span> <span class="n">lam_O</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="n">ipopt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">kernel_nlp</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">ipopt</span><span class="p">)</span>
+        <span class="n">G_star</span><span class="p">,</span> <span class="n">lH_ip</span><span class="p">,</span> <span class="n">lO_ip</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">obj</span><span class="p">),</span> <span class="n">m</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">H</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">dual</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">O</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nh</span><span class="p">,</span> <span class="n">no</span><span class="p">,</span> <span class="n">lH_ip</span><span class="p">,</span> <span class="n">lO_ip</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">kernel_closed_form</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+        <span class="n">G_star</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">'nan'</span><span class="p">);</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"(Ipopt not available: primal value not computed)"</span><span class="p">)</span>
+    <span class="n">pV</span> <span class="o">=</span> <span class="n">best</span><span class="o">.</span><span class="n">fun</span> <span class="o">-</span> <span class="n">NW</span> <span class="o">*</span> <span class="n">DG0</span>              <span class="c1"># minus the penalty term at the optimum</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"U = E0 </span><span class="si">{</span><span class="n">dU</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2"> V: primal G* = </span><span class="si">{</span><span class="n">G_star</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> J, dual max = </span><span class="si">{</span><span class="o">-</span><span class="n">best</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> J, gap </span><span class="si">{</span><span class="n">G_star</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">best</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2"> J"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"     dual (lam_H, lam_O) = (</span><span class="si">{</span><span class="n">lam_H</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">lam_O</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">) kJ/mol; "</span>
+          <span class="sa">f</span><span class="s2">"Ipopt (</span><span class="si">{</span><span class="n">lH_ip</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">lO_ip</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">);  pV of the headspace = </span><span class="si">{</span><span class="n">pV</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> J"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U = E0 -0.05 V: primal G* = -237130014.110 J, dual max = -237130014.110 J, gap -6.0e-08 J
+     dual (lam_H, lam_O) = (-116.671, -3.789) kJ/mol; Ipopt (-116.671, -3.789);  pV of the headspace = 14.1 J
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U = E0 +0.00 V: primal G* = -237130188.988 J, dual max = -237130188.988 J, gap -3.0e-08 J
+     dual (lam_H, lam_O) = (-118.279, -0.573) kJ/mol; Ipopt (-118.279, -0.573);  pV of the headspace = 189.0 J
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>U = E0 +0.05 V: primal G* = -237132531.247 J, dual max = -237132531.247 J, gap -3.0e-08 J
+     dual (lam_H, lam_O) = (-119.887, 2.643) kJ/mol; Ipopt (-119.887, 2.643);  pV of the headspace = 2531.2 J
+</pre></div>
+</div>
+</div>
+</div>
+<p>The dual maximum is equal to the primal minimum to within the tolerances of the solvers at every voltage (the residual is below <span class="math notranslate nohighlight">\(10^{-7}\)</span> J on an objective of <span class="math notranslate nohighlight">\(2.4 \times 10^{8}\)</span> J), and the maximizing prices are the multipliers from Ipopt, which shows that strong duality holds for the closed cell as it should for a convex problem.</p>
+<p>The penalty term also has a physical meaning. At the optimum the exponentials are the partial pressures in bar, so the dual objective is <span class="math notranslate nohighlight">\(\lambda \cdot b - pV\)</span>, where <span class="math notranslate nohighlight">\(pV\)</span> is the pressure-volume product of the gas in the headspace, which is 14 J below <span class="math notranslate nohighlight">\(E^0\)</span>, 189 J at <span class="math notranslate nohighlight">\(E^0\)</span> and 2531 J at <span class="math notranslate nohighlight">\(E^0 + 0.05\)</span> V. Strictly speaking, the gas term of our objective is a Helmholtz energy, <span class="math notranslate nohighlight">\(\sum_i n_i\mu_i - pV\)</span>, because the headspace has a fixed volume, and strong duality is then Euler’s relation for that energy with the elemental potentials pricing the atoms.</p>
+<p>If we want to see the softened edges, we can plot the dual objective at <span class="math notranslate nohighlight">\(U = E^0 - 0.05\)</span> V along the water edge, where both the LP dual and the nonlinear dual have their optima, and we subtract the common term <span class="math notranslate nohighlight">\(-N_{\mathrm{w}}\Delta G^0\)</span> so that the optimal value of the LP is zero:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">U</span> <span class="o">=</span> <span class="n">E0</span> <span class="o">-</span> <span class="mf">0.05</span>
+<span class="n">lamH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">121</span><span class="p">,</span> <span class="o">-</span><span class="mi">111</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e3</span>
+<span class="n">lamO</span> <span class="o">=</span> <span class="o">-</span><span class="n">DG0</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">lamH</span>
+<span class="n">q_nl</span> <span class="o">=</span> <span class="n">q_dual</span><span class="p">(</span><span class="n">lamO</span><span class="p">,</span> <span class="n">U</span><span class="p">)</span> <span class="o">-</span> <span class="n">NW</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">DG0</span><span class="p">)</span>
+<span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="o">-</span><span class="n">DG0</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="n">U</span>                                          <span class="c1"># the LP's optimal segment</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">lo</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">hi</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'LP dual: flat on its optimal segment'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">xv</span> <span class="ow">in</span> <span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">xv</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lamH</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">q_nl</span><span class="p">,</span> <span class="s1">'C0'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'nonlinear dual (closed cell)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nlp_mult</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">q_dual</span><span class="p">(</span><span class="n">nlp_mult</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">U</span><span class="p">)</span> <span class="o">-</span> <span class="n">NW</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">DG0</span><span class="p">),</span> <span class="s1">'*'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C4'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s1">'its maximum'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">150</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'$</span><span class="se">\\</span><span class="s1">lambda_H$ along the water edge (kJ/mol H)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'dual objective $+ N_w </span><span class="se">\\</span><span class="s1">Delta G^0$ (J)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">lo</span> <span class="o">/</span> <span class="mf">1e3</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mi">140</span><span class="p">,</span> <span class="s1">'O$_2$ edge'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">hi</span> <span class="o">/</span> <span class="mf">1e3</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mi">140</span><span class="p">,</span> <span class="s1">'H$_2$ edge'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'lower center'</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b6baca4850faab6f1b660843c9b1bfbc425077649a52147d4215c5b98f5e8464.png" src="../_images/b6baca4850faab6f1b660843c9b1bfbc425077649a52147d4215c5b98f5e8464.png" />
+</div>
+</div>
+<p>The LP dual is flat across its optimal segment and drops to <span class="math notranslate nohighlight">\(-\infty\)</span> at each end, while the nonlinear dual is a smooth hump whose hard ends have become exponential walls and whose single top lies inside the segment. In effect, the entropy of the gases acts as a selection rule among the non-unique prices of the LP, and it picks the point where the penalties of the two walls (the pressures of hydrogen and oxygen) balance at the ratio in which the electrolysis produces them, 2 : 1.</p>
+<div class="exercise admonition" id="ex-t23-headspace-dual">
+
+<p class="admonition-title"><span class="caption-number">Exercise 37 </span></p>
+<section id="exercise-content">
+<p>Change the headspace volume <span class="math notranslate nohighlight">\(V\)</span> in <code class="docutils literal notranslate"><span class="pre">q_dual</span></code> to 0.1 L and to 10 L and redraw the hump. Does the location of its maximum move? Does its height? Explain both answers from the formula for <span class="math notranslate nohighlight">\(\phi(\lambda)\)</span>.</p>
+</section>
+</div>
+</section>
+<section id="duality-as-a-picture">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Duality as a picture</a><a class="headerlink" href="#duality-as-a-picture" title="Link to this heading">#</a></h2>
+<p>The lectures draw duality in a plane where the axes are the constraint value and the objective, and each choice of <span class="math notranslate nohighlight">\(x\)</span> is mapped to the point <span class="math notranslate nohighlight">\((\text{constraint}, \text{objective})\)</span>. For the dispatch, we take the horizontal axis to be the total load <span class="math notranslate nohighlight">\(Q = \sum_i x_i\)</span> and the vertical axis to be the total power. The lower boundary of this cloud of points is the <strong>value function</strong> <span class="math notranslate nohighlight">\(v(Q)\)</span>, which is the cheapest way to make <span class="math notranslate nohighlight">\(Q\)</span>.</p>
+<p>For a fixed price <span class="math notranslate nohighlight">\(\lambda\)</span>, the Lagrangian <span class="math notranslate nohighlight">\(f - \lambda(Q - D)\)</span> is constant along lines of slope <span class="math notranslate nohighlight">\(\lambda\)</span> in this plane. Minimizing the Lagrangian means that we slide such a line upward until it first touches the cloud, and the dual function <span class="math notranslate nohighlight">\(\phi(\lambda)\)</span> is the height of that supporting line at <span class="math notranslate nohighlight">\(Q = D\)</span>. Maximizing over <span class="math notranslate nohighlight">\(\lambda\)</span> means that we tilt the line until its height at <span class="math notranslate nohighlight">\(D\)</span> is as large as possible. When <span class="math notranslate nohighlight">\(v\)</span> is convex the best line is the tangent at <span class="math notranslate nohighlight">\(D\)</span>, and its height is equal to <span class="math notranslate nohighlight">\(v(D)\)</span>, which is strong duality, with the price <span class="math notranslate nohighlight">\(\lambda^*\)</span> as the slope of the value function. However, when <span class="math notranslate nohighlight">\(v\)</span> is not convex no supporting line can reach up into a dent, so the best dual value falls short of <span class="math notranslate nohighlight">\(v(D)\)</span> and there is a <strong>duality gap</strong>.</p>
+<p>The lectures also draw the same picture for an <em>inequality</em> constraint <span class="math notranslate nohighlight">\(g(x) \le 0\)</span>. In this case we put the constraint value <span class="math notranslate nohighlight">\(y = g(x)\)</span> on the horizontal axis and the objective <span class="math notranslate nohighlight">\(z = f(x)\)</span> on the vertical axis, and the primal asks for the lowest point of the set <span class="math notranslate nohighlight">\(G = \{(g(x), f(x))\}\)</span> in the half-plane <span class="math notranslate nohighlight">\(y \le 0\)</span>. For a multiplier <span class="math notranslate nohighlight">\(\mu \ge 0\)</span> the Lagrangian <span class="math notranslate nohighlight">\(z + \mu y\)</span> is constant along lines of slope <span class="math notranslate nohighlight">\(-\mu\)</span>, and the dual function is the intercept at <span class="math notranslate nohighlight">\(y = 0\)</span> of the lowest such line that still touches <span class="math notranslate nohighlight">\(G\)</span>. The dual problem then tilts the line (i.e. chooses <span class="math notranslate nohighlight">\(\mu \ge 0\)</span>) to raise that intercept as high as it can go. There are only two differences from the equality case: the sign of the slope, which comes from our sign convention, and the requirement that <span class="math notranslate nohighlight">\(\mu \ge 0\)</span>, because a line that slopes the other way would reward violating the constraint. If the constraint is inactive at the optimum then the best line is horizontal (<span class="math notranslate nohighlight">\(\mu = 0\)</span>), and this is just complementary slackness drawn as a picture.</p>
+<p>We can draw both of these cases for the ohmic fleet at <span class="math notranslate nohighlight">\(D = 1.2\)</span> and for two S-curve stacks of type A at <span class="math notranslate nohighlight">\(D = 0.9\)</span>, which is the non-convex problem from Topic 1.1:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># convex case: the ohmic fleet</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">])</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X</span> <span class="o">+</span> <span class="n">rv</span> <span class="o">*</span> <span class="n">X</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'.'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'0.8'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'$(Q, P)$ for random loads'</span><span class="p">)</span>
+<span class="n">Qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Qs</span><span class="p">,</span> <span class="p">[</span><span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dispatch</span><span class="p">(</span><span class="n">qq</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">qq</span> <span class="ow">in</span> <span class="n">Qs</span><span class="p">],</span> <span class="s1">'C0'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'value function $v(Q)$'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">L</span><span class="p">,</span> <span class="n">sty</span> <span class="ow">in</span> <span class="p">((</span><span class="n">lam_p</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.15</span><span class="p">,</span> <span class="s1">'--'</span><span class="p">)):</span>
+    <span class="n">qL</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dual</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Qs</span><span class="p">,</span> <span class="n">qL</span> <span class="o">+</span> <span class="n">L</span> <span class="o">*</span> <span class="p">(</span><span class="n">Qs</span> <span class="o">-</span> <span class="n">D</span><span class="p">),</span> <span class="s1">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="n">sty</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'supporting line, slope </span><span class="si">{</span><span class="n">L</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">qL</span><span class="p">,</span> <span class="s1">'ko'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'ohmic fleet: no gap at D = </span><span class="si">{</span><span class="n">D</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'total load $Q$ (per-unit)'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'total power (per-unit)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="c1"># non-convex case: two A stacks with the S-curve</span>
+<span class="n">D1</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">xg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20001</span><span class="p">)</span>
+<span class="n">Pg</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">p_scurve</span><span class="p">(</span><span class="n">xg</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">q_s</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>                                     <span class="c1"># dual function: lambda D + 2 min_x (P(x) - lambda x)</span>
+    <span class="k">return</span> <span class="n">L</span> <span class="o">*</span> <span class="n">D1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">Pg</span> <span class="o">-</span> <span class="n">L</span> <span class="o">*</span> <span class="n">xg</span><span class="p">)</span>
+<span class="n">best</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span><span class="k">lambda</span> <span class="n">L</span><span class="p">:</span> <span class="o">-</span><span class="n">q_s</span><span class="p">(</span><span class="n">L</span><span class="p">),</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">'bounded'</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xatol'</span><span class="p">:</span> <span class="mf">1e-10</span><span class="p">})</span>
+<span class="n">lam_s</span><span class="p">,</span> <span class="n">q_star</span> <span class="o">=</span> <span class="n">best</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">best</span><span class="o">.</span><span class="n">fun</span>
+<span class="n">Qs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">v_scurve</span><span class="p">(</span><span class="n">Q</span><span class="p">):</span>                                <span class="c1"># cheapest split of Q between the two stacks</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">xg</span><span class="p">[(</span><span class="n">xg</span> <span class="o">&gt;=</span> <span class="n">Q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">xg</span> <span class="o">&lt;=</span> <span class="n">Q</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">p_scurve</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">)</span> <span class="o">+</span> <span class="n">el</span><span class="o">.</span><span class="n">p_scurve</span><span class="p">(</span><span class="n">Q</span> <span class="o">-</span> <span class="n">x1</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">))</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="p">[</span><span class="n">v_scurve</span><span class="p">(</span><span class="n">qq</span><span class="p">)</span> <span class="k">for</span> <span class="n">qq</span> <span class="ow">in</span> <span class="n">Qs1</span><span class="p">]</span>
+<span class="n">v_D</span> <span class="o">=</span> <span class="n">v_scurve</span><span class="p">(</span><span class="n">D1</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Qs1</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="s1">'C0'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'value function $v(Q)$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Qs1</span><span class="p">,</span> <span class="n">q_star</span> <span class="o">+</span> <span class="n">lam_s</span> <span class="o">*</span> <span class="p">(</span><span class="n">Qs1</span> <span class="o">-</span> <span class="n">D1</span><span class="p">),</span> <span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'best supporting line, slope </span><span class="si">{</span><span class="n">lam_s</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">D1</span><span class="p">,</span> <span class="n">D1</span><span class="p">],</span> <span class="p">[</span><span class="n">q_star</span><span class="p">,</span> <span class="n">v_D</span><span class="p">],</span> <span class="s1">'C3'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'duality gap </span><span class="si">{</span><span class="n">v_D</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">q_star</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'two S-curve stacks: a gap at D = </span><span class="si">{</span><span class="n">D1</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'total load $Q$ (per-unit)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"S-curve, D = </span><span class="si">{</span><span class="n">D1</span><span class="si">}</span><span class="s2">: primal minimum </span><span class="si">{</span><span class="n">v_D</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> (one stack at 0.9), dual maximum </span><span class="si">{</span><span class="n">q_star</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> "</span>
+      <span class="sa">f</span><span class="s2">"at price </span><span class="si">{</span><span class="n">lam_s</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">; gap </span><span class="si">{</span><span class="n">v_D</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">q_star</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">v_D</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">q_star</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">v_D</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>S-curve, D = 0.9: primal minimum 1.58921 (one stack at 0.9), dual maximum 1.57464 at price 1.750; gap 0.01457 (0.9%)
+</pre></div>
+</div>
+<img alt="../_images/5fb86b89d7cafadb1003ced3eb167f7fe829274b45070afdd71fd654e42e55bc.png" src="../_images/5fb86b89d7cafadb1003ced3eb167f7fe829274b45070afdd71fd654e42e55bc.png" />
+</div>
+</div>
+<p>On the left, the tangent line at <span class="math notranslate nohighlight">\(D = 1.2\)</span> has a slope of 1.38182 and touches the value function, so the dual reaches the primal. The dashed line has a lower price, so it touches the cloud at a smaller load and its height at <span class="math notranslate nohighlight">\(D\)</span> is a weaker lower bound. The right panel is different. Here the value function of the two S-curve stacks has a dent around <span class="math notranslate nohighlight">\(D = 0.9\)</span>, where running one stack alone beats any smooth split, and the best supporting line has to span the dent, so the dual maximum is 1.57464 at a price of 1.750, which is below the true minimum of 1.58921 by 0.01457 (0.9%).</p>
+<p>In summary, the dual of a primal minimization has these properties:</p>
+<ul class="simple">
+<li><p><strong>Always:</strong> the dual is a concave maximization, and its value is a lower bound on the primal (weak duality).</p></li>
+<li><p><strong>Convex primal</strong> (with a strictly feasible point): the bound is tight (strong duality), and the dual’s maximizers are the KKT multipliers. LPs are the special case in which the dual is again an LP.</p></li>
+<li><p><strong>Non-convex primal:</strong> the bound may be strictly below the primal optimum. It is still a valid bound, which is what branch-and-bound needs: in Topic 2.6 the bounds come from convex relaxations, which have no gap themselves.</p></li>
+</ul>
+<section id="the-ceiling-meets-the-floor">
+<h3>The ceiling meets the floor<a class="headerlink" href="#the-ceiling-meets-the-floor" title="Link to this heading">#</a></h3>
+<p>Weak duality gives us a way to measure progress toward the optimum without knowing what it is. Any feasible dispatch is a <strong>ceiling</strong>, since the optimum can be no more expensive, and any price gives a <strong>floor</strong>, since the optimum can be no cheaper. A simple dual method is to raise the price when the preferred loads of the stacks fall short of the demand and lower it when they overshoot, <span class="math notranslate nohighlight">\(\lambda_{k+1} = \lambda_k + \alpha\,(D - \sum_i x_i(\lambda_k))\)</span>, and at each step we can also repair the preferred loads into a feasible dispatch by sharing the shortfall equally, which gives us a ceiling.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lam</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.1</span>
+<span class="n">floors</span><span class="p">,</span> <span class="n">ceilings</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="n">best_ceiling</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">25</span><span class="p">):</span>
+    <span class="n">xk</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">ohmic_loads</span><span class="p">(</span><span class="n">lam</span><span class="p">)</span>
+    <span class="n">floors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dual</span><span class="p">(</span><span class="n">lam</span><span class="p">,</span> <span class="n">D</span><span class="p">))</span>
+    <span class="n">xf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">xk</span> <span class="o">+</span> <span class="p">(</span><span class="n">D</span> <span class="o">-</span> <span class="n">xk</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                   <span class="c1"># repair to a feasible dispatch</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">xf</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">D</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-12</span><span class="p">:</span>
+        <span class="n">best_ceiling</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">best_ceiling</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">xf</span> <span class="o">+</span> <span class="n">rv</span> <span class="o">*</span> <span class="n">xf</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">ceilings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_ceiling</span><span class="p">)</span>
+    <span class="n">lam</span> <span class="o">+=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">D</span> <span class="o">-</span> <span class="n">xk</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">floors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">floors</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"after 25 steps: floor </span><span class="si">{</span><span class="n">floors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, ceiling </span><span class="si">{</span><span class="n">ceilings</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, gap </span><span class="si">{</span><span class="n">ceilings</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">floors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"price </span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">gaps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ceilings</span><span class="p">)</span> <span class="o">-</span> <span class="n">floors</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"gap after 1, 5, 10, 20 steps:"</span><span class="p">,</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">gaps</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">19</span><span class="p">)])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ceilings</span><span class="p">,</span> <span class="s1">'C3o-'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'ceiling: best feasible dispatch so far'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">floors</span><span class="p">,</span> <span class="s1">'C0s-'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'floor: best dual value so far'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">C_p</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'optimum </span><span class="si">{</span><span class="n">C_p</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'iteration'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'total power (per-unit)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>after 25 steps: floor 1.42909, ceiling 1.42909, gap 3.4e-09, price 1.38179
+gap after 1, 5, 10, 20 steps: ['2.5e-01', '1.2e-02', '2.8e-04', '1.5e-07']
+</pre></div>
+</div>
+<img alt="../_images/61f20be67145923aeed9dc67735c98dd7f43516f41dd46109b4abc3c0aac17b5.png" src="../_images/61f20be67145923aeed9dc67735c98dd7f43516f41dd46109b4abc3c0aac17b5.png" />
+</div>
+</div>
+<p>The floor rises and the ceiling falls until they meet at 1.42909; the gap between them is 0.012 after 5 steps, <span class="math notranslate nohighlight">\(3 \times 10^{-4}\)</span> after 10 and <span class="math notranslate nohighlight">\(10^{-7}\)</span> after 20. At every iteration the distance between them bounds how far the best dispatch found so far can be from the optimum, a certificate that needs no knowledge of the answer. Branch-and-bound (Topic 2.5) runs on the same pair of bounds: relaxations supply floors, feasible points supply ceilings, and the search stops when they meet.</p>
+<p>Duality returns later in the book. In Topic 3.5, the LASSO is written through its Lagrangian, which turns a constrained fit into a penalized one, and support vector regression is solved through its dual. In Topic 4.4 (<a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html"><span class="doc">4.4 Physics-Informed Machine Learning</span></a>), physics-informed training is posed as a constrained learning problem and trained by the same kind of dual ascent as above, with a Lagrange multiplier on the physical constraint taking the place of a hand-tuned penalty weight.</p>
+<div class="exercise admonition" id="ex-t23-step-size">
+
+<p class="admonition-title"><span class="caption-number">Exercise 38 </span></p>
+<section id="exercise-content">
+<p>Rerun the dual method with step sizes <span class="math notranslate nohighlight">\(\alpha = 0.3\)</span>, <span class="math notranslate nohighlight">\(0.6\)</span> and <span class="math notranslate nohighlight">\(0.7\)</span>. Which converge, and how fast? Relate the largest stable step to the slope of <span class="math notranslate nohighlight">\(\sum_i x_i(\lambda)\)</span>, which is <span class="math notranslate nohighlight">\(\sum_i 1/(2r_i)\)</span> while no stack is at a bound. Then replace the equal-share repair with a better one (for example, give the whole shortfall to the stack with the lowest marginal power that still has spare capacity) and compare the ceilings.</p>
+</section>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The dual function <span class="math notranslate nohighlight">\(\phi(\lambda) = \min_x \mathcal{L}(x, \lambda)\)</span> is concave for any primal, and the dual problem maximizes it. Weak duality, <span class="math notranslate nohighlight">\(\phi(\lambda) \le f(x)\)</span> for any feasible <span class="math notranslate nohighlight">\(x\)</span>, needs no assumptions.</p></li>
+<li><p>For the ohmic dispatch, dualizing the demand splits the problem by stack; the dual maximum equals the primal minimum, 1.42909, at the price 1.38182.</p></li>
+<li><p>The dual of an LP is an LP with the roles of variables and constraints transposed. The factory minimizes cost over quantities; the broker maximizes appraisal over prices. For the linear dispatch both give 1.490, with hydrogen priced at 1.45 per-unit (344 kJ/mol, 47.4 kWh/kg), a capacity rent of 0.25 on stack A and a reduced cost of 0.25 on stack C.</p></li>
+<li><p>The demand multiplier is a marginal effective voltage (1.78 V in the linear fleet, 1.70 V with ohmic losses) against the kernel’s reversible 1.229 V; the gap is the loss.</p></li>
+<li><p>The electrolysis LP has a dual in the plane of the atom prices. Below <span class="math notranslate nohighlight">\(E^0\)</span> its optimum is a segment (the primal is degenerate); above <span class="math notranslate nohighlight">\(E^0\)</span> it is the vertex <span class="math notranslate nohighlight">\((-FU, 0)\)</span>.</p></li>
+<li><p>The closed cell’s nonlinear dual is <span class="math notranslate nohighlight">\(\lambda \cdot b - pV\)</span>, with the LP’s oxygen and hydrogen edges softened into exponential walls. Strong duality holds numerically, and the entropy of the gases selects one point from the LP’s optimal segment.</p></li>
+<li><p>For convex problems the dual bound is tight; for non-convex problems there can be a gap (0.01457, or 0.9%, for two S-curve stacks at <span class="math notranslate nohighlight">\(D = 0.9\)</span>), but the bound remains valid. Floors from duals and ceilings from feasible points are the bound-pair that branch-and-bound uses.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>D. Bertsimas and J. N. Tsitsiklis, <em>Introduction to Linear Optimization</em>, Athena Scientific (1997), Chapter 4, on LP duality and its economic interpretation.</p></li>
+<li><p>S. Boyd and L. Vandenberghe, <em>Convex Optimization</em>, Cambridge University Press (2004), Chapter 5, on Lagrangian duality, its geometric interpretation, and strong duality under Slater’s condition.</p></li>
+<li><p>L. T. Biegler, <em>Nonlinear Programming: Concepts, Algorithms, and Applications to Chemical Processes</em>, SIAM (2010), Chapter 4.</p></li>
+<li><p>J. Nocedal and S. J. Wright, <em>Numerical Optimization</em>, 2nd ed., Springer (2006), Chapters 12 and 13, on duality for nonlinear and linear programs.</p></li>
+<li><p>A. Ravindran, K. M. Ragsdell and G. V. Reklaitis, <em>Engineering Optimization: Methods and Applications</em>, 2nd ed., Wiley (2006), on duality in linear programming.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./2-nonlinear_mixed_integer"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2.2 Lagrange Multipliers and KKT Conditions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic2.4-Mixed-Integer_Formulations.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2.4 Mixed-Integer Formulations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dual-problem">The dual problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-worked-example-the-dual-of-the-ohmic-dispatch">A worked example: the dual of the ohmic dispatch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-programming-duality">Linear programming duality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dual-of-the-electrolysis-lp">The dual of the electrolysis LP</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nonlinear-dual-of-the-electrolysis-cell">The nonlinear dual of the electrolysis cell</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#duality-as-a-picture">Duality as a picture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ceiling-meets-the-floor">The ceiling meets the floor</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

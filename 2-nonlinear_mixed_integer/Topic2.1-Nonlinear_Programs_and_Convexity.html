@@ -1,0 +1,1204 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.1 Nonlinear Programs and Convexity &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.2 Lagrange Multipliers and KKT Conditions" href="Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html" />
+    <link rel="prev" title="Nonlinear and Mixed-Integer Optimization" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Nonlinear and Mixed-Integer Optimization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>2.1 Nonlinear Programs and Convexity</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-programs">Nonlinear programs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ohmic-dispatch">The ohmic dispatch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-lecture-example-residence-time-of-a-reactor">A lecture example: residence time of a reactor</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hessians-and-eigenvalues">Hessians and eigenvalues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimality-conditions">Optimality conditions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dispatch-as-an-unconstrained-problem">The dispatch as an unconstrained problem</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convexity">Convexity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-is-not-non-convex">Nonlinear is not non-convex</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#nonlinear-programs-and-convexity" id="id1">2.1 Nonlinear Programs and Convexity</a></p>
+<ul>
+<li><p><a class="reference internal" href="#nonlinear-programs" id="id2">Nonlinear programs</a></p></li>
+<li><p><a class="reference internal" href="#hessians-and-eigenvalues" id="id3">Hessians and eigenvalues</a></p></li>
+<li><p><a class="reference internal" href="#optimality-conditions" id="id4">Optimality conditions</a></p></li>
+<li><p><a class="reference internal" href="#convexity" id="id5">Convexity</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id6">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id7">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="nonlinear-programs-and-convexity">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">2.1 Nonlinear Programs and Convexity</a><a class="headerlink" href="#nonlinear-programs-and-convexity" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 4, Lesson 1: <em>Nonlinear Programming Formulations</em></p></li>
+<li><p>Module 4, Lesson 2: <em>Hessians and Eigenvalues</em></p></li>
+<li><p>Module 4, Lesson 3: <em>Optimality Conditions and Convexity</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Recognize a nonlinear program (NLP) and name the local and global solvers used for it.</p></li>
+<li><p>Write the electrolyzer dispatch with ohmic losses as an NLP in Pyomo and solve it.</p></li>
+<li><p>Compute the Hessian of a function and classify it by the signs of its eigenvalues.</p></li>
+<li><p>State the necessary and sufficient conditions for an unconstrained minimum in one and in <span class="math notranslate nohighlight">\(n\)</span> dimensions.</p></li>
+<li><p>Test a function for convexity, and explain why “nonlinear” does not mean “non-convex”.</p></li>
+</ul>
+</div>
+<p>In the first module (Topics 1.1–1.5) we worked mostly with linear programs, where the solutions sit at vertices and a solver that finds a local optimum has also found the global one. In this topic we will turn the first dial of the nonlinear and mixed-integer topics and make the power of each stack grow faster than linearly with load (as it does when we include resistive heating), which turns the dispatch into a nonlinear program. However, nonlinearity alone is not what makes a problem hard. As we will see, the real difficulty in optimization comes from non-convexity, and we can test for it with the tools of this topic: the Hessian and its eigenvalues.</p>
+<section id="nonlinear-programs">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Nonlinear programs</a><a class="headerlink" href="#nonlinear-programs" title="Link to this heading">#</a></h2>
+<p>A <strong>nonlinear program</strong> (NLP) is an optimization problem with only continuous variables where at least one function (the objective or a constraint) is nonlinear. Almost every detailed model of a chemical process is nonlinear. For example, reaction rates are exponential in temperature, phase equilibria involve logarithms of compositions, and flowsheets with recycle streams multiply flows by concentrations. Parameter estimation for nonlinear models, constrained regression, portfolio selection (where the risk of a portfolio is a quadratic function of the amounts invested), and optimization problems containing a trained machine-learning model are also NLPs. Unlike in an LP, the optimum of an NLP need not sit at a vertex, since the feasible region can have curved boundaries and the optimum can be anywhere on the boundary or inside the feasible region.</p>
+<p>There are two kinds of NLPs. In a <strong>convex</strong> NLP every local minimum is a global minimum, exactly as in an LP, so we can trust local solvers. In a <strong>non-convex</strong> NLP there can be several local minima, and a local solver will stop at whichever one it reaches first, so finding the global minimum and proving it requires a global solver, which is far more expensive. One convex class is common enough to have its own name: a <strong>quadratic program</strong> (QP) has a quadratic objective and linear constraints. Convex QPs have enough structure that most LP and MILP solvers (HiGHS, Gurobi, CPLEX) can solve them directly, and the same codes can also handle a convex quadratic objective with integer variables. In this course we will use two kinds of solver through Pyomo:</p>
+<ul class="simple">
+<li><p><strong>Ipopt</strong> (Interior Point OPTimizer) is a local solver. It follows the interior-point idea: it stays strictly inside the inequality constraints and approaches the boundary only in the limit.</p></li>
+<li><p><strong>Couenne</strong>, and the commercial solver BARON that the lectures name, are global solvers. They use the spatial branch-and-bound method of <a class="reference internal" href="Topic2.6-Non-convex_Problems_and_Bounding.html"><span class="doc">2.6 Non-convex Problems and Bounding</span></a>.</p></li>
+</ul>
+<section id="the-ohmic-dispatch">
+<h3>The ohmic dispatch<a class="headerlink" href="#the-ohmic-dispatch" title="Link to this heading">#</a></h3>
+<p>The running example from Topic 1.1 has three electrolyzer stacks A, B and C sharing a hydrogen demand <span class="math notranslate nohighlight">\(D\)</span>. In Topics 1.4 and 1.5 each stack drew power in proportion to its load, and now we will add the simplest physical loss that grows with load, which is resistive (ohmic) heating and grows with the square of the current. In per-unit, a stack running at load <span class="math notranslate nohighlight">\(x\)</span> draws</p>
+<div class="math notranslate nohighlight">
+\[
+P_i(x) = x + r_i x^2 ,
+\]</div>
+<p>where the first term is the ideal (reversible) power and <span class="math notranslate nohighlight">\(r_i\)</span> measures how lossy the stack is. Stack B has the lowest resistance and stack C has the highest, with <span class="math notranslate nohighlight">\(r = (0.50, 0.35, 0.70)\)</span> for A, B and C. We can now write the dispatch problem as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_{x_A, x_B, x_C} \quad &amp; \sum_i \left(x_i + r_i x_i^2\right) \\
+\text{s.t.} \quad &amp; x_A + x_B + x_C = D \\
+&amp; 0 \le x_i \le 1 .
+\end{aligned}
+\end{split}\]</div>
+<p>The constraints are linear, and only the objective is nonlinear. We can write the model in Pyomo and solve it with Ipopt, and if Ipopt is not installed the cell falls back to scipy’s SLSQP, which is a local gradient-based method. The helper <code class="docutils literal notranslate"><span class="pre">t2.get_solver</span></code> looks for the solver executable and returns <code class="docutils literal notranslate"><span class="pre">None</span></code> if it cannot find one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.environ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">part2a_tools</span> <span class="k">as</span> <span class="n">t2</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">}</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">])</span>
+<span class="n">D</span> <span class="o">=</span> <span class="mf">1.2</span>                                     <span class="c1"># 240 kg H2/h</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ohmic_model</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="n">D</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">power</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">demand</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">S</span><span class="p">)</span> <span class="o">==</span> <span class="n">D</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+<span class="n">ipopt</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">get_solver</span><span class="p">(</span><span class="s1">'ipopt'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">ipopt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">ohmic_model</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+    <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">]);</span> <span class="n">cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">power</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">z</span> <span class="o">+</span> <span class="n">rv</span> <span class="o">*</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">x0</span><span class="o">=</span><span class="p">[</span><span class="n">D</span> <span class="o">/</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+                   <span class="n">constraints</span><span class="o">=</span><span class="p">[{</span><span class="s1">'type'</span><span class="p">:</span> <span class="s1">'eq'</span><span class="p">,</span> <span class="s1">'fun'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">z</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">D</span><span class="p">}],</span> <span class="n">method</span><span class="o">=</span><span class="s1">'SLSQP'</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">cost</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">fun</span>
+
+<span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">xi</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"stack </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">: load </span><span class="si">{</span><span class="n">xi</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> kg/h"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"total power </span><span class="si">{</span><span class="n">cost</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> per-unit = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>stack A: load 0.3818 =  76.4 kg/h
+stack B: load 0.5455 = 109.1 kg/h
+stack C: load 0.2727 =  54.5 kg/h
+total power 1.42909 per-unit = 9.34 MW
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that in this answer every stack runs and none of them is at full load, which never happens in a linear dispatch. With linear power curves the cheapest stack ran flat out and the next one took the remainder, but with ohmic losses piling load onto one stack makes its losses grow quadratically, so it is cheaper to spread the load out. This means the best split is in the <strong>interior</strong> of the feasible region rather than at a vertex. The low-resistance stack B carries the most (109 kg/h), and the lossy stack C carries the least (55 kg/h).</p>
+<div class="exercise admonition" id="ex-t21-ohmic-demand">
+
+<p class="admonition-title"><span class="caption-number">Exercise 25 </span></p>
+<section id="exercise-content">
+<p>Re-solve the ohmic dispatch for demands <span class="math notranslate nohighlight">\(D = 0.3, 0.6, \ldots, 2.7\)</span>. Plot each stack’s load against <span class="math notranslate nohighlight">\(D\)</span>. At what demand does the first stack reach full load, and which stack is it? What happens to the other two loads after that point?</p>
+</section>
+</div>
+</section>
+<section id="a-lecture-example-residence-time-of-a-reactor">
+<h3>A lecture example: residence time of a reactor<a class="headerlink" href="#a-lecture-example-residence-time-of-a-reactor" title="Link to this heading">#</a></h3>
+<div class="note admonition">
+<p class="admonition-title">Adapted from a course notebook</p>
+<p>Adapted from the course notebook <code class="docutils literal notranslate"><span class="pre">Module</span> <span class="pre">4/Module</span> <span class="pre">4</span> <span class="pre">Example.ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT). The notebook integrates the rate equations with Pyomo.DAE; here we use their closed-form solution.</p>
+</div>
+<p>The NLP example in the lecture is a reactor making a product B from a reactant A by the series reaction A → B → C, where C is a less valuable by-product. The rate constants are <span class="math notranslate nohighlight">\(k_A = 0.5\)</span> and <span class="math notranslate nohighlight">\(k_B = 0.1\)</span> per minute, and the feed has <span class="math notranslate nohighlight">\(c_{A,0} = 2\)</span> mol/L. The course notebook integrates the first-order rate equations over the residence time <span class="math notranslate nohighlight">\(\tau\)</span> (as for a plug-flow reactor) and chooses <span class="math notranslate nohighlight">\(\tau\)</span> to maximize the value of the outlet, <span class="math notranslate nohighlight">\(10\,c_B + 3\,c_C\)</span> in dollars per liter. Since the kinetics are first order, the outlet concentrations have a closed form,</p>
+<div class="math notranslate nohighlight">
+\[
+c_A = c_{A,0} e^{-k_A \tau}, \qquad c_B = \frac{c_{A,0}\,k_A}{k_B - k_A}\left(e^{-k_A \tau} - e^{-k_B \tau}\right), \qquad c_C = c_{A,0} - c_A - c_B ,
+\]</div>
+<p>so this is a one-variable NLP with an exponential objective.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize_scalar</span>
+
+<span class="n">kA</span><span class="p">,</span> <span class="n">kB</span><span class="p">,</span> <span class="n">cA0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">2.0</span>            <span class="c1"># 1/min, 1/min, mol/L</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">outlet</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="n">cA</span> <span class="o">=</span> <span class="n">cA0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">kA</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="n">cB</span> <span class="o">=</span> <span class="n">cA0</span> <span class="o">*</span> <span class="n">kA</span> <span class="o">/</span> <span class="p">(</span><span class="n">kB</span> <span class="o">-</span> <span class="n">kA</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">kA</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">kB</span> <span class="o">*</span> <span class="n">tau</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">cA</span><span class="p">,</span> <span class="n">cB</span><span class="p">,</span> <span class="n">cA0</span> <span class="o">-</span> <span class="n">cA</span> <span class="o">-</span> <span class="n">cB</span>
+
+<span class="n">value</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">tau</span><span class="p">:</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">outlet</span><span class="p">(</span><span class="n">tau</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">outlet</span><span class="p">(</span><span class="n">tau</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>      <span class="c1"># $/L</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span><span class="k">lambda</span> <span class="n">tau</span><span class="p">:</span> <span class="o">-</span><span class="n">value</span><span class="p">(</span><span class="n">tau</span><span class="p">),</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">'bounded'</span><span class="p">,</span>
+                      <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xatol'</span><span class="p">:</span> <span class="mf">1e-10</span><span class="p">})</span>
+<span class="n">tau_opt</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
+<span class="n">h</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<span class="n">curv</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">tau_opt</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">value</span><span class="p">(</span><span class="n">tau_opt</span><span class="p">)</span> <span class="o">+</span> <span class="n">value</span><span class="p">(</span><span class="n">tau_opt</span> <span class="o">-</span> <span class="n">h</span><span class="p">))</span> <span class="o">/</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"best residence time </span><span class="si">{</span><span class="n">tau_opt</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> min, outlet value </span><span class="si">{</span><span class="n">value</span><span class="p">(</span><span class="n">tau_opt</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> $/L "</span>
+      <span class="sa">f</span><span class="s2">"(at 5 min: </span><span class="si">{</span><span class="n">value</span><span class="p">(</span><span class="mf">5.0</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> $/L)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"second derivative of the value at the optimum: </span><span class="si">{</span><span class="n">curv</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> $/(L min^2)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>best residence time 4.76 min, outlet value 14.697 $/L (at 5 min: 14.685 $/L)
+second derivative of the value at the optimum: -0.435 $/(L min^2)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The best residence time is 4.76 minutes. This is a little shorter than a 5-minute design, because a shorter time leaves A unconverted while a longer one lets B decay into the cheaper C. The second derivative of the value at the optimum is negative, as it should be at a maximum, and in the next two sections we will make this check precise for any number of variables.</p>
+<p>Most reactor models do not have a closed form, so the lecture solves this one the general way, and we will do the same here. Pyomo’s <code class="docutils literal notranslate"><span class="pre">pyomo.dae</span></code> extension writes the rate equations as constraints on the concentration profiles and discretizes them by orthogonal collocation, which turns the differential equations into algebraic ones. There are two things to notice when we make the residence time a decision variable. First, if <span class="math notranslate nohighlight">\(\tau\)</span> is fixed the model has no degrees of freedom, since every variable is determined by the equations, so “solving” it is really a simulation. Second, to let <span class="math notranslate nohighlight">\(\tau\)</span> vary we need to rescale the time axis to a dimensionless <span class="math notranslate nohighlight">\(s = t/\tau \in [0, 1]\)</span>, and then each rate equation becomes <span class="math notranslate nohighlight">\(dc_i/ds = \tau \cdot r_i(c)\)</span>. The equations on this fixed horizon contain the products <span class="math notranslate nohighlight">\(\tau \cdot c_i\)</span>, which are bilinear, and these products are where the nonlinearity in the optimization comes from.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyomo.dae</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContinuousSet</span><span class="p">,</span> <span class="n">DerivativeVar</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">reactor_model</span><span class="p">(</span><span class="n">tau_fixed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>                           <span class="c1"># dimensionless time s = t / tau</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>              <span class="c1"># residence time, min</span>
+    <span class="k">if</span> <span class="n">tau_fixed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">tau</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">tau_fixed</span><span class="p">)</span>                                     <span class="c1"># zero degrees of freedom: a simulation</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">([</span><span class="s1">'A'</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">,</span> <span class="s1">'C'</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">dc</span> <span class="o">=</span> <span class="n">DerivativeVar</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'A'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="o">-</span><span class="n">kA</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">s</span><span class="p">],</span>
+            <span class="s1">'B'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">kA</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">-</span> <span class="n">kB</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">s</span><span class="p">],</span>
+            <span class="s1">'C'</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">kB</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">s</span><span class="p">]}</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">ode</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">([</span><span class="s1">'A'</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">,</span> <span class="s1">'C'</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span>
+                           <span class="n">m</span><span class="o">.</span><span class="n">dc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">tau</span> <span class="o">*</span> <span class="n">rate</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s1">'A'</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">cA0</span><span class="p">);</span> <span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s1">'B'</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s1">'C'</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s1">'B'</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="s1">'C'</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">maximize</span><span class="p">)</span>
+    <span class="n">pyo</span><span class="o">.</span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">'dae.collocation'</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nfe</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ncp</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+<span class="k">if</span> <span class="n">ipopt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">reactor_model</span><span class="p">(</span><span class="n">tau_fixed</span><span class="o">=</span><span class="mf">5.0</span><span class="p">);</span> <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"simulation at 5 min: outlet c_A, c_B, c_C ="</span><span class="p">,</span>
+          <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="s1">'ABC'</span><span class="p">],</span> <span class="s2">" closed form:"</span><span class="p">,</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">outlet</span><span class="p">(</span><span class="mf">5.0</span><span class="p">)])</span>
+    <span class="n">opt</span> <span class="o">=</span> <span class="n">reactor_model</span><span class="p">();</span> <span class="n">ipopt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"optimization: residence time </span><span class="si">{</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> min, value </span><span class="si">{</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> $/L"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Ipopt not available; the closed-form result above is the answer."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>simulation at 5 min: outlet c_A, c_B, c_C = [0.16, 1.31, 0.52]  closed form: [0.16, 1.31, 0.52]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>optimization: residence time 4.76 min, value 14.697 $/L
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Outlet at <span class="math notranslate nohighlight">\(\tau\)</span> = 5 min (mol/L)</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(c_A\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(c_B\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(c_C\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Collocation (<code class="docutils literal notranslate"><span class="pre">pyomo.dae</span></code>)</p></td>
+<td><p>0.16</p></td>
+<td><p>1.31</p></td>
+<td><p>0.52</p></td>
+</tr>
+<tr class="row-odd"><td><p>Closed form</p></td>
+<td><p>0.16</p></td>
+<td><p>1.31</p></td>
+<td><p>0.52</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Optimum</p></th>
+<th class="head"><p>Residence time (min)</p></th>
+<th class="head"><p>Outlet value ($/L)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Closed form (<code class="docutils literal notranslate"><span class="pre">minimize_scalar</span></code>)</p></td>
+<td><p>4.76</p></td>
+<td><p>14.697</p></td>
+</tr>
+<tr class="row-odd"><td><p>Collocation (Ipopt)</p></td>
+<td><p>4.76</p></td>
+<td><p>14.697</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The collocation model reproduces the closed form. At 5 minutes it gives the same outlet concentrations, and the optimization returns the same residence time and outlet value as <code class="docutils literal notranslate"><span class="pre">minimize_scalar</span></code> did above.</p>
+<div class="exercise admonition" id="ex-t21-cstr-price">
+
+<p class="admonition-title"><span class="caption-number">Exercise 26 </span></p>
+<section id="exercise-content">
+<p>Change the by-product value from 3 to 8 <span class="math notranslate nohighlight">\(/L and re-solve. Explain the new optimum in words. Then plot `value(tau)` for \)</span>0 \le \tau \le 30<span class="math notranslate nohighlight">\( for both prices: is the value a concave function of \)</span>\tau$ over the whole range?</p>
+</section>
+</div>
+</section>
+</section>
+<section id="hessians-and-eigenvalues">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Hessians and eigenvalues</a><a class="headerlink" href="#hessians-and-eigenvalues" title="Link to this heading">#</a></h2>
+<p>For a function of one variable, the second derivative tells us how the function curves, and for a function of <span class="math notranslate nohighlight">\(n\)</span> variables the curvature becomes a matrix. The <strong>Hessian</strong> of a twice-differentiable function <span class="math notranslate nohighlight">\(f(x_1, \ldots, x_n)\)</span> is the <span class="math notranslate nohighlight">\(n \times n\)</span> matrix of its second partial derivatives,</p>
+<div class="math notranslate nohighlight">
+\[
+H(x) = \nabla^2 f(x), \qquad H_{jk} = \frac{\partial^2 f}{\partial x_j \, \partial x_k} .
+\]</div>
+<p>Because the order of differentiation does not matter for smooth functions, <span class="math notranslate nohighlight">\(H\)</span> is <strong>symmetric</strong>. A symmetric matrix has real eigenvalues, and their signs classify it:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Eigenvalues of <span class="math notranslate nohighlight">\(H\)</span></p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Shape of <span class="math notranslate nohighlight">\(f\)</span> near the point</p></th>
+<th class="head"><p>If this holds at every point, <span class="math notranslate nohighlight">\(f\)</span> is</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>all <span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
+<td><p>positive definite</p></td>
+<td><p>a bowl, curving up in every direction</p></td>
+<td><p>strictly convex</p></td>
+</tr>
+<tr class="row-odd"><td><p>all <span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
+<td><p>positive semidefinite (PSD)</p></td>
+<td><p>a bowl or a trough, never curving down</p></td>
+<td><p>convex</p></td>
+</tr>
+<tr class="row-even"><td><p>all <span class="math notranslate nohighlight">\(&lt; 0\)</span></p></td>
+<td><p>negative definite</p></td>
+<td><p>a dome</p></td>
+<td><p>strictly concave</p></td>
+</tr>
+<tr class="row-odd"><td><p>all <span class="math notranslate nohighlight">\(\le 0\)</span></p></td>
+<td><p>negative semidefinite</p></td>
+<td><p>a dome or a ridge</p></td>
+<td><p>concave</p></td>
+</tr>
+<tr class="row-even"><td><p>some <span class="math notranslate nohighlight">\(&gt; 0\)</span>, some <span class="math notranslate nohighlight">\(&lt; 0\)</span></p></td>
+<td><p>indefinite</p></td>
+<td><p>a saddle</p></td>
+<td><p>neither (non-convex)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The last column connects the Hessian to the definition of convexity in Topic 1.1. A strictly convex function has at most one minimizer, while a convex function that is not strictly convex can have a whole set of minimizers with the same value, as along the trough of a PSD Hessian. (A Hessian that is positive definite everywhere is sufficient for strict convexity but not necessary: <span class="math notranslate nohighlight">\(x^4\)</span> is strictly convex although <span class="math notranslate nohighlight">\(f''(0) = 0\)</span>.)</p>
+<p>The eigenvalues also have a direct geometric meaning: if <span class="math notranslate nohighlight">\(v\)</span> is a unit eigenvector with eigenvalue <span class="math notranslate nohighlight">\(\lambda\)</span>, then <span class="math notranslate nohighlight">\(v^\top H v = \lambda\)</span>, so <span class="math notranslate nohighlight">\(\lambda\)</span> is the curvature of <span class="math notranslate nohighlight">\(f\)</span> along the direction <span class="math notranslate nohighlight">\(v\)</span>, which means that a function with a positive definite Hessian curves up along every direction while a function with an indefinite Hessian curves up along some directions and down along others.</p>
+<p><strong>The ohmic fleet.</strong> The total power <span class="math notranslate nohighlight">\(\sum_i (x_i + r_i x_i^2)\)</span> is a sum of terms that each depend on only one variable, so its Hessian is the diagonal matrix <span class="math notranslate nohighlight">\(H = \mathrm{diag}(2 r_A, 2 r_B, 2 r_C)\)</span> with eigenvalues <span class="math notranslate nohighlight">\(2r_i &gt; 0\)</span> at every point, and the power of the fleet is a bowl at every load.</p>
+<p><strong>The S-curve fleet.</strong> Topic 1.1 also introduced a power curve with a concave start-up term, <span class="math notranslate nohighlight">\(P(x) = x + a\,x/(x+\epsilon) + r x^2\)</span>, and for two stacks of type A the Hessian of <span class="math notranslate nohighlight">\(P(x_1) + P(x_2)\)</span> is again diagonal with entries <span class="math notranslate nohighlight">\(P''(x_1)\)</span> and <span class="math notranslate nohighlight">\(P''(x_2)\)</span> from <span class="math notranslate nohighlight">\(P''(x) = 2r - 2a\epsilon/(x+\epsilon)^3\)</span>. At low load the negative term is larger than the positive one, so the curvature is negative in that region.</p>
+<p><strong>The ideal mixture.</strong> Chemical engineers meet Hessians most often in thermodynamics, and a good example of this is the Gibbs energy of mixing of an ideal mixture, which is given by</p>
+<div class="math notranslate nohighlight">
+\[
+G_{\mathrm{mix}}(n) = RT \sum_i n_i \ln \frac{n_i}{N}, \qquad N = \sum_j n_j ,
+\]</div>
+<p>Differentiating this twice gives the Hessian:</p>
+<div class="math notranslate nohighlight">
+\[
+H_{jk} = RT\left(\frac{\delta_{jk}}{n_j} - \frac{1}{N}\right).
+\]</div>
+<p>We can compute the eigenvalues of all three of these numerically:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">eig_report</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">H</span><span class="p">):</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-9</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lam</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'positive definite'</span> <span class="k">if</span> <span class="n">lam</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="k">else</span>
+            <span class="s1">'positive semidefinite'</span> <span class="k">if</span> <span class="n">lam</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;</span> <span class="o">-</span><span class="n">tol</span> <span class="k">else</span>
+            <span class="s1">'indefinite'</span> <span class="k">if</span> <span class="n">lam</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="k">else</span> <span class="s1">'negative semidefinite'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">40s</span><span class="si">}</span><span class="s2"> eigenvalues </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">lam</span><span class="p">,</span><span class="w"> </span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">eig_report</span><span class="p">(</span><span class="s2">"ohmic fleet (any loads)"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">rv</span><span class="p">))</span>
+
+<span class="n">a</span><span class="p">,</span> <span class="n">rA</span><span class="p">,</span> <span class="n">eps</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">A_PARASITIC</span><span class="p">[</span><span class="s1">'A'</span><span class="p">],</span> <span class="n">el</span><span class="o">.</span><span class="n">R_OHMIC</span><span class="p">[</span><span class="s1">'A'</span><span class="p">],</span> <span class="n">el</span><span class="o">.</span><span class="n">EPS</span>
+<span class="n">P2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rA</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">eps</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span>
+<span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="p">[(</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">)]:</span>
+    <span class="n">eig_report</span><span class="p">(</span><span class="sa">f</span><span class="s2">"S-curve, two A stacks at </span><span class="si">{</span><span class="n">pt</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="n">P2</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">P2</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">])]))</span>
+
+<span class="n">RT</span> <span class="o">=</span> <span class="mf">8.314462618</span> <span class="o">*</span> <span class="mf">298.15</span>                       <span class="c1"># J/mol</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>                   <span class="c1"># mol of three ideal-gas species</span>
+<span class="n">H_mix</span> <span class="o">=</span> <span class="n">RT</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">n</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">eig_report</span><span class="p">(</span><span class="s2">"ideal-mixing Gibbs energy (J/mol^2)"</span><span class="p">,</span> <span class="n">H_mix</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"H_mix @ n = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">H_mix</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">precision</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">  (n itself is the zero eigenvector)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ohmic fleet (any loads)                  eigenvalues [0.7 1.  1.4] -&gt; positive definite
+S-curve, two A stacks at (0.45, 0.45)    eigenvalues [0.76 0.76] -&gt; positive definite
+S-curve, two A stacks at (0.05, 0.85)    eigenvalues [-29.      0.959] -&gt; indefinite
+ideal-mixing Gibbs energy (J/mol^2)      eigenvalues [-1.267e-12  6.862e+03  2.289e+04] -&gt; positive semidefinite
+H_mix @ n = [-4.00e-13 -5.42e-13 -4.22e-13]  (n itself is the zero eigenvector)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Point</p></th>
+<th class="head"><p>Eigenvalues</p></th>
+<th class="head"><p>Classification</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Ohmic fleet</p></td>
+<td><p>any loads</p></td>
+<td><p>0.7, 1.0, 1.4</p></td>
+<td><p>positive definite</p></td>
+</tr>
+<tr class="row-odd"><td><p>S-curve, two A stacks</p></td>
+<td><p>(0.45, 0.45)</p></td>
+<td><p>0.76, 0.76</p></td>
+<td><p>positive definite</p></td>
+</tr>
+<tr class="row-even"><td><p>S-curve, two A stacks</p></td>
+<td><p>(0.05, 0.85)</p></td>
+<td><p>−29.0, 0.959</p></td>
+<td><p>indefinite</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ideal-mixing Gibbs energy (J/mol²)</p></td>
+<td><p><span class="math notranslate nohighlight">\(n = (0.6, 0.3, 0.1)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-1.267 \times 10^{-12}\)</span>, <span class="math notranslate nohighlight">\(6.862 \times 10^{3}\)</span>, <span class="math notranslate nohighlight">\(2.289 \times 10^{4}\)</span></p></td>
+<td><p>positive semidefinite</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The ohmic fleet is positive definite at every load, and the S-curve fleet is positive definite at the equal split but indefinite when one stack is lightly loaded, because that stack is in the concave start-up region where the power curves down along its axis. This negative curvature is what produces the second valley from Topic 1.1.</p>
+<p>The ideal-mixing Hessian is positive semidefinite but not definite: one eigenvalue is zero (up to round-off), with the composition <span class="math notranslate nohighlight">\(n\)</span> itself as its eigenvector. Scaling every amount by the same factor scales <span class="math notranslate nohighlight">\(G_{\mathrm{mix}}\)</span> by that factor too, so along this direction the function is a straight line with zero curvature, while every other direction (i.e. any change in composition) curves up. This curvature is what made the closed-cell electrolysis of Topic 1.2 convex, as well as what keeps its minimum away from the boundary.</p>
+<div class="exercise admonition" id="ex-t21-hessian">
+
+<p class="admonition-title"><span class="caption-number">Exercise 27 </span></p>
+<section id="exercise-content">
+<p>For a stack of type A with the S-curve, find the range of loads over which <span class="math notranslate nohighlight">\(P''(x) &lt; 0\)</span> by solving <span class="math notranslate nohighlight">\(P''(x) = 0\)</span>. Then make a grid of points <span class="math notranslate nohighlight">\((x_1, x_2)\)</span> in <span class="math notranslate nohighlight">\([0, 1]^2\)</span> and color each point by whether the Hessian of <span class="math notranslate nohighlight">\(P(x_1) + P(x_2)\)</span> there is positive definite or indefinite. Where is the “bowl” region?</p>
+</section>
+</div>
+</section>
+<section id="optimality-conditions">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Optimality conditions</a><a class="headerlink" href="#optimality-conditions" title="Link to this heading">#</a></h2>
+<p>Next we will use derivatives to recognize a minimum, starting with one variable. A point <span class="math notranslate nohighlight">\(x^*\)</span> in the interior of the domain where <span class="math notranslate nohighlight">\(f\)</span> is twice differentiable can only be a local minimum if</p>
+<ul class="simple">
+<li><p><strong>first-order necessary condition:</strong> <span class="math notranslate nohighlight">\(f'(x^*) = 0\)</span> (the point is <strong>stationary</strong>), and</p></li>
+<li><p><strong>second-order necessary condition:</strong> <span class="math notranslate nohighlight">\(f''(x^*) \ge 0\)</span>.</p></li>
+</ul>
+<p>All of these conditions assume that the derivatives exist, and functions with kinks such as <span class="math notranslate nohighlight">\(|x|\)</span> or <span class="math notranslate nohighlight">\(\max(x, 0)\)</span> have no derivative at the kink, which is one reason modelers reformulate them before handing them to a gradient-based solver (Topic 2.4 shows how). The conditions are also only necessary, since <span class="math notranslate nohighlight">\(f(x) = x^3\)</span> satisfies both of them at <span class="math notranslate nohighlight">\(x = 0\)</span> even though <span class="math notranslate nohighlight">\(x = 0\)</span> is not a minimum. A <strong>sufficient</strong> condition for a strict local minimum is <span class="math notranslate nohighlight">\(f'(x^*) = 0\)</span> together with <span class="math notranslate nohighlight">\(f''(x^*) &gt; 0\)</span> (for a maximum the inequalities are reversed), but a sufficient condition at one point can only prove a local minimum. If <span class="math notranslate nohighlight">\(f'' \ge 0\)</span> holds at <em>every</em> point, the function is convex and any stationary point is a global minimum, whereas otherwise the other local minima and the end points of the domain also need to be checked.</p>
+<p>In <span class="math notranslate nohighlight">\(n\)</span> dimensions the same statements hold, with the gradient in place of <span class="math notranslate nohighlight">\(f'\)</span> and the Hessian in place of <span class="math notranslate nohighlight">\(f''\)</span>:</p>
+<ul class="simple">
+<li><p><strong>First order (necessary):</strong> <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span>.</p></li>
+<li><p><strong>Second order (necessary):</strong> <span class="math notranslate nohighlight">\(\nabla^2 f(x^*)\)</span> is positive semidefinite.</p></li>
+<li><p><strong>Sufficient for a strict local minimum:</strong> <span class="math notranslate nohighlight">\(\nabla f(x^*) = 0\)</span> and <span class="math notranslate nohighlight">\(\nabla^2 f(x^*)\)</span> is positive definite.</p></li>
+</ul>
+<p>A stationary point with an indefinite Hessian is called a <strong>saddle point</strong>, since it is a minimum along some directions and a maximum along others. Numerical methods for finding stationary points, such as gradient descent and its relatives, are covered in DA4CHE Topic 1.4 (<a class="reference external" href="https://www.medford.chbe.gatech.edu/DA4CHE/">https://www.medford.chbe.gatech.edu/DA4CHE/</a>), so we will not repeat them here.</p>
+<section id="the-dispatch-as-an-unconstrained-problem">
+<h3>The dispatch as an unconstrained problem<a class="headerlink" href="#the-dispatch-as-an-unconstrained-problem" title="Link to this heading">#</a></h3>
+<p>The dispatch has a constraint, but we can remove it by <strong>variable elimination</strong>: the demand constraint fixes <span class="math notranslate nohighlight">\(x_C = D - x_A - x_B\)</span>, which leaves an unconstrained function of two variables,</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_A, x_B) = P_A(x_A) + P_B(x_B) + P_C(D - x_A - x_B).
+\]</div>
+<p>For now we will ignore the bounds <span class="math notranslate nohighlight">\(0 \le x_i \le 1\)</span> and check them at the end. Setting the gradient to zero gives</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial f}{\partial x_A} = P_A'(x_A) - P_C'(x_C) = 0, \qquad \frac{\partial f}{\partial x_B} = P_B'(x_B) - P_C'(x_C) = 0,
+\]</div>
+<p>so at the optimum the three <strong>marginal powers</strong> <span class="math notranslate nohighlight">\(P_i'(x_i) = 1 + 2 r_i x_i\)</span> must be equal. We will call their common value <span class="math notranslate nohighlight">\(\lambda\)</span>. For the ohmic curves these conditions are linear in the loads, so we can solve <span class="math notranslate nohighlight">\(x_i = (\lambda - 1)/(2 r_i)\)</span> together with <span class="math notranslate nohighlight">\(\sum_i x_i = D\)</span> to get a closed form for <span class="math notranslate nohighlight">\(\lambda\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda - 1 = \frac{D}{\sum_i 1/(2 r_i)} .
+\]</div>
+<p>The Hessian of <span class="math notranslate nohighlight">\(f\)</span> is constant,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla^2 f = \begin{pmatrix} 2r_A + 2r_C &amp; 2r_C \\ 2r_C &amp; 2r_B + 2r_C \end{pmatrix},
+\end{split}\]</div>
+<p>which is positive definite, so the stationary point is the global minimum of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rA</span><span class="p">,</span> <span class="n">rB</span><span class="p">,</span> <span class="n">rC</span> <span class="o">=</span> <span class="n">rv</span>
+<span class="n">H_elim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="o">*</span><span class="n">rA</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">rC</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">rC</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">rC</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">rB</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">rC</span><span class="p">]])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">stationary_point</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">D</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">rv</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">lam</span><span class="p">,</span> <span class="p">(</span><span class="n">lam</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">rv</span><span class="p">)</span>
+
+<span class="n">lam</span><span class="p">,</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">stationary_point</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"D = 1.2: lambda = </span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, loads </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"Hessian eigenvalues </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">H_elim</span><span class="p">),</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f_elim</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="mf">1.2</span><span class="p">):</span>
+    <span class="n">loads</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">D</span> <span class="o">-</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">p_ohmic</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">loads</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">))</span>
+
+<span class="n">bfgs</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">f_elim</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">'BFGS'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"BFGS from (0, 0): x_A = </span><span class="si">{</span><span class="n">bfgs</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, x_B = </span><span class="si">{</span><span class="n">bfgs</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, power </span><span class="si">{</span><span class="n">bfgs</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">lam</span><span class="p">,</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">stationary_point</span><span class="p">(</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"D = 2.5: lambda = </span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, loads </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">; "</span>
+      <span class="sa">f</span><span class="s2">"bounds satisfied? </span><span class="si">{</span><span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">((</span><span class="n">xs</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">xs</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D = 1.2: lambda = 1.38182, loads [0.3818 0.5455 0.2727], Hessian eigenvalues [0.842 3.658]
+BFGS from (0, 0): x_A = 0.3818, x_B = 0.5455, power 1.42909
+D = 2.5: lambda = 1.79545, loads [0.7955 1.1364 0.5682]; bounds satisfied? False
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(D = 1.2\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(x_A\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(x_B\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(x_C\)</span></p></th>
+<th class="head"><p>Power (per-unit)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Closed form, <span class="math notranslate nohighlight">\(\lambda = 1.38182\)</span></p></td>
+<td><p>0.3818</p></td>
+<td><p>0.5455</p></td>
+<td><p>0.2727</p></td>
+<td><p>–</p></td>
+</tr>
+<tr class="row-odd"><td><p>BFGS from (0, 0)</p></td>
+<td><p>0.3818</p></td>
+<td><p>0.5455</p></td>
+<td><p>–</p></td>
+<td><p>1.42909</p></td>
+</tr>
+<tr class="row-even"><td><p>Ipopt (first cell)</p></td>
+<td><p>0.3818</p></td>
+<td><p>0.5455</p></td>
+<td><p>0.2727</p></td>
+<td><p>1.42909</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>At <span class="math notranslate nohighlight">\(D = 1.2\)</span> the closed form, BFGS (a quasi-Newton descent method, started here from the origin) and Ipopt all give <span class="math notranslate nohighlight">\(\lambda = 1.38182\)</span> and the same loads. The eliminated problem is a convex bowl, so it does not matter where BFGS starts.</p>
+<p>At <span class="math notranslate nohighlight">\(D = 2.5\)</span>, however, the same formula asks stack B to run at 1.1364, which is more than its capacity. Elimination removed the equality but not the bounds, and now one of the bounds limits the solution. Constraints that may or may not bind are handled by the KKT conditions in <a class="reference internal" href="Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html"><span class="doc">2.2 Lagrange Multipliers and KKT Conditions</span></a>, where the common marginal power <span class="math notranslate nohighlight">\(\lambda\)</span> comes back as a Lagrange multiplier.</p>
+<div class="exercise admonition" id="ex-t21-saddle">
+
+<p class="admonition-title"><span class="caption-number">Exercise 28 </span></p>
+<section id="exercise-content">
+<p>Apply the same stationarity test to two stacks of type A with the S-curve and <span class="math notranslate nohighlight">\(D = 0.9\)</span>: write <span class="math notranslate nohighlight">\(f(x_1) = P(x_1) + P(0.9 - x_1)\)</span>, find all its stationary points on <span class="math notranslate nohighlight">\([0, 0.9]\)</span> numerically (for example with <code class="docutils literal notranslate"><span class="pre">scipy.optimize.brentq</span></code> on <span class="math notranslate nohighlight">\(f'\)</span> over a fine set of brackets), and classify each by the sign of <span class="math notranslate nohighlight">\(f''\)</span>. How many local minima and local maxima are there?</p>
+</section>
+</div>
+</section>
+</section>
+<section id="convexity">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Convexity</a><a class="headerlink" href="#convexity" title="Link to this heading">#</a></h2>
+<p>Remember that in Topic 1.1 we defined a convex function as one where the chord between any two points on its graph lies on or above the graph. For twice-differentiable functions there is an easier test: a function of one variable is convex on an interval if and only if <span class="math notranslate nohighlight">\(f''(x) \ge 0\)</span> throughout the interval, and a function of <span class="math notranslate nohighlight">\(n\)</span> variables is convex on a convex set if and only if its Hessian is positive semidefinite at every point of the set. The words “at every point” are important here, because a Hessian that is positive definite at the optimum only certifies a local minimum, while a Hessian that is PSD everywhere certifies convexity, which also means the local minimum is global.</p>
+<p>Since checking the Hessian everywhere can be tedious, in practice we build convex functions from simpler ones using a few rules:</p>
+<ol class="arabic simple">
+<li><p>A sum of convex functions is convex. (The fleet’s power is a sum of convex stack curves.)</p></li>
+<li><p>A convex function times a nonnegative constant is convex.</p></li>
+<li><p>A convex function of an affine expression, <span class="math notranslate nohighlight">\(f(Ax + b)\)</span>, is convex. (This is why eliminating <span class="math notranslate nohighlight">\(x_C = D - x_A - x_B\)</span> kept the problem convex.)</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(f\)</span> is convex and <span class="math notranslate nohighlight">\(g\)</span> is convex and nondecreasing, then <span class="math notranslate nohighlight">\(g(f(x))\)</span> is convex. For example, <span class="math notranslate nohighlight">\(e^{f(x)}\)</span> is convex whenever <span class="math notranslate nohighlight">\(f\)</span> is.</p></li>
+<li><p>The pointwise maximum of convex functions is convex.</p></li>
+</ol>
+<p>A function is <strong>concave</strong> if <span class="math notranslate nohighlight">\(-f\)</span> is convex. Maximizing a concave function is the same as minimizing a convex function, so it is just as easy. In the figure below we show the three cases with one chord each, using the power curves of stack A: the ohmic curve is convex, the revenue curve of the next subsection is concave, and the S-curve is neither convex nor concave.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">cases</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">'ohmic $x + r x^2$: convex'</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">p_ohmic</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)),</span>
+         <span class="p">(</span><span class="s1">'$2x - 0.4x^2$: concave'</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">xx</span> <span class="o">-</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">xx</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)),</span>
+         <span class="p">(</span><span class="s1">'S-curve: neither'</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">p_scurve</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">))]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="p">(</span><span class="n">xa</span><span class="p">,</span> <span class="n">xb</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">cases</span><span class="p">):</span>
+    <span class="n">ya</span><span class="p">,</span> <span class="n">yb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">([</span><span class="n">xa</span><span class="p">,</span> <span class="n">xb</span><span class="p">],</span> <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">xa</span><span class="p">,</span> <span class="n">xb</span><span class="p">],</span> <span class="p">[</span><span class="n">ya</span><span class="p">,</span> <span class="n">yb</span><span class="p">],</span> <span class="s1">'k--o'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'chord'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'load $x$'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'per-unit'</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<img alt="../_images/65b75b8eb325575877dff856deb19f4c368897409082a97528afa809aca45d42.png" src="../_images/65b75b8eb325575877dff856deb19f4c368897409082a97528afa809aca45d42.png" />
+</div>
+</div>
+<p>The chord lies above the convex curve and it lies below the concave curve, but on the S-curve the chord from nearly zero load to 0.6 lies below the curve. This is not allowed for a convex function, and it happens because the start-up term bends the curve down at low load.</p>
+<p>A convex <em>problem</em> needs a convex feasible region as well. Any set of linear equalities and inequalities defines a convex region, as does an inequality <span class="math notranslate nohighlight">\(g(x) \le 0\)</span> with <span class="math notranslate nohighlight">\(g\)</span> convex, but a nonlinear <em>equality</em> <span class="math notranslate nohighlight">\(h(x) = 0\)</span> almost never does. For example, the circle <span class="math notranslate nohighlight">\(x_1^2 + x_2^2 = 1\)</span> is the boundary of a convex disk, but if we draw the chord between two points on the circle it leaves the circle. For this reason the equality constraints in a convex problem should be linear.</p>
+<section id="nonlinear-is-not-non-convex">
+<h3>Nonlinear is not non-convex<a class="headerlink" href="#nonlinear-is-not-non-convex" title="Link to this heading">#</a></h3>
+<p>It is tempting to equate “nonlinear” with “hard”, but we have already seen a counterexample in the ohmic dispatch, which is nonlinear and convex so that a local solver finds the global optimum. For a second example we can put the nonlinearity in the revenue instead.</p>
+<p>Suppose the plant sells its hydrogen into a small market in which the price falls as more is sold, following a <strong>downward-sloping demand curve</strong> <span class="math notranslate nohighlight">\(p(Q) = p_0 - s\,Q\)</span> with money measured in units of the cost of one per-unit of electrical power, <span class="math notranslate nohighlight">\(p_0 = 2\)</span> and <span class="math notranslate nohighlight">\(s = 0.4\)</span>. The cost of making <span class="math notranslate nohighlight">\(Q\)</span> is the minimum fleet power <span class="math notranslate nohighlight">\(C(Q)\)</span>, i.e. the optimal value of the ohmic dispatch at demand <span class="math notranslate nohighlight">\(Q\)</span>, and if no stack is at capacity we can get both the revenue and the cost in closed form,</p>
+<div class="math notranslate nohighlight">
+\[
+p(Q)\,Q = p_0 Q - s Q^2, \qquad C(Q) = Q + \frac{Q^2}{2S}, \qquad S = \sum_i \frac{1}{2 r_i} ,
+\]</div>
+<p>where revenue is concave in the quantity sold and cost is convex. If we subtract a convex function from a concave one we are left with a concave function, so the profit</p>
+<div class="math notranslate nohighlight">
+\[
+\Pi(Q) = p_0 Q - s Q^2 - C(Q)
+\]</div>
+<p>is concave and maximizing it is a convex problem, although both the revenue and the cost are nonlinear. Setting <span class="math notranslate nohighlight">\(\Pi'(Q) = 0\)</span> then gives the condition that marginal revenue equals marginal cost,</p>
+<div class="math notranslate nohighlight">
+\[
+p_0 - 2sQ = 1 + Q/S .
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p0</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.4</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">rv</span><span class="p">))</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mi">321</span><span class="p">)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dispatch</span><span class="p">(</span><span class="n">q</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">Q</span><span class="p">])</span>   <span class="c1"># exact minimum fleet power at each Q</span>
+<span class="n">revenue</span> <span class="o">=</span> <span class="p">(</span><span class="n">p0</span> <span class="o">-</span> <span class="n">s</span> <span class="o">*</span> <span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="n">Q</span>
+<span class="n">profit</span> <span class="o">=</span> <span class="n">revenue</span> <span class="o">-</span> <span class="n">C</span>
+<span class="n">Q_star</span> <span class="o">=</span> <span class="p">(</span><span class="n">p0</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">S</span><span class="p">)</span>
+<span class="n">lam_star</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">C_star</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">ohmic_dispatch</span><span class="p">(</span><span class="n">Q_star</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"best quantity Q* = </span><span class="si">{</span><span class="n">Q_star</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">Q_star</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kg/h), "</span>
+      <span class="sa">f</span><span class="s2">"profit </span><span class="si">{</span><span class="n">Q_star</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">p0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Q_star</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">C_star</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"marginal revenue </span><span class="si">{</span><span class="n">p0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Q_star</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> = marginal cost </span><span class="si">{</span><span class="n">lam_star</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"largest second difference of the profit curve: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">profit</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2"> (never positive: concave)"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">revenue</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'revenue $p(Q)</span><span class="se">\\</span><span class="s1">,Q$ (concave)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'minimum power cost $C(Q)$ (convex)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">profit</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'profit (concave)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">Q_star</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'hydrogen sold $Q$ (per-unit, 1 = 200 kg/h)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'money (units of per-unit power cost)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>best quantity Q* = 0.8943 (179 kg/h), profit 0.4472
+marginal revenue 1.2846 = marginal cost 1.2846
+largest second difference of the profit curve: -2.8e-05 (never positive: concave)
+</pre></div>
+</div>
+<img alt="../_images/bc0e9223a0be7a9ad5f269f8b5898ed4d9b805c89ef4c1023f566d8cf079109d.png" src="../_images/bc0e9223a0be7a9ad5f269f8b5898ed4d9b805c89ef4c1023f566d8cf079109d.png" />
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>At the best quantity</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(Q^*\)</span> (per-unit)</p></td>
+<td><p>0.8943 (179 kg/h)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Profit</p></td>
+<td><p>0.4472</p></td>
+</tr>
+<tr class="row-even"><td><p>Marginal revenue</p></td>
+<td><p>1.2846</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marginal cost</p></td>
+<td><p>1.2846</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>At the best quantity, the marginal revenue and marginal cost are the same. The profit curve is a dome with a single top, and a local solver will find the top from any starting point.</p>
+<p>So non-convexity comes from the <em>shape</em> of a function rather than from nonlinearity. For the S-curve, the concave start-up term is what makes the Hessian indefinite at low load, and it is this term (rather than the quadratic) that will make the dispatch hard in <a class="reference internal" href="Topic2.6-Non-convex_Problems_and_Bounding.html"><span class="doc">2.6 Non-convex Problems and Bounding</span></a>. Before choosing a solver it is a good idea to check convexity, either with the Hessian or with the composition rules above, since only on a convex problem can we trust a local solver’s answer to be the global optimum.</p>
+<div class="exercise admonition" id="ex-t21-convex-rules">
+
+<p class="admonition-title"><span class="caption-number">Exercise 29 </span></p>
+<section id="exercise-content">
+<p>Use the composition rules (not the Hessian) to decide whether each function is convex on the domain given: (a) <span class="math notranslate nohighlight">\(f(x) = e^{x_1 + 2x_2}\)</span> on <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>; (b) the S-curve power <span class="math notranslate nohighlight">\(x + a x/(x+\epsilon) + r x^2\)</span> on <span class="math notranslate nohighlight">\(x \ge 0\)</span>; (c) the profit <span class="math notranslate nohighlight">\(\Pi(Q)\)</span> above, if the demand curve were <span class="math notranslate nohighlight">\(p(Q) = p_0 e^{-Q}\)</span>. For (c), plot <span class="math notranslate nohighlight">\(\Pi(Q)\)</span> by editing the code above to check your answer.</p>
+</section>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>An NLP has continuous variables and at least one nonlinear function. Local solvers such as Ipopt are trustworthy on convex NLPs; non-convex NLPs need global solvers such as Couenne or BARON.</p></li>
+<li><p>With ohmic losses <span class="math notranslate nohighlight">\(P_i = x + r_i x^2\)</span>, the dispatch is a convex NLP whose optimum is in the interior: at <span class="math notranslate nohighlight">\(D = 1.2\)</span> the loads are (0.3818, 0.5455, 0.2727) and the total power is 1.42909 per-unit (9.34 MW).</p></li>
+<li><p>The Hessian is the symmetric matrix of second derivatives; the signs of its eigenvalues classify it as definite, semidefinite or indefinite. The ideal-mixing Gibbs energy has a PSD Hessian whose zero eigenvector is the composition itself.</p></li>
+<li><p>A minimum needs a zero gradient and a PSD Hessian; a zero gradient with a positive definite Hessian proves a strict local minimum; a Hessian that is PSD everywhere proves convexity, and with it a global minimum.</p></li>
+<li><p>At the unconstrained optimum of the dispatch, the stacks’ marginal powers are equal, <span class="math notranslate nohighlight">\(1 + 2 r_i x_i = \lambda = 1.38182\)</span>. That number becomes a Lagrange multiplier in Topic 2.2.</p></li>
+<li><p>Nonlinear is not non-convex. Concave revenue minus convex cost is still a convex problem; it is the concave start-up term of the S-curve that breaks convexity.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>L. T. Biegler, <em>Nonlinear Programming: Concepts, Algorithms, and Applications to Chemical Processes</em>, SIAM (2010), Chapter 2, on optimality conditions and convexity for unconstrained problems.</p></li>
+<li><p>J. Nocedal and S. J. Wright, <em>Numerical Optimization</em>, 2nd ed., Springer (2006), Chapter 2.</p></li>
+<li><p>A. Ravindran, K. M. Ragsdell and G. V. Reklaitis, <em>Engineering Optimization: Methods and Applications</em>, 2nd ed., Wiley (2006), on functions of several variables.</p></li>
+<li><p>S. Boyd and L. Vandenberghe, <em>Convex Optimization</em>, Cambridge University Press (2004), Chapter 3, on convex functions and the composition rules.</p></li>
+<li><p>M. L. Bynum, G. A. Hackebeil, W. E. Hart, C. D. Laird, B. L. Nicholson, J. D. Siirola, J.-P. Watson and D. L. Woodruff, <em>Pyomo — Optimization Modeling in Python</em>, 3rd ed., Springer (2021).</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./2-nonlinear_mixed_integer"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Nonlinear and Mixed-Integer Optimization</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2.2 Lagrange Multipliers and KKT Conditions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-programs">Nonlinear programs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ohmic-dispatch">The ohmic dispatch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-lecture-example-residence-time-of-a-reactor">A lecture example: residence time of a reactor</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hessians-and-eigenvalues">Hessians and eigenvalues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimality-conditions">Optimality conditions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dispatch-as-an-unconstrained-problem">The dispatch as an unconstrained problem</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convexity">Convexity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-is-not-non-convex">Nonlinear is not non-convex</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

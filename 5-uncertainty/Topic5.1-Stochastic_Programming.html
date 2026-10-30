@@ -1,0 +1,862 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5.1 Stochastic Programming &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '5-uncertainty/Topic5.1-Stochastic_Programming';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.2 Robust Optimization" href="Topic5.2-Robust_Optimization.html" />
+    <link rel="prev" title="Optimization under Uncertainty" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Optimization under Uncertainty</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/5-uncertainty/Topic5.1-Stochastic_Programming.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/5-uncertainty/Topic5.1-Stochastic_Programming.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>5.1 Stochastic Programming</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uncertainty-in-optimization">Uncertainty in optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-stage-stochastic-programs">Two-stage stochastic programs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-farmer-s-problem">The farmer’s problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-value-of-information-and-of-the-stochastic-solution">The value of information and of the stochastic solution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-electrolyzer-fleet-under-uncertain-demand">The electrolyzer fleet under uncertain demand</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#stochastic-programming" id="id1">5.1 Stochastic Programming</a></p>
+<ul>
+<li><p><a class="reference internal" href="#uncertainty-in-optimization" id="id2">Uncertainty in optimization</a></p></li>
+<li><p><a class="reference internal" href="#two-stage-stochastic-programs" id="id3">Two-stage stochastic programs</a></p></li>
+<li><p><a class="reference internal" href="#the-farmer-s-problem" id="id4">The farmer’s problem</a></p></li>
+<li><p><a class="reference internal" href="#the-value-of-information-and-of-the-stochastic-solution" id="id5">The value of information and of the stochastic solution</a></p></li>
+<li><p><a class="reference internal" href="#the-electrolyzer-fleet-under-uncertain-demand" id="id6">The electrolyzer fleet under uncertain demand</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id7">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id8">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="stochastic-programming">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">5.1 Stochastic Programming</a><a class="headerlink" href="#stochastic-programming" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 13, Lesson 1: <em>Introduction to Uncertainty</em></p></li>
+<li><p>Module 13, Lesson 2: <em>Stochastic Programming</em></p></li>
+<li><p>Module 13, Lesson 3: <em>Stochastic Programming Example</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Identify uncertain parameters in an optimization model and choose a description for them (distribution, scenarios or bounds).</p></li>
+<li><p>Separate the decisions in a problem into first-stage decisions, made before the uncertainty is revealed, and second-stage (recourse) decisions, made after.</p></li>
+<li><p>Write the deterministic equivalent of a two-stage stochastic linear program and solve it in Pyomo.</p></li>
+<li><p>Compute the expected value of perfect information and the value of the stochastic solution, and explain what each measures.</p></li>
+</ul>
+</div>
+<p>Every model in this book so far has treated its parameters as known: the stack resistances, the demand, the rate constants. Real parameters are measured with error or describe the future, and an optimum computed for one set of values can perform badly, or not be feasible at all, when the values turn out different. This bonus part asks how to optimize when we know that we do not know. This topic covers stochastic programming, which optimizes the expected outcome over a set of possible futures; <a class="reference internal" href="Topic5.2-Robust_Optimization.html"><span class="doc">5.2 Robust Optimization</span></a> covers robust optimization, which protects against the worst one.</p>
+<section id="uncertainty-in-optimization">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Uncertainty in optimization</a><a class="headerlink" href="#uncertainty-in-optimization" title="Link to this heading">#</a></h2>
+<p>An <strong>uncertain parameter</strong> is a parameter of an optimization model whose value is not known when the decision is made, either because it is measured with error or because it describes something that has not happened yet. Examples are the price of a raw material over the next ten months, a rate constant fitted to experiments, or the sulfur content of the next crude-oil cargo. The lectures point out that this is a different use of the word from the data-driven optimization topics, where “uncertainty” meant that we lacked the equations of the model. Here the equations are known and the numbers in them are not.</p>
+<p>The model of an uncertain parameter depends on how much information is available:</p>
+<ul class="simple">
+<li><p><strong>A continuous probability distribution</strong>, such as a normal distribution with a given mean and variance, when we know a lot.</p></li>
+<li><p><strong>A discrete distribution over scenarios</strong>, for example three possible yields with probabilities 20%, 50% and 30%. A scenario is one complete realization of all the uncertain parameters.</p></li>
+<li><p><strong>Bounds or a set</strong>, such as “the yield is within 20% of its mean”, when we know only the range of possible values and nothing about how likely each is.</p></li>
+<li><p>Other descriptions exist, such as <strong>fuzzy sets</strong>, which grade how plausible each value is without a probability.</p></li>
+</ul>
+<p>For scenarios <span class="math notranslate nohighlight">\(\xi_1, \ldots, \xi_S\)</span> with probabilities <span class="math notranslate nohighlight">\(p_s\)</span> (summing to one), the probability distribution is a set of spikes at the scenario values, and the expected value of any quantity is the weighted sum <span class="math notranslate nohighlight">\(\mathbb{E}[\xi] = \sum_s p_s\, \xi_s\)</span>. This weighted sum is the only piece of probability that will be needed for the rest of the topic.</p>
+<p>The description that is chosen decides the formulation. Probabilities lead to <strong>stochastic programming</strong>, which optimizes the expected value of the objective over the scenarios and tends to give solutions that do well on average, so it is suited to planning problems that are repeated many times. Sets lead to <strong>robust optimization</strong>, which optimizes against the worst value in the set and gives conservative solutions, so it is suited to problems where feasibility is critical. Other frameworks, such as chance-constrained programming (where constraints must hold with a given probability) and flexibility analysis, are mentioned in the lectures but are beyond the scope of this book. Since uncertainty is everywhere, optimization under uncertainty is applied everywhere; electric-power generation, inventory management, portfolio selection, facility planning, capacity expansion and the analysis of biological systems are a few of the areas that are listed in the lectures, and stochastic programming in particular is standard in financial planning, capacity expansion and airline planning.</p>
+<p>A note on terminology is needed here. The “stochastic methods” of <a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html"><span class="doc">3.3 Global Sampling and Evolutionary Methods</span></a> (simulated annealing, genetic algorithms, particle swarms) are <em>randomized search algorithms</em>, where the randomness is in the method and the problem itself is deterministic. In <strong>stochastic programming</strong> the situation is reversed: the randomness is in the parameters of the problem, and the method that is used to solve the deterministic equivalent (here, an LP or MILP solver) is deterministic. The two ideas can meet, as when a noisy black box (Topic 5.2) is searched by a randomized method, but the terms refer to different things.</p>
+<div class="exercise admonition" id="ex-t51-describe">
+
+<p class="admonition-title"><span class="caption-number">Exercise 119 </span></p>
+<section id="exercise-content">
+<p>For the electrolyzer fleet of Topics 1.1–3.6, list three parameters that are uncertain in practice. For each, say whether you would describe it by a distribution, by scenarios or by bounds, and whether it is uncertain because of measurement error or because it lies in the future.</p>
+</section>
+</div>
+</section>
+<section id="two-stage-stochastic-programs">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Two-stage stochastic programs</a><a class="headerlink" href="#two-stage-stochastic-programs" title="Link to this heading">#</a></h2>
+<p>The key modeling step is to ask <em>when</em> each decision is made relative to <em>when</em> the uncertainty is resolved. In the example from the lectures, a process makes C from A and B; A and B must be bought on day 1, extra B can be bought on day 5, and the price of B on day 5 is not known until day 5.</p>
+<ul class="simple">
+<li><p><strong>First-stage</strong> decisions, also called <strong>here-and-now</strong> decisions, are made before the uncertainty is revealed (the day-1 purchases). They cannot depend on the outcome, so they have to work reasonably well in every scenario.</p></li>
+<li><p><strong>Second-stage</strong> decisions, also called <strong>recourse</strong> decisions, are made after the uncertainty is revealed (the day-5 purchase). They can be different in each scenario, and they are how the plan adapts to what actually happened.</p></li>
+</ul>
+<p>A problem that has only first-stage decisions is a single-stage stochastic program, while a problem with both kinds of decisions is a <strong>two-stage</strong> program, which is the most studied class. If the uncertainty is revealed in several steps with decisions in between, the problem is multi-stage.</p>
+<p>A two-stage stochastic linear program, with first-stage variables <span class="math notranslate nohighlight">\(x\)</span>, second-stage variables <span class="math notranslate nohighlight">\(y\)</span> and uncertain parameters <span class="math notranslate nohighlight">\(\xi\)</span>, can be written as</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{x \ge 0}\; c^\top x + \mathbb{E}_\xi\big[Q(x, \xi)\big] \quad \text{s.t.} \quad A x = b, \qquad
+Q(x, \xi) = \min_{y \ge 0} \big\{ q(\xi)^\top y \;:\; W y = h(\xi) - T(\xi)\, x \big\}.
+\]</div>
+<p>The function <span class="math notranslate nohighlight">\(Q\)</span> is the cost of the best recourse once <span class="math notranslate nohighlight">\(\xi\)</span> is known and <span class="math notranslate nohighlight">\(x\)</span> is fixed. When <span class="math notranslate nohighlight">\(\xi\)</span> takes a finite number of scenario values <span class="math notranslate nohighlight">\(\xi_s\)</span> with probabilities <span class="math notranslate nohighlight">\(p_s\)</span>, the expectation becomes a weighted sum, and the problem can be written as one ordinary LP, called the <strong>deterministic equivalent</strong>, which has one copy of the second-stage variables and constraints for each scenario:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\min_{x,\, y_1, \ldots, y_S \ge 0} \quad &amp; c^\top x + \sum_{s=1}^{S} p_s\, q_s^\top y_s \\
+\text{s.t.} \quad &amp; A x = b, \\
+&amp; T_s x + W y_s = h_s, \qquad s = 1, \ldots, S.
+\end{aligned}
+\end{split}\]</div>
+<p>The first-stage <span class="math notranslate nohighlight">\(x\)</span> is shared by every scenario, which is what forces it to be a single decision, while the <span class="math notranslate nohighlight">\(y_s\)</span> are free to differ. The price of this formulation is size: the number of second-stage variables and constraints grows linearly with the number of scenarios, and the number of scenarios grows exponentially with the number of independent uncertain parameters. Large instances are solved by decomposition methods that exploit the block structure (Benders decomposition, which is also called the L-shaped method, and progressive hedging), but these methods are beyond the scope of this book.</p>
+<div class="exercise admonition" id="ex-t51-size">
+
+<p class="admonition-title"><span class="caption-number">Exercise 120 </span></p>
+<section id="exercise-content">
+<p>A deterministic model has 50 first-stage variables, 200 second-stage variables and 150 constraints that involve second-stage variables. Each of 6 uncertain parameters takes one of 3 values independently. How many scenarios are there, and how many variables and constraints does the deterministic equivalent have?</p>
+</section>
+</div>
+</section>
+<section id="the-farmer-s-problem">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">The farmer’s problem</a><a class="headerlink" href="#the-farmer-s-problem" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">Adapted from the course notebook</p>
+<p>Adapted from <code class="docutils literal notranslate"><span class="pre">farmer_problem.ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT), which follows Section 1.1 of Birge and Louveaux, <em>Introduction to Stochastic Programming</em>. Rewritten as one scenario-indexed Pyomo model, with the two sugar-beet price tiers as separate sales variables, solved with HiGHS instead of GLPK.</p>
+</div>
+<p>The lectures use the classic example of Birge and Louveaux, where a farmer has 500 acres that must be divided among wheat, corn and sugar beets before the growing season.</p>
+<ul class="simple">
+<li><p>Planting costs $150, $230 and $260 per acre for wheat, corn and beets.</p></li>
+<li><p>The cattle need at least 200 t of wheat and 240 t of corn. Any shortfall must be bought from a wholesaler at $238/t (wheat) and $210/t (corn).</p></li>
+<li><p>Surplus wheat and corn sell at $170/t and $150/t. Beets sell at $36/t up to a quota of 6000 t, and at $10/t beyond it.</p></li>
+<li><p>The mean yields are 2.5, 3 and 20 t/acre. Weather makes them uncertain: with equal probability, all yields are 20% below the mean, at the mean, or 20% above it.</p></li>
+</ul>
+<p>The acreage is the first-stage decision, since it is fixed at planting, while sales and purchases are second-stage decisions that are made after the harvest reveals the yields. A single function can be written that builds the deterministic equivalent for any list of scenarios and is also able to fix the acreage, which is needed in order to evaluate a given plan.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.environ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part4b_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_linear</span>
+
+<span class="n">CROPS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'wheat'</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">,</span> <span class="s1">'beets'</span><span class="p">]</span>
+<span class="n">FEED</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'wheat'</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">]</span>
+<span class="n">YIELD</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'wheat'</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s1">'beets'</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">}</span>       <span class="c1"># t/acre, mean</span>
+<span class="n">PLANT</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'wheat'</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">:</span> <span class="mi">230</span><span class="p">,</span> <span class="s1">'beets'</span><span class="p">:</span> <span class="mi">260</span><span class="p">}</span>       <span class="c1"># $/acre</span>
+<span class="n">SELL</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'wheat'</span><span class="p">:</span> <span class="mi">170</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">:</span> <span class="mi">150</span><span class="p">}</span>                      <span class="c1"># $/t</span>
+<span class="n">BUY</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'wheat'</span><span class="p">:</span> <span class="mi">238</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">:</span> <span class="mi">210</span><span class="p">}</span>                       <span class="c1"># $/t</span>
+<span class="n">NEED</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'wheat'</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">:</span> <span class="mi">240</span><span class="p">}</span>                      <span class="c1"># t</span>
+<span class="n">LAND</span><span class="p">,</span> <span class="n">QUOTA</span><span class="p">,</span> <span class="n">BEET_HI</span><span class="p">,</span> <span class="n">BEET_LO</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">6000</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">10</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">farmer</span><span class="p">(</span><span class="n">scenarios</span><span class="p">,</span> <span class="n">acres</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Deterministic equivalent. scenarios: {name: (probability, yield factor)}.</span>
+<span class="sd">    If acres is given, the first stage is fixed and only the recourse is optimized."""</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scenarios</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">CROPS</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>                      <span class="c1"># first stage: acres</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">sell</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">FEED</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>                 <span class="c1"># second stage: t</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">buy</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">FEED</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">beet_hi</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QUOTA</span><span class="p">))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">beet_lo</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">land</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CROPS</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">LAND</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">feed</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">FEED</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span>
+                            <span class="n">scenarios</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">YIELD</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">buy</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">sell</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">NEED</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">beets</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span>
+                             <span class="n">m</span><span class="o">.</span><span class="n">beet_hi</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">beet_lo</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">scenarios</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">YIELD</span><span class="p">[</span><span class="s1">'beets'</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="s1">'beets'</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">acres</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CROPS</span><span class="p">:</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">acres</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+    <span class="n">revenue</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">SELL</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">sell</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">-</span> <span class="n">BUY</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">buy</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">FEED</span><span class="p">)</span>
+               <span class="o">+</span> <span class="n">BEET_HI</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">beet_hi</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">+</span> <span class="n">BEET_LO</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">beet_lo</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">}</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">profit</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">maximize</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">scenarios</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">revenue</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">)</span>
+                             <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">PLANT</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CROPS</span><span class="p">))</span>
+    <span class="n">profit</span> <span class="o">=</span> <span class="n">solve_linear</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">profit</span><span class="p">,</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CROPS</span><span class="p">}</span>
+
+<span class="n">SCEN</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'20</span><span class="si">% lo</span><span class="s1">w'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span> <span class="s1">'at the mean'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="s1">'20</span><span class="si">% hi</span><span class="s1">gh'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)}</span>
+
+<span class="n">z_mean</span><span class="p">,</span> <span class="n">x_mean</span> <span class="o">=</span> <span class="n">farmer</span><span class="p">({</span><span class="s1">'mean'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)})</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"deterministic plan (mean yields):"</span><span class="p">,</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x_mean</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span> <span class="sa">f</span><span class="s2">"acres, profit $</span><span class="si">{</span><span class="n">z_mean</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">z_eval</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">farmer</span><span class="p">({</span><span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">f</span><span class="p">)},</span> <span class="n">acres</span><span class="o">=</span><span class="n">x_mean</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="ow">in</span> <span class="n">SCEN</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">z_eval</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  the same plan if yields are </span><span class="si">{</span><span class="n">s</span><span class="si">:</span><span class="s2">11s</span><span class="si">}</span><span class="s2">: profit $</span><span class="si">{</span><span class="n">z</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">EEV</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">SCEN</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">z</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">z_eval</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"expected profit of the deterministic plan: $</span><span class="si">{</span><span class="n">EEV</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>deterministic plan (mean yields): {'wheat': 120, 'corn': 80, 'beets': 300} acres, profit $118,600
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  the same plan if yields are 20% low    : profit $55,120
+  the same plan if yields are at the mean: profit $118,600
+  the same plan if yields are 20% high   : profit $148,000
+expected profit of the deterministic plan: $107,240
+</pre></div>
+</div>
+</div>
+</div>
+<p>With mean yields the best plan is 120 acres of wheat, 80 of corn and 300 of beets, for a profit of $118,600. The beet acreage is exactly what is needed to fill the 6000 t quota at 20 t/acre, and the corn acreage exactly meets the 240 t needed by the cattle. This is typical of an LP optimum, which sits on a vertex and leaves no slack anywhere; with no slack, there is no margin for a bad year. If the yields come in 20% low the farm is short of corn and has to buy it at a premium, so the profit falls to $55,120, and if the yields come in high the extra beets beyond the quota sell for only $10/t. Over the three equally likely scenarios the expected profit of the plan is $107,240, or $11,360 less than the deterministic model promised.</p>
+<p>That gap is the first lesson of the lectures: the deterministic optimum overstates what the plan will earn, because it was optimized for a future that is only one of the possibilities.</p>
+<p>The next step is to let the model see all three scenarios at once, where the acreage is shared and the sales and purchases are given one copy per scenario.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">z_sp</span><span class="p">,</span> <span class="n">x_sp</span> <span class="o">=</span> <span class="n">farmer</span><span class="p">(</span><span class="n">SCEN</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"stochastic plan:"</span><span class="p">,</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x_sp</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span> <span class="sa">f</span><span class="s2">"acres, expected profit $</span><span class="si">{</span><span class="n">z_sp</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="ow">in</span> <span class="n">SCEN</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  stochastic plan if yields are </span><span class="si">{</span><span class="n">s</span><span class="si">:</span><span class="s2">11s</span><span class="si">}</span><span class="s2">: profit $</span><span class="si">{</span><span class="n">farmer</span><span class="p">({</span><span class="n">s</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">)},</span><span class="w"> </span><span class="n">acres</span><span class="o">=</span><span class="n">x_sp</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>stochastic plan: {'wheat': 170, 'corn': 80, 'beets': 250} acres, expected profit $108,390
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  stochastic plan if yields are 20% low    : profit $48,820
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  stochastic plan if yields are at the mean: profit $109,350
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  stochastic plan if yields are 20% high   : profit $167,000
+</pre></div>
+</div>
+</div>
+</div>
+<p>The stochastic plan plants 170 acres of wheat, 80 of corn and 250 of beets, which moves 50 acres from beets to wheat. Fewer beets means that less is wasted at $10/t in a good year, and more wheat is a hedge, since surplus wheat can always be sold at $170/t. The expected profit is $108,390. The stochastic plan earns less than the deterministic plan in a mean year ($109,350 against $118,600) and in a bad year ($48,820 against $55,120), but much more in a good year ($167,000 against $148,000), when the beets of the deterministic plan overflow the quota. In other words, the stochastic plan gives up a little in two scenarios in order to gain a lot in the third, and comes out ahead on average.</p>
+<div class="exercise admonition" id="ex-t51-probabilities">
+
+<p class="admonition-title"><span class="caption-number">Exercise 121 </span></p>
+<section id="exercise-content">
+<p>Change the scenario probabilities to 0.5 (20% low), 0.3 (at the mean) and 0.2 (20% high), as a pessimistic farmer might. Re-solve the stochastic program. Which acreages change, and in which direction? Explain the change in terms of what each crop’s recourse costs in a bad year.</p>
+</section>
+</div>
+</section>
+<section id="the-value-of-information-and-of-the-stochastic-solution">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">The value of information and of the stochastic solution</a><a class="headerlink" href="#the-value-of-information-and-of-the-stochastic-solution" title="Link to this heading">#</a></h2>
+<p>Two numbers are used to summarize how much the uncertainty matters, and both of them compare the stochastic solution with an alternative. For a problem where profit is maximized:</p>
+<ul class="simple">
+<li><p>The <strong>recourse problem</strong> value, RP, is the expected profit of the stochastic solution: $108,390 here.</p></li>
+<li><p>The <strong>expected value of the expected-value solution</strong>, EEV, is the expected profit of the plan computed for mean yields: $107,240.</p></li>
+<li><p>The <strong>wait-and-see</strong> value, WS, is the expected profit we would earn if we could learn each year’s yields before planting, and so plant the best plan for each scenario. It is the average of three deterministic optima.</p></li>
+</ul>
+<p>From these, the <strong>value of the stochastic solution</strong> is <span class="math notranslate nohighlight">\(\text{VSS} = \text{RP} - \text{EEV}\)</span>, which is the gain from modeling the uncertainty instead of planning for the mean. The <strong>expected value of perfect information</strong> is <span class="math notranslate nohighlight">\(\text{EVPI} = \text{WS} - \text{RP}\)</span>, which is the worth of a perfect forecast, and therefore the most it would make sense to pay for better information. For a maximization problem <span class="math notranslate nohighlight">\(\text{WS} \ge \text{RP} \ge \text{EEV}\)</span>, so both of these quantities are nonnegative.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">farmer</span><span class="p">({</span><span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">f</span><span class="p">)})</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="ow">in</span> <span class="n">SCEN</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ws</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"perfect forecast, yields </span><span class="si">{</span><span class="n">s</span><span class="si">:</span><span class="s2">11s</span><span class="si">}</span><span class="s2">: plant </span><span class="si">{</span><span class="p">({</span><span class="n">c</span><span class="p">:</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">x</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span><span class="si">}</span><span class="s2">, profit $</span><span class="si">{</span><span class="n">z</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">WS</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">SCEN</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">ws</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">SCEN</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">WS  = $</span><span class="si">{</span><span class="n">WS</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="se">\n</span><span class="s2">RP  = $</span><span class="si">{</span><span class="n">z_sp</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="se">\n</span><span class="s2">EEV = $</span><span class="si">{</span><span class="n">EEV</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"EVPI = WS - RP  = $</span><span class="si">{</span><span class="n">WS</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">z_sp</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"VSS  = RP - EEV = $</span><span class="si">{</span><span class="n">z_sp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">EEV</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>perfect forecast, yields 20% low    : plant {'wheat': 100, 'corn': 25, 'beets': 375}, profit $59,950
+perfect forecast, yields at the mean: plant {'wheat': 120, 'corn': 80, 'beets': 300}, profit $118,600
+perfect forecast, yields 20% high   : plant {'wheat': 183, 'corn': 67, 'beets': 250}, profit $167,667
+
+WS  = $115,406
+RP  = $108,390
+EEV = $107,240
+EVPI = WS - RP  = $7,016
+VSS  = RP - EEV = $1,150
+</pre></div>
+</div>
+</div>
+</div>
+<p>A perfect weather forecast would be worth about $7,016 a year to this farmer, and modeling the uncertainty, without any better forecast, recovers $1,150 of this value. The VSS is the payoff for the modeling effort in this topic, while the EVPI is the ceiling on the value added by any amount of forecasting. Both are small fractions of the profit here, but the gap between the deterministic promise and the expected outcome ($11,360) is not small, and this gap is hidden by a deterministic model.</p>
+<p>The wait-and-see plans show why no single plan can match WS. The beet acreage that exactly fills the quota is <span class="math notranslate nohighlight">\(6000/(20 f)\)</span> for a yield factor <span class="math notranslate nohighlight">\(f\)</span>, which is 375 acres in a bad year, 300 in a mean year and 250 in a good one. In a bad year the best plan therefore plants 375 acres of beets and only 25 of corn and buys most of the corn for the cattle, while in a good year it plants 250 acres of beets and puts the rest into wheat. A first-stage decision has to compromise between these plans, and the 250 acres of beets in the stochastic plan show which way it leans, toward the good-year acreage. An acre of beets beyond the quota loses money (it costs $260 to plant, and the 16 to 24 t that it yields sell at $10/t), whereas an acre that is moved to wheat earns its keep in every scenario.</p>
+<div class="exercise admonition" id="ex-t51-evpi">
+
+<p class="admonition-title"><span class="caption-number">Exercise 122 </span></p>
+<section id="exercise-content">
+<p>Replace the three scenarios with yields drawn from a continuous distribution: a yield factor uniform on <span class="math notranslate nohighlight">\([0.8, 1.2]\)</span>, the same for all crops. Draw <span class="math notranslate nohighlight">\(N\)</span> samples with a fixed seed, give each probability <span class="math notranslate nohighlight">\(1/N\)</span>, and solve the stochastic program (this is the sample average approximation). Plot the expected profit and the wheat acreage against <span class="math notranslate nohighlight">\(N\)</span> for <span class="math notranslate nohighlight">\(N = 3, 10, 30, 100\)</span>. Do they settle down, and to values near the three-scenario answer?</p>
+</section>
+</div>
+</section>
+<section id="the-electrolyzer-fleet-under-uncertain-demand">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">The electrolyzer fleet under uncertain demand</a><a class="headerlink" href="#the-electrolyzer-fleet-under-uncertain-demand" title="Link to this heading">#</a></h2>
+<p>The same structure fits the running example. Suppose that the plant must decide an hour ahead which of the three stacks to commit (warm up and bring on line), because a stack cannot start instantly, and that the hydrogen demand for that hour is uncertain. Committing a stack costs the on-cost <span class="math notranslate nohighlight">\(F_\mathrm{ON}\)</span> of that stack whether or not it is then used. Once the demand is known, the committed stacks are dispatched with the linear power curves of Topic 1.4, and any hydrogen that the committed stacks cannot make is bought from outside.</p>
+<ul class="simple">
+<li><p>First stage: the commitments <span class="math notranslate nohighlight">\(u_i \in \{0, 1\}\)</span>, <span class="math notranslate nohighlight">\(i \in \{A, B, C\}\)</span>.</p></li>
+<li><p>Uncertainty: demand <span class="math notranslate nohighlight">\(D\)</span> is 0.8, 1.2 or 2.4 (160, 240 or 480 kg/h) with probabilities 0.3, 0.4 and 0.3. The mean is 1.44.</p></li>
+<li><p>Second stage: loads <span class="math notranslate nohighlight">\(0 \le x_{is} \le u_i\)</span> and a purchase <span class="math notranslate nohighlight">\(b_s \ge 0\)</span> with <span class="math notranslate nohighlight">\(\sum_i x_{is} + b_s \ge D_s\)</span>.</p></li>
+</ul>
+<p>The cost is priced in per-unit power (1 per-unit = 6.53 MW, as in Topic 1.1), and the price of bought hydrogen is set at 3.0 per-unit, above the 1.70 of the most expensive stack. This is an illustrative number that is chosen so that buying is expensive enough to matter.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+
+<span class="n">C_BUY</span> <span class="o">=</span> <span class="mf">3.0</span>                                                    <span class="c1"># per-unit power per unit of H2 bought</span>
+<span class="n">DEMAND</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'low'</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span> <span class="s1">'mid'</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">),</span> <span class="s1">'high'</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">)}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fleet</span><span class="p">(</span><span class="n">scenarios</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Two-stage unit commitment: commit stacks now, dispatch and buy after demand is known."""</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scenarios</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">Binary</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">buy</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">cap</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">dem</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">)</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">buy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">scenarios</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">commit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">:</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">commit</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">F_ON</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="n">scenarios</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">E_LINEAR</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">)</span> <span class="o">+</span> <span class="n">C_BUY</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">buy</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">))</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">solve_linear</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cost</span><span class="p">,</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">NAMES</span><span class="p">}</span>
+
+<span class="n">D_mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">d</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">DEMAND</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">u_mean</span> <span class="o">=</span> <span class="n">fleet</span><span class="p">({</span><span class="s1">'mean'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">D_mean</span><span class="p">)})</span>
+<span class="n">EEV_f</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">fleet</span><span class="p">({</span><span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">d</span><span class="p">)},</span> <span class="n">commit</span><span class="o">=</span><span class="n">u_mean</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">DEMAND</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="n">RP_f</span><span class="p">,</span> <span class="n">u_sp</span> <span class="o">=</span> <span class="n">fleet</span><span class="p">(</span><span class="n">DEMAND</span><span class="p">)</span>
+<span class="n">WS_f</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">fleet</span><span class="p">({</span><span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">d</span><span class="p">)})[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">DEMAND</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"mean demand </span><span class="si">{</span><span class="n">D_mean</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_kg_h</span><span class="p">(</span><span class="n">D_mean</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> kg/h): commit </span><span class="si">{</span><span class="n">u_mean</span><span class="si">}</span><span class="s2">, expected cost </span><span class="si">{</span><span class="n">EEV_f</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"stochastic program:          commit </span><span class="si">{</span><span class="n">u_sp</span><span class="si">}</span><span class="s2">, expected cost </span><span class="si">{</span><span class="n">RP_f</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"wait-and-see expected cost </span><span class="si">{</span><span class="n">WS_f</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"VSS  = EEV - RP = </span><span class="si">{</span><span class="n">EEV_f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">RP_f</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> per-unit = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">EEV_f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">RP_f</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"EVPI = RP - WS  = </span><span class="si">{</span><span class="n">RP_f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">WS_f</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> per-unit = </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">to_mw</span><span class="p">(</span><span class="n">RP_f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">WS_f</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MW"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean demand 1.44 (288 kg/h): commit {'A': 1, 'B': 1, 'C': 0}, expected cost 2.279
+stochastic program:          commit {'A': 1, 'B': 1, 'C': 1}, expected cost 2.243
+wait-and-see expected cost 2.123
+VSS  = EEV - RP = 0.036 per-unit = 0.24 MW
+EVPI = RP - WS  = 0.120 per-unit = 0.78 MW
+</pre></div>
+</div>
+</div>
+</div>
+<p>Planning for the mean demand of 1.44 commits stacks A and B, which together can make up to 2.0, whereas the stochastic program also commits stack C. In the high scenario, which has a probability of 0.3, the demand exceeds what A and B can make by 0.4, and covering that shortfall with C instead of buying saves <span class="math notranslate nohighlight">\(3.0 - 1.70 = 1.30\)</span> per unit, or an expected <span class="math notranslate nohighlight">\(0.3 \times 0.4 \times 1.30 = 0.156\)</span>, which is more than the on-cost of 0.12 for C. The difference, 0.036 per-unit, is the VSS. For minimization the inequalities are reversed, <span class="math notranslate nohighlight">\(\text{WS} \le \text{RP} \le \text{EEV}\)</span>, so we write <span class="math notranslate nohighlight">\(\text{VSS} = \text{EEV} - \text{RP}\)</span> and <span class="math notranslate nohighlight">\(\text{EVPI} = \text{RP} - \text{WS}\)</span>.</p>
+<p>In energy terms, the VSS is an expected saving of about 0.24 MW of average power, and a perfect demand forecast would be worth about 0.78 MW.</p>
+<p>In economic terms, the stochastic plan pays a certain cost (the on-cost of C, every hour) in order to avoid an uncertain cost that is larger (buying hydrogen in the high-demand hours). This is a form of insurance, which the stochastic program is able to price correctly because the probabilities are included in the model, while the deterministic plan is unable to price it because only the mean is included.</p>
+<div class="exercise admonition" id="ex-t51-fleet">
+
+<p class="admonition-title"><span class="caption-number">Exercise 123 </span></p>
+<section id="exercise-content">
+<p>Find the price of bought hydrogen, <code class="docutils literal notranslate"><span class="pre">C_BUY</span></code>, below which the stochastic program stops committing stack C, first by reasoning from the numbers above and then by solving <code class="docutils literal notranslate"><span class="pre">fleet</span></code> for a range of prices. What are the VSS and EVPI at that price?</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>An uncertain parameter is one whose value is unknown when the decision is made. It can be described by a distribution, by scenarios, or by a set; the description decides the formulation.</p></li>
+<li><p>Two-stage stochastic programs separate first-stage (here-and-now) decisions from second-stage (recourse) decisions. With discrete scenarios, the deterministic equivalent is one LP or MILP with a copy of the recourse for each scenario.</p></li>
+<li><p>On the farmer’s problem, the mean-yield plan promises $118,600 but earns $107,240 on average. The stochastic plan earns $108,390: a VSS of $1,150. A perfect forecast would add $7,016 (the EVPI).</p></li>
+<li><p>On the electrolyzer fleet, the stochastic plan commits a third stack as insurance against high demand, with a VSS of 0.036 per-unit (0.24 MW).</p></li>
+<li><p>Stochastic programming needs probabilities. When we know only the range of the uncertain parameters, or when a constraint must never be violated, we turn to <a class="reference internal" href="Topic5.2-Robust_Optimization.html"><span class="doc">5.2 Robust Optimization</span></a>.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>J. R. Birge and F. Louveaux, <em>Introduction to Stochastic Programming</em>, 2nd ed., Springer (2011). Section 1.1 is the farmer’s problem.</p></li>
+<li><p>A. Shapiro, D. Dentcheva and A. Ruszczyński, <em>Lectures on Stochastic Programming: Modeling and Theory</em>, SIAM (2009).</p></li>
+<li><p>N. V. Sahinidis, “Optimization under uncertainty: state-of-the-art and opportunities,” <em>Computers &amp; Chemical Engineering</em> 28 (2004) 971–983.</p></li>
+<li><p>I. E. Grossmann, R. M. Apap, B. A. Calfa, P. García-Herreros and Q. Zhang, “Recent advances in mathematical programming techniques for the optimization of process systems under uncertainty,” <em>Computers &amp; Chemical Engineering</em> 91 (2016) 3–14.</p></li>
+<li><p>W. E. Hart, C. D. Laird, J.-P. Watson, D. L. Woodruff, G. A. Hackebeil, B. L. Nicholson and J. D. Siirola, <em>Pyomo — Optimization Modeling in Python</em>, 2nd ed., Springer (2017).</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./5-uncertainty"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Optimization under Uncertainty</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic5.2-Robust_Optimization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">5.2 Robust Optimization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uncertainty-in-optimization">Uncertainty in optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-stage-stochastic-programs">Two-stage stochastic programs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-farmer-s-problem">The farmer’s problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-value-of-information-and-of-the-stochastic-solution">The value of information and of the stochastic solution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-electrolyzer-fleet-under-uncertain-demand">The electrolyzer fleet under uncertain demand</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

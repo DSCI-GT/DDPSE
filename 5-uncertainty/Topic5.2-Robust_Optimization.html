@@ -1,0 +1,891 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5.2 Robust Optimization &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '5-uncertainty/Topic5.2-Robust_Optimization';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="5.1 Stochastic Programming" href="Topic5.1-Stochastic_Programming.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../3-data_driven_optimization/intro.html">Data-Driven Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.2-Direct-Search_Methods.html">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Optimization under Uncertainty</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/5-uncertainty/Topic5.2-Robust_Optimization.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/5-uncertainty/Topic5.2-Robust_Optimization.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>5.2 Robust Optimization</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uncertainty-sets-and-robust-counterparts">Uncertainty sets and robust counterparts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-robust-farmer">The robust farmer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-price-of-robustness-and-adjustable-decisions">The price of robustness and adjustable decisions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-versus-stochastic">Robust versus stochastic</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noisy-black-boxes">Noisy black boxes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#robust-optimization" id="id1">5.2 Robust Optimization</a></p>
+<ul>
+<li><p><a class="reference internal" href="#uncertainty-sets-and-robust-counterparts" id="id2">Uncertainty sets and robust counterparts</a></p></li>
+<li><p><a class="reference internal" href="#the-robust-farmer" id="id3">The robust farmer</a></p></li>
+<li><p><a class="reference internal" href="#the-price-of-robustness-and-adjustable-decisions" id="id4">The price of robustness and adjustable decisions</a></p></li>
+<li><p><a class="reference internal" href="#robust-versus-stochastic" id="id5">Robust versus stochastic</a></p></li>
+<li><p><a class="reference internal" href="#noisy-black-boxes" id="id6">Noisy black boxes</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id7">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id8">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="robust-optimization">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">5.2 Robust Optimization</a><a class="headerlink" href="#robust-optimization" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 13, Lesson 4: <em>Robust Optimization</em></p></li>
+<li><p>Module 13, Lesson 5: <em>Robust Optimization Example</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Describe uncertainty with a set (box, ellipsoid or polyhedron) and explain what it means for a solution to be robust feasible.</p></li>
+<li><p>Derive the robust counterpart of a linear constraint under box uncertainty and see why it has finitely many constraints.</p></li>
+<li><p>Solve the robust farmer’s problem, measure the price of robustness, and explain how adjustable decisions recover some of it.</p></li>
+<li><p>Compare robust and stochastic solutions, and recognize measurement noise in a black box as a form of uncertainty these frameworks address.</p></li>
+</ul>
+</div>
+<p>In <a class="reference internal" href="Topic5.1-Stochastic_Programming.html"><span class="doc">5.1 Stochastic Programming</span></a> stochastic programming was used to optimize the average outcome, which requires that the probability of each scenario is known. However, in many cases the probabilities are not known, and only the range of a parameter can be specified. In other cases the average is not really the right target, since a plan that violates a safety limit or a supply contract in one scenario out of three is not acceptable even if it does well on average. <strong>Robust optimization</strong> (RO) is designed for these cases: the goal is to find a solution that stays feasible for <em>every</em> value of the uncertain parameters in a given set, and to optimize the worst case. RO is therefore useful wherever feasibility or reliability is critical, and the lectures give power systems, portfolio management and water-resource management as examples.</p>
+<section id="uncertainty-sets-and-robust-counterparts">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Uncertainty sets and robust counterparts</a><a class="headerlink" href="#uncertainty-sets-and-robust-counterparts" title="Link to this heading">#</a></h2>
+<p>In robust optimization each uncertain parameter is written as a nominal value plus a perturbation, <span class="math notranslate nohighlight">\(a = \bar a + \hat a\, \xi\)</span>. Here <span class="math notranslate nohighlight">\(\bar a\)</span> is the nominal value and <span class="math notranslate nohighlight">\(\hat a\)</span> is the largest deviation, while the scaled perturbation <span class="math notranslate nohighlight">\(\xi\)</span> is not known exactly and is only assumed to lie in an <strong>uncertainty set</strong> <span class="math notranslate nohighlight">\(\mathcal{U}\)</span>. The three most common shapes are:</p>
+<ul class="simple">
+<li><p>a <strong>box</strong>, <span class="math notranslate nohighlight">\(\|\xi\|_\infty \le 1\)</span>: each parameter varies independently within its range;</p></li>
+<li><p>an <strong>ellipsoid</strong>, <span class="math notranslate nohighlight">\(\|\xi\|_2 \le \Omega\)</span>: large deviations in all parameters at once are excluded;</p></li>
+<li><p>a <strong>polyhedron</strong>, for example the budget set <span class="math notranslate nohighlight">\(\|\xi\|_\infty \le 1,\ \|\xi\|_1 \le \Gamma\)</span> of Bertsimas and Sim, in which at most about <span class="math notranslate nohighlight">\(\Gamma\)</span> parameters reach their extremes at the same time.</p></li>
+</ul>
+<p>We say that a solution is <strong>robust feasible</strong> if it satisfies the constraints for every <span class="math notranslate nohighlight">\(\xi \in \mathcal{U}\)</span>. If we consider a single linear constraint <span class="math notranslate nohighlight">\(a^\top x \le b\)</span>, the requirement becomes one constraint for each of the infinitely many points in the set, which is called a <strong>semi-infinite</strong> program and cannot be handed to a solver directly. The trick is to realize that requiring the constraint to hold “for all <span class="math notranslate nohighlight">\(\xi\)</span>” is the same as requiring it to hold “for the worst <span class="math notranslate nohighlight">\(\xi\)</span>”, so we can write:</p>
+<div class="math notranslate nohighlight">
+\[
+\bar a^\top x + \max_{\xi \in \mathcal{U}} \sum_j \hat a_j x_j \xi_j \le b.
+\]</div>
+<p>For a box, the inner maximum is found by setting each <span class="math notranslate nohighlight">\(\xi_j = \pm 1\)</span> so that it matches the sign of <span class="math notranslate nohighlight">\(x_j\)</span>, which means that the constraint becomes <span class="math notranslate nohighlight">\(\bar a^\top x + \sum_j \hat a_j |x_j| \le b\)</span>. This is not linear, but it can be made linear again by introducing an auxiliary variable <span class="math notranslate nohighlight">\(t_j \ge \pm x_j\)</span>. If <span class="math notranslate nohighlight">\(x \ge 0\)</span>, which is the case in most process models, it simplifies even further to <span class="math notranslate nohighlight">\((\bar a + \hat a)^\top x \le b\)</span>, i.e. every coefficient is set to the worst value. This finite, deterministic replacement for the original constraint is called the <strong>robust counterpart</strong>. For an ellipsoid the inner maximum is <span class="math notranslate nohighlight">\(\Omega \|\mathrm{diag}(\hat a) x\|_2\)</span>, so the counterpart is a second-order cone constraint. For the budget set we can apply LP duality to the inner maximum (the tool we used in <a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html"><span class="doc">2.3 Duality</span></a>), which turns it into a handful of extra linear constraints. In each case the robust counterpart ends up being about the same size as the original problem. This is a practical advantage over stochastic programming, since the deterministic equivalent of a stochastic program grows with the number of scenarios.</p>
+<div class="exercise admonition" id="ex-t52-counterpart">
+
+<p class="admonition-title"><span class="caption-number">Exercise 124 </span></p>
+<section id="exercise-content">
+<p>Write the robust counterpart of <span class="math notranslate nohighlight">\(3x_1 + 2x_2 \le 12\)</span> with <span class="math notranslate nohighlight">\(x_1, x_2 \ge 0\)</span> when each coefficient may deviate by up to 10% of its nominal value, for (a) a box and (b) the budget set with <span class="math notranslate nohighlight">\(\Gamma = 1\)</span>. For <span class="math notranslate nohighlight">\(\Gamma = 1\)</span>, argue directly (without duality) which coefficient the adversary should perturb for a given <span class="math notranslate nohighlight">\(x\)</span>.</p>
+</section>
+</div>
+</section>
+<section id="the-robust-farmer">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">The robust farmer</a><a class="headerlink" href="#the-robust-farmer" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">Adapted from the course notebook</p>
+<p>Adapted from <code class="docutils literal notranslate"><span class="pre">farmer_problem.ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT), section “Robust optimization formulation”, which follows the farmer’s problem of Birge and Louveaux. Rewritten as one Pyomo model that serves the nominal, robust and scenario-evaluation cases, solved with HiGHS.</p>
+</div>
+<p>In the lectures the farmer’s problem is changed in one way that makes feasibility matter: <strong>feed cannot be bought</strong>, so the 200 t of wheat and 240 t of corn needed by the cattle have to be grown on the farm. Otherwise the data are the same as in Topic 5.1, and the yields are assumed to be uncertain within 20% of their means. Since purchases are no longer possible, the only recourse that is available after the harvest is the choice of how much of each crop is sold.</p>
+<p>The feed constraint for corn is <span class="math notranslate nohighlight">\(y_\text{corn}\, x_\text{corn} - s_\text{corn} \ge 240\)</span>, where <span class="math notranslate nohighlight">\(s\)</span> is the amount that is sold. Since the uncertain yield multiplies an acreage that is nonnegative, the argument above shows that the robust counterpart under a 20% box simply replaces <span class="math notranslate nohighlight">\(y\)</span> by <span class="math notranslate nohighlight">\(0.8\,\bar y\)</span>. The same is true for wheat and for the beets that are available to sell, which means that the robust model is just the nominal model with the yields reduced by the uncertainty fraction <span class="math notranslate nohighlight">\(\theta\)</span>, and is therefore the same size as the original model. A single Pyomo model can be used for the nominal, robust and scenario cases:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.environ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part4b_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_linear</span>
+
+<span class="n">CROPS</span><span class="p">,</span> <span class="n">FEED</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'wheat'</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">,</span> <span class="s1">'beets'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'wheat'</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">]</span>
+<span class="n">YIELD</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'wheat'</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s1">'beets'</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">}</span>         <span class="c1"># t/acre, nominal</span>
+<span class="n">PLANT</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'wheat'</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">:</span> <span class="mi">230</span><span class="p">,</span> <span class="s1">'beets'</span><span class="p">:</span> <span class="mi">260</span><span class="p">}</span>         <span class="c1"># $/acre</span>
+<span class="n">SELL</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'wheat'</span><span class="p">:</span> <span class="mi">170</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">:</span> <span class="mi">150</span><span class="p">}</span>                        <span class="c1"># $/t</span>
+<span class="n">NEED</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'wheat'</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s1">'corn'</span><span class="p">:</span> <span class="mi">240</span><span class="p">}</span>                        <span class="c1"># t, must be grown</span>
+<span class="n">LAND</span><span class="p">,</span> <span class="n">QUOTA</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">6000</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">farm</span><span class="p">(</span><span class="n">scenarios</span><span class="p">,</span> <span class="n">acres</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""No feed purchases. scenarios: {name: (probability, yield factor)}. Returns (profit, acres),</span>
+<span class="sd">    or (None, None) if no sales plan can meet the feed requirement."""</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scenarios</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">CROPS</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">sell</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">FEED</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">beet_hi</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QUOTA</span><span class="p">))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">beet_lo</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">within</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">land</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CROPS</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">LAND</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">feed</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">FEED</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span>
+                            <span class="n">scenarios</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">YIELD</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">sell</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">NEED</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">beets</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span>
+                             <span class="n">m</span><span class="o">.</span><span class="n">beet_hi</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">beet_lo</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">scenarios</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">YIELD</span><span class="p">[</span><span class="s1">'beets'</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="s1">'beets'</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">acres</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CROPS</span><span class="p">:</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">acres</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">profit</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">sense</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">maximize</span><span class="p">,</span> <span class="n">expr</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">scenarios</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="nb">sum</span><span class="p">(</span><span class="n">SELL</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">sell</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">FEED</span><span class="p">)</span> <span class="o">+</span> <span class="mi">36</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">beet_hi</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">beet_lo</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">)</span>
+        <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">PLANT</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CROPS</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">solve_linear</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">pyo</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CROPS</span><span class="p">}</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>                       <span class="c1"># infeasible: the feed requirement cannot be met</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+<span class="n">SCEN</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'20</span><span class="si">% lo</span><span class="s1">w'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span> <span class="s1">'at the mean'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="s1">'20</span><span class="si">% hi</span><span class="s1">gh'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">report</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">acres</span><span class="p">,</span> <span class="n">promised</span><span class="p">):</span>
+    <span class="n">outcomes</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">farm</span><span class="p">({</span><span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">f</span><span class="p">)},</span> <span class="n">acres</span><span class="o">=</span><span class="n">acres</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="ow">in</span> <span class="n">SCEN</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">cells</span> <span class="o">=</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'infeasible'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="sa">f</span><span class="s1">'$</span><span class="si">{</span><span class="n">z</span><span class="si">:</span><span class="s1">,.0f</span><span class="si">}</span><span class="s1">'</span><span class="si">:</span><span class="s2">&gt;13s</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">outcomes</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">14s</span><span class="si">}{</span><span class="nb">round</span><span class="p">(</span><span class="n">acres</span><span class="p">[</span><span class="s1">'wheat'</span><span class="p">])</span><span class="si">:</span><span class="s2">&gt;6d</span><span class="si">}{</span><span class="nb">round</span><span class="p">(</span><span class="n">acres</span><span class="p">[</span><span class="s1">'corn'</span><span class="p">])</span><span class="si">:</span><span class="s2">&gt;6d</span><span class="si">}{</span><span class="nb">round</span><span class="p">(</span><span class="n">acres</span><span class="p">[</span><span class="s1">'beets'</span><span class="p">])</span><span class="si">:</span><span class="s2">&gt;6d</span><span class="si">}</span><span class="s2">"</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="sa">f</span><span class="s1">'$</span><span class="si">{</span><span class="n">promised</span><span class="si">:</span><span class="s1">,.0f</span><span class="si">}</span><span class="s1">'</span><span class="si">:</span><span class="s2">&gt;11s</span><span class="si">}{</span><span class="n">cells</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">outcomes</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'plan'</span><span class="si">:</span><span class="s2">14s</span><span class="si">}{</span><span class="s1">'wheat'</span><span class="si">:</span><span class="s2">&gt;6s</span><span class="si">}{</span><span class="s1">'corn'</span><span class="si">:</span><span class="s2">&gt;6s</span><span class="si">}{</span><span class="s1">'beets'</span><span class="si">:</span><span class="s2">&gt;6s</span><span class="si">}{</span><span class="s1">'promised'</span><span class="si">:</span><span class="s2">&gt;11s</span><span class="si">}</span><span class="s2">"</span> <span class="o">+</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">s</span><span class="si">:</span><span class="s2">&gt;13s</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">SCEN</span><span class="p">))</span>
+<span class="n">z_nom</span><span class="p">,</span> <span class="n">x_nom</span> <span class="o">=</span> <span class="n">farm</span><span class="p">({</span><span class="s1">'nominal'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)})</span>
+<span class="n">out_nom</span> <span class="o">=</span> <span class="n">report</span><span class="p">(</span><span class="s1">'nominal'</span><span class="p">,</span> <span class="n">x_nom</span><span class="p">,</span> <span class="n">z_nom</span><span class="p">)</span>
+<span class="n">z_rob</span><span class="p">,</span> <span class="n">x_rob</span> <span class="o">=</span> <span class="n">farm</span><span class="p">({</span><span class="s1">'worst case'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)})</span>
+<span class="n">out_rob</span> <span class="o">=</span> <span class="n">report</span><span class="p">(</span><span class="s1">'robust'</span><span class="p">,</span> <span class="n">x_rob</span><span class="p">,</span> <span class="n">z_rob</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>plan           wheat  corn beets   promised      20% low  at the mean     20% high
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>nominal          120    80   300   $118,600   infeasible     $118,600     $148,000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>robust           100   100   300    $56,800      $56,800     $117,500     $147,000
+</pre></div>
+</div>
+</div>
+</div>
+<p>The nominal plan is the same as the deterministic plan from Topic 5.1, with 120, 80 and 300 acres and a promised profit of $118,600. Since the farmer can no longer buy feed, this plan is <strong>infeasible</strong> in a bad year, because 80 acres of corn at 80% yield only make 192 t, which is short of the 240 t needed by the cattle. This is the second effect of uncertainty that the lectures emphasize. In Topic 5.1 we saw that a deterministic plan can be <em>inferior</em> on average, and here we see that it can also be <em>infeasible</em>.</p>
+<p>The robust plan plants 100 acres each of wheat and corn and 300 acres of beets. At 80% yields this gives exactly 200 t of wheat and 240 t of corn, so the feed constraints are active in the worst case and are satisfied in every other case. The objective of $56,800 is a guarantee, since it is the worst-case profit, which is 52% below the nominal promise. However, this number is computed as if the sales were also decided at the worst-case yields. In reality the crops are sold after the harvest, so more is sold if the year is average or good. If we re-optimize the sales for the realized yields, the robust plan earns $117,500 in a mean year and $147,000 in a good one.</p>
+<div class="exercise admonition" id="ex-t52-box">
+
+<p class="admonition-title"><span class="caption-number">Exercise 125 </span></p>
+<section id="exercise-content">
+<p>The box treats the three yields as independent, but the robust counterpart above used the same 80% for all three. Show that for this model the two give the same answer, by arguing which yield each constraint depends on. Then change the uncertainty to “corn may be 30% low, wheat and beets only 10% low” and re-solve. How much of the price of robustness comes from corn?</p>
+</section>
+</div>
+</section>
+<section id="the-price-of-robustness-and-adjustable-decisions">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">The price of robustness and adjustable decisions</a><a class="headerlink" href="#the-price-of-robustness-and-adjustable-decisions" title="Link to this heading">#</a></h2>
+<p>The size of the uncertainty set is a modeling choice that sets a trade-off, since a larger set protects against more but guarantees less. In order to see this trade-off the fraction <span class="math notranslate nohighlight">\(\theta\)</span> is swept from 0 to 0.3, and for each robust plan the guaranteed profit is recorded along with whether the plan survives the 20%-low year and what its expected profit is over the three scenarios of Topic 5.1 when the sales are adjusted to the harvest.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.301</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">)</span>
+<span class="n">guaranteed</span><span class="p">,</span> <span class="n">expected</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">th</span> <span class="ow">in</span> <span class="n">thetas</span><span class="p">:</span>
+    <span class="n">z</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">farm</span><span class="p">({</span><span class="s1">'worst case'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">th</span><span class="p">)})</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">farm</span><span class="p">({</span><span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">f</span><span class="p">)},</span> <span class="n">acres</span><span class="o">=</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="ow">in</span> <span class="n">SCEN</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+    <span class="n">guaranteed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="n">expected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="n">out</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">out</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">th</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">thetas</span><span class="p">,</span> <span class="n">guaranteed</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">th</span> <span class="o">*</span> <span class="mi">40</span> <span class="o">-</span> <span class="nb">round</span><span class="p">(</span><span class="n">th</span> <span class="o">*</span> <span class="mi">40</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1e-9</span> <span class="ow">and</span> <span class="nb">round</span><span class="p">(</span><span class="n">th</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>     <span class="c1"># print every 0.05</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"theta = </span><span class="si">{</span><span class="n">th</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">: guaranteed $</span><span class="si">{</span><span class="n">g</span><span class="si">:</span><span class="s2">&gt;9,.0f</span><span class="si">}</span><span class="s2">   expected "</span>
+              <span class="o">+</span> <span class="p">(</span><span class="s2">"infeasible in a 20</span><span class="si">%-lo</span><span class="s2">w year"</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"$</span><span class="si">{</span><span class="n">e</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">thetas</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">guaranteed</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'guaranteed (worst case in the set)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">thetas</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> <span class="s1">'s-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'expected, sales adjusted to the harvest'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'size of the uncertainty set $\theta$ (% below mean yield)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'profit (thousand $)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>theta = 0.00: guaranteed $  118,600   expected infeasible in a 20%-low year
+theta = 0.05: guaranteed $  105,901   expected infeasible in a 20%-low year
+theta = 0.10: guaranteed $   91,244   expected infeasible in a 20%-low year
+theta = 0.15: guaranteed $   73,976   expected infeasible in a 20%-low year
+theta = 0.20: guaranteed $   56,800   expected $107,100
+theta = 0.25: guaranteed $   39,733   expected $107,040
+theta = 0.30: guaranteed $   22,800   expected $106,971
+</pre></div>
+</div>
+<img alt="../_images/47e84e7b2d19b4cb7e41b8f0599e3d0e6f69919d12ff893a30d627efd8ebf436.png" src="../_images/47e84e7b2d19b4cb7e41b8f0599e3d0e6f69919d12ff893a30d627efd8ebf436.png" />
+</div>
+</div>
+<p>The guaranteed profit shows a steep and almost linear decrease with <span class="math notranslate nohighlight">\(\theta\)</span>, from $118,600 at <span class="math notranslate nohighlight">\(\theta = 0\)</span> to $22,800 at <span class="math notranslate nohighlight">\(\theta = 0.3\)</span>. Every plan with <span class="math notranslate nohighlight">\(\theta &lt; 0.2\)</span> is infeasible in the 20%-low year, because it protects against less than what actually happens. From <span class="math notranslate nohighlight">\(\theta = 0.2\)</span> on the plans survive, with an expected profit (with adjusted sales) that is nearly flat at about $107,000. The decrease in expected profit is far slower than the decrease in the guarantee, since the guarantee assumes the worst case happens <em>and</em> that nothing can be adjusted once the yields are known.</p>
+<p>This second assumption is the main source of conservatism, and <strong>adjustable robust optimization</strong> (ARO) is introduced in the lectures as a way of removing it. In ARO the decisions that are taken after the uncertainty is revealed are allowed to depend on it through a <strong>decision rule</strong>, for example an affine rule <span class="math notranslate nohighlight">\(s(\xi) = s_0 + S\xi\)</span>, where the coefficients <span class="math notranslate nohighlight">\(s_0\)</span> and <span class="math notranslate nohighlight">\(S\)</span> become the decision variables. This is the same idea as the second-stage variables of stochastic programming, with an uncertainty set used in place of the scenarios. The difficulty is that the form of the decision rule has to be chosen in advance; anything richer than an affine rule makes the robust counterpart hard to write. In the farmer’s problem adjusting the sales is easy because each sale depends only on the yield of the corresponding crop, and so the re-optimized sales above are equivalent to the result of an adjustable rule.</p>
+<div class="exercise admonition" id="ex-t52-aro">
+
+<p class="admonition-title"><span class="caption-number">Exercise 126 </span></p>
+<section id="exercise-content">
+<p>Solve the no-purchase farmer as a stochastic program over the three scenarios of Topic 5.1, <code class="docutils literal notranslate"><span class="pre">farm(SCEN)</span></code>, in which the sales already adapt to each scenario. Is its plan feasible in a 20%-low year? Compare its expected profit and its worst-case profit with the robust plan’s. Why is this plan robust feasible for the whole 20% box, not just for the three scenarios?</p>
+</section>
+</div>
+</section>
+<section id="robust-versus-stochastic">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Robust versus stochastic</a><a class="headerlink" href="#robust-versus-stochastic" title="Link to this heading">#</a></h2>
+<p>The two frameworks answer different questions, as summarized in the table below, and the farmer’s problem shows both answers.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Stochastic programming</p></th>
+<th class="head"><p>Robust optimization</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>What we must know</p></td>
+<td><p>probabilities of scenarios (or a distribution to sample)</p></td>
+<td><p>only a set of possible values</p></td>
+</tr>
+<tr class="row-odd"><td><p>Objective</p></td>
+<td><p>expected value</p></td>
+<td><p>worst case over the set</p></td>
+</tr>
+<tr class="row-even"><td><p>Feasibility</p></td>
+<td><p>in every scenario modeled</p></td>
+<td><p>for every point in the set</p></td>
+</tr>
+<tr class="row-odd"><td><p>Size</p></td>
+<td><p>grows with the number of scenarios</p></td>
+<td><p>about the size of the nominal model</p></td>
+</tr>
+<tr class="row-even"><td><p>Character of the solution</p></td>
+<td><p>does well on average; can be optimistic</p></td>
+<td><p>protected; can be too conservative</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fits</p></td>
+<td><p>repeated decisions, long-run averages</p></td>
+<td><p>safety limits, contracts, one-shot decisions</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In the lectures the difference is summarized by the number of scenarios considered by each framework. Stochastic programming considers many scenarios weighted by probability, whereas static robust optimization effectively considers only one, which is the worst case, and adjustable robust optimization sits between these two extremes. In practice the choice is driven by what is known about the uncertainty and by the cost of a violation. If a shortfall can be bought out at a known price, as was the case in Topic 5.1, the stochastic program is able to price it; if it cannot, as is the case here, feasibility has to come first.</p>
+<div class="exercise admonition" id="ex-t52-compare">
+
+<p class="admonition-title"><span class="caption-number">Exercise 127 </span></p>
+<section id="exercise-content">
+<p>Return to the purchasing version of Topic 5.1 and add the robust requirement that the farm grow at least 80% of the cattle’s feed itself in a 20%-low year, so that purchases are limited. Solve the stochastic program with this extra constraint. What does the partial robustness cost in expected profit? (This is a simple example of mixing the two frameworks.)</p>
+</section>
+</div>
+</section>
+<section id="noisy-black-boxes">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Noisy black boxes</a><a class="headerlink" href="#noisy-black-boxes" title="Link to this heading">#</a></h2>
+<p>The last lecture of Module 13 brings uncertainty back to data-driven optimization, following the work of Hüllen and co-workers (2020). Data from a simulation or an experiment are noisy, the parameters of the simulation are uncertain, and the surrogate that is fitted to these data is uncertain as well, so a surrogate-based optimum inherits all of these uncertainties. This is illustrated in the lectures with a direct-air-capture case where the optimal adsorption and desorption times each vary by roughly 15 to 25% as an uncertain mass-transfer coefficient is varied over its range. One possible response is to solve a robust surrogate problem, where the worst case is optimized over several surrogates, with one surrogate for each plausible value of the parameter.</p>
+<p>The lectures distinguish between two kinds of uncertainty in this setting. <strong>Epistemic</strong> (reducible) uncertainty is caused by a lack of knowledge, e.g. an uncertain simulation parameter or a surrogate that has been fitted to too few samples, in which case the form, structure and fitted parameters of the surrogate are all uncertain; this type of uncertainty can be reduced with more data or better models. <strong>Aleatoric</strong> (irreducible) uncertainty is due to inherent variability, such as measurement noise or the numerical noise of simulations (e.g. solver tolerances and finite precision), and more data can average it out but cannot remove it. Data-driven optimization under uncertainty raises a distinct set of challenges because there are no equations or derivatives to work with, which means that the decision space and the uncertain-parameter space have to be sampled together and the different kinds of uncertainty need to be accounted for when the surrogates are built. The conclusions of the lectures apply to all of this part: every problem contains uncertainty; sometimes the deterministic answer is good enough and sometimes it is not; accounting for uncertainty always makes the model larger; the description of the uncertainty is itself an assumption; and a nonlinear deterministic problem becomes harder still under uncertainty, though not impossible.</p>
+<p>The simplest uncertainty of this kind is measurement noise, which was deferred from Topic 3.1 to this topic. As an example, consider BB1 of Topic 3.1, where two type-A stacks share a demand of 0.9 (180 kg/h) with a single decision, the load of the first stack <span class="math notranslate nohighlight">\(x_1\)</span>. In a real plant <span class="math notranslate nohighlight">\(f(x_1)\)</span> would be a metered power, and meters are noisy, so a Gaussian metering error with a standard deviation of 0.005 per-unit (33 kW, about 0.3% of the reading) is added to it. This noise model is only illustrative: it is a reasonable order of magnitude for a well-instrumented plant rather than a measured value. The exact BB1 has a local minimum at the equal split, <span class="math notranslate nohighlight">\(x_1 = 0.45\)</span>, while the global minima are at the ends, where one stack carries the whole demand.</p>
+<p>Noise does two kinds of damage. Finite-difference gradients are ruined, because the error introduced by the noise into <span class="math notranslate nohighlight">\((f(x+h) - f(x-h))/2h\)</span> is about <span class="math notranslate nohighlight">\(\sigma/(\sqrt{2}\,h)\)</span>, which grows as the step is made smaller. Direct-search methods are also confused, since once the simplex or pattern has shrunk to the point where the differences between function values are below <span class="math notranslate nohighlight">\(\sigma\)</span>, the comparisons are decided by the noise.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+
+<span class="n">SIGMA</span> <span class="o">=</span> <span class="mf">0.005</span>                                         <span class="c1"># per-unit, illustrative metering noise</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NoisyBB1</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""BB1 with Gaussian metering noise. reps &gt; 1 averages that many readings per call."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">reps</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">reps</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reps</span>
+        <span class="k">return</span> <span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">SIGMA</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reps</span><span class="p">))</span>
+
+<span class="n">g_true</span> <span class="o">=</span> <span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">(</span><span class="mf">0.3</span> <span class="o">+</span> <span class="mf">1e-7</span><span class="p">)</span> <span class="o">-</span> <span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">(</span><span class="mf">0.3</span> <span class="o">-</span> <span class="mf">1e-7</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2e-7</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">NoisyBB1</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"exact slope at x1 = 0.3: </span><span class="si">{</span><span class="n">g_true</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">1e-1</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">):</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="p">[(</span><span class="n">f</span><span class="p">(</span><span class="mf">0.3</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="mf">0.3</span> <span class="o">-</span> <span class="n">h</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">)]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  central difference, h = </span><span class="si">{</span><span class="n">h</span><span class="si">:</span><span class="s2">.0e</span><span class="si">}</span><span class="s2">: mean </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="si">:</span><span class="s2">7.3f</span><span class="si">}</span><span class="s2">, std </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="si">:</span><span class="s2">6.3f</span><span class="si">}</span><span class="s2"> "</span>
+          <span class="sa">f</span><span class="s2">"(noise estimate sigma/(sqrt(2) h) = </span><span class="si">{</span><span class="n">SIGMA</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">h</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">reps</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">):</span>
+    <span class="n">ends</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">NoisyBB1</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">reps</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">'Nelder-Mead'</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xatol'</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="s1">'fatol'</span><span class="p">:</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="s1">'maxfev'</span><span class="p">:</span> <span class="mi">400</span><span class="p">})</span>
+        <span class="n">ends</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">f</span><span class="o">.</span><span class="n">n</span><span class="p">))</span>
+    <span class="n">ends</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ends</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Nelder-Mead from x1 = 0.3, </span><span class="si">{</span><span class="n">reps</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> reading(s) per call, 20 seeds: final x1 from "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ends</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">ends</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> (median </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">ends</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">])</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">), "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ends</span><span class="p">[:,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> readings on average"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"without noise, Nelder-Mead from 0.3 stops at x1 = "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">minimize</span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="n">v</span><span class="p">:</span><span class="w"> </span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="w"> </span><span class="p">[</span><span class="mf">0.3</span><span class="p">],</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s1">'Nelder-Mead'</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xatol'</span><span class="p">:</span><span class="w"> </span><span class="mf">1e-4</span><span class="p">})</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>exact slope at x1 = 0.3: -0.213
+  central difference, h = 1e-01: mean  -0.206, std  0.034 (noise estimate sigma/(sqrt(2) h) = 0.035)
+  central difference, h = 1e-02: mean  -0.227, std  0.362 (noise estimate sigma/(sqrt(2) h) = 0.354)
+  central difference, h = 1e-03: mean  -0.318, std  3.262 (noise estimate sigma/(sqrt(2) h) = 3.536)
+Nelder-Mead from x1 = 0.3,  1 reading(s) per call, 20 seeds: final x1 from 0.283 to 0.410 (median 0.321), 284 readings on average
+Nelder-Mead from x1 = 0.3, 16 reading(s) per call, 20 seeds: final x1 from 0.315 to 0.495 (median 0.447), 3394 readings on average
+without noise, Nelder-Mead from 0.3 stops at x1 = 0.450
+</pre></div>
+</div>
+</div>
+</div>
+<p>With a step of 0.1 the central difference is usable, with a scatter of about 0.03 around the true slope of <span class="math notranslate nohighlight">\(-0.21\)</span>. At <span class="math notranslate nohighlight">\(h = 10^{-3}\)</span>, however, the scatter is about 3.3, which is fifteen times the slope itself, as predicted by the estimate <span class="math notranslate nohighlight">\(\sigma/(\sqrt 2 h)\)</span>. This is the step-size floor that was mentioned in Topic 3.1: below some value of <span class="math notranslate nohighlight">\(h\)</span> a smaller step makes the gradient estimate worse instead of better.</p>
+<p>Without noise, Nelder–Mead walks from 0.3 to the local minimum at 0.45. With noise, it stalls before it gets there, stopping anywhere from 0.28 to 0.41 across the 20 seeds after about 280 readings on average. If we average 16 readings per call, the noise is reduced by a factor of 4 and the median end point moves to 0.447, which is close to the minimum, although at the cost of more than ten times as many readings, and some of the runs still overshoot.</p>
+<p>Two other remedies come straight from earlier parts of the course. In the stochastic-programming reading the noisy objective is a random variable whose expectation is the target, which is what averaging estimates, and sample-average methods choose how many readings to take as the search proceeds. In the surrogate reading a <em>regression</em> surrogate is fitted instead of an interpolating one (Topic 3.5); for example, a Gaussian process with a noise term is able to estimate <span class="math notranslate nohighlight">\(\sigma\)</span> from the data and smooth it away. This can be tested on 40 noisy readings of BB1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">qmc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianProcessRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">RBF</span><span class="p">,</span> <span class="n">WhiteKernel</span><span class="p">,</span> <span class="n">ConstantKernel</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">NoisyBB1</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">40</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">ConstantKernel</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">RBF</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span> <span class="o">+</span> <span class="n">WhiteKernel</span><span class="p">(</span><span class="mf">1e-2</span><span class="p">,</span> <span class="p">(</span><span class="mf">1e-6</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">gp</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">sigma_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">noise_level</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">901</span><span class="p">)</span>
+<span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">grid</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"GP on 40 noisy readings: estimated noise </span><span class="si">{</span><span class="n">sigma_hat</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> per-unit (true </span><span class="si">{</span><span class="n">SIGMA</span><span class="si">}</span><span class="s2">), "</span>
+      <span class="sa">f</span><span class="s2">"surrogate minimum at x1 = </span><span class="si">{</span><span class="n">grid</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">mean</span><span class="p">)]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, predicted </span><span class="si">{</span><span class="n">mean</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"true BB1 there </span><span class="si">{</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">mean</span><span class="p">)])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="p">[</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">],</span> <span class="s1">'k-'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'exact BB1'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'noisy readings'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'GP mean'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">mean</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">std</span><span class="p">,</span> <span class="n">mean</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">std</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'GP $</span><span class="se">\\</span><span class="s1">pm 2$ sd'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'load of the first stack $x_1$ (fraction of 200 kg/h)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'total power (per-unit, 1 = 6.53 MW)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GP on 40 noisy readings: estimated noise 0.0053 per-unit (true 0.005), surrogate minimum at x1 = 0.000, predicted 1.6120, true BB1 there 1.5892
+</pre></div>
+</div>
+<img alt="../_images/55b31682319ce97dcbca1ed421c5669f4791a199770d0a1da02db05cb8c1bc87.png" src="../_images/55b31682319ce97dcbca1ed421c5669f4791a199770d0a1da02db05cb8c1bc87.png" />
+</div>
+</div>
+<p>The GP estimates the noise at 0.0053 per-unit against the true value of 0.005, while the smoothed mean puts the minimum at an end, <span class="math notranslate nohighlight">\(x_1 = 0\)</span>, which is the right answer, since one stack carries the whole demand. The minimum value is overestimated, at 1.612 against the true 1.589, because 40 readings with a length scale of about 0.1 are not able to resolve the sharp rise in power just above zero load, where the parasitic term of the S-curve switches on. The surrogate has therefore found where to look, and a few averaged readings at that point would confirm the value.</p>
+<p>The lectures close on the robust reading, where the uncertainty band of the GP is treated as an uncertainty set for the true function. Minimizing the upper edge of the band instead of the mean is a robust surrogate problem, which favors points where the model is both low and confident.</p>
+<div class="exercise admonition" id="ex-t52-noise">
+
+<p class="admonition-title"><span class="caption-number">Exercise 128 </span></p>
+<section id="exercise-content">
+<p>Minimize the GP’s upper band, mean <span class="math notranslate nohighlight">\(+ 2\,\)</span>sd, instead of its mean, over <span class="math notranslate nohighlight">\(x_1 \in [0, 0.9]\)</span>. Does the robust surrogate choose the same load? Then double the noise to 0.01 per-unit and repeat both the Nelder–Mead experiment and the GP fit. Which approach degrades more?</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Robust optimization asks for solutions that are feasible for every value in an uncertainty set (box, ellipsoid or polyhedron) and optimizes the worst case.</p></li>
+<li><p>The semi-infinite robust constraint becomes a finite robust counterpart by taking the worst case analytically. For a box and nonnegative variables, each uncertain coefficient takes its worst value; ellipsoids give cone constraints; budget sets give extra linear constraints via LP duality. The counterpart stays about the size of the nominal model.</p></li>
+<li><p>With no feed purchases, the nominal farmer plan is infeasible in a 20%-low year. The robust plan guarantees $56,800, 52% below the nominal promise, but earns $117,500 and $147,000 in mean and good years once sales adapt.</p></li>
+<li><p>Most of the conservatism comes from assuming nothing adapts after the uncertainty is revealed. Adjustable robust optimization lets later decisions follow a decision rule.</p></li>
+<li><p>Stochastic programming optimizes the average over weighted scenarios; robust optimization protects against the worst case in a set. The choice depends on what is known about the uncertainty and on what a violation costs.</p></li>
+<li><p>Measurement noise in a black box ruins small-step finite differences and stalls direct search. Averaging, regression surrogates with a noise term, and robust surrogate objectives are the remedies.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>A. Ben-Tal, L. El Ghaoui and A. Nemirovski, <em>Robust Optimization</em>, Princeton University Press (2009).</p></li>
+<li><p>D. Bertsimas and M. Sim, “The price of robustness,” <em>Operations Research</em> 52 (2004) 35–53. The budget uncertainty set.</p></li>
+<li><p>D. Bertsimas, D. B. Brown and C. Caramanis, “Theory and applications of robust optimization,” <em>SIAM Review</em> 53 (2011) 464–501.</p></li>
+<li><p>G. Hüllen, J. Zhai, S. H. Kim, A. Sinha, M. J. Realff and F. Boukouvala, “Managing uncertainty in data-driven simulation-based optimization,” <em>Computers &amp; Chemical Engineering</em> 136 (2020) 106519. The air-capture case study of the last lecture.</p></li>
+<li><p>A. R. Conn, K. Scheinberg and L. N. Vicente, <em>Introduction to Derivative-Free Optimization</em>, SIAM (2009). Noise and the step-size floor in derivative-free methods.</p></li>
+<li><p>J. R. Birge and F. Louveaux, <em>Introduction to Stochastic Programming</em>, 2nd ed., Springer (2011).</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./5-uncertainty"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic5.1-Stochastic_Programming.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">5.1 Stochastic Programming</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uncertainty-sets-and-robust-counterparts">Uncertainty sets and robust counterparts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-robust-farmer">The robust farmer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-price-of-robustness-and-adjustable-decisions">The price of robustness and adjustable decisions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-versus-stochastic">Robust versus stochastic</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noisy-black-boxes">Noisy black boxes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

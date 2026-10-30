@@ -1,0 +1,979 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.2 Direct-Search Methods &#8212; Data-Driven Process Systems Engineering</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css?v=982b99e0" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '3-data_driven_optimization/Topic3.2-Direct-Search_Methods';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.3 Global Sampling and Evolutionary Methods" href="Topic3.3-Global_Sampling_and_Evolutionary_Methods.html" />
+    <link rel="prev" title="3.1 Optimization without Equations" href="Topic3.1-Optimization_without_Equations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Data-Driven Process Systems Engineering</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../1-fundamentals/intro.html">Optimization Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.1-Formulating_Optimization_Problems.html">1.1 Formulating Optimization Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes.html">1.2 A Tour of Problem Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo.html">1.3 Optimization Modeling with Pyomo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.4-Linear_Programming.html">1.4 Linear Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1-fundamentals/Topic1.5-The_Simplex_Method.html">1.5 The Simplex Method</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../2-nonlinear_mixed_integer/intro.html">Nonlinear and Mixed-Integer Optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity.html">2.1 Nonlinear Programs and Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions.html">2.2 Lagrange Multipliers and KKT Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.3-Duality.html">2.3 Duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations.html">2.4 Mixed-Integer Formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound.html">2.5 Branch-and-Bound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding.html">2.6 Non-convex Problems and Bounding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Data-Driven Optimization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Topic3.1-Optimization_without_Equations.html">3.1 Optimization without Equations</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.2 Direct-Search Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.3-Global_Sampling_and_Evolutionary_Methods.html">3.3 Global Sampling and Evolutionary Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.4-Constraints_in_Data-Driven_Optimization.html">3.4 Constraints in Data-Driven Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.5-Surrogate_Models.html">3.5 Surrogate Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Topic3.6-Surrogate-Based_Optimization.html">3.6 Surrogate-Based Optimization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../4-data_driven_modeling/intro.html">Data-Driven Modeling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.1-Working_with_Real_Data.html">4.1 Working with Real Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces.html">4.2 Optimization in Reduced Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.3-Hybrid_Modeling.html">4.3 Hybrid Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning.html">4.4 Physics-Informed Machine Learning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../5-uncertainty/intro.html">Optimization under Uncertainty</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.1-Stochastic_Programming.html">5.1 Stochastic Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5-uncertainty/Topic5.2-Robust_Optimization.html">5.2 Robust Optimization</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/3-data_driven_optimization/Topic3.2-Direct-Search_Methods.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="../_sources/3-data_driven_optimization/Topic3.2-Direct-Search_Methods.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3.2 Direct-Search Methods</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-search-in-one-dimension">Direct search in one dimension</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-direct-search-three-mechanisms">Local direct search: three mechanisms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#positive-spanning-sets-and-the-cosine-measure">Positive spanning sets and the cosine measure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-pattern-search-algorithm">The pattern-search algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-often-do-they-find-the-optimum">How often do they find the optimum?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#direct-search-methods" id="id1">3.2 Direct-Search Methods</a></p>
+<ul>
+<li><p><a class="reference internal" href="#direct-search-in-one-dimension" id="id2">Direct search in one dimension</a></p></li>
+<li><p><a class="reference internal" href="#local-direct-search-three-mechanisms" id="id3">Local direct search: three mechanisms</a></p></li>
+<li><p><a class="reference internal" href="#positive-spanning-sets-and-the-cosine-measure" id="id4">Positive spanning sets and the cosine measure</a></p></li>
+<li><p><a class="reference internal" href="#the-pattern-search-algorithm" id="id5">The pattern-search algorithm</a></p></li>
+<li><p><a class="reference internal" href="#how-often-do-they-find-the-optimum" id="id6">How often do they find the optimum?</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id7">Summary</a></p></li>
+<li><p><a class="reference internal" href="#additional-reading" id="id8">Additional Reading</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="direct-search-methods">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">3.2 Direct-Search Methods</a><a class="headerlink" href="#direct-search-methods" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Draft status: first draft</p>
+<p>First draft (2026-10-30), written from the course design notes. Not yet reviewed.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Lectures</p>
+<p>This topic accompanies these recorded lessons:</p>
+<ul class="simple">
+<li><p>Module 6, Lesson 4: <em>Direct-Search Methods</em></p></li>
+<li><p>Module 7, Lesson 1: <em>Local Direct-Search</em></p></li>
+<li><p>Module 7, Lesson 2: <em>Positive Spanning Sets</em></p></li>
+<li><p>Module 7, Lesson 3: <em>Convergence in Sampling-Based Optimization</em></p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this topic, you should be able to:</p>
+<ul class="simple">
+<li><p>Run compass search by hand on a one-dimensional black box and explain each step.</p></li>
+<li><p>Name the three mechanisms of local direct search (descent, geometry, step size to zero) and contrast pattern search with simplex-based search.</p></li>
+<li><p>Define a positive spanning set and a positive basis, compute the cosine measure of a set of directions, and state why a positive spanning set must contain a descent direction.</p></li>
+<li><p>State the bound that links the gradient to the step size after an unsuccessful poll, and explain what it guarantees and what it does not.</p></li>
+<li><p>Run compass search and Nelder–Mead on the electrolyzer black boxes and interpret their success rates.</p></li>
+</ul>
+</div>
+<p>A direct-search method uses nothing but comparisons of function values: it evaluates the black box at a few points, keeps the best, and decides where to look next. It fits no model, estimates no gradient, and assumes nothing about the shape of <span class="math notranslate nohighlight">\(f\)</span>. This makes direct search the most basic family of data-driven methods, and also the easiest to reason about: everything it knows is in the list of points it has sampled.</p>
+<p>This topic builds direct search up from one dimension, explains why the simple idea works at all, and then runs the two classic local methods, compass search and Nelder–Mead, on the electrolyzer black boxes of <a class="reference internal" href="Topic3.1-Optimization_without_Equations.html"><span class="doc">3.1 Optimization without Equations</span></a>.</p>
+<section id="direct-search-in-one-dimension">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Direct search in one dimension</a><a class="headerlink" href="#direct-search-in-one-dimension" title="Link to this heading">#</a></h2>
+<p>Suppose we can only evaluate BB1, the cost of two type-A stacks sharing 180 kg/h as a function of the first stack’s load <span class="math notranslate nohighlight">\(x_1\)</span>. A direct-search method needs three things: a <strong>starting point</strong>, an initial <strong>step size</strong>, and a <strong>rule</strong> for moving and for changing the step. The simplest rule is the one used by Fermi and Metropolis on one of the first digital computers, as Kolda, Lewis and Torczon (2003) recount: vary one parameter at a time by a fixed step; if no step improves the fit, halve the step and try again; stop when the step is small enough. In one dimension this is <strong>compass search</strong>:</p>
+<ol class="arabic simple">
+<li><p>At the current point <span class="math notranslate nohighlight">\(x\)</span> with step <span class="math notranslate nohighlight">\(\alpha\)</span>, evaluate <span class="math notranslate nohighlight">\(f(x + \alpha)\)</span>. If it is lower than <span class="math notranslate nohighlight">\(f(x)\)</span>, move there and repeat.</p></li>
+<li><p>Otherwise evaluate <span class="math notranslate nohighlight">\(f(x - \alpha)\)</span>. If it is lower, move there and repeat.</p></li>
+<li><p>If neither is lower, the step was unsuccessful: halve <span class="math notranslate nohighlight">\(\alpha\)</span>.</p></li>
+<li><p>Stop when <span class="math notranslate nohighlight">\(\alpha\)</span> falls below a tolerance.</p></li>
+</ol>
+<p>The cell below runs this by hand on BB1 from two starting points, one in the wide middle well and one in the narrow edge well, using an initial step of 0.1 (18 kg/h) and a stopping tolerance of 0.01, and it prints every evaluation so we can follow each line on paper.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'../settings/plot_style.mplstyle'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">Bounds</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">electrolyzer</span> <span class="k">as</span> <span class="n">el</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part3a_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compass_1d</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">lo</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">hi</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">fx</span> <span class="o">=</span> <span class="n">f</span><span class="p">([</span><span class="n">x</span><span class="p">])</span>
+    <span class="k">while</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">d</span> <span class="o">*</span> <span class="n">step</span><span class="p">,</span> <span class="n">lo</span><span class="p">),</span> <span class="n">hi</span><span class="p">)</span>
+            <span class="n">fy</span> <span class="o">=</span> <span class="n">f</span><span class="p">([</span><span class="n">y</span><span class="p">])</span>
+            <span class="n">better</span> <span class="o">=</span> <span class="n">fy</span> <span class="o">&lt;</span> <span class="n">fx</span> <span class="o">-</span> <span class="mf">1e-12</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  x = </span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  step </span><span class="si">{</span><span class="n">step</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  try </span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">: f = </span><span class="si">{</span><span class="n">fy</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'&lt; '</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">better</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'&gt;='</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">fx</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span>
+                      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'  move'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">better</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">''</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">better</span><span class="p">:</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">fy</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">step</span> <span class="o">/=</span> <span class="mi">2</span>                         <span class="c1"># both directions failed: halve the step</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">fx</span>
+
+<span class="k">for</span> <span class="n">x0</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"start x1 = </span><span class="si">{</span><span class="n">x0</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">compass_1d</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  stop at x1 = </span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, f = </span><span class="si">{</span><span class="n">fx</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, after </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2"> evaluations</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>start x1 = 0.6
+  x = 0.6000  step 0.1000  try 0.7000: f = 1.6850 &gt;= 1.6591
+  x = 0.6000  step 0.1000  try 0.5000: f = 1.6444 &lt;  1.6591  move
+  x = 0.5000  step 0.1000  try 0.6000: f = 1.6591 &gt;= 1.6444
+  x = 0.5000  step 0.1000  try 0.4000: f = 1.6444 &gt;= 1.6444
+  x = 0.5000  step 0.0500  try 0.5500: f = 1.6500 &gt;= 1.6444
+  x = 0.5000  step 0.0500  try 0.4500: f = 1.6425 &lt;  1.6444  move
+  x = 0.4500  step 0.0500  try 0.5000: f = 1.6444 &gt;= 1.6425
+  x = 0.4500  step 0.0500  try 0.4000: f = 1.6444 &gt;= 1.6425
+  x = 0.4500  step 0.0250  try 0.4750: f = 1.6430 &gt;= 1.6425
+  x = 0.4500  step 0.0250  try 0.4250: f = 1.6430 &gt;= 1.6425
+  x = 0.4500  step 0.0125  try 0.4625: f = 1.6426 &gt;= 1.6425
+  x = 0.4500  step 0.0125  try 0.4375: f = 1.6426 &gt;= 1.6425
+  stop at x1 = 0.4500, f = 1.64250, after 13 evaluations
+
+start x1 = 0.04
+  x = 0.0400  step 0.1000  try 0.1400: f = 1.7011 &gt;= 1.6874
+  x = 0.0400  step 0.1000  try 0.0000: f = 1.5892 &lt;  1.6874  move
+  x = 0.0000  step 0.1000  try 0.1000: f = 1.7074 &gt;= 1.5892
+  x = 0.0000  step 0.1000  try 0.0000: f = 1.5892 &gt;= 1.5892
+  x = 0.0000  step 0.0500  try 0.0500: f = 1.6958 &gt;= 1.5892
+  x = 0.0000  step 0.0500  try 0.0000: f = 1.5892 &gt;= 1.5892
+  x = 0.0000  step 0.0250  try 0.0250: f = 1.6669 &gt;= 1.5892
+  x = 0.0000  step 0.0250  try 0.0000: f = 1.5892 &gt;= 1.5892
+  x = 0.0000  step 0.0125  try 0.0125: f = 1.6379 &gt;= 1.5892
+  x = 0.0000  step 0.0125  try 0.0000: f = 1.5892 &gt;= 1.5892
+  stop at x1 = 0.0000, f = 1.58921, after 11 evaluations
+</pre></div>
+</div>
+</div>
+</div>
+<p>Starting from <span class="math notranslate nohighlight">\(x_1 = 0.6\)</span>, the search steps down to 0.5 and fails in both directions, so it halves the step and steps to 0.45, and then it fails at every smaller step until it stops at the equal split, 1.6425, after 13 evaluations. Starting from <span class="math notranslate nohighlight">\(x_1 = 0.04\)</span>, the step toward the middle fails but the step toward the edge succeeds, and the search lands on <span class="math notranslate nohighlight">\(x_1 = 0\)</span>, which is the global optimum 1.58921, after 11 evaluations, although most of these are spent confirming that nothing nearby is better.</p>
+<p>In both runs the method did exactly what it promises, since each one found a point which no nearby step improves, but the point it found was decided by where it started. Like the local NLP solver of Topic 2.6, a local direct-search method finds the well it starts in. The initial step also matters, because a large step can jump over a hill into a different well (for better or worse), so we need to treat the starting step as a real tuning choice rather than a detail.</p>
+<p>Halving on failure is only one possible rule. In the in-class exercise of the lectures we are asked for a loop which uses nothing but function values and a step size that may change every iteration, and a natural answer also <em>grows</em> the step after a success: try <span class="math notranslate nohighlight">\(x + \alpha\)</span>, and if it is better, move there and multiply <span class="math notranslate nohighlight">\(\alpha\)</span> by 1.5, but if not, stay, reverse the direction and halve the step (<span class="math notranslate nohighlight">\(\alpha \leftarrow -\alpha/2\)</span>). Growing the step makes the search cheaper when it is far from a minimum, and it also makes it more likely to jump a hill. The cell below runs this rule on BB1 from <span class="math notranslate nohighlight">\(x_1 = 0.75\)</span>, which is in the middle well near the right-hand hill, first stepping right and then stepping left.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">expanding_1d</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">lo</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">hi</span><span class="o">=</span><span class="mf">0.9</span><span class="p">):</span>
+    <span class="n">fx</span> <span class="o">=</span> <span class="n">f</span><span class="p">([</span><span class="n">x</span><span class="p">])</span>
+    <span class="k">while</span> <span class="nb">abs</span><span class="p">(</span><span class="n">step</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">step</span><span class="p">,</span> <span class="n">lo</span><span class="p">),</span> <span class="n">hi</span><span class="p">);</span> <span class="n">fy</span> <span class="o">=</span> <span class="n">f</span><span class="p">([</span><span class="n">y</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">fy</span> <span class="o">&lt;</span> <span class="n">fx</span> <span class="o">-</span> <span class="mf">1e-12</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">fy</span><span class="p">;</span> <span class="n">step</span> <span class="o">*=</span> <span class="mf">1.5</span>           <span class="c1"># success: move and grow the step</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">step</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">0.5</span>                         <span class="c1"># failure: reverse and halve</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">fx</span>
+
+<span class="k">for</span> <span class="n">s0</span> <span class="ow">in</span> <span class="p">(</span><span class="o">+</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">expanding_1d</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">s0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"start 0.75, first step </span><span class="si">{</span><span class="n">s0</span><span class="si">:</span><span class="s2">+.1f</span><span class="si">}</span><span class="s2">: stop at x1 = </span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, f = </span><span class="si">{</span><span class="n">fx</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2"> evaluations"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>start 0.75, first step +0.1: stop at x1 = 0.9000, f = 1.58921, 8 evaluations
+start 0.75, first step -0.1: stop at x1 = 0.4543, f = 1.64251, 11 evaluations
+</pre></div>
+</div>
+</div>
+</div>
+<p>When it steps right, the growing step carries the search over the hill at <span class="math notranslate nohighlight">\(x_1 \approx 0.807\)</span> and onto the edge, which is the global optimum, in 8 evaluations, but when it steps left it slides into the equal-split trap in 11. The start and the rule were the same in both cases, so only the first direction differed, and with it the answer. The expanding rule is a heuristic, since it has no geometry guarantee beyond the one which the next sections give to any method that polls a positive spanning set and shrinks its step on failure.</p>
+<div class="exercise admonition" id="ex-t32-hand">
+
+<p class="admonition-title"><span class="caption-number">Exercise 66 </span></p>
+<section id="exercise-content">
+<p>Run <code class="docutils literal notranslate"><span class="pre">compass_1d</span></code> on BB1 from <span class="math notranslate nohighlight">\(x_1 = 0.06\)</span>, which is also in the edge well. Where does it stop, and why? Repeat with an initial step of 0.02. Then find, by trying starting points on a grid, the set of starts from which the step-0.1 search reaches the global optimum. How does it compare with the width of the edge wells?</p>
+</section>
+</div>
+</section>
+<section id="local-direct-search-three-mechanisms">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Local direct search: three mechanisms</a><a class="headerlink" href="#local-direct-search-three-mechanisms" title="Link to this heading">#</a></h2>
+<p>In more than one dimension, “step left or right” becomes “step along each of a set of directions”. Every convergent local direct-search method rests on three mechanisms, and we will name these before we build one.</p>
+<ol class="arabic simple">
+<li><p><strong>Descent.</strong> The method must be able to find a direction in which <span class="math notranslate nohighlight">\(f\)</span> decreases, using samples alone, and it accepts a step only if the step lowers <span class="math notranslate nohighlight">\(f\)</span>.</p></li>
+<li><p><strong>Geometry.</strong> The sample points around the current point must be arranged so that a descent direction, if one exists, cannot be missed; directions bunched together on one side of the point would leave whole half-spaces unexplored.</p></li>
+<li><p><strong>Step size to zero.</strong> When no sample improves on the current point, the step size shrinks, and as it goes to zero the samples crowd around the current point, and the final answer can be made as accurate as we like.</p></li>
+</ol>
+<p>There are two families which implement these mechanisms in different ways. <strong>Pattern-search</strong> (or directional direct-search) methods sample along a fixed set of directions, called the <strong>pattern</strong>, and move to a better sample, and compass search, which uses the coordinate directions <span class="math notranslate nohighlight">\(\pm e_i\)</span>, is the simplest example; in these methods the geometry is controlled by choosing the pattern well, which is the subject of the next section. <strong>Simplex methods</strong>, of which Nelder–Mead is the best known, keep <span class="math notranslate nohighlight">\(n+1\)</span> points in <span class="math notranslate nohighlight">\(n\)</span> dimensions and move away from the worst one, and their geometry is controlled (when it is controlled at all) by keeping the simplex from collapsing flat.</p>
+<p>A <strong>simplex</strong> in <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> is the convex hull of <span class="math notranslate nohighlight">\(n+1\)</span> points which do not all lie in a common hyperplane, so it is a line segment in one dimension, a triangle in two, and a tetrahedron in three. (The <strong>convex hull</strong> of a set of points is the smallest convex set which contains them.) The Nelder–Mead method (Nelder and Mead 1965; not related to the simplex method for LPs of Topic 1.5) works on a simplex of trial points, and at each iteration it ranks the vertices by <span class="math notranslate nohighlight">\(f\)</span> and tries to replace the worst one:</p>
+<ul class="simple">
+<li><p><strong>reflect</strong> the worst vertex through the centroid of the others;</p></li>
+<li><p>if the reflected point is the best so far, <strong>expand</strong> further in the same direction;</p></li>
+<li><p>if it is poor, <strong>contract</strong> back toward the centroid;</p></li>
+<li><p>if even that fails, <strong>shrink</strong> the whole simplex toward the best vertex.</p></li>
+</ul>
+<p>Nelder–Mead adapts its shape to the landscape and is often fast on smooth problems with few variables, which is why it is the default derivative-free method in MATLAB and a standard option in <code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize</span></code>. But it has no convergence guarantee. McKinnon (1998) gave a smooth, strictly convex function in two dimensions on which Nelder–Mead converges to a point that is not stationary, because the simplex collapses flat. Pattern search can be proven to converge, under the conditions of the next two sections, at the price of more samples. The course notebook demonstrates scipy’s Nelder–Mead on the Rosenbrock function, the classic curved-valley test problem. Other members of the family include <strong>implicit filtering</strong>, which estimates a “simplex gradient” from the vertices of a simplex and steps along its negative, and the trust-region methods of Topic 3.6, which follow the same steps but move by a fitted model.</p>
+<p>Local direct search suits problems where designed experiments can be run at chosen points, each evaluation is reasonably cheap (seconds to minutes rather than hours), the number of variables is modest, and convergence to a stationary point is what matters. Parallel computing helps, because the points of one poll can be evaluated at the same time. It is the wrong tool when the equations are available (the field’s own advice, as Conn et al. 2009 put it in their introduction, is that if clean derivatives can be obtained, even with considerable effort, and the function is smooth and noise-free, derivative-free methods should not be used), and for large problems with many discrete decisions, where the landscape is broken into pieces that no local step can connect (Topic 3.4 shows this on BB3).</p>
+<p>The figure below runs both methods on BB2 from the same start, <span class="math notranslate nohighlight">\((x_A, x_B) = (0.3, 0.5)\)</span>, and draws the points evaluated by each one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part3a_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">compass</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Recorder</span><span class="p">(</span><span class="n">Counter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A Counter that also keeps the points it was asked about."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">f</span><span class="p">);</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">());</span> <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="n">nm</span><span class="p">,</span> <span class="n">cs</span> <span class="o">=</span> <span class="n">Recorder</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">),</span> <span class="n">Recorder</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">)</span>
+<span class="n">r_nm</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'Nelder-Mead'</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">Bounds</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">),</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xatol'</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="s1">'fatol'</span><span class="p">:</span> <span class="mf">1e-8</span><span class="p">})</span>
+<span class="n">x_cs</span><span class="p">,</span> <span class="n">f_cs</span> <span class="o">=</span> <span class="n">compass</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
+<span class="n">F2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">g</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">g</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">F2</span> <span class="o">&gt;=</span> <span class="n">el</span><span class="o">.</span><span class="n">PENALTY</span><span class="p">,</span> <span class="n">F2</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'total power (per-unit)'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">rec</span><span class="p">,</span> <span class="n">lab</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">((</span><span class="n">nm</span><span class="p">,</span> <span class="s1">'Nelder-Mead'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">),</span> <span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="s1">'compass'</span><span class="p">,</span> <span class="s1">'tab:orange'</span><span class="p">)):</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rec</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">P</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">'.-'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">lab</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">rec</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s1"> evaluations)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">x0</span><span class="p">,</span> <span class="s1">'ks'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'start'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">0.702</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">'r*'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'global optimum'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'stack A load (per-unit)'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'stack B load (per-unit)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'BB2: two local methods from one start'</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'upper right'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Nelder-Mead: (</span><span class="si">{</span><span class="n">r_nm</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">r_nm</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">), f = </span><span class="si">{</span><span class="n">r_nm</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">nm</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2"> evaluations"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"compass:     (</span><span class="si">{</span><span class="n">x_cs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">x_cs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">), f = </span><span class="si">{</span><span class="n">f_cs</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">cs</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2"> evaluations"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"global optimum of BB2: 2.0818 at (0.702, 0)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nelder-Mead: (0.374, 0.582), f = 2.2291, 83 evaluations
+compass:     (0.000, 0.812), f = 2.0901, 97 evaluations
+global optimum of BB2: 2.0818 at (0.702, 0)
+</pre></div>
+</div>
+<img alt="../_images/b3999aa7e910449c32e9eec303127fccef96f91c602b388253d12ce7f0c6d386.png" src="../_images/b3999aa7e910449c32e9eec303127fccef96f91c602b388253d12ce7f0c6d386.png" />
+</div>
+</div>
+<p>Even though they start from the same point, the two methods end in different places, and neither of them finds the global optimum. Nelder–Mead settles at an interior point where each of the three stacks is on, (0.374, 0.582), with a cost of 2.2291, while compass search walks to the edge <span class="math notranslate nohighlight">\(x_A = 0\)</span> and stops at (0, 0.812) with stack A off and a cost of 2.0901, which is the best B + C split. The global optimum, A + C with B off at 2.0818, is a third well. Each method found a local minimum, and its internal rules chose which one.</p>
+<div class="exercise admonition" id="ex-t32-nm-steps">
+
+<p class="admonition-title"><span class="caption-number">Exercise 67 </span></p>
+<section id="exercise-content">
+<p>Rerun Nelder–Mead on BB2 from the same start with a larger initial simplex, <code class="docutils literal notranslate"><span class="pre">options={'initial_simplex':</span> <span class="pre">[[0.3,</span> <span class="pre">0.5],</span> <span class="pre">[0.9,</span> <span class="pre">0.5],</span> <span class="pre">[0.3,</span> <span class="pre">0.05]]}</span></code>. Does it end in a different well? Use the <code class="docutils literal notranslate"><span class="pre">callback</span></code> argument of <code class="docutils literal notranslate"><span class="pre">minimize</span></code> to record the best vertex at each iteration, plot that path on the contour map, and identify where the simplex expands and where it contracts or shrinks.</p>
+</section>
+</div>
+</section>
+<section id="positive-spanning-sets-and-the-cosine-measure">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Positive spanning sets and the cosine measure</a><a class="headerlink" href="#positive-spanning-sets-and-the-cosine-measure" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">Adapted from the course notebook</p>
+<p>The definitions of positive spans, positive spanning sets and positive bases, their two-dimensional examples, and the simplex and Nelder–Mead material in this topic are adapted from the course notebook <code class="docutils literal notranslate"><span class="pre">Intro</span> <span class="pre">to</span> <span class="pre">Derivative-Free</span> <span class="pre">Optimization</span> <span class="pre">(Module6-7).ipynb</span></code> (MIT License, © 2022 Data-Driven PSE Lab &#64;ChBE-GT). The electrolyzer black boxes replace the notebook’s test functions, and the cosine-measure computations are new.</p>
+</div>
+<p>Why does compass search work at all? The reason is that the compass directions <span class="math notranslate nohighlight">\(\pm e_1, \pm e_2\)</span> are chosen so that wherever the downhill direction points, at least one of them points roughly the same way. This property is called positive spanning, which is what gives us the one precise result of this topic.</p>
+<p>We will need some definitions first. The <strong>linear span</strong> of a set of vectors is the smallest linear subspace containing them (i.e. the set of all their linear combinations). The <strong>positive span</strong> of a set of vectors <span class="math notranslate nohighlight">\(D = \{d_1, \ldots, d_r\}\)</span> in <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> is the set of their nonnegative combinations, which is the convex cone</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{pspan}(D) = \{\, v \in \mathbb{R}^n : v = a_1 d_1 + \cdots + a_r d_r,\ a_i \ge 0 \,\}.
+\]</div>
+<p>A set is called a <strong>positive spanning set</strong> if its positive span is all of <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span>. A set is <strong>positively dependent</strong> if one of its vectors can be written as a nonnegative combination of the others, and otherwise it is <strong>positively independent</strong>. If a positive spanning set is also positively independent we call it a <strong>positive basis</strong>, and a positive basis of <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> has between <span class="math notranslate nohighlight">\(n+1\)</span> vectors (a <strong>minimal</strong> positive basis) and <span class="math notranslate nohighlight">\(2n\)</span> vectors (a <strong>maximal</strong> one). In <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span> the compass directions <span class="math notranslate nohighlight">\(\{e_1, e_2, -e_1, -e_2\}\)</span> are a maximal positive basis, and <span class="math notranslate nohighlight">\(\{e_1, e_2, -(e_1+e_2)/\sqrt{2}\}\)</span> is a minimal one. Note the difference from an ordinary basis: <span class="math notranslate nohighlight">\(\{e_1, e_2\}\)</span> spans <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span> linearly but its positive span is only the first quadrant.</p>
+<p>We call a vector <span class="math notranslate nohighlight">\(d\)</span> a <strong>descent direction</strong> for <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(x\)</span> if some step <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span> gives <span class="math notranslate nohighlight">\(f(x + \alpha d) &lt; f(x)\)</span>. If <span class="math notranslate nohighlight">\(f\)</span> is continuously differentiable, then every <span class="math notranslate nohighlight">\(d\)</span> with <span class="math notranslate nohighlight">\(-\nabla f(x)^\top d &gt; 0\)</span> (i.e. every direction at an acute angle to the negative gradient) is a descent direction.</p>
+<p><strong>The descent property.</strong> <span class="math notranslate nohighlight">\(D\)</span> is a positive spanning set if and only if, for every nonzero vector <span class="math notranslate nohighlight">\(v\)</span>, some <span class="math notranslate nohighlight">\(d \in D\)</span> satisfies <span class="math notranslate nohighlight">\(v^\top d &gt; 0\)</span>. If we apply this with <span class="math notranslate nohighlight">\(v = -\nabla f(x)\)</span> at a point where the gradient is not zero, then some direction in <span class="math notranslate nohighlight">\(D\)</span> makes an acute angle with the negative gradient, so it is a <strong>descent direction</strong>, and <span class="math notranslate nohighlight">\(f(x + \alpha d) &lt; f(x)\)</span> for every small enough step <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span>. This means a pattern which positively spans the space cannot miss a way downhill. On the other hand, a set which does not positively span the space leaves some cone of directions uncovered, and if the negative gradient points into that cone, the method will shrink its step forever at a point which is not stationary.</p>
+<p><strong>The cosine measure.</strong> The descent property says that a good direction exists, and the <strong>cosine measure</strong> says how good it is guaranteed to be:</p>
+<div class="math notranslate nohighlight">
+\[
+\kappa(D) = \min_{v \ne 0}\ \max_{d \in D}\ \frac{v^\top d}{\|v\|\,\|d\|}.
+\]</div>
+<p>For every vector <span class="math notranslate nohighlight">\(v\)</span>, some direction in <span class="math notranslate nohighlight">\(D\)</span> makes an angle with <span class="math notranslate nohighlight">\(v\)</span> whose cosine is at least <span class="math notranslate nohighlight">\(\kappa(D)\)</span>. <span class="math notranslate nohighlight">\(D\)</span> is a positive spanning set exactly when <span class="math notranslate nohighlight">\(\kappa(D) &gt; 0\)</span>, and the larger <span class="math notranslate nohighlight">\(\kappa(D)\)</span> is, the better the worst-case direction. For the compass directions in <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> we have <span class="math notranslate nohighlight">\(\kappa = 1/\sqrt{n}\)</span>, and in one dimension <span class="math notranslate nohighlight">\(D = \{+1, -1\}\)</span> and <span class="math notranslate nohighlight">\(\kappa = 1\)</span>.</p>
+<p><strong>What an unsuccessful poll tells us.</strong> Suppose that the gradient of <span class="math notranslate nohighlight">\(f\)</span> is Lipschitz continuous with constant <span class="math notranslate nohighlight">\(M\)</span>, meaning that <span class="math notranslate nohighlight">\(\|\nabla f(y) - \nabla f(x)\| \le M \|y - x\|\)</span> for all <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> near the current point, and so <span class="math notranslate nohighlight">\(M\)</span> is a measure of how quickly the slope can change. (Lipschitz continuity is stated for <span class="math notranslate nohighlight">\(f\)</span> itself in Topic 3.3, where it is the source of the bound used by DIRECT.) Now suppose that a poll is <strong>unsuccessful</strong>, i.e. <span class="math notranslate nohighlight">\(f(x + \alpha d) \ge f(x)\)</span> for every <span class="math notranslate nohighlight">\(d \in D\)</span>. Then</p>
+<div class="math notranslate nohighlight">
+\[
+\|\nabla f(x)\| \;\le\; \frac{M}{2\,\kappa(D)}\ \alpha \max_{d \in D} \|d\|.
+\]</div>
+<p>The proof is only three lines long. By Taylor’s theorem with the Lipschitz bound, <span class="math notranslate nohighlight">\(f(x + \alpha d) - f(x) \le \alpha \nabla f(x)^\top d + \tfrac{M}{2}\alpha^2 \|d\|^2\)</span>. Since the poll was a failure, the left side is nonnegative, and therefore <span class="math notranslate nohighlight">\(-\nabla f(x)^\top d \le \tfrac{M}{2}\alpha\|d\|^2\)</span> for every <span class="math notranslate nohighlight">\(d\)</span>. Taking the <span class="math notranslate nohighlight">\(d\)</span> making the cosine measure’s angle with <span class="math notranslate nohighlight">\(-\nabla f(x)\)</span>, so that <span class="math notranslate nohighlight">\(-\nabla f(x)^\top d \ge \kappa(D)\|\nabla f(x)\|\,\|d\|\)</span>, and dividing by <span class="math notranslate nohighlight">\(\kappa(D)\|d\|\)</span> then gives the bound (Kolda et al. 2003; Conn et al. 2009, chapter 2).</p>
+<p>This bound is the reason why pattern search converges, since for every failed poll the gradient at the current point can be at most a constant times the step size. The step is halved after every failure, so for a method that keeps failing <span class="math notranslate nohighlight">\(\alpha \to 0\)</span>, and with it <span class="math notranslate nohighlight">\(\|\nabla f\| \to 0\)</span>, and therefore the iterates will approach a stationary point. The constant is set by two quantities: <span class="math notranslate nohighlight">\(M\)</span> is a measure of the nonlinearity of the function, and <span class="math notranslate nohighlight">\(1/\kappa(D)\)</span> is a measure of the geometry of the pattern, so a pattern with a small cosine measure gives a weak guarantee at any step size. If <span class="math notranslate nohighlight">\(\Delta = \alpha \max_{d}\|d\|\)</span> is the radius of the poll, the bound can be written as <span class="math notranslate nohighlight">\(\|\nabla f(x)\| \le \kappa_{eg}\,\Delta\)</span> with <span class="math notranslate nohighlight">\(\kappa_{eg} = M/(2\kappa(D))\)</span>, which is the form used in the lectures. And since a nonzero gradient guarantees that some small enough step succeeds, a search started away from a stationary point needs only finitely many step reductions before there is another improvement, so the search is systematic and not random. The bound also has limits, and it helps to see what it does not say. The bound only guarantees a stationary point, not a global minimum, and the compass search stopping at the equal split of BB1 satisfied it perfectly. It also needs a smooth gradient, and BB3 does not have one because of its on/off switches and penalty jumps.</p>
+<p>The next cell computes the cosine measure of four sets in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span> by brute force over directions <span class="math notranslate nohighlight">\(v\)</span>, and draws them. The last set, <span class="math notranslate nohighlight">\(\{e_1, e_2, (-1, -\delta)\}\)</span>, is a positive basis for every <span class="math notranslate nohighlight">\(\delta &gt; 0\)</span>, but as <span class="math notranslate nohighlight">\(\delta \to 0\)</span> its third vector swings toward <span class="math notranslate nohighlight">\(-e_1\)</span>, so the direction <span class="math notranslate nohighlight">\((0, -1)\)</span> is barely covered by the set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part3a_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cosine_measure</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">sets</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'maximal basis $</span><span class="se">\\</span><span class="s1">pm e_1, </span><span class="se">\\</span><span class="s1">pm e_2$'</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span>
+    <span class="s1">'minimal basis'</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">s</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">s</span><span class="p">]],</span>
+    <span class="s1">'spanning set, not a basis'</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">s</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span>
+    <span class="s1">'minimal basis, $</span><span class="se">\\</span><span class="s1">delta = 0.1$'</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">]],</span>
+<span class="p">}</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">sets</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">D</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="n">d</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">'-&gt;'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">))</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">cosine_measure</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s1">$</span><span class="se">\\</span><span class="s1">kappa$ = </span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">);</span> <span class="n">a</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">);</span> <span class="n">a</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">'equal'</span><span class="p">);</span> <span class="n">a</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([]);</span> <span class="n">a</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="mi">36</span><span class="p">),</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="si">:</span><span class="s2">38s</span><span class="si">}</span><span class="s2"> kappa = </span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">delta</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">):</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>                     <span class="c1"># third vector = -(cos theta, sin theta), up to scale</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"delta = </span><span class="si">{</span><span class="n">delta</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">: kappa = </span><span class="si">{</span><span class="n">cosine_measure</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">delta</span><span class="p">]])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"formula cos((pi - theta)/2) = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">theta</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Failed to find font weight ultralight for Helvetica, now using 300.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>maximal basis \pm e_1, \pm e_2         kappa = 0.7071
+minimal basis                          kappa = 0.3827
+spanning set, not a basis              kappa = 0.3827
+minimal basis, \delta = 0.1            kappa = 0.0498
+delta =  0.50: kappa = 0.2298, formula cos((pi - theta)/2) = 0.2298
+delta =  0.10: kappa = 0.0498, formula cos((pi - theta)/2) = 0.0498
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>delta =  0.01: kappa = 0.0050, formula cos((pi - theta)/2) = 0.0050
+</pre></div>
+</div>
+<img alt="../_images/9b97bf42f9d0d7755cd207e259b12c5b5834619909064f7b06aecff4bf10d401.png" src="../_images/9b97bf42f9d0d7755cd207e259b12c5b5834619909064f7b06aecff4bf10d401.png" />
+</div>
+</div>
+<p>The maximal basis has <span class="math notranslate nohighlight">\(\kappa = 0.707 = 1/\sqrt{2}\)</span>, so every direction is within 45° of a pattern direction. The minimal basis saves one evaluation per poll, but the price is <span class="math notranslate nohighlight">\(\kappa = 0.383\)</span>, which is a worst-case angle of 67.5°. Adding the vector <span class="math notranslate nohighlight">\(-e_2\)</span> to the minimal basis gives a positive spanning set that is not a basis, but it does not improve the cosine measure at all (<span class="math notranslate nohighlight">\(\kappa\)</span> stays 0.383) because the worst-covered direction is somewhere else. The skewed basis shows how the guarantee degrades, with <span class="math notranslate nohighlight">\(\kappa\)</span> = 0.230, 0.050 and 0.005 for <span class="math notranslate nohighlight">\(\delta\)</span> = 0.5, 0.1 and 0.01; the set still positively spans the plane, but the bound on the gradient at an unsuccessful poll grows as <span class="math notranslate nohighlight">\(1/\kappa\)</span>. For this family it is also possible to write a closed form, since with third vector <span class="math notranslate nohighlight">\(-(\cos\theta, \sin\theta)\)</span> and <span class="math notranslate nohighlight">\(0 &lt; \theta \le \pi/4\)</span> the cosine measure is <span class="math notranslate nohighlight">\(\kappa = \cos\big((\pi - \theta)/2\big)\)</span>, which is confirmed by the cell (<span class="math notranslate nohighlight">\(\theta = \pi/4\)</span> gives the minimal basis’s 0.383).</p>
+<p>Positive bases are also important beyond the descent property, because the same sample geometry keeps the linear and quadratic models of the model-based methods in Topic 3.6 well conditioned. This is because points spread around the current point in all directions do not produce the nearly singular systems produced by clustered points.</p>
+<div class="exercise admonition" id="ex-t32-cosine">
+
+<p class="admonition-title"><span class="caption-number">Exercise 68 </span></p>
+<section id="exercise-content">
+<p>Compute the cosine measure of the compass directions <span class="math notranslate nohighlight">\(\pm e_i\)</span> in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>, <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span> and <span class="math notranslate nohighlight">\(\mathbb{R}^4\)</span> (extend <code class="docutils literal notranslate"><span class="pre">cosine_measure</span></code> to <span class="math notranslate nohighlight">\(n\)</span> dimensions by sampling <span class="math notranslate nohighlight">\(v\)</span> from random unit vectors), and compare with <span class="math notranslate nohighlight">\(1/\sqrt{n}\)</span>. Then find a minimal positive basis of <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span> with the largest possible cosine measure. (Hint: think of an equilateral triangle.) How many evaluations per poll does each choice cost in <span class="math notranslate nohighlight">\(\mathbb{R}^{10}\)</span>?</p>
+</section>
+</div>
+</section>
+<section id="the-pattern-search-algorithm">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">The pattern-search algorithm</a><a class="headerlink" href="#the-pattern-search-algorithm" title="Link to this heading">#</a></h2>
+<p>Putting the pieces together, we can get a generic and provably convergent pattern-search method, in the form presented in Conn, Scheinberg and Vicente (2009, chapter 7), with three steps in each iteration.</p>
+<ol class="arabic simple">
+<li><p><strong>Search step (optional).</strong> Evaluate <span class="math notranslate nohighlight">\(f\)</span> at any finite set of points chosen by any rule at all: a few random points, the minimum of a surrogate model, a guess from experience. If one improves on the current point, move there and skip the poll. This step is where heuristics and models enter without spoiling the theory.</p></li>
+<li><p><strong>Poll step.</strong> Evaluate <span class="math notranslate nohighlight">\(f(x + \alpha d)\)</span> for the directions <span class="math notranslate nohighlight">\(d\)</span> of a positive spanning set <span class="math notranslate nohighlight">\(D\)</span>. If one is lower than <span class="math notranslate nohighlight">\(f(x)\)</span>, move there (a <strong>successful</strong> iteration). If none is, the iteration is <strong>unsuccessful</strong>: stay where you are.</p></li>
+<li><p><strong>Step-size update.</strong> After a success, keep or enlarge the step, <span class="math notranslate nohighlight">\(\alpha_{k+1} \in [1, \gamma]\,\alpha_k\)</span> with <span class="math notranslate nohighlight">\(\gamma \ge 1\)</span>. After a failure, shrink it, <span class="math notranslate nohighlight">\(\alpha_{k+1} \in [\beta_1, \beta_2]\,\alpha_k\)</span> with <span class="math notranslate nohighlight">\(0 &lt; \beta_1 \le \beta_2 &lt; 1\)</span> (halving is <span class="math notranslate nohighlight">\(\beta_1 = \beta_2 = 1/2\)</span>).</p></li>
+</ol>
+<p>The method stops when <span class="math notranslate nohighlight">\(\alpha\)</span> is below a tolerance. Because every unsuccessful poll satisfies the bound of the previous section, and <span class="math notranslate nohighlight">\(\alpha\)</span> shrinks only on unsuccessful polls, the method approaches a stationary point provided <span class="math notranslate nohighlight">\(f\)</span> is smooth with bounded iterates. The compass search in <code class="docutils literal notranslate"><span class="pre">_lib/part3a_tools.py</span></code> is this algorithm with no search step, <span class="math notranslate nohighlight">\(D = \{\pm e_i\}\)</span>, a poll stopping at the first improvement (“opportunistic” polling), and step halving, and the body of the function is only a few lines:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compass</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">maxf</span><span class="o">=</span><span class="mi">4000</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="nb">float</span><span class="p">);</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">dirs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>        <span class="c1"># maximal positive basis</span>
+    <span class="k">while</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">n</span> <span class="o">&lt;</span> <span class="n">maxf</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>                               <span class="c1"># poll</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">step</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">);</span> <span class="n">fy</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fy</span> <span class="o">&lt;</span> <span class="n">fx</span> <span class="o">-</span> <span class="mf">1e-12</span><span class="p">:</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">fy</span><span class="p">;</span> <span class="k">break</span>                 <span class="c1"># successful: move</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">step</span> <span class="o">/=</span> <span class="mi">2</span>                                <span class="c1"># unsuccessful: shrink</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">fx</span>
+</pre></div>
+</div>
+<p>Every part of this is refined in production codes. For example, the mesh-adaptive direct search (MADS) algorithm of Audet and Dennis (2006), implemented in the NOMAD software, polls along directions which are dense in the unit sphere in the limit of a small step size, so the convergence theory can be extended to nonsmooth functions, and constraints and surrogates are handled in the search step.</p>
+<div class="exercise admonition" id="ex-t32-pattern">
+
+<p class="admonition-title"><span class="caption-number">Exercise 69 </span></p>
+<section id="exercise-content">
+<p>Modify <code class="docutils literal notranslate"><span class="pre">compass</span></code> so that it uses the minimal positive basis <span class="math notranslate nohighlight">\(\{e_1, e_2, -(e_1 + e_2)/\sqrt{2}\}\)</span> instead of <span class="math notranslate nohighlight">\(\pm e_i\)</span>, and add a search step that evaluates one uniformly random point in the box each iteration. Run both versions on BB2 from the start <span class="math notranslate nohighlight">\((0.3, 0.5)\)</span>. Compare the end points and evaluation counts with the compass run in the figure above.</p>
+</section>
+</div>
+</section>
+<section id="how-often-do-they-find-the-optimum">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">How often do they find the optimum?</a><a class="headerlink" href="#how-often-do-they-find-the-optimum" title="Link to this heading">#</a></h2>
+<p>A local method finds the well containing its starting point, and so the reliability of the method on a problem depends on how much of the box drains into the global well. We can measure this in a simple way, using 30 random starting points in the box, a run of each method from each start, and a count of the runs ending within <span class="math notranslate nohighlight">\(10^{-3}\)</span> of the global optimum. The reference optima are from Topic 3.1, with values of 1.58921 for BB1 and 2.08181 for BB2. For Nelder–Mead we use the scipy implementation with tight tolerances, and compass search starts with step 0.25 and stops at <span class="math notranslate nohighlight">\(10^{-6}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">_lib.part3a_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">compass</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">local_table</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bb</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">fstar</span><span class="p">,</span> <span class="n">starts</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hi</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">meth</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'Nelder-Mead'</span><span class="p">,</span> <span class="s1">'compass'</span><span class="p">):</span>
+        <span class="n">hits</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">vals</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">starts</span><span class="p">):</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">bb</span><span class="p">);</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lo</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">meth</span> <span class="o">==</span> <span class="s1">'Nelder-Mead'</span><span class="p">:</span>
+                <span class="n">fx</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'Nelder-Mead'</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">Bounds</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">),</span>
+                              <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xatol'</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="s1">'fatol'</span><span class="p">:</span> <span class="mf">1e-8</span><span class="p">})</span><span class="o">.</span><span class="n">fun</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fx</span> <span class="o">=</span> <span class="n">compass</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">hits</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">fx</span> <span class="o">-</span> <span class="n">fstar</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">;</span> <span class="n">nf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">n</span><span class="p">);</span> <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fx</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">meth</span><span class="si">:</span><span class="s2">12s</span><span class="si">}</span><span class="s2"> success </span><span class="si">{</span><span class="n">hits</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">starts</span><span class="si">}</span><span class="s2">   median evaluations </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">nf</span><span class="p">))</span><span class="si">:</span><span class="s2">4d</span><span class="si">}</span><span class="s2">   "</span>
+              <span class="sa">f</span><span class="s2">"worst result </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">   total evaluations </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">nf</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">local_table</span><span class="p">(</span><span class="s1">'BB1'</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">bb1</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">],</span> <span class="mf">1.58921</span><span class="p">)</span>
+<span class="n">local_table</span><span class="p">(</span><span class="s1">'BB2'</span><span class="p">,</span> <span class="n">el</span><span class="o">.</span><span class="n">bb2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mf">2.08181</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BB1  Nelder-Mead  success  9/30   median evaluations   38   worst result 1.6425   total evaluations 934
+BB1  compass      success  8/30   median evaluations   47   worst result 1.6425   total evaluations 1413
+BB2  Nelder-Mead  success  4/30   median evaluations   72   worst result 10.0000   total evaluations 2476
+BB2  compass      success  3/30   median evaluations   92   worst result 10.0000   total evaluations 2763
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Black box</p></th>
+<th class="head"><p>Method</p></th>
+<th class="head"><p>Success (of 30)</p></th>
+<th class="head"><p>Median evaluations</p></th>
+<th class="head"><p>Worst result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>BB1 (1-D, three wells)</p></td>
+<td><p>Nelder–Mead</p></td>
+<td><p>9</p></td>
+<td><p>38</p></td>
+<td><p>1.6425</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>compass</p></td>
+<td><p>8</p></td>
+<td><p>47</p></td>
+<td><p>1.6425</p></td>
+</tr>
+<tr class="row-even"><td><p>BB2 (2-D, optimum on an edge)</p></td>
+<td><p>Nelder–Mead</p></td>
+<td><p>4</p></td>
+<td><p>72</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>compass</p></td>
+<td><p>3</p></td>
+<td><p>92</p></td>
+<td><p>10</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>On BB1 both methods have a success rate of about 1 time in 3, and every failure is the equal-split trap at 1.6425. Since the edge wells are narrow, the only starts that reach the optimum are the ones near the edges, or the ones where a large first step happens to jump a hill. On BB2 the success rate is lower, at about 1 in 7 to 1 in 10, because the global optimum has stack B off, on the edge <span class="math notranslate nohighlight">\(x_B = 0\)</span> of the box, so it is in competition with the B + C edge and the interior well seen in the figure above. The worst result, 10, is the penalty value, since some of the runs were started inside (or wandered into) the region where <span class="math notranslate nohighlight">\(x_C = 1.2 - x_A - x_B\)</span> is out of range, and in this region the same value of 10 is returned by every nearby sample, so no step can look better than any other and the step size is reduced to zero on a flat plateau. We will return to this plateau in Topic 3.4, where it decides which formulation of the constraints can be solved by a direct-search method.</p>
+<p>These are cheap methods, at a few dozen evaluations per run, so running them from many starts (<strong>multistart</strong>) is a legitimate global strategy, and the 30 compass runs on BB1 cost 1,413 evaluations in total, which is fewer than one run of scipy’s DIRECT or dual annealing at the budgets used in the next topic. However, multistart offers no certificate, since after 30 runs we know the best point we found but not whether a better well is hiding between the starts. In Topic 3.3 we will take up global methods, and one of them can prove its answer if it is given a Lipschitz constant.</p>
+<div class="exercise admonition" id="ex-t32-success">
+
+<p class="admonition-title"><span class="caption-number">Exercise 70 </span></p>
+<section id="exercise-content">
+<p>Rerun <code class="docutils literal notranslate"><span class="pre">local_table</span></code> on BB1 with compass search started at step 0.05 instead of 0.25, and then at 0.45. How does the success rate change, and why? Then estimate how many independent random starts of compass search (step 0.25) you would need to find the BB1 optimum at least once with 99% probability, using the success rate from the table.</p>
+</section>
+</div>
+</section>
+<section id="summary">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Direct search uses only comparisons of function values. In one dimension, compass search steps left or right and halves its step when neither helps; on BB1 it reaches the global optimum from the edge well and the equal-split trap from the middle well.</p></li>
+<li><p>Convergent local direct search needs three mechanisms: descent, geometry, and a step size driven to zero. Pattern search controls geometry through its directions; Nelder–Mead moves a simplex and has no convergence guarantee.</p></li>
+<li><p>A positive spanning set always contains a descent direction. Its cosine measure <span class="math notranslate nohighlight">\(\kappa(D)\)</span> (0.707 for <span class="math notranslate nohighlight">\(\pm e_i\)</span> in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>, 0.383 for a minimal basis) quantifies the guarantee: after an unsuccessful poll, <span class="math notranslate nohighlight">\(\|\nabla f(x)\| \le \frac{M}{2\kappa(D)}\,\alpha \max\|d\|\)</span>, so driving the step to zero drives the gradient to zero.</p></li>
+<li><p>The guarantee is local. On BB1, Nelder–Mead and compass search succeed 9 and 8 times in 30; on BB2, 4 and 3 times in 30. Failures are wells, the edge optimum, and the flat penalty plateau.</p></li>
+</ul>
+</section>
+<section id="additional-reading">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Additional Reading</a><a class="headerlink" href="#additional-reading" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Kolda, T. G., Lewis, R. M., and Torczon, V. (2003). Optimization by direct search: new perspectives on some classical and modern methods. <em>SIAM Review</em>, 45, 385–482.</p></li>
+<li><p>Conn, A. R., Scheinberg, K., and Vicente, L. N. (2009). <em>Introduction to Derivative-Free Optimization</em>. SIAM. Chapter 2 (positive spanning sets, cosine measure), chapter 7 (directional direct search), chapter 8 (simplicial methods).</p></li>
+<li><p>Nelder, J. A., and Mead, R. (1965). A simplex method for function minimization. <em>The Computer Journal</em>, 7, 308–313.</p></li>
+<li><p>McKinnon, K. I. M. (1998). Convergence of the Nelder–Mead simplex method to a nonstationary point. <em>SIAM Journal on Optimization</em>, 9, 148–158.</p></li>
+<li><p>Audet, C., and Dennis, J. E., Jr. (2006). Mesh adaptive direct search algorithms for constrained optimization. <em>SIAM Journal on Optimization</em>, 17, 188–217.</p></li>
+<li><p>Audet, C., and Hare, W. (2017). <em>Derivative-Free and Blackbox Optimization</em>. Springer.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./3-data_driven_optimization"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Topic3.1-Optimization_without_Equations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">3.1 Optimization without Equations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Topic3.3-Global_Sampling_and_Evolutionary_Methods.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">3.3 Global Sampling and Evolutionary Methods</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-search-in-one-dimension">Direct search in one dimension</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-direct-search-three-mechanisms">Local direct search: three mechanisms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#positive-spanning-sets-and-the-cosine-measure">Positive spanning sets and the cosine measure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-pattern-search-algorithm">The pattern-search algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-often-do-they-find-the-optimum">How often do they find the optimum?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-reading">Additional Reading</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fani Boukouvala and A.J. Medford
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  © 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
