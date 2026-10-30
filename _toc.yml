@@ -1,0 +1,38 @@
+# Generated from the lesson map (lessons.yml); do not edit by hand.
+format: jb-book
+root: intro
+
+chapters:
+  - file: 1-fundamentals/intro
+    sections:
+      - file: 1-fundamentals/Topic1.1-Formulating_Optimization_Problems
+      - file: 1-fundamentals/Topic1.2-A_Tour_of_Problem_Classes
+      - file: 1-fundamentals/Topic1.3-Optimization_Modeling_with_Pyomo
+      - file: 1-fundamentals/Topic1.4-Linear_Programming
+      - file: 1-fundamentals/Topic1.5-The_Simplex_Method
+  - file: 2-nonlinear_mixed_integer/intro
+    sections:
+      - file: 2-nonlinear_mixed_integer/Topic2.1-Nonlinear_Programs_and_Convexity
+      - file: 2-nonlinear_mixed_integer/Topic2.2-Lagrange_Multipliers_and_KKT_Conditions
+      - file: 2-nonlinear_mixed_integer/Topic2.3-Duality
+      - file: 2-nonlinear_mixed_integer/Topic2.4-Mixed-Integer_Formulations
+      - file: 2-nonlinear_mixed_integer/Topic2.5-Branch_and_Bound
+      - file: 2-nonlinear_mixed_integer/Topic2.6-Non-convex_Problems_and_Bounding
+  - file: 3-data_driven_optimization/intro
+    sections:
+      - file: 3-data_driven_optimization/Topic3.1-Optimization_without_Equations
+      - file: 3-data_driven_optimization/Topic3.2-Direct-Search_Methods
+      - file: 3-data_driven_optimization/Topic3.3-Global_Sampling_and_Evolutionary_Methods
+      - file: 3-data_driven_optimization/Topic3.4-Constraints_in_Data-Driven_Optimization
+      - file: 3-data_driven_optimization/Topic3.5-Surrogate_Models
+      - file: 3-data_driven_optimization/Topic3.6-Surrogate-Based_Optimization
+  - file: 4-data_driven_modeling/intro
+    sections:
+      - file: 4-data_driven_modeling/Topic4.1-Working_with_Real_Data
+      - file: 4-data_driven_modeling/Topic4.2-Optimization_in_Reduced_Spaces
+      - file: 4-data_driven_modeling/Topic4.3-Hybrid_Modeling
+      - file: 4-data_driven_modeling/Topic4.4-Physics-Informed_Machine_Learning
+  - file: 5-uncertainty/intro
+    sections:
+      - file: 5-uncertainty/Topic5.1-Stochastic_Programming
+      - file: 5-uncertainty/Topic5.2-Robust_Optimization

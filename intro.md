@@ -1,0 +1,65 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
+```{contents}
+:local:
+:depth: 3
+```
+
+# Introduction
+
+*Fani Boukouvala and A.J. Medford*
+
+This Jupyter Book is the companion text for "Data-Driven Process Systems Engineering" at Georgia Tech (ChBE 4746/6746). It is built on the course as Fani Boukouvala created and taught it, following her recorded lectures, slides and course notebooks. It is also a sibling of [Data Analytics for Chemical Engineers](https://www.medford.chbe.gatech.edu/DA4CHE/) (ChBE 4745/6745), and picks up where that book's treatment of numerical optimization stops: at hard constraints. The book is organized by theme into five modules: optimization fundamentals; nonlinear and mixed-integer optimization; data-driven optimization; data-driven modeling; and a bonus module on optimization under uncertainty. Several AI assistant tools were used in writing it, and while all content is being reviewed by hand, some artifacts may still be present. If you find any issues or have suggestions for improvements, please email [Fani Boukouvala](mailto:fani.boukouvala@chbe.gatech.edu) or [A.J. Medford](mailto:ajm@gatech.edu).
+
+## How to use this book
+
+If you are a student in ChBE 4746/6746, read each topic alongside the lecture videos named in its "Lectures" box. The book follows the order of the videos but is organized by theme, so a topic may cover several lessons, and in a few places it takes up a lesson a week or two later than the video, where that makes the ideas fit together better. In the "Lectures" boxes, "Module" always means a module of the recorded lectures (Modules 1–13), not a module of this book. The book does not replace the lectures; it works through the same ideas with a single running example, in code you can run and modify.
+
+You should be comfortable with calculus, linear algebra and programming in Python. ChBE 4745/6745 and its book, [Data Analytics for Chemical Engineers](https://www.medford.chbe.gatech.edu/DA4CHE/), are strongly recommended. Where this book uses a tool that book teaches (regression, validation, Gaussian processes, neural networks, principal component analysis), it gives a short recap and a pointer rather than repeating it.
+
+The first three modules (Topics 1.1–3.6) are built around one problem, water electrolysis. It starts as a chemical equilibrium that the applied voltage controls and grows into a plant of electrolyzer stacks that must meet a hydrogen demand at least cost. Each topic changes one piece of the model, so the effect of each new idea (a nonlinear loss, an on/off decision, a non-convex curve, a model that can only be sampled) is visible against answers you have already seen. The model's parameters are chosen to make the optimization points clear, so the example is realistic but not exact. Calculations are done in per-unit numbers and converted for display: a stack's load $x = 1$ is its full output of 200 kg of hydrogen per hour, and one per-unit of power is the ideal (reversible) power for that output, 6.535 MW. All of the model's code is in the book's `_lib/electrolyzer.py`.
+
+You can download any page of this book as a Jupyter Notebook (`.ipynb`) using the links in the upper right and run it locally. The book's `environment.yml` creates a conda environment with everything needed (`conda env create -n DDPSE -f environment.yml`). Some topics use the open-source solvers Ipopt, CBC, Bonmin and Couenne, which are installed with IDAES (`idaes get-extensions`); topics that need them say so and fall back gracefully when they are missing.
+
+If you are an instructor of a similar course, or want to use these materials for educational purposes, you are welcome to use and modify them. The book is available under the [Creative Commons Attribution 4.0 license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0), so you may share and adapt it for any purpose as long as you give credit. Code adapted from the original course notebooks keeps its MIT notice (see [Attributions](attributions) below).
+
+## Current status
+
+As of the latest update (October 2026), this is a **first draft**, written for the first offering of the course in this form (Spring 2027). Every topic has been drafted, checked against the lecture slides and course notebooks so that the book covers all of their significant content, and revised once for voice, and every page executes. The authors' detailed review of each chapter has not yet been done, so expect errors, rough edges and changes. The title is a placeholder, and the license and attribution wording are pending confirmation by both authors. Homework problems are not yet part of the book.
+
+(attributions)=
+# Attributions
+
+ChBE 4746/6746 was created and taught at Georgia Tech by Fani Boukouvala, whose recorded lectures this book accompanies and who is the book's first author. The book's order follows her lectures. Topics 1.1–3.4 develop the optimization material around a running electrolyzer example designed by A.J. Medford. Topic 1.3 and Topics 3.5–5.2 are adapted from her lecture slides and from the notebooks in the course repository [DDPSE/GT_DataDrivenPSE_Course](https://github.com/DDPSE/GT_DataDrivenPSE_Course), which is distributed under the MIT License:
+
+> MIT License. Copyright (c) 2022 Data-Driven PSE Lab @ChBE-GT
+
+Several of the electrolyzer topics also adapt individual notebook examples. Adapted code retains that notice, and each adapted section names its source notebook. Every topic follows the coverage and order of the corresponding lecture slides; slide text and figures were not reproduced.
+
+| Topic | Notebook (`GT_DataDrivenPSE_Course/`) | What was adapted |
+|---|---|---|
+| 1.3 | `Module 2/M2 - Introduction to Pyomo.ipynb`, `Module 2/M2-Examples.ipynb`, `pyomo solvers/` | First Pyomo model, sets and parameters, the knapsack MILP, solver installation and statuses (updated for Pyomo 6 and HiGHS) |
+| 2.1 | `Module 4/Module 4 Example.ipynb` | The series-reaction residence-time problem |
+| 3.1, 3.2 | `Module 6 - 8/Intro to Derivative-Free Optimization (Module6-7).ipynb` | Quadratic interpolation, positive spanning sets and bases, the simplex and Nelder–Mead |
+| 3.5 | `Module 6 - 8/Optimization with Surrogates (Module 6-7-8).ipynb` | Latin hypercube sampling (now with `scipy.stats.qmc`), the scikit-learn surrogate-fitting pattern |
+| 4.1 | `Module 9-10/Dealing with bigger and unstructured data.ipynb`, `Module 9-10/Outliers and Missing Values.ipynb` | Framing of unstructured data; deletion versus imputation; outlier types and Mahalanobis distance |
+| 4.2 | `Module 9-10/Regression and Optimization with transformed reduced spaces (PCR, PLS).ipynb` and the cheddar-cheese data | Full-space versus principal-component regression and optimization in score space |
+| 4.3, 4.4 | `Module 11 - 13/NeuralNets-HybridModels-PINNs.ipynb` | A trained network inside an optimization model (now PyTorch + OMLT); the PINN example (now PyTorch, reduced to one dimension) |
+| 5.1, 5.2 | `Module 11 - 13/farmer_problem.ipynb` | The farmer's problem, stochastic and robust formulations (data from Birge and Louveaux) |
+
+The cheddar-cheese data are the LaTrobe Valley cheddar study as distributed with Moore and McCabe, *Introduction to the Practice of Statistics* (also R `faraway::cheddar`).
+
+The electrolyzer example's stylized power curve is inspired by, but does not reproduce, the alkaline electrolyzer models of Ulleberg (*Int. J. Hydrogen Energy* 28, 2003), Sánchez et al. (*Int. J. Hydrogen Energy* 43, 2018) and Baumhof, Raheli, Johnsen and Kazempour, "Optimization of Hybrid Power Plants: When Is a Detailed Electrolyzer Model Necessary?" (arXiv:2301.05310, 2023).
+
+LLMs, in particular Claude Code, were used extensively in drafting this book: in turning the lecture material and design notes into chapters, in writing and checking the code, and in auditing coverage against the slides.
+
+Finally, we would like to acknowledge the people who have helped create and support the ["Data Science for the Chemical Industry"](https://www.chbe.gatech.edu/graduate-certificate-data-science-chemical-industry) certificate program, of which this course and its companion ChBE 4745/6745 are a part.

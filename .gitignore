@@ -1,0 +1,22 @@
+# Jupyter Book / Sphinx builds
+_build/
+build/
+**/.ipynb_checkpoints/
+
+# Python env
+.venv/
+.env/
+*.egg-info/
+__pycache__/
+*.py[cod]
+
+# Old versions of things, misc setup files
+_trash/
+build.log
+lecture_refining_notes.txt
+_config-fast.yml
+
+# OS cruft
+.DS_Store
+Thumbs.db
+

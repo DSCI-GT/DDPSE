@@ -1,0 +1,45 @@
+# Book settings
+# Title is a placeholder until the book name is settled (course PLAN.md § Decisions).
+title: "Data-Driven Process Systems Engineering"
+author: "Fani Boukouvala and A.J. Medford"
+
+only_build_toc_files: true
+
+exclude_patterns:
+  - "_build"
+  - "_trash"
+  - "build"
+  - "build/**"
+  - "**/.ipynb_checkpoints"
+  - ".venv"
+  - ".venv/**"
+  - "**/site-packages/**"
+
+# Execution settings (same as DA4CHE)
+execute:
+  execute_notebooks: "auto"
+  timeout: 600
+  cache: "default"
+  cache_path: _exec_cache
+  in_temp: false
+  allow_errors: false
+
+mystnb:
+  notebooks_download: true
+
+html:
+  navbar_number_sections: true
+  extra_navbar: ""
+  extra_footer: '© 2027 Fani Boukouvala and A.J. Medford · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · adapted code © 2022 Data-Driven PSE Lab @ChBE-GT (MIT), see <a href="intro.html#attributions">Attributions</a>'
+  home_page_in_navbar: true
+  # Set by a release script once editions exist (see DA4CHE _config.yml). Empty on main.
+  announcement: ""
+  baseurl: ""
+
+sphinx:
+  extra_extensions:
+    - sphinx_exercise
+  local_extensions:
+    # Copied from DA4CHE/_ext: .ipynb download badge; per-page exercise numbering.
+    ipynb_download: _ext/
+    exercise_numbering: _ext/

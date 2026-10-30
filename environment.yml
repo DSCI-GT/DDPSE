@@ -1,0 +1,55 @@
+# DDPSE build environment.
+#
+# Starts from the DA4CHE book toolchain (jupyter-book <2, myst-nb >=1.3, jupytext >=1.19;
+# see https://github.com/medford-group/DA4CHE) and adds the optimization stack.
+#
+# Create it with `conda env create -n DDPSE -f environment.yml`. HiGHS comes from conda
+# (highspy). Ipopt, CBC, Bonmin and Couenne come from `idaes get-extensions`; the book
+# finds them on PATH, in $IDAES_EXT, or in ~/.idaes/bin.
+
+name: DDPSE
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.12
+
+  # --- Book toolchain (as DA4CHE) -----------------------------------------
+  - pip
+  - jupyter-book>=1.0.4,<2
+  - myst-nb>=1.4,<2
+  - myst-parser>=3.0,<4
+  - sphinx>=7.4,<8
+  - sphinx-exercise>=1.2,<2
+  - jupytext>=1.19,<2
+  - jupyter-cache>=1.0,<2
+  - jupyterlab
+  - ipykernel
+  - nbformat>=5.10,<6
+  - nbconvert>=7.17,<8
+
+  # --- Scientific stack ----------------------------------------------------
+  - numpy>=2.2,<3
+  - pandas>=2.3,<3
+  - scipy>=1.15,<2
+  - scikit-learn>=1.7,<2        # GPs, SVR, MLP surrogates (Topics 3.5-3.6); LHS via scipy.stats.qmc (replaces pyDOE)
+  - matplotlib>=3.10,<4
+  - openpyxl>=3.1,<4
+  - pyyaml>=6.0,<7
+
+  # --- Optimization (Part I) -----------------------------------------------
+  - pyomo>=6.10,<7
+  - highspy                     # LP/MILP; scipy.optimize.milp also uses HiGHS
+  - ipopt                       # MUMPS fallback; IDAES Ipopt (HSL) shadows it when installed
+
+  # --- Data-driven (Part II) -----------------------------------------------
+  - pytorch>=2.0                # NNs, PINNs (replaces TF/Keras and SciANN)
+
+  # --- Testing --------------------------------------------------------------
+  - pytest>=9.0,<10
+  - nbmake>=1.5,<2
+
+  - pip:
+      - idaes-pse               # then: idaes get-extensions (CBC, Bonmin, Couenne, HSL Ipopt)
+      - omlt                    # NN surrogates inside Pyomo (Topic 4.3)
+      - ghp-import>=2.1,<3
