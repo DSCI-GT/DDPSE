@@ -596,12 +596,8 @@ start (0.05, 0.85) -&gt; x = [0.  0.9], power 1.58921, success = True
   D = 0.8: eps=0.05: 1.40235, eps=0.001: 1.41963, eps=1e-06: 1.42000 | step model: one stack 1.42000, split 1.56000
   D = 1.2: eps=0.05: 2.11385, eps=0.001: 2.15900, eps=1e-06: 2.16000 | step model: one stack inf, split 2.16000
 ohmic coefficient r = 0.0:
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  D = 0.8: eps=0.05: 1.08235, eps=0.001: 1.09963, eps=1e-06: 1.10000 | step model: one stack 1.10000, split 1.40000 | fixed-charge MILP 1.10000
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  D = 1.2: eps=0.05: 1.72571, eps=0.001: 1.79821, eps=1e-06: 1.80000 | step model: one stack inf, split 1.80000 | fixed-charge MILP 1.80000
+  D = 0.8: eps=0.05: 1.08235, eps=0.001: 1.09963, eps=1e-06: 1.10000 | step model: one stack 1.10000, split 1.40000 | fixed-charge MILP 1.10000
+  D = 1.2: eps=0.05: 1.72571, eps=0.001: 1.79821, eps=1e-06: 1.80000 | step model: one stack inf, split 1.80000 | fixed-charge MILP 1.80000
 </pre></div>
 </div>
 </div>
@@ -690,7 +686,7 @@ after a split at the inflection x = 0.26: [0, 0.26] 0.1074, [0.26, 1] 0.0101
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>secant: largest overestimate 3.028 at x = 0.60
 one tangent at 0: largest underestimate 4.389; five tangents: 0.564
-Error in callback &lt;function _draw_all_if_interactive at 0x11220bce0&gt; (for post_execute), with arguments args (),kwargs {}:
+Error in callback &lt;function _draw_all_if_interactive at 0x116e0bce0&gt; (for post_execute), with arguments args (),kwargs {}:
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -1148,10 +1144,10 @@ brute force, best configurations:
   A+B   2.38236 (15.57 MW)  loads A 0.483, B 0.717
 local minima of the split: {'A+C': 1, 'B+C': 1, 'A+B': 1}
 root secant bound with y fixed to A+C: 2.2757 vs true 2.3218 (2.0% loose)
+ demand (kg/h) | B&amp;B: plan   cost     nodes | brute force
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> demand (kg/h) | B&amp;B: plan   cost     nodes | brute force
-     120       | C     1.15662    12  | C     1.15662
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     120       | C     1.15662    12  | C     1.15662
      180       | B     1.68245    11  | B     1.68245
      240       | A+C   2.32181    20  | A+C   2.32181
      300       | B+C   2.82777    17  | B+C   2.82777

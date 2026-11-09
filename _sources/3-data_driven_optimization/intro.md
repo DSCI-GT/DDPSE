@@ -15,7 +15,7 @@ Until now the optimizer could see the equations. In this module it cannot: the o
 
 The electrolyzer plant from the first two modules is the black box throughout, so the methods can be compared against answers we already know.
 
-Lecture weeks 6–9 (Modules 6–8).
+Lecture weeks 6–8 (Modules 6–8).
 
 ## Topics
 

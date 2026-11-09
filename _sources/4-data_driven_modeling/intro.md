@@ -15,7 +15,7 @@ The data-driven optimization topics assumed we could sample the black box wherev
 
 The basic machine-learning tools are covered in the companion book, Data Analytics for Chemical Engineers. Here we focus on what changes when the model is going to be optimized.
 
-Lecture weeks 10–13 (Modules 9–12).
+Lecture weeks 9–12 (Modules 9–12).
 
 ## Topics
 
